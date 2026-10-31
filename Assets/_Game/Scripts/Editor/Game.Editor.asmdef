@@ -1,0 +1,13 @@
+{
+    "name": "Game.Editor",
+    "rootNamespace": "Game.Editor",
+    "references": [
+        "Game.Runtime",
+        "Unity.InputSystem",
+        "UnityEngine.UI",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ]
+}
