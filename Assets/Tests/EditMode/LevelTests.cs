@@ -116,6 +116,27 @@ namespace Game.Tests
         }
 
         [Test]
+        public void PlaceholderMass_GrowsWithKeycapWidth()
+        {
+            float oneU = PrototypeLevels.Mass(PropKind.Keycap1u);
+            float twoU = PrototypeLevels.Mass(PropKind.Keycap2u);
+            float space = PrototypeLevels.Mass(PropKind.KeycapSpace);
+
+            Assert.AreEqual(0.04f, oneU, Tolerance);
+            Assert.Less(oneU, twoU);
+            Assert.Less(twoU, space);
+        }
+
+        [Test]
+        public void PlaceholderSizeAndMass_UnknownKind_Throws()
+        {
+            var unknown = (PropKind)99;
+
+            Assert.Throws<KeyNotFoundException>(() => PrototypeLevels.Size(unknown));
+            Assert.Throws<KeyNotFoundException>(() => PrototypeLevels.Mass(unknown));
+        }
+
+        [Test]
         public void PropCatalog_Get_MissingKind_Throws()
         {
             var catalog = ScriptableObject.CreateInstance<PropCatalog>();
