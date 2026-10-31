@@ -37,8 +37,8 @@ M1 shooting prototype per `docs/superpowers/plans/2026-10-30-m1-shooting-prototy
 | Write/edit C# | Edit files directly, then `tools/unity/compile.sh` and `unity command console --level error` before saying done |
 | Scenes, GameObjects, prefabs, assets | Editor scripts or `unity command eval_file --file <scratch.cs>` (body-only). NEVER hand-edit `.unity` / `.prefab` / `.asset` / `.meta` YAML |
 | Packages | `unity command package_add` / `package_remove`, then wait for domain reload |
-| Tests | `tools/unity/edit-tests.sh [Fixture]`, `tools/unity/playmode.sh` |
-| Build | `tools/unity/build.sh android|ios` |
+| Tests | `tools/unity/edit-tests.sh [Fixture]`, `tools/unity/playmode.sh` (editor open); `tools/unity/batch-tests.sh editmode|playmode [--coverage]` (editor closed) |
+| Build | `tools/unity/build.sh ios` (Android deferred until release) |
 | Visual check | `unity command capture_game_view` |
 
 - Always pass `--caller plugin --skill <skill>` on `unity command` calls; `--format json` when parsing.
