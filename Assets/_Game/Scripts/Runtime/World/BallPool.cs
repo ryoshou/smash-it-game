@@ -35,6 +35,13 @@ namespace Game.World
             return oldest;
         }
 
+        public void DespawnAll()
+        {
+            EnsureBalls();
+            foreach (var ball in balls)
+                if (ball.IsActive) ball.Despawn();
+        }
+
         private void Awake() => EnsureBalls();
 
         private void EnsureBalls()

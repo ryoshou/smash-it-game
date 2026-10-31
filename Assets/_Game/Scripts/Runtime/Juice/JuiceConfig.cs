@@ -12,5 +12,9 @@ namespace Game.Juice
         [Header("Camera shake")]
         public float shakeMax = 0.15f;
         public float shakeDecaySeconds = 0.25f;
+
+        [Header("Slingshot view")]
+        [Tooltip("World metres the pouch moves per screen height of pull.")]
+        public float pouchTravel = 2f;
     }
 }

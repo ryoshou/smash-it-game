@@ -1,4 +1,6 @@
 using System.IO;
+using Game.Controls;
+using Game.Core;
 using Game.Levels;
 using Game.World;
 using UnityEditor;
@@ -13,6 +15,12 @@ namespace Game.Editor
         public const string ScenePath = "Assets/_Game/Scenes/Game.unity";
         private const string PrefabsFolder = "Assets/_Game/Prefabs";
         private const string MaterialsFolder = "Assets/_Game/Materials";
+        private const string ConfigFolder = PrototypeAssetBuilder.ConfigFolder;
+
+        private static readonly string[] BootstrapFields =
+        {
+            "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel",
+        };
         private const string LitShader = "Universal Render Pipeline/Lit";
 
         private static readonly Vector3 DeskSize = new Vector3(2.0f, 0.08f, 1.5f);
@@ -128,18 +136,38 @@ namespace Game.Editor
             camera.transform.LookAt(CameraLookAt);
             camera.gameObject.AddComponent<AudioListener>();
 
-            new GameObject("Pouch").transform.position = PouchPosition;
-            new GameObject("Bootstrap");
+            var pouch = new GameObject("Pouch").transform;
+            pouch.position = PouchPosition;
+            var view = SlingshotSceneParts.BuildSlingshot(pouch, MaterialsFolder, Material);
             var pool = new GameObject("Ball Pool").AddComponent<BallPool>();
             SetReference(pool, "ballPrefab", ballPrefab.GetComponent<YarnBall>());
-            new GameObject("Level Spawner").AddComponent<LevelSpawner>();
-            new GameObject("UI");
+            var spawner = new GameObject("Level Spawner").AddComponent<LevelSpawner>();
+            var ui = UiSceneParts.Build();
+
+            var bootstrap = new GameObject("Bootstrap");
+            var input = bootstrap.AddComponent<SlingshotInput>();
+            WireBootstrap(bootstrap.AddComponent<GameBootstrap>(), new Object[]
+            {
+                AssetDatabase.LoadAssetAtPath<ShotTuning>(ConfigFolder + "/ShotTuning.asset"),
+                AssetDatabase.LoadAssetAtPath<LevelList>(PrototypeAssetBuilder.LevelListPath),
+                AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
+                spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result,
+            });
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
         }
 
-        private static Transform Visual(PrimitiveType type, Transform parent, string name, Material material)
+        private static void WireBootstrap(GameBootstrap bootstrap, Object[] references)
+        {
+            for (int i = 0; i < BootstrapFields.Length; i++)
+            {
+                if (references[i] == null) throw new System.InvalidOperationException($"Bootstrap {BootstrapFields[i]} is missing.");
+                SetReference(bootstrap, BootstrapFields[i], references[i]);
+            }
+        }
+
+        internal static Transform Visual(PrimitiveType type, Transform parent, string name, Material material)
         {
             var go = GameObject.CreatePrimitive(type);
             go.name = name;
@@ -149,7 +177,7 @@ namespace Game.Editor
             return go.transform;
         }
 
-        private static Material Material(string name, Color color)
+        internal static Material Material(string name, Color color)
         {
             string path = $"{MaterialsFolder}/{name}.mat";
             var material = AssetDatabase.LoadAssetAtPath<Material>(path);
@@ -187,7 +215,7 @@ namespace Game.Editor
             return prefab;
         }
 
-        private static void SetReference(Object target, string field, Object value)
+        internal static void SetReference(Object target, string field, Object value)
         {
             var so = new SerializedObject(target);
             so.FindProperty(field).objectReferenceValue = value;
