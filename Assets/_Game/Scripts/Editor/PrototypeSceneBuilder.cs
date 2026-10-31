@@ -1,0 +1,197 @@
+using System.IO;
+using Game.Levels;
+using Game.World;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+
+namespace Game.Editor
+{
+    /// <summary>Builds the placeholder prefabs, materials and Game scene, and fills the PropCatalog prefab refs.</summary>
+    public static class PrototypeSceneBuilder
+    {
+        public const string ScenePath = "Assets/_Game/Scenes/Game.unity";
+        private const string PrefabsFolder = "Assets/_Game/Prefabs";
+        private const string MaterialsFolder = "Assets/_Game/Materials";
+        private const string LitShader = "Universal Render Pipeline/Lit";
+
+        private static readonly Vector3 DeskSize = new Vector3(2.0f, 0.08f, 1.5f);
+        private const float LegSize = 0.07f;
+        private static readonly Vector3 CameraPosition = new Vector3(0f, 2.2f, -4.2f);
+        private static readonly Vector3 CameraLookAt = new Vector3(0f, 0.7f, 0f);
+        private static readonly Vector3 PouchPosition = new Vector3(0f, 1.1f, -2.4f);
+        private static readonly Color Background = new Color(0.98f, 0.89f, 0.84f);
+
+        [MenuItem("Smash/Rebuild Prototype Scene")]
+        public static void Rebuild()
+        {
+            PrototypeAssetBuilder.RebuildAll();
+            Directory.CreateDirectory(PrefabsFolder);
+            Directory.CreateDirectory(MaterialsFolder);
+            Directory.CreateDirectory(Path.GetDirectoryName(ScenePath));
+
+            var keycapPhysics = WritePhysicsMaterial("Keycap", 0.6f, 0.8f, 0.05f);
+            FillCatalog(keycapPhysics);
+            var desk = WriteDeskPrefab();
+            var ball = WriteBallPrefab();
+            BuildScene(desk, ball);
+        }
+
+        private static void FillCatalog(PhysicsMaterial keycapPhysics)
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath);
+            var colors = new[] { new Color(1f, 0.78f, 0.8f), new Color(0.74f, 0.88f, 1f), new Color(0.8f, 0.93f, 0.78f) };
+            var specs = catalog.specs;
+            for (int i = 0; i < specs.Length; i++)
+            {
+                specs[i].prefab = WriteKeycapPrefab(specs[i].kind, specs[i].size, colors[i % colors.Length]);
+                specs[i].material = keycapPhysics;
+            }
+            catalog.specs = specs;
+            EditorUtility.SetDirty(catalog);
+            AssetDatabase.SaveAssets();
+        }
+
+        private static GameObject WriteKeycapPrefab(PropKind kind, Vector3 size, Color color)
+        {
+            var root = new GameObject(kind.ToString());
+            root.AddComponent<BoxCollider>().size = size;
+            root.AddComponent<Rigidbody>();
+            root.AddComponent<DeskObject>();
+
+            var body = Visual(PrimitiveType.Cube, root.transform, "Body", Material(kind + "Body", color));
+            body.localScale = new Vector3(size.x, size.y * 0.75f, size.z);
+            body.localPosition = new Vector3(0f, -size.y * 0.125f, 0f);
+            var top = Visual(PrimitiveType.Cube, root.transform, "Top", Material(kind + "Top", Color.Lerp(color, Color.white, 0.45f)));
+            top.localScale = new Vector3(size.x - 0.03f, size.y * 0.25f, size.z - 0.03f);
+            top.localPosition = new Vector3(0f, size.y * 0.375f, 0f);
+            return SavePrefab(root, kind.ToString());
+        }
+
+        private static GameObject WriteDeskPrefab()
+        {
+            var wood = Material("DeskWood", new Color(0.87f, 0.7f, 0.53f));
+            var root = new GameObject("Desk");
+            var top = Visual(PrimitiveType.Cube, root.transform, "Top", wood);
+            top.localScale = DeskSize;
+            top.localPosition = new Vector3(0f, LevelSpawner.DeskTopY - DeskSize.y / 2f, 0f);
+            top.gameObject.AddComponent<BoxCollider>();
+
+            float legHeight = LevelSpawner.DeskTopY - DeskSize.y;
+            for (int i = 0; i < 4; i++)
+            {
+                var leg = Visual(PrimitiveType.Cube, root.transform, $"Leg {i}", wood);
+                leg.localScale = new Vector3(LegSize, legHeight, LegSize);
+                float x = (i % 2 == 0 ? -1f : 1f) * (DeskSize.x / 2f - LegSize);
+                float z = (i < 2 ? -1f : 1f) * (DeskSize.z / 2f - LegSize);
+                leg.localPosition = new Vector3(x, legHeight / 2f, z);
+                leg.gameObject.AddComponent<BoxCollider>();
+            }
+            return SavePrefab(root, "Desk");
+        }
+
+        private static GameObject WriteBallPrefab()
+        {
+            var ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            ball.name = "YarnBall";
+            ball.GetComponent<MeshRenderer>().sharedMaterial = Material("Yarn", new Color(0.95f, 0.45f, 0.5f));
+            var body = ball.AddComponent<Rigidbody>();
+            body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            body.linearDamping = 0f;
+            body.angularDamping = 0f;
+            ball.AddComponent<YarnBall>();
+            return SavePrefab(ball, "YarnBall");
+        }
+
+        private static void BuildScene(GameObject deskPrefab, GameObject ballPrefab)
+        {
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            PrefabUtility.InstantiatePrefab(deskPrefab);
+            var floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            floor.name = "Floor";
+            floor.transform.localScale = new Vector3(3f, 1f, 3f);
+            floor.GetComponent<MeshRenderer>().sharedMaterial = Material("Floor", new Color(0.93f, 0.85f, 0.95f));
+
+            var light = new GameObject("Directional Light").AddComponent<Light>();
+            light.type = LightType.Directional;
+            light.intensity = 1.1f;
+            light.shadows = LightShadows.Soft;
+            light.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
+
+            var camera = new GameObject("Main Camera").AddComponent<Camera>();
+            camera.tag = "MainCamera";
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = Background;
+            camera.fieldOfView = 60f;
+            camera.transform.position = CameraPosition;
+            camera.transform.LookAt(CameraLookAt);
+            camera.gameObject.AddComponent<AudioListener>();
+
+            new GameObject("Pouch").transform.position = PouchPosition;
+            new GameObject("Bootstrap");
+            var pool = new GameObject("Ball Pool").AddComponent<BallPool>();
+            SetReference(pool, "ballPrefab", ballPrefab.GetComponent<YarnBall>());
+            new GameObject("Level Spawner").AddComponent<LevelSpawner>();
+            new GameObject("UI");
+
+            EditorSceneManager.SaveScene(scene, ScenePath);
+            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
+        }
+
+        private static Transform Visual(PrimitiveType type, Transform parent, string name, Material material)
+        {
+            var go = GameObject.CreatePrimitive(type);
+            go.name = name;
+            Object.DestroyImmediate(go.GetComponent<Collider>());
+            go.GetComponent<MeshRenderer>().sharedMaterial = material;
+            go.transform.SetParent(parent, false);
+            return go.transform;
+        }
+
+        private static Material Material(string name, Color color)
+        {
+            string path = $"{MaterialsFolder}/{name}.mat";
+            var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (material == null)
+            {
+                material = new Material(Shader.Find(LitShader));
+                AssetDatabase.CreateAsset(material, path);
+            }
+            material.SetColor("_BaseColor", color);
+            material.SetFloat("_Smoothness", 0.25f);
+            EditorUtility.SetDirty(material);
+            return material;
+        }
+
+        private static PhysicsMaterial WritePhysicsMaterial(string name, float dynamicFriction, float staticFriction, float bounce)
+        {
+            string path = $"{MaterialsFolder}/{name}.physicMaterial";
+            var material = AssetDatabase.LoadAssetAtPath<PhysicsMaterial>(path);
+            if (material == null)
+            {
+                material = new PhysicsMaterial(name);
+                AssetDatabase.CreateAsset(material, path);
+            }
+            material.dynamicFriction = dynamicFriction;
+            material.staticFriction = staticFriction;
+            material.bounciness = bounce;
+            EditorUtility.SetDirty(material);
+            return material;
+        }
+
+        private static GameObject SavePrefab(GameObject root, string name)
+        {
+            var prefab = PrefabUtility.SaveAsPrefabAsset(root, $"{PrefabsFolder}/{name}.prefab");
+            Object.DestroyImmediate(root);
+            return prefab;
+        }
+
+        private static void SetReference(Object target, string field, Object value)
+        {
+            var so = new SerializedObject(target);
+            so.FindProperty(field).objectReferenceValue = value;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+    }
+}

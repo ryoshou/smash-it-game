@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.Levels.PropCatalog
   specs:
   - kind: 0
-    prefab: {fileID: 0}
+    prefab: {fileID: 3850194665336713470, guid: e7e80b08ac7874276956521f5bef3f2b, type: 3}
     size: {x: 0.15, y: 0.11, z: 0.15}
     mass: 0.04
-    material: {fileID: 0}
+    material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
   - kind: 1
-    prefab: {fileID: 0}
+    prefab: {fileID: 6799209583383002900, guid: 5d703d98db6174addbe15614a995e16b, type: 3}
     size: {x: 0.31, y: 0.11, z: 0.15}
     mass: 0.07
-    material: {fileID: 0}
+    material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
   - kind: 2
-    prefab: {fileID: 0}
+    prefab: {fileID: 8936314824550646120, guid: b6281ccb469b34b1c80e3f86c648caed, type: 3}
     size: {x: 0.63, y: 0.11, z: 0.15}
     mass: 0.12
-    material: {fileID: 0}
+    material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
