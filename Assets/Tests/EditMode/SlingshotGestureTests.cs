@@ -53,7 +53,7 @@ namespace Game.Tests
         {
             Begin(1, new Vector2(530f, 190f));
 
-            gesture.Move(1, new Vector2(500f, -50f));
+            gesture.Move(1, new Vector2(530f, -60f));
             Assert.AreEqual(0f, gesture.Pull.x, Tolerance);
             Assert.AreEqual(-0.25f, gesture.Pull.y, Tolerance);
             var result = gesture.Release(1);
@@ -61,6 +61,51 @@ namespace Game.Tests
             Assert.IsTrue(result.Fired);
             Assert.AreEqual(1f, result.Power01, Tolerance);
             Assert.IsFalse(gesture.IsHolding);
+        }
+
+        [Test]
+        public void Tap_AtGrabEdge_WithoutDrag_DoesNotFire()
+        {
+            Begin(1, new Vector2(500f, 150f));
+
+            var result = gesture.Release(1);
+
+            Assert.IsFalse(result.Fired);
+            Assert.AreEqual(0f, gesture.Power01);
+        }
+
+        [Test]
+        public void DragDown_ThenBackToGrabPoint_DoesNotFire()
+        {
+            Begin(1, new Vector2(500f, 150f));
+            gesture.Move(1, new Vector2(500f, 0f));
+            Assert.Greater(gesture.Power01, 0f);
+
+            gesture.Move(1, new Vector2(502f, 148f));
+            var result = gesture.Release(1);
+
+            Assert.IsFalse(result.Fired);
+        }
+
+        [Test]
+        public void End_CanceledTouch_DoesNotFire()
+        {
+            Begin(1, new Vector2(530f, 190f));
+            gesture.Move(1, new Vector2(530f, -60f));
+
+            var result = gesture.End(1, isCanceled: true);
+
+            Assert.IsFalse(result.Fired);
+            Assert.IsFalse(gesture.IsHolding);
+        }
+
+        [Test]
+        public void End_LiftedTouch_Fires()
+        {
+            Begin(1, new Vector2(530f, 190f));
+            gesture.Move(1, new Vector2(530f, -60f));
+
+            Assert.IsTrue(gesture.End(1, isCanceled: false).Fired);
         }
 
         [Test]

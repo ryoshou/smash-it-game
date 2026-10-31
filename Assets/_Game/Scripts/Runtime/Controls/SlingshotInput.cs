@@ -69,7 +69,9 @@ namespace Game.Controls
         private void OnFingerUp(Finger finger)
         {
             if (gesture == null || !gesture.IsHolding || gesture.ActiveTouchId != finger.index) return;
-            Released?.Invoke(gesture.Release(finger.index));
+            // onFingerUp also reports touches the OS cancelled; those must not fire.
+            bool isCanceled = finger.lastTouch.phase == UnityEngine.InputSystem.TouchPhase.Canceled;
+            Released?.Invoke(gesture.End(finger.index, isCanceled));
         }
     }
 }

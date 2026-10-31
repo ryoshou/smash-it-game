@@ -15,6 +15,8 @@ namespace Game.Core
         public float minElevationDeg = 8f;
         public float maxElevationDeg = 22f;
         public float maxYawDeg = 25f;
+        [Tooltip("Drags further than this from straight down (e.g. almost sideways) cancel instead of firing.")]
+        public float maxDragAngleDeg = 80f;
         public float reloadSeconds = 0.5f;
         public float gravityY = -9.81f;
 

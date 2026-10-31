@@ -2,13 +2,16 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    /// <summary>One-finger grab, pull and release on the pouch. Other touches are ignored while holding.</summary>
+    /// <summary>
+    /// One-finger grab, pull and release on the pouch. The pull is measured from where the finger landed, so a tap or a
+    /// drag back to the grab point never fires. Other touches are ignored while holding.
+    /// </summary>
     public sealed class SlingshotGesture
     {
         private const int NoTouch = -1;
 
         private readonly ShotTuning tuning;
-        private Vector2 pouchScreenPos;
+        private Vector2 grabScreenPos;
         private float screenHeight;
 
         public SlingshotGesture(ShotTuning t) => tuning = t;
@@ -16,7 +19,7 @@ namespace Game.Core
         public bool IsHolding { get; private set; }
         public int ActiveTouchId { get; private set; } = NoTouch;
 
-        /// <summary>(finger − pouch) / screen height, length clamped to maxPull.</summary>
+        /// <summary>(finger − touch-down point) / screen height, length clamped to maxPull.</summary>
         public Vector2 Pull { get; private set; }
 
         public float Power01
@@ -34,7 +37,7 @@ namespace Game.Core
             if (!canGrab || IsHolding || screenHeight <= 0f) return false;
             if ((screenPos - pouchScreenPos).magnitude > tuning.grabRadius * screenHeight) return false;
 
-            this.pouchScreenPos = pouchScreenPos;
+            grabScreenPos = screenPos;
             this.screenHeight = screenHeight;
             IsHolding = true;
             ActiveTouchId = touchId;
@@ -46,7 +49,7 @@ namespace Game.Core
         public void Move(int touchId, Vector2 screenPos)
         {
             if (!IsHolding || touchId != ActiveTouchId) return;
-            Pull = Vector2.ClampMagnitude((screenPos - pouchScreenPos) / screenHeight, tuning.maxPull);
+            Pull = Vector2.ClampMagnitude((screenPos - grabScreenPos) / screenHeight, tuning.maxPull);
         }
 
         public LaunchResult Release(int touchId)
@@ -55,6 +58,18 @@ namespace Game.Core
             var result = SlingshotMath.Compute(Pull, tuning);
             Cancel();
             return result;
+        }
+
+        /// <summary>
+        /// The holding finger left the screen. A cancelled touch (the OS took it: system gesture, call banner, palm)
+        /// never fires; a lift releases normally.
+        /// </summary>
+        public LaunchResult End(int touchId, bool isCanceled)
+        {
+            if (!IsHolding || touchId != ActiveTouchId) return LaunchResult.None;
+            if (!isCanceled) return Release(touchId);
+            Cancel();
+            return LaunchResult.None;
         }
 
         public void Cancel()

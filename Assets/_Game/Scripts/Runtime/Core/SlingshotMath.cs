@@ -5,15 +5,18 @@ namespace Game.Core
     /// <summary>Pull to launch velocity: pull further = faster and higher; drag left aims right.</summary>
     public static class SlingshotMath
     {
-        /// <param name="pull">(finger − pouch) / screen height; a downward drag has negative y.</param>
+        /// <param name="pull">(finger − touch-down point) / screen height; a downward drag has negative y.</param>
         public static LaunchResult Compute(Vector2 pull, ShotTuning t)
         {
             float magnitude = pull.magnitude;
             if (pull.y >= 0f || magnitude < t.minPull) return LaunchResult.None;
 
+            float dragAngleDeg = Mathf.Atan2(-pull.x, -pull.y) * Mathf.Rad2Deg;
+            if (Mathf.Abs(dragAngleDeg) > t.maxDragAngleDeg) return LaunchResult.None;
+
             float length = Mathf.Min(magnitude, t.maxPull);
             float power = Mathf.Clamp01((length - t.minPull) / (t.maxPull - t.minPull));
-            float yawDeg = Mathf.Clamp(Mathf.Atan2(-pull.x, -pull.y) * Mathf.Rad2Deg, -t.maxYawDeg, t.maxYawDeg);
+            float yawDeg = Mathf.Clamp(dragAngleDeg, -t.maxYawDeg, t.maxYawDeg);
             float speed = Mathf.Lerp(t.minSpeed, t.maxSpeed, power);
             float elevation = Mathf.Lerp(t.minElevationDeg, t.maxElevationDeg, power) * Mathf.Deg2Rad;
             float yaw = yawDeg * Mathf.Deg2Rad;

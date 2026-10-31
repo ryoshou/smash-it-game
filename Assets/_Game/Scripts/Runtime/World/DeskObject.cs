@@ -36,8 +36,13 @@ namespace Game.World
         private void FixedUpdate()
         {
             if (tuning == null) return;
-            Body.linearVelocity = ImpactMath.CapMagnitude(Body.linearVelocity, tuning.objectMaxLinearSpeed);
-            Body.angularVelocity = ImpactMath.CapMagnitude(Body.angularVelocity, tuning.objectMaxAngularSpeed);
+            // Write only when over the cap: any velocity write wakes the body, and settled props must be able to sleep.
+            var linear = Body.linearVelocity;
+            if (linear.sqrMagnitude > tuning.objectMaxLinearSpeed * tuning.objectMaxLinearSpeed)
+                Body.linearVelocity = ImpactMath.CapMagnitude(linear, tuning.objectMaxLinearSpeed);
+            var angular = Body.angularVelocity;
+            if (angular.sqrMagnitude > tuning.objectMaxAngularSpeed * tuning.objectMaxAngularSpeed)
+                Body.angularVelocity = ImpactMath.CapMagnitude(angular, tuning.objectMaxAngularSpeed);
 
             if (IsCleared || !ClearRule.IsCleared(Body.position, deskTopY, tuning.clearMargin, playVolume)) return;
             IsCleared = true;

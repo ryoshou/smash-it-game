@@ -64,6 +64,19 @@ namespace Game.Tests
         }
 
         [Test]
+        public void Compute_NearlySidewaysDrag_Cancels()
+        {
+            Assert.IsFalse(SlingshotMath.Compute(new Vector2(-0.2f, -0.001f), tuning).Fired);
+            Assert.IsFalse(SlingshotMath.Compute(new Vector2(0.2f, -0.001f), tuning).Fired);
+        }
+
+        [Test]
+        public void Compute_SteepSideDrag_InsideCone_StillFires()
+        {
+            Assert.IsTrue(SlingshotMath.Compute(new Vector2(0.2f, -0.05f), tuning).Fired);
+        }
+
+        [Test]
         public void Compute_UpwardPull_Cancels()
         {
             var result = SlingshotMath.Compute(new Vector2(0.05f, 0.1f), tuning);

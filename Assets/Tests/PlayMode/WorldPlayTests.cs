@@ -62,6 +62,10 @@ namespace Game.Tests
 
                 Assert.AreEqual(targets, spawner.TargetsRemaining, $"{level.id} lost targets at spawn");
                 Assert.AreEqual(level.props.Length, spawner.Spawned.Count);
+                int awake = 0;
+                foreach (var prop in spawner.Spawned)
+                    if (!prop.Body.IsSleeping()) awake++;
+                Assert.AreEqual(0, awake, $"{level.id}: settled props should be asleep after 3 s");
             }
         }
 
