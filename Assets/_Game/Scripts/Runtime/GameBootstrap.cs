@@ -1,5 +1,6 @@
 using Game.Controls;
 using Game.Core;
+using Game.Juice;
 using Game.Levels;
 using Game.UI;
 using Game.View;
@@ -24,6 +25,11 @@ namespace Game
         [SerializeField] private SlingshotView view;
         [SerializeField] private Hud hud;
         [SerializeField] private ResultPanel resultPanel;
+        [SerializeField] private JuiceConfig juice;
+        [SerializeField] private SfxPlayer sfx;
+        [SerializeField] private CameraShake shake;
+        [SerializeField] private ShotFeedback shotFeedback;
+        [SerializeField] private ImpactFeedback impactFeedback;
 
         private RoundJudge judge;
         private SlingshotGesture gesture;
@@ -84,6 +90,8 @@ namespace Game
             input.Released += OnReleased;
             view.Bind(gesture, Tuning);
             spawner.TargetCleared += Events.RaiseTargetCleared;
+            shotFeedback.Bind(Events, juice, sfx);
+            impactFeedback.Bind(Events, juice, sfx, shake);
         }
 
         private void Start() => LoadLevel(0);

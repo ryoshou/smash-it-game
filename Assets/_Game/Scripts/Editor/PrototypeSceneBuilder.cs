@@ -1,6 +1,8 @@
 using System.IO;
+using Game.Audio;
 using Game.Controls;
 using Game.Core;
+using Game.Juice;
 using Game.Levels;
 using Game.World;
 using UnityEditor;
@@ -20,6 +22,7 @@ namespace Game.Editor
         private static readonly string[] BootstrapFields =
         {
             "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel",
+            "juice", "sfx", "shake", "shotFeedback", "impactFeedback",
         };
         private const string LitShader = "Universal Render Pipeline/Lit";
 
@@ -144,6 +147,14 @@ namespace Game.Editor
             var spawner = new GameObject("Level Spawner").AddComponent<LevelSpawner>();
             var ui = UiSceneParts.Build();
 
+            var juice = SlingshotSceneParts.LoadOrCreateJuice();
+            var shake = camera.gameObject.AddComponent<CameraShake>();
+            SetReference(shake, "config", juice);
+            var juiceObject = new GameObject("Juice");
+            var sfx = juiceObject.AddComponent<SfxPlayer>();
+            SetReference(sfx, "config", juice);
+            SetReference(sfx, "presets", LoadOrCreateSfxPresets());
+
             var bootstrap = new GameObject("Bootstrap");
             var input = bootstrap.AddComponent<SlingshotInput>();
             WireBootstrap(bootstrap.AddComponent<GameBootstrap>(), new Object[]
@@ -152,10 +163,21 @@ namespace Game.Editor
                 AssetDatabase.LoadAssetAtPath<LevelList>(PrototypeAssetBuilder.LevelListPath),
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
                 spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result,
+                juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),
             });
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
+        }
+
+        private static SfxPresets LoadOrCreateSfxPresets()
+        {
+            string path = ConfigFolder + "/SfxPresets.asset";
+            var presets = AssetDatabase.LoadAssetAtPath<SfxPresets>(path);
+            if (presets != null) return presets;
+            presets = ScriptableObject.CreateInstance<SfxPresets>();
+            AssetDatabase.CreateAsset(presets, path);
+            return presets;
         }
 
         private static void WireBootstrap(GameBootstrap bootstrap, Object[] references)

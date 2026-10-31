@@ -1,0 +1,239 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dea717feafa5469f823e417a7e6356f, type: 3}
+  m_Name: SfxPresets
+  m_EditorClassIdentifier: Game.Runtime::Game.Audio.SfxPresets
+  presets:
+  - id: 0
+    seed: 11
+    volume: 0.2
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 0
+      baseFrequency: 0.35
+      frequencyLimit: 0
+      frequencySlide: 0
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0
+      arpeggioSpeed: 0
+      repeatSpeed: 0
+      squareDuty: 0.3
+      dutySweep: 0
+      attack: 0
+      sustain: 0.02
+      sustainPunch: 0
+      decay: 0.05
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 1
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0.1
+      highPassSweep: 0
+  - id: 1
+    seed: 23
+    volume: 0.45
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 1
+      baseFrequency: 0.28
+      frequencyLimit: 0
+      frequencySlide: 0.2
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0
+      arpeggioSpeed: 0
+      repeatSpeed: 0
+      squareDuty: 0
+      dutySweep: 0
+      attack: 0
+      sustain: 0.04
+      sustainPunch: 0.4
+      decay: 0.22
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 0.6
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0
+      highPassSweep: 0
+  - id: 2
+    seed: 31
+    volume: 0.35
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 3
+      baseFrequency: 0.45
+      frequencyLimit: 0
+      frequencySlide: -0.3
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0
+      arpeggioSpeed: 0
+      repeatSpeed: 0
+      squareDuty: 0
+      dutySweep: 0
+      attack: 0
+      sustain: 0.02
+      sustainPunch: 0
+      decay: 0.08
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 0.5
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0
+      highPassSweep: 0
+  - id: 3
+    seed: 37
+    volume: 0.5
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 3
+      baseFrequency: 0.3
+      frequencyLimit: 0
+      frequencySlide: -0.4
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0
+      arpeggioSpeed: 0
+      repeatSpeed: 0
+      squareDuty: 0
+      dutySweep: 0
+      attack: 0
+      sustain: 0.05
+      sustainPunch: 0.5
+      decay: 0.18
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 0.45
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0
+      highPassSweep: 0
+  - id: 4
+    seed: 43
+    volume: 0.3
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 2
+      baseFrequency: 0.6
+      frequencyLimit: 0
+      frequencySlide: 0.25
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0
+      arpeggioSpeed: 0
+      repeatSpeed: 0
+      squareDuty: 0
+      dutySweep: 0
+      attack: 0
+      sustain: 0.03
+      sustainPunch: 0
+      decay: 0.1
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 1
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0
+      highPassSweep: 0
+  - id: 5
+    seed: 83
+    volume: 0.55
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 2
+      baseFrequency: 0.55
+      frequencyLimit: 0
+      frequencySlide: 0
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0.5
+      arpeggioSpeed: 0.6
+      repeatSpeed: 0
+      squareDuty: 0
+      dutySweep: 0
+      attack: 0
+      sustain: 0.12
+      sustainPunch: 0.35
+      decay: 0.5
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 1
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0
+      highPassSweep: 0
+  - id: 6
+    seed: 61
+    volume: 0.4
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 0
+      baseFrequency: 0.4
+      frequencyLimit: 0
+      frequencySlide: -0.25
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0
+      arpeggioSpeed: 0
+      repeatSpeed: 0
+      squareDuty: 0.4
+      dutySweep: 0
+      attack: 0
+      sustain: 0.1
+      sustainPunch: 0
+      decay: 0.3
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 1
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0
+      highPassSweep: 0
+  - id: 7
+    seed: 97
+    volume: 0.3
+    clipOverride: {fileID: 0}
+    synth:
+      wave: 0
+      baseFrequency: 0.62
+      frequencyLimit: 0
+      frequencySlide: 0
+      frequencyDeltaSlide: 0
+      vibratoDepth: 0
+      vibratoSpeed: 0
+      arpeggioMod: 0
+      arpeggioSpeed: 0
+      repeatSpeed: 0
+      squareDuty: 0.2
+      dutySweep: 0
+      attack: 0
+      sustain: 0.02
+      sustainPunch: 0
+      decay: 0.05
+      phaserOffset: 0
+      phaserSweep: 0
+      lowPassCutoff: 1
+      lowPassSweep: 0
+      lowPassResonance: 0
+      highPassCutoff: 0.15
+      highPassSweep: 0

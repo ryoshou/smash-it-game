@@ -87,7 +87,7 @@ namespace Game.Editor
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        private static JuiceConfig LoadOrCreateJuice()
+        public static JuiceConfig LoadOrCreateJuice()
         {
             var juice = AssetDatabase.LoadAssetAtPath<JuiceConfig>(JuiceConfigPath);
             if (juice != null) return juice;
