@@ -157,9 +157,12 @@ namespace Game.Editor
 
             var bootstrap = new GameObject("Bootstrap");
             var input = bootstrap.AddComponent<SlingshotInput>();
-            WireBootstrap(bootstrap.AddComponent<GameBootstrap>(), new Object[]
+            var game = bootstrap.AddComponent<GameBootstrap>();
+            var tuning = AssetDatabase.LoadAssetAtPath<ShotTuning>(ConfigFolder + "/ShotTuning.asset");
+            UiSceneParts.BuildDebugPanel(ui, game, tuning);
+            WireBootstrap(game, new Object[]
             {
-                AssetDatabase.LoadAssetAtPath<ShotTuning>(ConfigFolder + "/ShotTuning.asset"),
+                tuning,
                 AssetDatabase.LoadAssetAtPath<LevelList>(PrototypeAssetBuilder.LevelListPath),
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
                 spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result,
