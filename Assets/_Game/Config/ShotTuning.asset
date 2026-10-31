@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee2fb6471a9641829d19090b73c6a71, type: 3}
+  m_Name: ShotTuning
+  m_EditorClassIdentifier: Game.Runtime::Game.Core.ShotTuning
+  maxPull: 0.25
+  minPull: 0.03
+  grabRadius: 0.08
+  minSpeed: 4
+  maxSpeed: 9
+  minElevationDeg: 8
+  maxElevationDeg: 22
+  maxYawDeg: 25
+  reloadSeconds: 0.5
+  gravityY: -9.81
+  previewSeconds: 0.2
+  previewDots: 8
+  ballRadius: 0.09
+  ballMass: 0.25
+  impactSpeedMultiplier: 1.6
+  burstStrength: 0.6
+  burstRadius: 0.35
+  objectMaxLinearSpeed: 6
+  objectMaxAngularSpeed: 20
+  settleLinearThreshold: 0.05
+  settleAngularThreshold: 0.25
+  settleHoldSeconds: 0.6
+  settleMaxWaitSeconds: 5
+  clearMargin: 0.15
+  ballLifetimeSeconds: 4
+  ballRestSpeed: 0.15
+  ballRestMinAge: 1
+  ballKillY: -1
+  continueShots: 3
