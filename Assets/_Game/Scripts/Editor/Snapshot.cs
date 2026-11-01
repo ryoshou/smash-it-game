@@ -62,7 +62,7 @@ namespace Game.Editor
             {
                 var spec = catalog.Get(placement.kind);
                 var position = deskTop + placement.basePosition + Vector3.up * (spec.size.y / 2f);
-                UnityEngine.Object.Instantiate(spec.Variant(0).prefab, position, Quaternion.Euler(0f, placement.yawDegrees, 0f));
+                UnityEngine.Object.Instantiate(spec.Variant(placement.variant).prefab, position, Quaternion.Euler(0f, placement.yawDegrees, 0f));
             }
         }
 

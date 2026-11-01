@@ -11,6 +11,7 @@ namespace Game.Levels
 
         public string id;
         public int shots = 6;
+        public Difficulty difficulty;
         public Vector2 deskSize = new Vector2(2.0f, 1.5f);
         public PropPlacement[] props = new PropPlacement[0];
         [Tooltip("Backdrop and music; empty uses the scene's fallback room.")]

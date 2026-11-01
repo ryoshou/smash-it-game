@@ -48,7 +48,7 @@ namespace Game.World
             {
                 var spec = catalog.Get(placement.kind);
                 if (spec.breakMode != BreakMode.Shatter) continue;
-                int key = Key(placement.kind, 0);
+                int key = Key(placement.kind, spec.VariantIndex(placement.variant));
                 needed[key] = needed.TryGetValue(key, out int n) ? n + 1 : 1;
                 if (!sets.ContainsKey(key)) sets[key] = new List<Set>();
             }

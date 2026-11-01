@@ -17,7 +17,8 @@ namespace Game.Levels
         public BreakMode breakMode;
 
         /// <summary>The variant at index, or the first one when the index is out of range.</summary>
-        public PropVariant Variant(int index) =>
-            index >= 0 && index < variants.Length ? variants[index] : variants[0];
+        public PropVariant Variant(int index) => variants[VariantIndex(index)];
+
+        public int VariantIndex(int index) => index >= 0 && index < variants.Length ? index : 0;
     }
 }

@@ -114,7 +114,7 @@ namespace Game
             catReactions.Bind(Events, catAnimator);
         }
 
-        private void Start() => LoadLevel(0);
+        private void Start() => LoadLevel(EditorStartLevel.Consume(0));
 
         private void OnDestroy()
         {

@@ -44,8 +44,8 @@ namespace Game.World
                 var spec = catalog.Get(placement.kind);
                 var position = deskTop + placement.basePosition + Vector3.up * (spec.size.y / 2f);
                 var rotation = Quaternion.Euler(0f, placement.yawDegrees, 0f);
-                var instance = Instantiate(spec.Variant(0).prefab, position, rotation, transform);
-                spawned.Add(Configure(instance, spec, placement.isTarget, t, events));
+                var instance = Instantiate(spec.Variant(placement.variant).prefab, position, rotation, transform);
+                spawned.Add(Configure(instance, spec, placement, t, events));
                 if (placement.isTarget) TargetsRemaining++;
             }
         }
@@ -62,14 +62,14 @@ namespace Game.World
             TargetsRemaining = 0;
         }
 
-        private DeskObject Configure(GameObject instance, PropSpec spec, bool isTarget, ShotTuning t, GameEvents events)
+        private DeskObject Configure(GameObject instance, PropSpec spec, PropPlacement placement, ShotTuning t, GameEvents events)
         {
             var prop = instance.GetComponent<DeskObject>();
             prop.Body.mass = spec.mass;
             // Load time only: convex props keep their colliders on the visual's children.
             if (spec.material != null)
                 foreach (var collider in instance.GetComponentsInChildren<Collider>()) collider.sharedMaterial = spec.material;
-            prop.Init(isTarget, DeskTopY, PlayVolume, t, spec.kind, 0, spec.breakMode, events);
+            prop.Init(placement.isTarget, DeskTopY, PlayVolume, t, spec.kind, spec.VariantIndex(placement.variant), spec.breakMode, events);
             prop.Cleared += OnCleared;
             prop.Broken += OnBroken;
             return prop;

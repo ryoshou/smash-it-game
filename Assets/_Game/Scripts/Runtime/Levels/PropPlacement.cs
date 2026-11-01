@@ -14,5 +14,8 @@ namespace Game.Levels
 
         public float yawDegrees;
         public bool isTarget;
+
+        [Tooltip("Which look (e.g. colour) of the kind; out of range uses the first.")]
+        public int variant;
     }
 }
