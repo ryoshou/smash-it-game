@@ -14,17 +14,85 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.Levels.PropCatalog
   specs:
   - kind: 0
-    prefab: {fileID: 3850194665336713470, guid: e7e80b08ac7874276956521f5bef3f2b, type: 3}
+    variants:
+    - prefab: {fileID: 5885017483738515658, guid: 2792b366fb913481180916dff7ab4deb, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 7451316652750087708, guid: 5c0ffda2f425445fc97e77fc62d86312, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 6497009542685650023, guid: 6b9d79d52eb0f433cb40541b85ca5926, type: 3}
+      brokenPrefab: {fileID: 0}
     size: {x: 0.15, y: 0.11, z: 0.15}
     mass: 0.04
     material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
+    collider: 0
+    breakMode: 1
   - kind: 1
-    prefab: {fileID: 6799209583383002900, guid: 5d703d98db6174addbe15614a995e16b, type: 3}
+    variants:
+    - prefab: {fileID: 3536519658118663959, guid: 8cd0ef84713fb4797be17967222c886b, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 8647968887057154233, guid: 5d11ca46e57c541a9b1b9d4e36183465, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 7328646225141469407, guid: b9aa0d028b2ec409e8713b3e1ec685fb, type: 3}
+      brokenPrefab: {fileID: 0}
     size: {x: 0.31, y: 0.11, z: 0.15}
     mass: 0.07
     material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
+    collider: 0
+    breakMode: 1
   - kind: 2
-    prefab: {fileID: 8936314824550646120, guid: b6281ccb469b34b1c80e3f86c648caed, type: 3}
+    variants:
+    - prefab: {fileID: 897052089361910094, guid: 7ce5e9fda0ea6496e839d9ee6def8277, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 8110830622033194399, guid: eb0bde8d50caf4176b45d6b1b0b8e5e9, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 899560220381038630, guid: 54db4f8c88e754e75b8b39a82d02af8f, type: 3}
+      brokenPrefab: {fileID: 0}
     size: {x: 0.63, y: 0.11, z: 0.15}
     mass: 0.12
     material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
+    collider: 0
+    breakMode: 1
+  - kind: 3
+    variants:
+    - prefab: {fileID: 4698254244580445477, guid: b998f2a7f9e9245a59167f8c2ef5d25c, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 2673273846625849567, guid: 00b4d97c0479a454caa90fb2f8b3a376, type: 3}
+      brokenPrefab: {fileID: 0}
+    - prefab: {fileID: 6500175008866844602, guid: 346fd2dfe5cb54b5485a875f78344a85, type: 3}
+      brokenPrefab: {fileID: 0}
+    size: {x: 0.225, y: 0.11, z: 0.15}
+    mass: 0.06
+    material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
+    collider: 0
+    breakMode: 1
+  - kind: 4
+    variants:
+    - prefab: {fileID: 2051277144958418116, guid: ffcb7d1a6490c432bbd1e670a8625185, type: 3}
+      brokenPrefab: {fileID: 8511248811017733763, guid: f1f5a94a727b74b6b972bfa88de0be5d, type: 3}
+    - prefab: {fileID: 6074426214194760021, guid: 950cce683ce21473191219cbe2cd5d68, type: 3}
+      brokenPrefab: {fileID: 5913787025864483365, guid: 7c1155813a47140c1b60dc8499a3704e, type: 3}
+    - prefab: {fileID: 1936137230357342510, guid: b02efd502853c43afb8ebf0de205b0ee, type: 3}
+      brokenPrefab: {fileID: 3211357454587352064, guid: c18a9840be53e4400a33a8d33c3ecada, type: 3}
+    size: {x: 0.5851491, y: 0.35000008, z: 0.43151912}
+    mass: 0.3
+    material: {fileID: 13400000, guid: a781b74b3753141f0b030bf184af69c4, type: 2}
+    collider: 1
+    breakMode: 2
+  - kind: 5
+    variants:
+    - prefab: {fileID: 8507893776585656187, guid: 5fb6055ab8d824cfc91ef5fe96dcefcd, type: 3}
+      brokenPrefab: {fileID: 0}
+    size: {x: 0.5, y: 0.26000008, z: 0.365}
+    mass: 0.5
+    material: {fileID: 13400000, guid: 38f5551b82a21473bba90247be961fef, type: 2}
+    collider: 0
+    breakMode: 1
+  - kind: 6
+    variants:
+    - prefab: {fileID: 5047200358938770020, guid: 9d810f88441c14331818d9607a32df20, type: 3}
+      brokenPrefab: {fileID: 858498145694206933, guid: 91abe00b077f04639b61f7be73c7ce09, type: 3}
+    size: {x: 0.5, y: 0.5516007, z: 0.5}
+    mass: 1.2
+    material: {fileID: 13400000, guid: 0e245e1ca9ff24407883664c83422c85, type: 2}
+    collider: 1
+    breakMode: 2

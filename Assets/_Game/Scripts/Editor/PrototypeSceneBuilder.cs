@@ -41,42 +41,10 @@ namespace Game.Editor
             Directory.CreateDirectory(MaterialsFolder);
             Directory.CreateDirectory(Path.GetDirectoryName(ScenePath));
 
-            var keycapPhysics = WritePhysicsMaterial("Keycap", 0.6f, 0.8f, 0.05f);
-            FillCatalog(keycapPhysics);
+            PropPrefabBuilder.BuildAll();
             var desk = WriteDeskPrefab();
             var ball = WriteBallPrefab();
             BuildScene(desk, ball);
-        }
-
-        private static void FillCatalog(PhysicsMaterial keycapPhysics)
-        {
-            var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath);
-            var colors = new[] { new Color(1f, 0.78f, 0.8f), new Color(0.74f, 0.88f, 1f), new Color(0.8f, 0.93f, 0.78f) };
-            var specs = catalog.specs;
-            for (int i = 0; i < specs.Length; i++)
-            {
-                specs[i].prefab = WriteKeycapPrefab(specs[i].kind, specs[i].size, colors[i % colors.Length]);
-                specs[i].material = keycapPhysics;
-            }
-            catalog.specs = specs;
-            EditorUtility.SetDirty(catalog);
-            AssetDatabase.SaveAssets();
-        }
-
-        private static GameObject WriteKeycapPrefab(PropKind kind, Vector3 size, Color color)
-        {
-            var root = new GameObject(kind.ToString());
-            root.AddComponent<BoxCollider>().size = size;
-            root.AddComponent<Rigidbody>();
-            root.AddComponent<DeskObject>();
-
-            var body = Visual(PrimitiveType.Cube, root.transform, "Body", Material(kind + "Body", color));
-            body.localScale = new Vector3(size.x, size.y * 0.75f, size.z);
-            body.localPosition = new Vector3(0f, -size.y * 0.125f, 0f);
-            var top = Visual(PrimitiveType.Cube, root.transform, "Top", Material(kind + "Top", Color.Lerp(color, Color.white, 0.45f)));
-            top.localScale = new Vector3(size.x - 0.03f, size.y * 0.25f, size.z - 0.03f);
-            top.localPosition = new Vector3(0f, size.y * 0.375f, 0f);
-            return SavePrefab(root, kind.ToString());
         }
 
         private static GameObject WriteDeskPrefab()
@@ -213,22 +181,6 @@ namespace Game.Editor
             }
             material.SetColor("_BaseColor", color);
             material.SetFloat("_Smoothness", 0.25f);
-            EditorUtility.SetDirty(material);
-            return material;
-        }
-
-        private static PhysicsMaterial WritePhysicsMaterial(string name, float dynamicFriction, float staticFriction, float bounce)
-        {
-            string path = $"{MaterialsFolder}/{name}.physicMaterial";
-            var material = AssetDatabase.LoadAssetAtPath<PhysicsMaterial>(path);
-            if (material == null)
-            {
-                material = new PhysicsMaterial(name);
-                AssetDatabase.CreateAsset(material, path);
-            }
-            material.dynamicFriction = dynamicFriction;
-            material.staticFriction = staticFriction;
-            material.bounciness = bounce;
             EditorUtility.SetDirty(material);
             return material;
         }

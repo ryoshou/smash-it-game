@@ -70,6 +70,36 @@ namespace Game.Tests
         }
 
         [UnityTest]
+        public IEnumerator AllPropKinds_AreStableAtSpawn()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(CatalogPath);
+            var level = ScriptableObject.CreateInstance<LevelDef>();
+            level.id = "AllKinds";
+            level.props = new[]
+            {
+                Place(PropKind.Keycap1u, -0.85f, -0.55f),
+                Place(PropKind.Keycap2u, -0.45f, -0.55f),
+                Place(PropKind.KeycapEnter, 0f, -0.55f),
+                Place(PropKind.KeycapSpace, 0.5f, -0.55f),
+                Place(PropKind.Mug, -0.6f, 0.3f),
+                Place(PropKind.Book, 0.05f, 0.3f),
+                Place(PropKind.CactusPot, 0.65f, 0.35f),
+            };
+            Assert.IsTrue(level.Validate(out string error), error);
+            spawner.Load(level, catalog, tuning);
+
+            yield return FixedSteps(Seconds(3f));
+
+            Assert.AreEqual(level.props.Length, spawner.TargetsRemaining, "a prop fell off at spawn");
+            foreach (var prop in spawner.Spawned)
+            {
+                Assert.IsTrue(prop.Body.IsSleeping(), $"{prop.name} still awake after 3 s");
+                Assert.Greater(Vector3.Dot(prop.transform.up, Vector3.up), 0.99f, $"{prop.name} is not upright");
+            }
+            Object.Destroy(level);
+        }
+
+        [UnityTest]
         public IEnumerator PreviewMatchesFlight()
         {
             var launch = SlingshotMath.Compute(new Vector2(0f, -0.2f), tuning);
@@ -86,6 +116,9 @@ namespace Game.Tests
             Assert.Less(Vector3.Distance(dots[7], body.position), 0.01f,
                 $"preview {dots[7]} vs flight {body.position}");
         }
+
+        private static PropPlacement Place(PropKind kind, float x, float z) =>
+            new PropPlacement { kind = kind, basePosition = new Vector3(x, 0f, z), isTarget = true };
 
         private static int Seconds(float s) => Mathf.RoundToInt(s / Time.fixedDeltaTime);
 

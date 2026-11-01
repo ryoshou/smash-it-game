@@ -6,5 +6,9 @@ namespace Game.Levels
         Keycap1u,
         Keycap2u,
         KeycapSpace,
+        KeycapEnter,
+        Mug,
+        Book,
+        CactusPot,
     }
 }

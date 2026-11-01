@@ -37,7 +37,7 @@ namespace Game.World
                 var spec = catalog.Get(placement.kind);
                 var position = deskTop + placement.basePosition + Vector3.up * (spec.size.y / 2f);
                 var rotation = Quaternion.Euler(0f, placement.yawDegrees, 0f);
-                var instance = Instantiate(spec.prefab, position, rotation, transform);
+                var instance = Instantiate(spec.Variant(0).prefab, position, rotation, transform);
                 spawned.Add(Configure(instance, spec, placement.isTarget, t));
                 if (placement.isTarget) TargetsRemaining++;
             }
@@ -58,7 +58,9 @@ namespace Game.World
         {
             var prop = instance.GetComponent<DeskObject>();
             prop.Body.mass = spec.mass;
-            if (spec.material != null && instance.TryGetComponent(out Collider collider)) collider.sharedMaterial = spec.material;
+            // Load time only: convex props keep their colliders on the visual's children.
+            if (spec.material != null)
+                foreach (var collider in instance.GetComponentsInChildren<Collider>()) collider.sharedMaterial = spec.material;
             prop.Init(isTarget, DeskTopY, PlayVolume, t);
             prop.Cleared += OnCleared;
             return prop;

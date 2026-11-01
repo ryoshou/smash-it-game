@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Editor
 {
-    /// <summary>Writes the three prototype levels, their play-order list and the prop catalog. Safe to re-run.</summary>
+    /// <summary>Writes the three prototype levels and their play-order list. Safe to re-run. (Props: PropPrefabBuilder.)</summary>
     public static class PrototypeAssetBuilder
     {
         public const string LevelsFolder = "Assets/_Game/Levels";
@@ -28,7 +28,6 @@ namespace Game.Editor
             };
             EditorUtility.SetDirty(list);
 
-            WriteCatalog();
             AssetDatabase.SaveAssets();
         }
 
@@ -41,31 +40,6 @@ namespace Game.Editor
             if (!level.Validate(out string error)) throw new System.InvalidOperationException(error);
             EditorUtility.SetDirty(level);
             return level;
-        }
-
-        /// <summary>Refreshes sizes and masses; keeps prefab and material refs that PrototypeSceneBuilder filled.</summary>
-        private static void WriteCatalog()
-        {
-            var catalog = LoadOrCreate<PropCatalog>(CatalogPath);
-            var kinds = (PropKind[])System.Enum.GetValues(typeof(PropKind));
-            var specs = new PropSpec[kinds.Length];
-            for (int i = 0; i < kinds.Length; i++)
-            {
-                var spec = FindSpec(catalog, kinds[i]);
-                spec.kind = kinds[i];
-                spec.size = PrototypeLevels.Size(kinds[i]);
-                spec.mass = PrototypeLevels.Mass(kinds[i]);
-                specs[i] = spec;
-            }
-            catalog.specs = specs;
-            EditorUtility.SetDirty(catalog);
-        }
-
-        private static PropSpec FindSpec(PropCatalog catalog, PropKind kind)
-        {
-            foreach (var spec in catalog.specs)
-                if (spec.kind == kind) return spec;
-            return default;
         }
 
         private static T LoadOrCreate<T>(string path) where T : ScriptableObject
