@@ -1,2 +1,3 @@
 # Pack files copied into the project: <path under download-assets/>  <path under Assets/_Game/Art/Packs/>
 # Only files listed here ship. Each copied file needs a row in docs/asset-licenses.md.
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/Textures/tiny_treats_texture_1.png  TinyTreats/tiny_treats_texture_1.png

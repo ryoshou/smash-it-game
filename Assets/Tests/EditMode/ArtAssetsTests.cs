@@ -23,5 +23,47 @@ namespace Game.Tests
 
             Assert.IsEmpty(failures, string.Join("\n", failures));
         }
+
+        [Test]
+        public void GeneratedKeycap1u_MatchesM1ColliderInUnityAxes()
+        {
+            var stats = Measure("Generated/Keycap1u_cream.fbx");
+
+            Assert.Greater(stats.triangles, 0);
+            Assert.AreEqual(1, stats.materialCount);
+            AssertSize(new Vector3(0.15f, 0.11f, 0.15f), stats.boundsSize, 0.005f);
+        }
+
+        [Test]
+        public void GeneratedDesk_IsTwoByOneAndAHalf_OneMetreTall()
+        {
+            AssertSize(new Vector3(2.0f, 1.0f, 1.5f), Measure("Generated/OfficeDesk.fbx").boundsSize, 0.01f);
+        }
+
+        [Test]
+        public void GeneratedSlingshot_AnchorsAtM1ForkTips()
+        {
+            var model = Load("Generated/Slingshot.fbx").transform;
+            var left = model.Find("BandAnchorL");
+            var right = model.Find("BandAnchorR");
+
+            Assert.IsNotNull(left);
+            Assert.IsNotNull(right);
+            Assert.AreEqual(0.192f, left.localPosition.y, 0.002f);
+            Assert.AreEqual(0.26f, Mathf.Abs(right.localPosition.x - left.localPosition.x), 0.002f);
+            Assert.AreEqual(0f, left.localPosition.z, 0.002f);
+        }
+
+        private static GameObject Load(string relative) =>
+            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Game/Art/" + relative);
+
+        private static ArtMeshStats Measure(string relative) => ArtMeshStats.FromModel(Load(relative));
+
+        private static void AssertSize(Vector3 expected, Vector3 actual, float tolerance)
+        {
+            Assert.AreEqual(expected.x, actual.x, tolerance, "x");
+            Assert.AreEqual(expected.y, actual.y, tolerance, "y");
+            Assert.AreEqual(expected.z, actual.z, tolerance, "z");
+        }
     }
 }

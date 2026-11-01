@@ -123,3 +123,4 @@ download-assets/
 *.mp4
 CodeCoverage/
 .DS_Store
+__pycache__/
