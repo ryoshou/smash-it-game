@@ -1,0 +1,226 @@
+{
+  "comment": "Bone positions for the AI cat; starts as a copy of the blockout's. After build.sh cat-ai, render the result with render_refs.py and move these to the AI mesh's joints.",
+  "bones": {
+    "root": {
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.1
+      ],
+      "parent": null
+    },
+    "spine": {
+      "head": [
+        0,
+        0.02,
+        0.1
+      ],
+      "tail": [
+        0,
+        0,
+        0.3
+      ],
+      "parent": "root"
+    },
+    "chest": {
+      "head": [
+        0,
+        0,
+        0.3
+      ],
+      "tail": [
+        0,
+        -0.03,
+        0.44
+      ],
+      "parent": "spine"
+    },
+    "neck": {
+      "head": [
+        0,
+        -0.03,
+        0.44
+      ],
+      "tail": [
+        0,
+        -0.04,
+        0.5
+      ],
+      "parent": "chest"
+    },
+    "head": {
+      "head": [
+        0,
+        -0.04,
+        0.5
+      ],
+      "tail": [
+        0,
+        -0.04,
+        0.74
+      ],
+      "parent": "neck"
+    },
+    "ear.L": {
+      "head": [
+        0.09,
+        -0.03,
+        0.66
+      ],
+      "tail": [
+        0.12,
+        -0.03,
+        0.78
+      ],
+      "parent": "head"
+    },
+    "ear.R": {
+      "head": [
+        -0.09,
+        -0.03,
+        0.66
+      ],
+      "tail": [
+        -0.12,
+        -0.03,
+        0.78
+      ],
+      "parent": "head"
+    },
+    "tail.1": {
+      "head": [
+        0,
+        0.17,
+        0.06
+      ],
+      "tail": [
+        0,
+        0.27,
+        0.08
+      ],
+      "parent": "root"
+    },
+    "tail.2": {
+      "head": [
+        0,
+        0.27,
+        0.08
+      ],
+      "tail": [
+        0,
+        0.33,
+        0.16
+      ],
+      "parent": "tail.1"
+    },
+    "tail.3": {
+      "head": [
+        0,
+        0.33,
+        0.16
+      ],
+      "tail": [
+        0,
+        0.35,
+        0.26
+      ],
+      "parent": "tail.2"
+    },
+    "tail.4": {
+      "head": [
+        0,
+        0.35,
+        0.26
+      ],
+      "tail": [
+        0,
+        0.33,
+        0.36
+      ],
+      "parent": "tail.3"
+    },
+    "arm.L": {
+      "head": [
+        0.09,
+        -0.1,
+        0.34
+      ],
+      "tail": [
+        0.09,
+        -0.12,
+        0.2
+      ],
+      "parent": "chest"
+    },
+    "forearm.L": {
+      "head": [
+        0.09,
+        -0.12,
+        0.2
+      ],
+      "tail": [
+        0.09,
+        -0.13,
+        0.06
+      ],
+      "parent": "arm.L"
+    },
+    "paw.L": {
+      "head": [
+        0.09,
+        -0.13,
+        0.06
+      ],
+      "tail": [
+        0.09,
+        -0.19,
+        0.03
+      ],
+      "parent": "forearm.L"
+    },
+    "arm.R": {
+      "head": [
+        -0.09,
+        -0.1,
+        0.34
+      ],
+      "tail": [
+        -0.09,
+        -0.12,
+        0.2
+      ],
+      "parent": "chest"
+    },
+    "forearm.R": {
+      "head": [
+        -0.09,
+        -0.12,
+        0.2
+      ],
+      "tail": [
+        -0.09,
+        -0.13,
+        0.06
+      ],
+      "parent": "arm.R"
+    },
+    "paw.R": {
+      "head": [
+        -0.09,
+        -0.13,
+        0.06
+      ],
+      "tail": [
+        -0.09,
+        -0.19,
+        0.03
+      ],
+      "parent": "forearm.R"
+    }
+  }
+}
