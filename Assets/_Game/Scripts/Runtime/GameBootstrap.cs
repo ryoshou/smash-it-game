@@ -31,6 +31,12 @@ namespace Game
         [SerializeField] private ShotFeedback shotFeedback;
         [SerializeField] private ImpactFeedback impactFeedback;
         [SerializeField] private DebrisPool debris;
+        [SerializeField] private PropFeelLibrary propFeel;
+        [SerializeField] private VfxPool vfx;
+        [SerializeField] private PropFeedback propFeedback;
+        [SerializeField] private WinFeedback winFeedback;
+        [SerializeField] private ParticleSystem confetti;
+        [SerializeField] private Transform confettiAnchor;
 
         private RoundJudge judge;
         private SlingshotGesture gesture;
@@ -49,6 +55,7 @@ namespace Game
             levelIndex = index;
             var level = levels.At(index);
             pool.DespawnAll();
+            vfx.StopAll();
             gesture.Cancel();
             debris.Prewarm(catalog, level, Tuning);
             spawner.Load(level, catalog, Tuning, debris, Events);
@@ -94,6 +101,8 @@ namespace Game
             spawner.TargetCleared += Events.RaiseTargetCleared;
             shotFeedback.Bind(Events, juice, sfx);
             impactFeedback.Bind(Events, juice, sfx, shake);
+            propFeedback.Bind(Events, juice, propFeel, sfx, vfx);
+            winFeedback.Bind(Events, vfx, confetti, confettiAnchor);
         }
 
         private void Start() => LoadLevel(0);

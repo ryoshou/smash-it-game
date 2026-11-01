@@ -23,6 +23,7 @@ namespace Game.Editor
         {
             "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel",
             "juice", "sfx", "shake", "shotFeedback", "impactFeedback", "debris",
+            "propFeel", "vfx", "propFeedback", "winFeedback", "confetti", "confettiAnchor",
         };
         private const string LitShader = "Universal Render Pipeline/Lit";
 
@@ -42,6 +43,7 @@ namespace Game.Editor
             Directory.CreateDirectory(Path.GetDirectoryName(ScenePath));
 
             PropPrefabBuilder.BuildAll();
+            VfxBuilder.BuildAll();
             var desk = WriteDeskPrefab();
             var ball = WriteBallPrefab();
             BuildScene(desk, ball);
@@ -137,11 +139,20 @@ namespace Game.Editor
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
                 spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result,
                 juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),
-                debris,
+                debris, VfxBuilder.LoadOrCreateLibrary(), juiceObject.AddComponent<VfxPool>(),
+                juiceObject.AddComponent<PropFeedback>(), juiceObject.AddComponent<WinFeedback>(),
+                VfxBuilder.LoadConfetti(), ConfettiAnchor(),
             });
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
+        }
+
+        private static Transform ConfettiAnchor()
+        {
+            var anchor = new GameObject("Confetti Anchor").transform;
+            anchor.position = new Vector3(0f, LevelSpawner.DeskTopY + 0.2f, 0f);
+            return anchor;
         }
 
         private static SfxPresets LoadOrCreateSfxPresets()

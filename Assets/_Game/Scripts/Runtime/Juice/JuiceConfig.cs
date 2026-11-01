@@ -36,6 +36,13 @@ namespace Game.Juice
         [Min(0)] public int winHapticMilliseconds = 40;
         [Range(0f, 1f)] public float winHapticAmount = 0.9f;
 
+        [Min(0)] public int shatterHapticMilliseconds = 12;
+        [Range(0f, 1f)] public float shatterHapticAmount = 0.4f;
+
+        [Header("Break effects")]
+        [Tooltip("Pooled copies of each break effect.")]
+        [Min(1)] public int vfxPerKind = 3;
+
         [Header("Slingshot view")]
         [Tooltip("World metres the pouch moves per screen height of pull.")]
         public float pouchTravel = 2f;
@@ -43,5 +50,6 @@ namespace Game.Juice
         public HapticPulse FiredHaptic => new HapticPulse(firedHapticMilliseconds, firedHapticAmount);
         public HapticPulse FirstContactHaptic => new HapticPulse(firstContactHapticMilliseconds, firstContactHapticAmount);
         public HapticPulse WinHaptic => new HapticPulse(winHapticMilliseconds, winHapticAmount);
+        public HapticPulse ShatterHaptic => new HapticPulse(shatterHapticMilliseconds, shatterHapticAmount);
     }
 }

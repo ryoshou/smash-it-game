@@ -64,6 +64,24 @@ namespace Game.Juice
             return true;
         }
 
+        /// <summary>Plays a clip (e.g. from a SoundSet) on the shared voices.</summary>
+        /// <param name="voiceKey">Copies are counted per key; keys at or above SfxBank.Count never clash with SfxIds.</param>
+        /// <returns>False when nothing plays: no clip, or its copies are capped.</returns>
+        public bool PlayClip(AudioClip clip, int voiceKey, float volume, float pitch, int maxCopies)
+        {
+            if (clip == null || sources == null) return false;
+            float safePitch = Mathf.Clamp(pitch, MinPitch, MaxPitch);
+            int voice = limiter.Acquire(voiceKey, Time.unscaledTime, clip.length / safePitch, maxCopies);
+            if (voice < 0) return false;
+            AudioSource source = sources[voice];
+            source.Stop();
+            source.clip = clip;
+            source.pitch = safePitch;
+            source.volume = Mathf.Clamp01(volume);
+            source.Play();
+            return true;
+        }
+
         public int PlayingCopies(SfxId id) => limiter == null ? 0 : limiter.CountPlaying((int)id, Time.unscaledTime);
 
         /// <summary>For tuning in Play mode: edit SfxPresets, then rebuild to hear the change.</summary>

@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cb7399c78f74a7b96c138884e807b2, type: 3}
+  m_Name: PropFeelLibrary
+  m_EditorClassIdentifier: Game.Runtime::Game.Juice.PropFeelLibrary
+  feels:
+  - kind: 0
+    hit: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 1
+    hit: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 2
+    hit: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 3
+    hit: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 4
+    hit: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVfx: {fileID: 6887379971679164562, guid: 370e0fc6256b74b40be43ff4f8182781, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 5
+    hit: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 6
+    hit: {fileID: 0}
+    breakSound: {fileID: 0}
+    breakVfx: {fileID: 6887379971679164562, guid: 370e0fc6256b74b40be43ff4f8182781, type: 3}
+    hitMinSpeed: 0.5
