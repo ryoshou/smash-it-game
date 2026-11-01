@@ -23,7 +23,10 @@ namespace Game.Editor
             string path = assetPath.Replace('\\', '/');
             string name = Path.GetFileNameWithoutExtension(path);
             bool isGenerated = path.Contains("/Art/Generated/");
-            var budget = new AssetBudget { requireAtlasCells = isGenerated };
+            // Broken sets cut from pack models keep the pack's own UVs (pack atlases merge cells), so only the
+            // budget applies to them; fracture tests check the cut faces' cells.
+            bool isPackDerived = name.EndsWith("_broken");
+            var budget = new AssetBudget { requireAtlasCells = isGenerated && !isPackDerived };
             if (isGenerated && name.StartsWith("Keyboard")) budget.maxTriangles = KeyboardTriangles;
             else if (isGenerated && name.StartsWith("Cat")) budget.maxTriangles = CatTriangles;
             if (name.StartsWith("RoomShell")) budget.maxSize = RoomMaxSize;

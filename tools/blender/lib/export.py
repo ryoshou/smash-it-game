@@ -19,17 +19,16 @@ def reset():
     bpy.ops.wm.read_factory_settings(use_empty=True)
 
 
-def atlas_material():
-    material = bpy.data.materials.get(ATLAS_MATERIAL) or bpy.data.materials.new(ATLAS_MATERIAL)
-    return material
+def atlas_material(name=ATLAS_MATERIAL):
+    return bpy.data.materials.get(name) or bpy.data.materials.new(name)
 
 
-def assign_atlas(obj):
+def assign_atlas(obj, name=ATLAS_MATERIAL):
     obj.data.materials.clear()
-    obj.data.materials.append(atlas_material())
+    obj.data.materials.append(atlas_material(name))
 
 
-def fbx(objects, path, with_animation=False):
+def fbx(objects, path, with_animation=False, material=ATLAS_MATERIAL):
     """Exports `objects` (and their children) to `path`, transforms applied, scale 1."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
     bpy.ops.object.select_all(action='DESELECT')
@@ -37,7 +36,7 @@ def fbx(objects, path, with_animation=False):
         for o in [obj, *obj.children_recursive]:
             o.select_set(True)
             if o.type == 'MESH':
-                assign_atlas(o)
+                assign_atlas(o, material)
     bpy.ops.export_scene.fbx(
         filepath=path, use_selection=True, object_types={'MESH', 'EMPTY', 'ARMATURE'},
         apply_unit_scale=True, apply_scale_options='FBX_SCALE_ALL', bake_space_transform=True,

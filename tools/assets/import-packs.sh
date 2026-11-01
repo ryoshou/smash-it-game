@@ -7,7 +7,7 @@ cd "$(dirname "$0")/../.."
 src_root="download-assets"
 dst_root="Assets/_Game/Art/Packs"
 copied=0
-while read -r src dst; do
+while IFS=$'\t' read -r src dst; do
   [[ -z "${src:-}" || "$src" == \#* ]] && continue
   if [[ -z "${dst:-}" || "$src" == *..* || "$dst" == *..* || "$src" == /* || "$dst" == /* ]]; then
     echo "bad manifest line: $src $dst" >&2; exit 1

@@ -27,8 +27,6 @@ namespace Game.Editor
             var uvs = new List<Vector2>();
             var indices = new List<int>();
             var materials = new HashSet<Material>();
-            var bounds = new Bounds();
-            bool hasBounds = false;
             int triangles = 0;
 
             foreach (var renderer in modelRoot.GetComponentsInChildren<Renderer>(true))
@@ -41,6 +39,30 @@ namespace Game.Editor
                 uvs.AddRange(mesh.uv);
                 foreach (int index in mesh.triangles) indices.Add(index + offset);
                 triangles += mesh.triangles.Length / 3;
+            }
+
+            // Imported models carry no materials (materialImportMode None): count material slots instead.
+            int materialCount = materials.Count > 0 ? materials.Count : MaxSubMeshes(modelRoot);
+            return new ArtMeshStats(triangles, materialCount, uvs.ToArray(), indices.ToArray(), ModelBounds(modelRoot).size);
+        }
+
+        // Mesh bounds in the model's own space: renderer.bounds is empty for a model asset that is not in a scene.
+        private static IEnumerable<Vector3> Corners(Bounds b)
+        {
+            for (int i = 0; i < 8; i++)
+                yield return b.center + Vector3.Scale(b.extents,
+                    new Vector3((i & 1) == 0 ? -1f : 1f, (i & 2) == 0 ? -1f : 1f, (i & 4) == 0 ? -1f : 1f));
+        }
+
+        /// <summary>Bounds of every mesh under the model, in the model root's own space.</summary>
+        public static Bounds ModelBounds(GameObject modelRoot)
+        {
+            var bounds = new Bounds();
+            bool hasBounds = false;
+            foreach (var renderer in modelRoot.GetComponentsInChildren<Renderer>(true))
+            {
+                var mesh = MeshOf(renderer);
+                if (mesh == null) continue;
                 var toRoot = modelRoot.transform.worldToLocalMatrix * renderer.transform.localToWorldMatrix;
                 foreach (var corner in Corners(mesh.bounds))
                 {
@@ -50,18 +72,7 @@ namespace Game.Editor
                     hasBounds = true;
                 }
             }
-
-            // Imported models carry no materials (materialImportMode None): count material slots instead.
-            int materialCount = materials.Count > 0 ? materials.Count : MaxSubMeshes(modelRoot);
-            return new ArtMeshStats(triangles, materialCount, uvs.ToArray(), indices.ToArray(), bounds.size);
-        }
-
-        // Mesh bounds in the model's own space: renderer.bounds is empty for a model asset that is not in a scene.
-        private static IEnumerable<Vector3> Corners(Bounds b)
-        {
-            for (int i = 0; i < 8; i++)
-                yield return b.center + Vector3.Scale(b.extents,
-                    new Vector3((i & 1) == 0 ? -1f : 1f, (i & 2) == 0 ? -1f : 1f, (i & 4) == 0 ? -1f : 1f));
+            return bounds;
         }
 
         private static Mesh MeshOf(Renderer renderer)

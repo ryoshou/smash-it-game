@@ -1,3 +1,19 @@
-# Pack files copied into the project: <path under download-assets/>  <path under Assets/_Game/Art/Packs/>
+# Pack files copied into the project: <path under download-assets/> TAB <path under Assets/_Game/Art/Packs/>
+# (tab-separated because pack folders contain spaces, e.g. "fbx (unity)")
 # Only files listed here ship. Each copied file needs a row in docs/asset-licenses.md.
-Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/Textures/tiny_treats_texture_1.png  TinyTreats/tiny_treats_texture_1.png
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/Textures/tiny_treats_texture_1.png	TinyTreats/tiny_treats_texture_1.png
+# Breakable and physics props (Task 3)
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/mug_A_pink.fbx	TinyTreats/mug_A_pink.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/mug_A_blue.fbx	TinyTreats/mug_A_blue.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/mug_A_yellow.fbx	TinyTreats/mug_A_yellow.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/book_single.fbx	KayKitFurniture/book_single.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/cactus_small_A.fbx	KayKitFurniture/cactus_small_A.fbx
+# Home Office backdrop decor (Task 8)
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/book_set.fbx	KayKitFurniture/book_set.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/lamp_standing.fbx	KayKitFurniture/lamp_standing.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_standing_A.fbx	KayKitFurniture/pictureframe_standing_A.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/cactus_medium_A.fbx	KayKitFurniture/cactus_medium_A.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/shelf_B_large_decorated.fbx	KayKitFurniture/shelf_B_large_decorated.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/rug_rectangle_stripes_A.fbx	KayKitFurniture/rug_rectangle_stripes_A.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_medium.fbx	KayKitFurniture/table_medium.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/furniturebits_texture.png	KayKitFurniture/furniturebits_texture.png

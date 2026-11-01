@@ -102,6 +102,15 @@ namespace Game.Tests
         }
 
         [Test]
+        public void For_BrokenSetFromPack_SkipsAtlasCells_KeepsPropBudget()
+        {
+            var budget = AssetBudget.For("Assets/_Game/Art/Generated/CactusPot_broken.fbx");
+
+            Assert.IsFalse(budget.requireAtlasCells);
+            Assert.AreEqual(1500, budget.maxTriangles);
+        }
+
+        [Test]
         public void For_RoomShell_AllowsRoomSizedBounds()
         {
             Assert.AreEqual(8f, AssetBudget.For("Assets/_Game/Art/Generated/RoomShell.fbx").maxSize);

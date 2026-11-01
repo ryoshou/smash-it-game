@@ -54,6 +54,21 @@ namespace Game.Tests
             Assert.AreEqual(0f, left.localPosition.z, 0.002f);
         }
 
+        [TestCase("Packs/TinyTreats/mug_A_pink.fbx", "Generated/Mug_pink_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/mug_A_blue.fbx", "Generated/Mug_blue_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/mug_A_yellow.fbx", "Generated/Mug_yellow_broken.fbx", 8)]
+        [TestCase("Packs/KayKitFurniture/cactus_small_A.fbx", "Generated/CactusPot_broken.fbx", 8)]
+        public void BrokenSet_LinesUpWithIntactModel(string intact, string broken, int pieces)
+        {
+            var whole = ArtMeshStats.ModelBounds(Load(intact));
+            var brokenModel = Load(broken);
+            var shards = ArtMeshStats.ModelBounds(brokenModel);
+
+            Assert.AreEqual(pieces, brokenModel.GetComponentsInChildren<MeshFilter>().Length, "pieces");
+            AssertSize(whole.center, shards.center, 0.01f);
+            AssertSize(whole.size, shards.size, 0.01f);
+        }
+
         private static GameObject Load(string relative) =>
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Game/Art/" + relative);
 
