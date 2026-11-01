@@ -19,17 +19,17 @@ namespace Game.Editor
         private const int Height = 2532;
         private const float ShardSpread = 0.18f;
 
-        /// <summary>Command line: -snapshotOut path.png [-snapshotLevel n] [-snapshotBreak].</summary>
+        /// <summary>Command line: -snapshotOut path.png [-snapshotLevel n] [-snapshotBreak] [-snapshotCatPose Take:seconds].</summary>
         public static void FromCommandLine()
         {
             string[] args = Environment.GetCommandLineArgs();
             string output = Arg(args, "-snapshotOut") ?? throw new ArgumentException("-snapshotOut is required");
             int level = int.TryParse(Arg(args, "-snapshotLevel"), out int n) ? n : 0;
             bool stageBreak = Array.IndexOf(args, "-snapshotBreak") >= 0;
-            Capture(output, level, stageBreak);
+            Capture(output, level, stageBreak, Arg(args, "-snapshotCatPose"));
         }
 
-        public static void Capture(string output, int levelIndex, bool stageBreak)
+        public static void Capture(string output, int levelIndex, bool stageBreak, string catPose = null)
         {
             EditorSceneManager.OpenScene(PrototypeSceneBuilder.ScenePath, OpenSceneMode.Single);
             var bootstrap = UnityEngine.Object.FindAnyObjectByType<GameBootstrap>();
@@ -40,6 +40,7 @@ namespace Game.Editor
             ApplyRoom(level.room);
             PlaceProps(level, catalog);
             if (stageBreak) StageBreak(catalog);
+            if (catPose != null) PoseCat(catPose);
             Render(Camera.main, output);
             Debug.Log($"[Snapshot] wrote {output}");
         }
@@ -78,6 +79,18 @@ namespace Game.Editor
             }
             Burst(AssetDatabase.LoadAssetAtPath<GameObject>(VfxBuilder.VfxFolder + "/ShardSparkle.prefab"), at, 0.12f);
             Burst(AssetDatabase.LoadAssetAtPath<GameObject>(VfxBuilder.VfxFolder + "/DustPuff.prefab"), at + new Vector3(-1.1f, 0f, 0f), 0.15f);
+        }
+
+        /// <summary>"Take:seconds" — samples one of the cat's takes onto the scene cat (edit mode cannot run the Animator).</summary>
+        private static void PoseCat(string pose)
+        {
+            string[] parts = pose.Split(':');
+            float seconds = parts.Length > 1 && float.TryParse(parts[1], System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out float s) ? s : 0f;
+            var animator = GameObject.Find("Cat").GetComponentInChildren<Animator>();
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(CatAnimatorBuilder.ModelPath))
+                if (asset is AnimationClip clip && clip.name == parts[0])
+                    clip.SampleAnimation(animator.gameObject, seconds);
         }
 
         private static void Burst(GameObject prefab, Vector3 at, float seconds)

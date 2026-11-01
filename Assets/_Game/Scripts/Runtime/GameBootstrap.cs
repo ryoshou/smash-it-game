@@ -38,7 +38,10 @@ namespace Game
         [SerializeField] private ParticleSystem confetti;
         [SerializeField] private Transform confettiAnchor;
         [SerializeField] private RoomPresenter roomPresenter;
+        [SerializeField] private CatReactions catReactions;
+        [SerializeField] private Animator catAnimator;
 
+        private readonly ShotTally tally = new ShotTally();
         private RoundJudge judge;
         private SlingshotGesture gesture;
         private int levelIndex;
@@ -63,6 +66,7 @@ namespace Game
             spawner.Load(level, catalog, Tuning, debris, Events);
             Budget.ResetAttempt(level.shots);
             judge.Reset();
+            tally.Reset();
             State = RoundState.Playing;
             lastFireTime = float.NegativeInfinity;
             resultPanel.Hide();
@@ -81,6 +85,7 @@ namespace Game
         {
             if (State != RoundState.Lost || !Budget.TryContinue(Tuning.continueShots)) return;
             judge.Reset();
+            tally.Reset();
             State = RoundState.Playing;
             resultPanel.Hide();
             hud.SetShots(Budget.Remaining);
@@ -101,10 +106,12 @@ namespace Game
             input.Released += OnReleased;
             view.Bind(gesture, Tuning);
             spawner.TargetCleared += Events.RaiseTargetCleared;
+            spawner.TargetCleared += OnTargetCleared;
             shotFeedback.Bind(Events, juice, sfx);
             impactFeedback.Bind(Events, juice, sfx, shake);
             propFeedback.Bind(Events, juice, propFeel, sfx, vfx);
             winFeedback.Bind(Events, vfx, confetti, confettiAnchor);
+            catReactions.Bind(Events, catAnimator);
         }
 
         private void Start() => LoadLevel(0);
@@ -113,6 +120,7 @@ namespace Game
         {
             input.Released -= OnReleased;
             spawner.TargetCleared -= Events.RaiseTargetCleared;
+            spawner.TargetCleared -= OnTargetCleared;
             if (Tuning != null) Destroy(Tuning);
         }
 
@@ -122,13 +130,20 @@ namespace Game
             if (State != RoundState.Playing) return;
 
             State = judge.Evaluate(Time.time, spawner.TargetsRemaining, Budget.Remaining, pool.AnyActive, spawner.AnyMoving());
-            if (State == RoundState.Playing) return;
+            if (State == RoundState.Playing)
+            {
+                if (tally.TryResolve(pool.AnyActive, out int cleared)) Events.RaiseShotResolved(cleared);
+                return;
+            }
 
+            tally.Reset();
             gesture.Cancel();
             Events.RaiseRoundEnded(State);
             if (State == RoundState.Won) resultPanel.ShowWin(Next);
             else resultPanel.ShowLose(Budget.CanContinue, Continue, Retry);
         }
+
+        private void OnTargetCleared(int remaining) => tally.TargetCleared();
 
         private bool CanGrab() =>
             State == RoundState.Playing && Budget.Remaining > 0 && Time.time - lastFireTime >= Tuning.reloadSeconds;
@@ -146,6 +161,7 @@ namespace Game
             if (!result.Fired || State != RoundState.Playing || !Budget.TryConsume()) return;
             lastFireTime = Time.time;
             pool.Get().Launch(pouch.position, result.Velocity, Tuning, Events);
+            tally.Fired();
             Events.RaiseFired(result.Velocity);
             hud.SetShots(Budget.Remaining);
         }

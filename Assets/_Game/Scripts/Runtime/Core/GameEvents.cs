@@ -21,6 +21,9 @@ namespace Game.Core
 
         public event Action<RoundState> RoundEnded;
 
+        /// <summary>A volley ended (no ball in play): how many targets it cleared.</summary>
+        public event Action<int> ShotResolved;
+
         /// <summary>A prop hit something: its kind, contact point, relative speed.</summary>
         public event Action<PropKind, Vector3, float> PropImpact;
 
@@ -32,6 +35,7 @@ namespace Game.Core
         public void RaiseImpact(Vector3 point, float speed, bool isFirstContact) => Impact?.Invoke(point, speed, isFirstContact);
         public void RaiseTargetCleared(int remaining) => TargetCleared?.Invoke(remaining);
         public void RaiseRoundEnded(RoundState state) => RoundEnded?.Invoke(state);
+        public void RaiseShotResolved(int cleared) => ShotResolved?.Invoke(cleared);
         public void RaisePropImpact(PropKind kind, Vector3 point, float speed) => PropImpact?.Invoke(kind, point, speed);
         public void RaiseBroke(PropKind kind, Vector3 position, BreakMode mode) => Broke?.Invoke(kind, position, mode);
     }

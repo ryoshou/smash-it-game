@@ -25,12 +25,15 @@ namespace Game.Editor
             "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel",
             "juice", "sfx", "shake", "shotFeedback", "impactFeedback", "debris",
             "propFeel", "vfx", "propFeedback", "winFeedback", "confetti", "confettiAnchor", "roomPresenter",
+            "catReactions", "catAnimator",
         };
         private const string LitShader = "Universal Render Pipeline/Lit";
 
         private static readonly Vector3 DeskSize = new Vector3(2.0f, 0.08f, 1.5f);
         private const float LegSize = 0.07f;
         private const float YarnModelDiameter = 0.18f;
+        private static readonly Vector3 CatPosition = new Vector3(-0.34f, 0f, -1.95f);
+        private const float CatYaw = 155f;
         private static readonly Vector3 CameraPosition = new Vector3(0f, 2.2f, -4.2f);
         private static readonly Vector3 CameraLookAt = new Vector3(0f, 0.7f, 0f);
         private static readonly Vector3 PouchPosition = new Vector3(0f, 1.1f, -2.4f);
@@ -162,6 +165,7 @@ namespace Game.Editor
                 debris, VfxBuilder.LoadOrCreateLibrary(), juiceObject.AddComponent<VfxPool>(),
                 juiceObject.AddComponent<PropFeedback>(), juiceObject.AddComponent<WinFeedback>(),
                 VfxBuilder.LoadConfetti(), ConfettiAnchor(), Room(camera, juice, juiceObject),
+                juiceObject.AddComponent<CatReactions>(), PlaceCat(),
             });
 
             EditorSceneManager.SaveScene(scene, ScenePath);
@@ -178,6 +182,18 @@ namespace Game.Editor
             SetReference(room, "juice", juice);
             SetReference(room, "fallback", HomeOfficeBuilder.Build());
             return room;
+        }
+
+        /// <summary>
+        /// The cat sits on the floor just left of the slingshot, turned to face the camera in three-quarter view (its
+        /// model faces +z), leaning towards the slingshot. It stays below the desk and away from the preview dots.
+        /// </summary>
+        private static Animator PlaceCat()
+        {
+            var prefab = CatAnimatorBuilder.BuildAll();
+            var cat = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            cat.transform.SetPositionAndRotation(CatPosition, Quaternion.Euler(0f, CatYaw, 0f));
+            return cat.GetComponentInChildren<Animator>();
         }
 
         private static Transform ConfettiAnchor()
