@@ -158,7 +158,7 @@ namespace Game.Editor
             WireBootstrap(game, new Object[]
             {
                 tuning,
-                AssetDatabase.LoadAssetAtPath<LevelList>(PrototypeAssetBuilder.LevelListPath),
+                Room1LevelBuilder.BuildAll(),
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
                 spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result,
                 juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),

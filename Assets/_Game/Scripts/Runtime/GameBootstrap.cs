@@ -70,7 +70,7 @@ namespace Game
             State = RoundState.Playing;
             lastFireTime = float.NegativeInfinity;
             resultPanel.Hide();
-            hud.SetLevel(index + 1);
+            hud.SetLevel(index + 1, level.difficulty);
             hud.SetShots(Budget.Remaining);
         }
 

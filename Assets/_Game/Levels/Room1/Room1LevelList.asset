@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200d78db6ebda4e53964f6007c0dc937, type: 3}
+  m_Name: Room1LevelList
+  m_EditorClassIdentifier: Game.Runtime::Game.Levels.LevelList
+  levels:
+  - {fileID: 11400000, guid: 35c0e82c567934ea39ee562fb7af25af, type: 2}
+  - {fileID: 11400000, guid: 9ab1d98901eb9417c86582ec2c8c1f0b, type: 2}
+  - {fileID: 11400000, guid: f8bd8bf9b34b147f99ace4190cb736de, type: 2}
+  - {fileID: 11400000, guid: 99f1c44fb29e24cacb6fc739bf352c19, type: 2}
+  - {fileID: 11400000, guid: 9f8fca19e4c0141e6908ba8bb62c6b09, type: 2}

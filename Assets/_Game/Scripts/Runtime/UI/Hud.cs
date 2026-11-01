@@ -1,9 +1,10 @@
+using Game.Levels;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.UI
 {
-    /// <summary>Shot counter and level number.</summary>
+    /// <summary>Shot counter and level number (labelled when Hard, spec §6.1).</summary>
     public sealed class Hud : MonoBehaviour
     {
         [SerializeField] private Text shotsText;
@@ -11,6 +12,7 @@ namespace Game.UI
 
         public void SetShots(int shots) => shotsText.text = $"Shots: {shots}";
 
-        public void SetLevel(int level) => levelText.text = $"Level {level}";
+        public void SetLevel(int level, Difficulty difficulty) =>
+            levelText.text = difficulty == Difficulty.Hard ? $"Level {level} · Hard" : $"Level {level}";
     }
 }

@@ -8,8 +8,10 @@ using UnityEngine.TestTools;
 
 namespace Game.Tests
 {
+    /// <summary>The round loop, on a fixed fixture: the prototype wall level (20 keycaps, 6 shots), whatever the game ships.</summary>
     public sealed class GameLoopPlayTests
     {
+        private const string FixtureListPath = "Assets/_Game/Levels/PrototypeLevelList.asset";
         private const int LevelOneTargets = 20;
         private const int LevelOneShots = 6;
 
@@ -26,6 +28,9 @@ namespace Game.Tests
             spawner = Object.FindAnyObjectByType<LevelSpawner>();
             pool = Object.FindAnyObjectByType<BallPool>();
             Assert.IsNotNull(bootstrap, "scene has no GameBootstrap");
+            var so = new UnityEditor.SerializedObject(bootstrap);
+            so.FindProperty("levels").objectReferenceValue = UnityEditor.AssetDatabase.LoadAssetAtPath<Game.Levels.LevelList>(FixtureListPath);
+            so.ApplyModifiedPropertiesWithoutUndo();
             bootstrap.LoadLevel(0);
             yield return null;
         }
