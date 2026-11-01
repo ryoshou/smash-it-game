@@ -1,0 +1,2 @@
+# Pack files copied into the project: <path under download-assets/>  <path under Assets/_Game/Art/Packs/>
+# Only files listed here ship. Each copied file needs a row in docs/asset-licenses.md.

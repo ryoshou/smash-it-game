@@ -14,6 +14,8 @@ M1 shooting prototype per `docs/superpowers/plans/2026-10-30-m1-shooting-prototy
   - `GameBootstrap.cs` owns and ticks the model
 - `Assets/_Game/Scripts/Editor/` → `Game.Editor.asmdef`: PrototypeAssetBuilder, PrototypeSceneBuilder, BuildScripts
 - `Assets/_Game/Config/` ScriptableObject assets · `Assets/_Game/Levels/` level data · `Assets/_Game/Scenes/Game.unity`
+- `Assets/_Game/Art/` Packs/ (copied by `tools/assets/import-packs.sh` from `pack-manifest.txt`), Generated/ (Blender output), Materials/
+  — every file needs a row in `docs/asset-licenses.md`; `ArtPostprocessor` + `ArtCheck` enforce budgets on import
 - `Assets/Tests/EditMode|PlayMode/` test asmdefs · `tools/unity/*.sh` CLI helpers (compile, tests, build)
 - Not in git: `download-assets/` (CC0 packs, source for M2), the original game's APK and videos (untrusted, never run).
 
@@ -38,6 +40,8 @@ M1 shooting prototype per `docs/superpowers/plans/2026-10-30-m1-shooting-prototy
 | Scenes, GameObjects, prefabs, assets | Editor scripts or `unity command eval_file --file <scratch.cs>` (body-only). NEVER hand-edit `.unity` / `.prefab` / `.asset` / `.meta` YAML |
 | Packages | `unity command package_add` / `package_remove`, then wait for domain reload |
 | Tests | `tools/unity/edit-tests.sh [Fixture]`, `tools/unity/playmode.sh` (editor open); `tools/unity/batch-tests.sh editmode|playmode [--coverage]` (editor closed) |
+| Pack models | add a line to `tools/assets/pack-manifest.txt`, run `tools/assets/import-packs.sh`, add the license row |
+| Generated models | edit `tools/blender/…` scripts, run `tools/blender/build.sh [name]` (never hand-edit fbx) |
 | Build | `tools/unity/build.sh ios` (Android deferred until release) |
 | Visual check | `unity command capture_game_view` |
 
