@@ -48,6 +48,17 @@ namespace Game.Core
         public float ballRestMinAge = 1f;
         public float ballKillY = -1f;
 
+        [Header("Breaking and debris")]
+        [Tooltip("Seconds broken pieces (or a popped prop) stay full size before shrinking away.")]
+        public float debrisHoldSeconds = 1.2f;
+        public float debrisFadeSeconds = 0.6f;
+        [Tooltip("Most shattered sets on screen at once; the oldest is recycled first. Lower on weak devices.")]
+        public int maxDebrisSets = 6;
+        [Tooltip("Outward impulse (N·s) on each piece when a prop shatters.")]
+        public float breakScatterImpulse = 0.6f;
+        [Tooltip("Relative speed (m/s) below which prop collisions raise no impact event.")]
+        public float propImpactMinSpeed = 0.4f;
+
         [Header("Continue")]
         public int continueShots = 3;
 

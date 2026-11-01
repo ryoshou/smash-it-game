@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6235153873798489803}
   - component: {fileID: 3112081227079261627}
   - component: {fileID: 6876812646121829170}
+  - component: {fileID: 1351298519049390889}
   m_Layer: 0
   m_Name: CactusPot_0
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63182320e69a449178fa84fb2781422c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.DeskObject
+--- !u!114 &1351298519049390889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5047200358938770020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc517d22d8a1b43328917153fd76aa4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
+  targets: []
 --- !u!1001 &5903830846023536431
 PrefabInstance:
   m_ObjectHideFlags: 0

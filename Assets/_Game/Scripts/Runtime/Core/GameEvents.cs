@@ -1,4 +1,5 @@
 using System;
+using Game.Levels;
 using UnityEngine;
 
 namespace Game.Core
@@ -20,10 +21,18 @@ namespace Game.Core
 
         public event Action<RoundState> RoundEnded;
 
+        /// <summary>A prop hit something: its kind, contact point, relative speed.</summary>
+        public event Action<PropKind, Vector3, float> PropImpact;
+
+        /// <summary>A prop broke on the floor: its kind, position, how it broke.</summary>
+        public event Action<PropKind, Vector3, BreakMode> Broke;
+
         public void RaisePullChanged(float power01) => PullChanged?.Invoke(power01);
         public void RaiseFired(Vector3 velocity) => Fired?.Invoke(velocity);
         public void RaiseImpact(Vector3 point, float speed, bool isFirstContact) => Impact?.Invoke(point, speed, isFirstContact);
         public void RaiseTargetCleared(int remaining) => TargetCleared?.Invoke(remaining);
         public void RaiseRoundEnded(RoundState state) => RoundEnded?.Invoke(state);
+        public void RaisePropImpact(PropKind kind, Vector3 point, float speed) => PropImpact?.Invoke(kind, point, speed);
+        public void RaiseBroke(PropKind kind, Vector3 position, BreakMode mode) => Broke?.Invoke(kind, position, mode);
     }
 }

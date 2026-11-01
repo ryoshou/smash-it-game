@@ -54,7 +54,7 @@ namespace Game.Tests
             {
                 var level = levels.At(i);
                 int targets = System.Array.FindAll(level.props, p => p.isTarget).Length;
-                spawner.Load(level, catalog, tuning);
+                spawner.Load(level, catalog, tuning, null, null);
 
                 yield return FixedSteps(Seconds(2f));
                 Assert.IsFalse(spawner.AnyMoving(), $"{level.id} still moving after 2 s");
@@ -86,7 +86,7 @@ namespace Game.Tests
                 Place(PropKind.CactusPot, 0.65f, 0.35f),
             };
             Assert.IsTrue(level.Validate(out string error), error);
-            spawner.Load(level, catalog, tuning);
+            spawner.Load(level, catalog, tuning, null, null);
 
             yield return FixedSteps(Seconds(3f));
 

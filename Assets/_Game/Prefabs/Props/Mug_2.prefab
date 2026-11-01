@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7862287972455345624}
   - component: {fileID: 6224681359628489612}
   - component: {fileID: 1017260068472183954}
+  - component: {fileID: 3122533543989193109}
   m_Layer: 0
   m_Name: Mug_2
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63182320e69a449178fa84fb2781422c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.DeskObject
+--- !u!114 &3122533543989193109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936137230357342510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc517d22d8a1b43328917153fd76aa4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
+  targets: []
 --- !u!1001 &6379709202738938967
 PrefabInstance:
   m_ObjectHideFlags: 0

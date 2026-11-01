@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2268120011660525847}
   - component: {fileID: 1243205111354850999}
   - component: {fileID: 1563098539295798734}
+  - component: {fileID: 7513648543815500113}
   m_Layer: 0
   m_Name: Keycap1u_1
   m_TagString: Untagged
@@ -95,6 +96,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63182320e69a449178fa84fb2781422c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.DeskObject
+--- !u!114 &7513648543815500113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7451316652750087708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc517d22d8a1b43328917153fd76aa4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
+  targets: []
 --- !u!1001 &8673516729921872359
 PrefabInstance:
   m_ObjectHideFlags: 0

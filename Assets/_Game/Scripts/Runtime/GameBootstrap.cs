@@ -30,6 +30,7 @@ namespace Game
         [SerializeField] private CameraShake shake;
         [SerializeField] private ShotFeedback shotFeedback;
         [SerializeField] private ImpactFeedback impactFeedback;
+        [SerializeField] private DebrisPool debris;
 
         private RoundJudge judge;
         private SlingshotGesture gesture;
@@ -49,7 +50,8 @@ namespace Game
             var level = levels.At(index);
             pool.DespawnAll();
             gesture.Cancel();
-            spawner.Load(level, catalog, Tuning);
+            debris.Prewarm(catalog, level, Tuning);
+            spawner.Load(level, catalog, Tuning, debris, Events);
             Budget.ResetAttempt(level.shots);
             judge.Reset();
             State = RoundState.Playing;

@@ -22,7 +22,7 @@ namespace Game.Editor
         private static readonly string[] BootstrapFields =
         {
             "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel",
-            "juice", "sfx", "shake", "shotFeedback", "impactFeedback",
+            "juice", "sfx", "shake", "shotFeedback", "impactFeedback", "debris",
         };
         private const string LitShader = "Universal Render Pipeline/Lit";
 
@@ -91,6 +91,7 @@ namespace Game.Editor
             floor.name = "Floor";
             floor.transform.localScale = new Vector3(3f, 1f, 3f);
             floor.GetComponent<MeshRenderer>().sharedMaterial = Material("Floor", new Color(0.93f, 0.85f, 0.95f));
+            floor.AddComponent<FloorSurface>();
 
             var light = new GameObject("Directional Light").AddComponent<Light>();
             light.type = LightType.Directional;
@@ -113,6 +114,7 @@ namespace Game.Editor
             var pool = new GameObject("Ball Pool").AddComponent<BallPool>();
             SetReference(pool, "ballPrefab", ballPrefab.GetComponent<YarnBall>());
             var spawner = new GameObject("Level Spawner").AddComponent<LevelSpawner>();
+            var debris = new GameObject("Debris Pool").AddComponent<DebrisPool>();
             var ui = UiSceneParts.Build();
 
             var juice = SlingshotSceneParts.LoadOrCreateJuice();
@@ -135,6 +137,7 @@ namespace Game.Editor
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
                 spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result,
                 juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),
+                debris,
             });
 
             EditorSceneManager.SaveScene(scene, ScenePath);

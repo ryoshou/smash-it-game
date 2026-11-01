@@ -149,6 +149,7 @@ namespace Game.Editor
             body.mass = source.mass;
             body.interpolation = RigidbodyInterpolation.Interpolate;
             root.AddComponent<DeskObject>();
+            root.AddComponent<FadeOut>();
             return Save(root, name);
         }
 
@@ -159,15 +160,27 @@ namespace Game.Editor
             var visual = AddVisual(root, modelPath, source.visualEuler, atlas);
             visual.transform.localPosition = -intactCenter;
             var pieces = visual.GetComponentsInChildren<MeshFilter>();
-            foreach (var filter in pieces)
+            var targets = new Transform[pieces.Length];
+            for (int i = 0; i < pieces.Length; i++)
             {
-                AddConvex(filter, source.physics);
-                var body = filter.gameObject.AddComponent<Rigidbody>();
+                AddConvex(pieces[i], source.physics);
+                var body = pieces[i].gameObject.AddComponent<Rigidbody>();
                 body.mass = source.mass / pieces.Length;
                 body.interpolation = RigidbodyInterpolation.Interpolate;
+                targets[i] = pieces[i].transform;
             }
+            SetTargets(root.AddComponent<FadeOut>(), targets);
             root.SetActive(false);
             return Save(root, name);
+        }
+
+        private static void SetTargets(FadeOut fade, Transform[] targets)
+        {
+            var so = new SerializedObject(fade);
+            var array = so.FindProperty("targets");
+            array.arraySize = targets.Length;
+            for (int i = 0; i < targets.Length; i++) array.GetArrayElementAtIndex(i).objectReferenceValue = targets[i];
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static GameObject AddVisual(GameObject root, string modelPath, Vector3 euler, Material atlas)

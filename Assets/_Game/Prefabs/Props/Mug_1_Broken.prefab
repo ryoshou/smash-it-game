@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7378052058034184490}
+  - component: {fileID: 297715260519359668}
   m_Layer: 0
   m_Name: Mug_1_Broken
   m_TagString: Untagged
@@ -32,6 +33,27 @@ Transform:
   - {fileID: 8378970219235880347}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &297715260519359668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913787025864483365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc517d22d8a1b43328917153fd76aa4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
+  targets:
+  - {fileID: 7987420356191599815}
+  - {fileID: 3393069871546358019}
+  - {fileID: 7080144627144481593}
+  - {fileID: 6706789755928789227}
+  - {fileID: 6492357164470088852}
+  - {fileID: 7432884357570465880}
+  - {fileID: 5463314262259144240}
+  - {fileID: 6420471230954830721}
 --- !u!1001 &8341419092105546352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -331,6 +353,11 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &3393069871546358019 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2534339761560808589, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3693664619977711032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4575617506471847992, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
@@ -439,6 +466,11 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &5463314262259144240 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4040638265380101184, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5632204199162105999 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4461720985340058367, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
@@ -493,6 +525,26 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &6420471230954830721 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3087416459265159665, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6492357164470088852 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3016233114082967268, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6706789755928789227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3373725843019893403, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7080144627144481593 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1261877053176320329, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7305810148598426649 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1630830725399570025, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
@@ -601,6 +653,16 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &7432884357570465880 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1505403531154643496, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7987420356191599815 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7125917239091726665, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
+  m_PrefabInstance: {fileID: 8341419092105546352}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8378970219235880347 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2bfd81da8303348d6a31964c24a82312, type: 3}
