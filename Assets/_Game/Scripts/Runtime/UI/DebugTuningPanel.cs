@@ -23,6 +23,11 @@ namespace Game.UI
         [SerializeField] private Text readout;
         [SerializeField] private Button resetButton;
 
+        private const int FpsWindowFrames = 30;
+        private const float StatsRefreshSeconds = 0.5f;
+
+        private readonly FrameRateMeter frameRate = new FrameRateMeter(FpsWindowFrames);
+        private float nextStatsRefresh;
         private readonly TripleTapDetector tripleTap = new TripleTapDetector(TripleTapWindowSeconds);
         private readonly StringBuilder text = new StringBuilder();
         private Knob[] knobs;
@@ -82,6 +87,15 @@ namespace Game.UI
             panelRoot.SetActive(false);
         }
 
+        /// <summary>FPS and active debris sets on the readout, refreshed twice a second while the panel is open.</summary>
+        private void Update()
+        {
+            frameRate.Add(Time.unscaledDeltaTime);
+            if (!panelRoot.activeSelf || Time.unscaledTime < nextStatsRefresh) return;
+            nextStatsRefresh = Time.unscaledTime + StatsRefreshSeconds;
+            RefreshTexts();
+        }
+
         private void OnToggleTapped()
         {
             if (!tripleTap.Tap(Time.unscaledTime)) return;
@@ -123,6 +137,8 @@ namespace Game.UI
                 if (i > 0) text.Append("  ");
                 text.Append(knobs[i].Name).Append('=').Append(value.ToString("0.00"));
             }
+            text.Append("\nfps=").Append(Mathf.RoundToInt(frameRate.FramesPerSecond))
+                .Append("  debris=").Append(bootstrap.ActiveDebrisSets);
             readout.text = text.ToString();
         }
     }

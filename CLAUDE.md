@@ -1,8 +1,9 @@
 # smash-it-game — portrait mobile physics game (cat + slingshot knocks things off a desk), Unity 6000.6 (3D URP)
 
 ## Goal right now
-M1 shooting prototype per `docs/superpowers/plans/2026-10-30-m1-shooting-prototype.md`
-(spec: `docs/superpowers/specs/2026-10-26-cat-desk-smash-design.md`). Feel first, placeholder art. No SDKs.
+M2 vertical slice per `docs/superpowers/plans/2026-11-02-m2-vertical-slice.md` → owner checkpoint 2 (Room 1 look,
+the cat, 4 prop types with full juice, sounds, 5 levels). M1 shot feel is approved with default `ShotTuning`: don't
+change existing ShotTuning defaults, keycap colliders/masses, camera, pouch or ball physics. iOS builds only.
 
 ## Layout
 - `Assets/_Game/Scripts/Runtime/` → `Game.Runtime.asmdef`
@@ -43,7 +44,9 @@ M1 shooting prototype per `docs/superpowers/plans/2026-10-30-m1-shooting-prototy
 | Pack models | add a line to `tools/assets/pack-manifest.txt`, run `tools/assets/import-packs.sh`, add the license row |
 | Generated models | edit `tools/blender/…` scripts, run `tools/blender/build.sh [name]` (never hand-edit fbx) |
 | Build | `tools/unity/build.sh ios` (Android deferred until release) |
-| Visual check | `unity command capture_game_view` |
+| Visual check | `tools/unity/snapshot.sh out.png [level] [--break] [--cat Take:s]` (editor closed) or `unity command capture_game_view` |
+| Editor builders | `tools/unity/run-method.sh Game.Editor.PrototypeSceneBuilder.Rebuild` rebuilds props, vfx, sounds, room, cat, levels and the scene |
+| Blender tests | `tools/blender/build.sh --tests`; authored models: Blender +Y = Unity +Z (export bakes the turn) |
 
 - Always pass `--caller plugin --skill <skill>` on `unity command` calls; `--format json` when parsing.
 - After package/asmdef changes the Editor domain-reloads; poll `unity command editor_status` until it answers.

@@ -53,6 +53,7 @@ namespace Game
         public GameEvents Events { get; private set; }
         public ShotBudget Budget { get; private set; }
         public RoundState State { get; private set; }
+        public int ActiveDebrisSets => debris.ActiveSets;
 
         public void LoadLevel(int index)
         {
