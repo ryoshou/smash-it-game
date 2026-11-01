@@ -7,6 +7,9 @@ namespace Game.World
     /// <summary>Holds its targets at full size, shrinks them to nothing, then deactivates this object.</summary>
     public sealed class FadeOut : MonoBehaviour
     {
+        /// <summary>Smallest scale written: shrinking a physics collider to ~0 gives its body degenerate inertia.</summary>
+        public const float MinScale = 0.1f;
+
         [Tooltip("Transforms to shrink; empty means this object's own transform.")]
         [SerializeField] private Transform[] targets = Array.Empty<Transform>();
 
@@ -45,7 +48,7 @@ namespace Game.World
         private void Update()
         {
             age += Time.deltaTime;
-            float scale = DebrisFade.Scale01(age, hold, fade);
+            float scale = Mathf.Max(MinScale, DebrisFade.Scale01(age, hold, fade));
             for (int i = 0; i < startScales.Length; i++) Target(i).localScale = startScales[i] * scale;
             if (!DebrisFade.IsDone(age, hold, fade)) return;
             ResetScale();

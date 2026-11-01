@@ -69,6 +69,45 @@ namespace Game.Tests
             AssertSize(whole.size, shards.size, 0.01f);
         }
 
+        [Test]
+        public void GeneratedRoomShell_BackWallIsAwayFromPlayer_LeftWallOnTheLeft()
+        {
+            var room = Load("Generated/RoomShell.fbx").transform;
+
+            var back = ArtMeshStats.ModelBounds(room.Find("BackWall").gameObject);
+            var left = ArtMeshStats.ModelBounds(room.Find("LeftWall").gameObject);
+            var backCenter = room.Find("BackWall").TransformPoint(back.center);
+            var leftCenter = room.Find("LeftWall").TransformPoint(left.center);
+
+            Assert.Greater(backCenter.z, 3f, $"back wall at {backCenter}");
+            Assert.Less(leftCenter.x, -3.5f, $"left wall at {leftCenter}");
+        }
+
+        [Test]
+        public void GeneratedMonitor_ScreenFacesThePlayer()
+        {
+            // The frontmost surface (towards the camera, -z) must be the coloured desktop, not the charcoal bezel back.
+            var model = Load("Generated/Monitor.fbx");
+            var filter = model.GetComponentInChildren<MeshFilter>();
+            var toModel = model.transform.worldToLocalMatrix * filter.transform.localToWorldMatrix;
+            var vertices = filter.sharedMesh.vertices;
+            var uvs = filter.sharedMesh.uv;
+            const float aboveBase = 0.3f;
+            int front = -1;
+            float frontZ = float.MaxValue;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                var p = toModel.MultiplyPoint3x4(vertices[i]);
+                if (p.y <= aboveBase || p.z >= frontZ) continue;
+                frontZ = p.z;
+                front = i;
+            }
+            var charcoal = new Vector2Int(0, 3);
+            var cell = new Vector2Int(Mathf.FloorToInt(uvs[front].x * 8f), Mathf.FloorToInt(uvs[front].y * 4f));
+
+            Assert.AreNotEqual(charcoal, cell, $"frontmost surface at z {frontZ} is the bezel");
+        }
+
         private static GameObject Load(string relative) =>
             AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Game/Art/" + relative);
 

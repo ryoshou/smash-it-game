@@ -60,3 +60,4 @@ MonoBehaviour:
     basePosition: {x: 0, y: 0, z: -0.3}
     yawDegrees: 0
     isTarget: 1
+  room: {fileID: 0}

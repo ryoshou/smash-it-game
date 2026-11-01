@@ -9,7 +9,7 @@ namespace Game.Editor
         public const int PropTriangles = 1500;
         public const int KeyboardTriangles = 2500;
         public const int CatTriangles = 8000;
-        public const float RoomMaxSize = 8f;
+        public const float RoomMaxSize = 8.5f; // an 8 m room plus wall thickness
         public static readonly Vector2Int TinyTreatsGrid = new Vector2Int(8, 4);
 
         public int maxTriangles = PropTriangles;

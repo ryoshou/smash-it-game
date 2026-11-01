@@ -37,6 +37,7 @@ namespace Game
         [SerializeField] private WinFeedback winFeedback;
         [SerializeField] private ParticleSystem confetti;
         [SerializeField] private Transform confettiAnchor;
+        [SerializeField] private RoomPresenter roomPresenter;
 
         private RoundJudge judge;
         private SlingshotGesture gesture;
@@ -54,6 +55,7 @@ namespace Game
         {
             levelIndex = index;
             var level = levels.At(index);
+            roomPresenter.Apply(level.room);
             pool.DespawnAll();
             vfx.StopAll();
             gesture.Cancel();

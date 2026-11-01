@@ -135,6 +135,26 @@ namespace Game.Tests
             Assert.IsFalse(keycap.gameObject.activeSelf);
         }
 
+        [UnityTest]
+        public IEnumerator FadeOut_NeverShrinksAPhysicsBodyBelowMinimumScale()
+        {
+            var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cube.AddComponent<Rigidbody>();
+            var fade = cube.AddComponent<FadeOut>();
+            float smallest = 1f;
+
+            fade.Begin(0f, 0.3f);
+            while (cube.activeSelf)
+            {
+                smallest = Mathf.Min(smallest, cube.transform.localScale.x);
+                yield return null;
+            }
+
+            Assert.GreaterOrEqual(smallest, FadeOut.MinScale, "a near-zero convex collider gives the body degenerate inertia");
+            Assert.AreEqual(1f, cube.transform.localScale.x, 1e-5f, "scale is restored for reuse");
+            Object.Destroy(cube);
+        }
+
         private DeskObject LoadOne(PropKind kind) => LoadMany(kind, 1)[0];
 
         private DeskObject[] LoadMany(PropKind kind, int count)

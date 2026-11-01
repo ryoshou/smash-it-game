@@ -41,7 +41,7 @@ def build_set(name, pack_file, material, out):
     for i, piece in enumerate([*shards, whole]):
         piece.name = f"Piece_{i:02d}"
         piece.parent = root
-    export.fbx([root], os.path.join(out, f"{name}.fbx"), material=material)
+    export.fbx([root], os.path.join(out, f"{name}.fbx"), material=material, authored=False)
 
 
 def build(out):

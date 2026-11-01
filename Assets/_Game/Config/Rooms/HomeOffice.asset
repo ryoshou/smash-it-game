@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3581bb1101c4ef2b10ac84839416ee, type: 3}
+  m_Name: HomeOffice
+  m_EditorClassIdentifier: Game.Runtime::Game.Levels.RoomTheme
+  backdropPrefab: {fileID: 8094500318127995191, guid: 5507babd313954795837ce7224496f93, type: 3}
+  music: {fileID: 8300000, guid: 303b730e17ae74939a81bfa7d6068482, type: 3}
+  background: {r: 0.98, g: 0.9, b: 0.82, a: 1}

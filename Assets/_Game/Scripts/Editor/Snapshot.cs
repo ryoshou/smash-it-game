@@ -36,10 +36,22 @@ namespace Game.Editor
             var so = new SerializedObject(bootstrap);
             var levels = (LevelList)so.FindProperty("levels").objectReferenceValue;
             var catalog = (PropCatalog)so.FindProperty("catalog").objectReferenceValue;
-            PlaceProps(levels.At(levelIndex), catalog);
+            var level = levels.At(levelIndex);
+            ApplyRoom(level.room);
+            PlaceProps(level, catalog);
             if (stageBreak) StageBreak(catalog);
             Render(Camera.main, output);
             Debug.Log($"[Snapshot] wrote {output}");
+        }
+
+        /// <summary>What RoomPresenter does at runtime: the level's room (or the scene fallback) and its background.</summary>
+        private static void ApplyRoom(RoomTheme room)
+        {
+            var presenter = UnityEngine.Object.FindAnyObjectByType<Game.View.RoomPresenter>();
+            var theme = room != null ? room : (RoomTheme)new SerializedObject(presenter).FindProperty("fallback").objectReferenceValue;
+            if (theme == null) return;
+            if (theme.backdropPrefab != null) UnityEngine.Object.Instantiate(theme.backdropPrefab);
+            Camera.main.backgroundColor = theme.background;
         }
 
         private static void PlaceProps(LevelDef level, PropCatalog catalog)

@@ -11,26 +11,21 @@ namespace Game.Editor
     {
         private const string JuiceConfigPath = PrototypeAssetBuilder.ConfigFolder + "/JuiceConfig.asset";
         private const int PreviewDots = 8;
-        private const float ForkHalfWidth = 0.13f;
         private const float ForkHeight = 0.16f;
-        private const float PostThickness = 0.025f;
-        private const float HandleLength = 0.35f;
         private const float BandWidth = 0.012f;
         private const float PouchSize = 0.12f;
         private const float DotSize = 0.035f;
 
         public static SlingshotView BuildSlingshot(Transform pouch, string materialsFolder, Func<string, Color, Material> material)
         {
-            var wood = material("SlingshotWood", new Color(0.62f, 0.42f, 0.3f));
             var rubber = material("SlingshotBand", new Color(0.55f, 0.3f, 0.45f));
             var root = new GameObject("Slingshot").transform;
             root.position = pouch.position + new Vector3(0f, -ForkHeight, 0.06f);
 
-            var handle = PrototypeSceneBuilder.Visual(PrimitiveType.Cube, root, "Handle", wood);
-            handle.localScale = new Vector3(PostThickness * 1.4f, HandleLength, PostThickness * 1.4f);
-            handle.localPosition = new Vector3(0f, -HandleLength / 2f, 0f);
-            var left = Post(root, wood, -1f);
-            var right = Post(root, wood, 1f);
+            // The generated Y frame: its origin is this root and its band anchors sit at the fork tips.
+            var frame = PrototypeSceneBuilder.ArtVisual(root, "Generated/Slingshot.fbx", "TinyTreats", Vector3.zero, 1f);
+            var left = frame.Find("BandAnchorL");
+            var right = frame.Find("BandAnchorR");
 
             var pouchVisual = PrototypeSceneBuilder.Visual(PrimitiveType.Sphere, root, "Pouch Visual", rubber);
             pouchVisual.localScale = Vector3.one * PouchSize;
@@ -46,18 +41,6 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(view, "bandRight", Band(root, "Band Right", rubber));
             SetDots(view, root, material("PreviewDot", Color.white));
             return view;
-        }
-
-        /// <summary>Builds one fork post and returns its tip.</summary>
-        private static Transform Post(Transform root, Material wood, float side)
-        {
-            var post = PrototypeSceneBuilder.Visual(PrimitiveType.Cube, root, side < 0 ? "Fork Left" : "Fork Right", wood);
-            post.localScale = new Vector3(PostThickness, ForkHeight * 1.2f, PostThickness);
-            post.localPosition = new Vector3(side * ForkHalfWidth, ForkHeight * 0.6f, 0f);
-            var tip = new GameObject("Tip").transform;
-            tip.SetParent(root, false);
-            tip.localPosition = new Vector3(side * ForkHalfWidth, ForkHeight * 1.2f, 0f);
-            return tip;
         }
 
         private static LineRenderer Band(Transform root, string name, Material rubber)

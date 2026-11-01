@@ -13,6 +13,8 @@ namespace Game.Levels
         public int shots = 6;
         public Vector2 deskSize = new Vector2(2.0f, 1.5f);
         public PropPlacement[] props = new PropPlacement[0];
+        [Tooltip("Backdrop and music; empty uses the scene's fallback room.")]
+        public RoomTheme room;
 
         public bool Validate(out string error)
         {

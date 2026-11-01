@@ -4,6 +4,7 @@ using Game.Controls;
 using Game.Core;
 using Game.Juice;
 using Game.Levels;
+using Game.View;
 using Game.World;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -23,12 +24,13 @@ namespace Game.Editor
         {
             "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel",
             "juice", "sfx", "shake", "shotFeedback", "impactFeedback", "debris",
-            "propFeel", "vfx", "propFeedback", "winFeedback", "confetti", "confettiAnchor",
+            "propFeel", "vfx", "propFeedback", "winFeedback", "confetti", "confettiAnchor", "roomPresenter",
         };
         private const string LitShader = "Universal Render Pipeline/Lit";
 
         private static readonly Vector3 DeskSize = new Vector3(2.0f, 0.08f, 1.5f);
         private const float LegSize = 0.07f;
+        private const float YarnModelDiameter = 0.18f;
         private static readonly Vector3 CameraPosition = new Vector3(0f, 2.2f, -4.2f);
         private static readonly Vector3 CameraLookAt = new Vector3(0f, 0.7f, 0f);
         private static readonly Vector3 PouchPosition = new Vector3(0f, 1.1f, -2.4f);
@@ -50,38 +52,54 @@ namespace Game.Editor
             BuildScene(desk, ball);
         }
 
+        /// <summary>The generated office desk on top of M1's collider boxes (top surface at DeskTopY), so play is unchanged.</summary>
         private static GameObject WriteDeskPrefab()
         {
-            var wood = Material("DeskWood", new Color(0.87f, 0.7f, 0.53f));
             var root = new GameObject("Desk");
-            var top = Visual(PrimitiveType.Cube, root.transform, "Top", wood);
-            top.localScale = DeskSize;
-            top.localPosition = new Vector3(0f, LevelSpawner.DeskTopY - DeskSize.y / 2f, 0f);
-            top.gameObject.AddComponent<BoxCollider>();
-
+            ArtVisual(root.transform, "Generated/OfficeDesk.fbx", "TinyTreats", Vector3.zero, 1f);
+            ColliderBox(root.transform, "Top Collider", new Vector3(0f, LevelSpawner.DeskTopY - DeskSize.y / 2f, 0f), DeskSize);
             float legHeight = LevelSpawner.DeskTopY - DeskSize.y;
             for (int i = 0; i < 4; i++)
             {
-                var leg = Visual(PrimitiveType.Cube, root.transform, $"Leg {i}", wood);
-                leg.localScale = new Vector3(LegSize, legHeight, LegSize);
                 float x = (i % 2 == 0 ? -1f : 1f) * (DeskSize.x / 2f - LegSize);
                 float z = (i < 2 ? -1f : 1f) * (DeskSize.z / 2f - LegSize);
-                leg.localPosition = new Vector3(x, legHeight / 2f, z);
-                leg.gameObject.AddComponent<BoxCollider>();
+                ColliderBox(root.transform, $"Leg {i} Collider", new Vector3(x, legHeight / 2f, z), new Vector3(LegSize, legHeight, LegSize));
             }
             return SavePrefab(root, "Desk");
         }
 
+        private static void ColliderBox(Transform parent, string name, Vector3 center, Vector3 size)
+        {
+            var box = new GameObject(name).AddComponent<BoxCollider>();
+            box.transform.SetParent(parent, false);
+            box.transform.localPosition = center;
+            box.size = size;
+        }
+
+        internal static Transform ArtVisual(Transform parent, string model, string atlas, Vector3 localPosition, float scale)
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Game/Art/" + model)
+                        ?? throw new FileNotFoundException($"Model missing: {model}");
+            var visual = ((GameObject)PrefabUtility.InstantiatePrefab(asset, parent)).transform;
+            visual.name = "Visual";
+            visual.localPosition = localPosition;
+            visual.localScale = Vector3.one * scale;
+            var material = AtlasMaterialBuilder.Load(atlas);
+            foreach (var renderer in visual.GetComponentsInChildren<Renderer>()) renderer.sharedMaterial = material;
+            return visual;
+        }
+
+        /// <summary>Unit sphere collider (YarnBall scales it to 2 x ballRadius at launch) with the yarn mesh inside.</summary>
         private static GameObject WriteBallPrefab()
         {
-            var ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            ball.name = "YarnBall";
-            ball.GetComponent<MeshRenderer>().sharedMaterial = Material("Yarn", new Color(0.95f, 0.45f, 0.5f));
+            var ball = new GameObject("YarnBall");
+            ball.AddComponent<SphereCollider>().radius = 0.5f;
             var body = ball.AddComponent<Rigidbody>();
             body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             body.linearDamping = 0f;
             body.angularDamping = 0f;
             ball.AddComponent<YarnBall>();
+            ArtVisual(ball.transform, "Generated/YarnBall.fbx", "TinyTreats", Vector3.zero, 1f / YarnModelDiameter);
             return SavePrefab(ball, "YarnBall");
         }
 
@@ -90,10 +108,11 @@ namespace Game.Editor
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             PrefabUtility.InstantiatePrefab(deskPrefab);
-            var floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            floor.name = "Floor";
-            floor.transform.localScale = new Vector3(3f, 1f, 3f);
-            floor.GetComponent<MeshRenderer>().sharedMaterial = Material("Floor", new Color(0.93f, 0.85f, 0.95f));
+            // The room backdrop draws the floor; this collider makes breaking work in every room.
+            var floor = new GameObject("Floor");
+            var floorBox = floor.AddComponent<BoxCollider>();
+            floorBox.center = new Vector3(0f, -0.05f, -0.5f);
+            floorBox.size = new Vector3(8f, 0.1f, 8f);
             floor.AddComponent<FloorSurface>();
 
             var light = new GameObject("Directional Light").AddComponent<Light>();
@@ -142,11 +161,23 @@ namespace Game.Editor
                 juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),
                 debris, VfxBuilder.LoadOrCreateLibrary(), juiceObject.AddComponent<VfxPool>(),
                 juiceObject.AddComponent<PropFeedback>(), juiceObject.AddComponent<WinFeedback>(),
-                VfxBuilder.LoadConfetti(), ConfettiAnchor(),
+                VfxBuilder.LoadConfetti(), ConfettiAnchor(), Room(camera, juice, juiceObject),
             });
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
+        }
+
+        private static RoomPresenter Room(Camera camera, JuiceConfig juice, GameObject juiceObject)
+        {
+            var music = juiceObject.AddComponent<MusicPlayer>();
+            SetReference(music, "config", juice);
+            var room = new GameObject("Room").AddComponent<RoomPresenter>();
+            SetReference(room, "cam", camera);
+            SetReference(room, "music", music);
+            SetReference(room, "juice", juice);
+            SetReference(room, "fallback", HomeOfficeBuilder.Build());
+            return room;
         }
 
         private static Transform ConfettiAnchor()

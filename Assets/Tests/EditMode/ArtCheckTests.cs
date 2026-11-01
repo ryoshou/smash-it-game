@@ -113,7 +113,7 @@ namespace Game.Tests
         [Test]
         public void For_RoomShell_AllowsRoomSizedBounds()
         {
-            Assert.AreEqual(8f, AssetBudget.For("Assets/_Game/Art/Generated/RoomShell.fbx").maxSize);
+            Assert.AreEqual(8.5f, AssetBudget.For("Assets/_Game/Art/Generated/RoomShell.fbx").maxSize);
         }
 
         private static Vector2[] InCellUvs() =>
