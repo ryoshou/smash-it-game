@@ -44,6 +44,7 @@ namespace Game.Editor
 
             PropPrefabBuilder.BuildAll();
             VfxBuilder.BuildAll();
+            SoundSetBuilder.BuildAll();
             var desk = WriteDeskPrefab();
             var ball = WriteBallPrefab();
             BuildScene(desk, ball);

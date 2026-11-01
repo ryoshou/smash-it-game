@@ -14,37 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Runtime::Game.Juice.PropFeelLibrary
   feels:
   - kind: 0
-    hit: {fileID: 0}
-    breakSound: {fileID: 0}
+    hit: {fileID: 11400000, guid: 0435f6efdd21740f683dda0777fbc0b9, type: 2}
+    breakSound: {fileID: 11400000, guid: 0d76d55618f00460ab6b6eea249088b7, type: 2}
     breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
     hitMinSpeed: 0.5
   - kind: 1
-    hit: {fileID: 0}
-    breakSound: {fileID: 0}
+    hit: {fileID: 11400000, guid: 0435f6efdd21740f683dda0777fbc0b9, type: 2}
+    breakSound: {fileID: 11400000, guid: 0d76d55618f00460ab6b6eea249088b7, type: 2}
     breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
     hitMinSpeed: 0.5
   - kind: 2
-    hit: {fileID: 0}
-    breakSound: {fileID: 0}
+    hit: {fileID: 11400000, guid: 0435f6efdd21740f683dda0777fbc0b9, type: 2}
+    breakSound: {fileID: 11400000, guid: 0d76d55618f00460ab6b6eea249088b7, type: 2}
     breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
     hitMinSpeed: 0.5
   - kind: 3
-    hit: {fileID: 0}
-    breakSound: {fileID: 0}
+    hit: {fileID: 11400000, guid: 0435f6efdd21740f683dda0777fbc0b9, type: 2}
+    breakSound: {fileID: 11400000, guid: 0d76d55618f00460ab6b6eea249088b7, type: 2}
     breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
     hitMinSpeed: 0.5
   - kind: 4
-    hit: {fileID: 0}
-    breakSound: {fileID: 0}
+    hit: {fileID: 11400000, guid: 2e832d203c1a5422e88d96632b03c0d4, type: 2}
+    breakSound: {fileID: 11400000, guid: 12a3e67bbd6bd4a789e64356ab871916, type: 2}
     breakVfx: {fileID: 6887379971679164562, guid: 370e0fc6256b74b40be43ff4f8182781, type: 3}
     hitMinSpeed: 0.5
   - kind: 5
-    hit: {fileID: 0}
-    breakSound: {fileID: 0}
+    hit: {fileID: 11400000, guid: 7831b431f15244b81b6a7adde6f48d1c, type: 2}
+    breakSound: {fileID: 11400000, guid: 0d76d55618f00460ab6b6eea249088b7, type: 2}
     breakVfx: {fileID: 6469004839223063428, guid: 04252c242d1064d4b98cf627e7ea8890, type: 3}
     hitMinSpeed: 0.5
   - kind: 6
-    hit: {fileID: 0}
-    breakSound: {fileID: 0}
+    hit: {fileID: 11400000, guid: 799b65ceafa8f46b99bd0b4c040eacb0, type: 2}
+    breakSound: {fileID: 11400000, guid: 8b55b301579d247f9a4bb491a5069298, type: 2}
     breakVfx: {fileID: 6887379971679164562, guid: 370e0fc6256b74b40be43ff4f8182781, type: 3}
     hitMinSpeed: 0.5

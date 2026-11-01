@@ -15,6 +15,10 @@ namespace Game.Juice
         [Tooltip("Real seconds between impact sounds.")]
         [Min(0f)] public float impactMinInterval = 0.03f;
 
+        [Header("Music")]
+        [Range(0f, 1f)] public float musicVolume = 0.35f;
+        [Min(0f)] public float musicFadeSeconds = 1.5f;
+
         [Header("Pull tension")]
         [Tooltip("A tick plays each time pull power crosses a multiple of this.")]
         [Range(0.05f, 1f)] public float pullTickStep = 0.2f;

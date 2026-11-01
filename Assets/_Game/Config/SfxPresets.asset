@@ -44,7 +44,7 @@ MonoBehaviour:
   - id: 1
     seed: 23
     volume: 0.45
-    clipOverride: {fileID: 0}
+    clipOverride: {fileID: 8300000, guid: b89c01d904f084703934ce0ef6ab1214, type: 3}
     synth:
       wave: 1
       baseFrequency: 0.28
@@ -156,7 +156,7 @@ MonoBehaviour:
   - id: 5
     seed: 83
     volume: 0.55
-    clipOverride: {fileID: 0}
+    clipOverride: {fileID: 8300000, guid: bdccc9bdfef6342169a37d2b89f7511d, type: 3}
     synth:
       wave: 2
       baseFrequency: 0.55
@@ -184,7 +184,7 @@ MonoBehaviour:
   - id: 6
     seed: 61
     volume: 0.4
-    clipOverride: {fileID: 0}
+    clipOverride: {fileID: 8300000, guid: b178be84605154de78152a6fca8f653a, type: 3}
     synth:
       wave: 0
       baseFrequency: 0.4
@@ -212,7 +212,7 @@ MonoBehaviour:
   - id: 7
     seed: 97
     volume: 0.3
-    clipOverride: {fileID: 0}
+    clipOverride: {fileID: 8300000, guid: 410a72efca3b8431a9687b24a8b30bfa, type: 3}
     synth:
       wave: 0
       baseFrequency: 0.62
