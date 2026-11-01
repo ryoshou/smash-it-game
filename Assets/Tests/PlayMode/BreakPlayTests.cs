@@ -136,6 +136,40 @@ namespace Game.Tests
         }
 
         [UnityTest]
+        public IEnumerator MugKnockedOntoTheSideTable_BreaksAndCountsAsCleared()
+        {
+            var mug = LoadOne(PropKind.Mug);
+            Teleport(mug, new Vector3(-1.45f, 1.8f, 2.1f)); // above the Home Office side table
+
+            yield return WaitSeconds(1.5f);
+
+            Assert.IsTrue(mug.IsCleared, "a prop knocked onto other furniture is off the desk");
+            Assert.AreEqual(0, spawner.TargetsRemaining);
+        }
+
+        [UnityTest]
+        public IEnumerator Win_PopsPropsThatDidNotCount()
+        {
+            level = ScriptableObject.CreateInstance<LevelDef>();
+            level.id = "WinPop";
+            level.props = new[]
+            {
+                new PropPlacement { kind = PropKind.Keycap1u, basePosition = new Vector3(-0.5f, 0f, 0f), isTarget = true },
+                new PropPlacement { kind = PropKind.Book, basePosition = new Vector3(0.4f, 0f, 0.2f), isTarget = false },
+            };
+            debris.Prewarm(catalog, level, bootstrap.Tuning);
+            spawner.Load(level, catalog, bootstrap.Tuning, debris, bootstrap.Events);
+            var support = spawner.Spawned[1];
+            yield return WaitSeconds(0.5f);
+
+            Teleport(spawner.Spawned[0], BesideDesk);
+            yield return WaitSeconds(1f + FadeTotal() + 0.5f);
+
+            Assert.AreEqual(RoundState.Won, bootstrap.State);
+            Assert.IsFalse(support.gameObject.activeSelf, "a desk shown as cleared should be empty");
+        }
+
+        [UnityTest]
         public IEnumerator FadeOut_NeverShrinksAPhysicsBodyBelowMinimumScale()
         {
             var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);

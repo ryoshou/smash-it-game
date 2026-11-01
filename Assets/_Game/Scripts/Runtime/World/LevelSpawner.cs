@@ -50,6 +50,16 @@ namespace Game.World
             }
         }
 
+        /// <summary>
+        /// Pops the props still on the desk (supports, decorations), so a cleared desk really is empty. Props already
+        /// off the desk keep falling and break on the floor as usual.
+        /// </summary>
+        public void PopRemaining()
+        {
+            for (int i = 0; i < spawned.Count; i++)
+                if (!spawned[i].IsCleared && spawned[i].gameObject.activeSelf) spawned[i].Pop();
+        }
+
         public void Clear()
         {
             foreach (var prop in spawned)

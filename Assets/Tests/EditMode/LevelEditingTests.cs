@@ -54,6 +54,45 @@ namespace Game.Tests
         }
 
         [Test]
+        public void Capture_DuplicatedProp_KeepsItsTargetFlag()
+        {
+            var root = LevelEditing.Spawn(level, catalog, scene);
+            var original = root.GetChild(0).gameObject;
+            var copy = Object.Instantiate(original, root);
+            copy.name = original.name + " (1)"; // what Ctrl+D produces
+
+            var captured = LevelEditing.Capture(root, catalog, out int skipped);
+
+            Assert.AreEqual(0, skipped);
+            Assert.AreEqual(level.props.Length + 1, captured.Length);
+            Assert.IsTrue(captured[captured.Length - 1].isTarget, "a duplicate of a target is a target");
+            Assert.AreEqual(level.props[0].variant, captured[captured.Length - 1].variant);
+        }
+
+        [Test]
+        public void Capture_CountsChildrenItCannotRead()
+        {
+            var root = LevelEditing.Spawn(level, catalog, scene);
+            new GameObject("Renamed by hand").transform.SetParent(root);
+
+            var captured = LevelEditing.Capture(root, catalog, out int skipped);
+
+            Assert.AreEqual(1, skipped);
+            Assert.AreEqual(level.props.Length, captured.Length);
+        }
+
+        [Test]
+        public void TryCapture_ReadsOnePropByItsTransform()
+        {
+            var root = LevelEditing.Spawn(level, catalog, scene);
+            new GameObject("Renamed by hand").transform.SetSiblingIndex(0);
+
+            Assert.IsTrue(LevelEditing.TryCapture(root.GetChild(1), catalog, out var mug));
+            Assert.AreEqual(PropKind.Mug, mug.kind);
+            Assert.IsFalse(LevelEditing.TryCapture(new GameObject("x").transform, catalog, out _));
+        }
+
+        [Test]
         public void Spawn_HasNoLiveSimulation()
         {
             var root = LevelEditing.Spawn(level, catalog, scene);

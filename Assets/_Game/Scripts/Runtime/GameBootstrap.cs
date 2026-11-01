@@ -41,7 +41,7 @@ namespace Game
         [SerializeField] private CatReactions catReactions;
         [SerializeField] private Animator catAnimator;
 
-        private readonly ShotTally tally = new ShotTally();
+        private ShotTally tally;
         private RoundJudge judge;
         private SlingshotGesture gesture;
         private int levelIndex;
@@ -101,6 +101,7 @@ namespace Game
             Events = new GameEvents();
             Budget = new ShotBudget(0);
             judge = new RoundJudge(Tuning.settleHoldSeconds, Tuning.settleMaxWaitSeconds);
+            tally = new ShotTally(Tuning.settleHoldSeconds, Tuning.settleMaxWaitSeconds);
             gesture = new SlingshotGesture(Tuning);
 
             input.Bind(gesture, CanGrab, pouch, cam);
@@ -133,14 +134,19 @@ namespace Game
             State = judge.Evaluate(Time.time, spawner.TargetsRemaining, Budget.Remaining, pool.AnyActive, spawner.AnyMoving());
             if (State == RoundState.Playing)
             {
-                if (tally.TryResolve(pool.AnyActive, out int cleared)) Events.RaiseShotResolved(cleared);
+                if (tally.TryResolve(Time.time, pool.AnyActive, spawner.AnyMoving(), out int cleared))
+                    Events.RaiseShotResolved(cleared);
                 return;
             }
 
             tally.Reset();
             gesture.Cancel();
             Events.RaiseRoundEnded(State);
-            if (State == RoundState.Won) resultPanel.ShowWin(Next);
+            if (State == RoundState.Won)
+            {
+                spawner.PopRemaining();
+                resultPanel.ShowWin(Next);
+            }
             else resultPanel.ShowLose(Budget.CanContinue, Continue, Retry);
         }
 

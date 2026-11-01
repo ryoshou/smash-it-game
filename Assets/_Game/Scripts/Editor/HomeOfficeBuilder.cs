@@ -27,12 +27,12 @@ namespace Game.Editor
             var root = new GameObject("HomeOfficeBackdrop");
             Place(root, "Generated/RoomShell.fbx", TinyTreats, Vector3.zero, 0f);
             Place(root, "Packs/KayKitFurniture/rug_rectangle_stripes_A.fbx", KayKit, new Vector3(0f, 0.002f, 0.2f), 0f);
-            var table = Place(root, "Packs/KayKitFurniture/table_medium.fbx", KayKit, SideTable, 0f);
+            var table = Solid(Place(root, "Packs/KayKitFurniture/table_medium.fbx", KayKit, SideTable, 0f));
             float tableTop = ArtMeshStats.ModelBounds(table).max.y;
-            Place(root, "Generated/Monitor.fbx", TinyTreats, SideTable + new Vector3(0f, tableTop, 0.15f), 0f);
+            Solid(Place(root, "Generated/Monitor.fbx", TinyTreats, SideTable + new Vector3(0f, tableTop, 0.15f), 0f));
             Place(root, "Generated/Keyboard.fbx", TinyTreats, SideTable + new Vector3(0f, tableTop, -0.25f), 0f, 0.6f);
             Place(root, "Packs/KayKitFurniture/pictureframe_standing_A.fbx", KayKit, SideTable + new Vector3(0.62f, tableTop, -0.05f), 160f, 0.5f);
-            Place(root, "Packs/KayKitFurniture/shelf_B_large_decorated.fbx", KayKit, new Vector3(1.4f, 0f, 3.2f), 0f);
+            Solid(Place(root, "Packs/KayKitFurniture/shelf_B_large_decorated.fbx", KayKit, new Vector3(1.4f, 0f, 3.2f), 0f));
             Place(root, "Packs/KayKitFurniture/lamp_standing.fbx", KayKit, new Vector3(1.9f, 0f, 2.2f), 0f);
             Place(root, "Packs/KayKitFurniture/cactus_medium_A.fbx", KayKit, new Vector3(-2.6f, 0f, 2.9f), 0f);
             AddRoomColliders(root);
@@ -58,6 +58,20 @@ namespace Game.Editor
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
             return instance;
+        }
+
+        /// <summary>
+        /// A box collider around furniture that falling props can reach, so they land on it, not through it. It counts
+        /// as floor: a prop that lands on other furniture is off the desk, so it breaks and is cleared (spec §4.3).
+        /// </summary>
+        private static GameObject Solid(GameObject furniture)
+        {
+            var bounds = ArtMeshStats.ModelBounds(furniture);
+            var box = furniture.AddComponent<BoxCollider>();
+            box.center = bounds.center;
+            box.size = bounds.size;
+            furniture.AddComponent<FloorSurface>();
+            return furniture;
         }
 
         /// <summary>Walls stop stray balls and props; the floor collider lives in the scene so breaking works in any room.</summary>

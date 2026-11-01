@@ -92,20 +92,23 @@ namespace Game.Editor
         private void SnapSelection()
         {
             var selected = Selection.transforms.Where(t => t.parent == root).OrderBy(t => t.position.y).ToArray();
+            int snapped = 0;
             foreach (var t in selected)
             {
-                Undo.RecordObject(t, "Snap & Stack");
-                var props = LevelEditing.Capture(root, catalog); // child order, so the sibling index finds this prop
-                int index = t.GetSiblingIndex();
-                var placement = props[index];
-                var others = props.Where((_, i) => i != index).ToArray();
+                if (!LevelEditing.TryCapture(t, catalog, out var placement)) continue;
+                var others = root.Cast<Transform>()
+                    .Where(other => other != t)
+                    .Select(other => LevelEditing.TryCapture(other, catalog, out var p) ? (PropPlacement?)p : null)
+                    .Where(p => p.HasValue).Select(p => p.Value).ToArray();
                 var size = catalog.Get(placement.kind).size;
-                var snapped = LayoutSnap.SnapXZ(placement.basePosition, LayoutSnap.DefaultGrid);
-                snapped.y = LayoutSnap.StackHeight(new Vector2(snapped.x, snapped.z), new Vector2(size.x, size.z),
+                var target = LayoutSnap.SnapXZ(placement.basePosition, LayoutSnap.DefaultGrid);
+                target.y = LayoutSnap.StackHeight(new Vector2(target.x, target.z), new Vector2(size.x, size.z),
                     placement.yawDegrees, others, catalog);
-                t.position += snapped - placement.basePosition;
+                Undo.RecordObject(t, "Snap & Stack");
+                t.position += target - placement.basePosition;
+                snapped++;
             }
-            status = $"Snapped {selected.Length} prop(s).";
+            status = $"Snapped {snapped} prop(s).";
         }
 
         private void DrawTargetToggle()
@@ -119,22 +122,29 @@ namespace Game.Editor
             LevelEditing.SetTarget(go, toggled);
         }
 
-        private void SaveLevel()
+        /// <returns>True when saved.</returns>
+        private bool SaveLevel()
         {
-            string error = LevelEditing.Save(level, LevelEditing.Capture(root, catalog), shots, difficulty);
-            status = error ?? $"Saved {level.id}.";
+            var props = LevelEditing.Capture(root, catalog, out int skipped);
+            string error = LevelEditing.Save(level, props, shots, difficulty);
+            string warning = skipped > 0 ? $" ({skipped} renamed object(s) under the level root were not saved)" : "";
+            status = (error ?? $"Saved {level.id}.") + warning;
+            return error == null;
         }
 
+        /// <summary>Saves, then plays the level; an invalid level keeps the edit open and nothing is discarded.</summary>
         private void Preview()
         {
-            SaveLevel();
             int index = Array.IndexOf(list.levels, level);
             if (index < 0)
             {
                 status = $"{level.id} is not in {list.name}.";
                 return;
             }
+            if (!SaveLevel()) return;
+            // The level asset holds the edit now; drop the edit props so they are never saved into a scene.
             DestroyImmediate(root.gameObject);
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
             EditorSceneManager.OpenScene(PrototypeSceneBuilder.ScenePath);
             EditorStartLevel.Set(index);
             EditorApplication.isPlaying = true;

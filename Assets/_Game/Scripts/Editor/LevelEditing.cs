@@ -40,23 +40,36 @@ namespace Game.Editor
             return instance;
         }
 
-        public static PropPlacement[] Capture(Transform root, PropCatalog catalog)
+        public static PropPlacement[] Capture(Transform root, PropCatalog catalog) => Capture(root, catalog, out _);
+
+        /// <param name="skipped">Children whose names can't be read as props (renamed by hand); they are not saved.</param>
+        public static PropPlacement[] Capture(Transform root, PropCatalog catalog, out int skipped)
         {
             var props = new List<PropPlacement>(root.childCount);
+            skipped = 0;
             foreach (Transform child in root)
             {
-                if (!TryParse(child.name, out var kind, out int variant, out bool isTarget)) continue;
-                var size = catalog.Get(kind).size;
-                props.Add(new PropPlacement
-                {
-                    kind = kind,
-                    variant = variant,
-                    isTarget = isTarget,
-                    basePosition = child.position - WorldPosition(Vector3.zero, size),
-                    yawDegrees = Mathf.DeltaAngle(0f, child.eulerAngles.y),
-                });
+                if (TryCapture(child, catalog, out var placement)) props.Add(placement);
+                else skipped++;
             }
             return props.ToArray();
+        }
+
+        /// <summary>Reads one edit instance back into a placement.</summary>
+        public static bool TryCapture(Transform child, PropCatalog catalog, out PropPlacement placement)
+        {
+            placement = default;
+            if (!TryParse(child.name, out var kind, out int variant, out bool isTarget)) return false;
+            var size = catalog.Get(kind).size;
+            placement = new PropPlacement
+            {
+                kind = kind,
+                variant = variant,
+                isTarget = isTarget,
+                basePosition = child.position - WorldPosition(Vector3.zero, size),
+                yawDegrees = Mathf.DeltaAngle(0f, child.eulerAngles.y),
+            };
+            return true;
         }
 
         /// <returns>Null when saved, else the validation error (the level is left unchanged).</returns>
@@ -98,8 +111,9 @@ namespace Game.Editor
             variant = 0;
             isTarget = false;
             string[] parts = name.Split(Separator);
-            if (parts.Length != 3 || !Enum.TryParse(parts[0], out kind) || !int.TryParse(parts[1], out variant)) return false;
-            isTarget = parts[2] == Target;
+            if (parts.Length < 3 || !Enum.TryParse(parts[0], out kind) || !int.TryParse(parts[1], out variant)) return false;
+            // Duplicates get a suffix ("Mug#0#T (1)"): only the first letter of the flag matters.
+            isTarget = parts[2].StartsWith(Target, StringComparison.Ordinal);
             return true;
         }
     }

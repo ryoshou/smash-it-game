@@ -49,6 +49,12 @@ namespace Game.World
             SettleMath.IsMoving(Body.linearVelocity, Body.angularVelocity,
                 tuning.settleLinearThreshold, tuning.settleAngularThreshold);
 
+        /// <summary>Puffs the prop away where it stands (e.g. props that didn't count, once the desk is cleared).</summary>
+        public void Pop()
+        {
+            if (!IsBroken) Break(BreakMode.Pop, raiseEvent: true);
+        }
+
         private void Awake() => Body = GetComponent<Rigidbody>();
 
         private void FixedUpdate()

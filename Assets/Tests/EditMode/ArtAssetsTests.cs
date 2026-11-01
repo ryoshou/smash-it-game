@@ -34,6 +34,18 @@ namespace Game.Tests
             AssertSize(new Vector3(0.15f, 0.11f, 0.15f), stats.boundsSize, 0.005f);
         }
 
+        // Upright sizes in Unity axes (y = height). A model imported on its side (e.g. the plain "fbx" instead of the
+        // "fbx (unity)" variant) puts its height on another axis and fails here; the validator only sees the largest side.
+        [TestCase("Packs/TinyTreats/mug_A_pink.fbx", 0.585f, 0.35f, 0.432f)]
+        [TestCase("Packs/TinyTreats/mug_A_blue.fbx", 0.585f, 0.35f, 0.432f)]
+        [TestCase("Packs/TinyTreats/mug_A_yellow.fbx", 0.585f, 0.35f, 0.432f)]
+        [TestCase("Packs/KayKitFurniture/book_single.fbx", 0.26f, 0.5f, 0.365f)]
+        [TestCase("Packs/KayKitFurniture/cactus_small_A.fbx", 0.5f, 0.552f, 0.5f)]
+        public void PackProp_ImportsUpright(string model, float x, float y, float z)
+        {
+            AssertSize(new Vector3(x, y, z), Measure(model).boundsSize, 0.01f);
+        }
+
         [Test]
         public void GeneratedDesk_IsTwoByOneAndAHalf_OneMetreTall()
         {
