@@ -17,3 +17,5 @@ KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/shelf_B_large_decorated.fbx	Ka
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/rug_rectangle_stripes_A.fbx	KayKitFurniture/rug_rectangle_stripes_A.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_medium.fbx	KayKitFurniture/table_medium.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/furniturebits_texture.png	KayKitFurniture/furniturebits_texture.png
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_large_A.fbx	KayKitFurniture/pictureframe_large_A.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_medium.fbx	KayKitFurniture/pictureframe_medium.fbx

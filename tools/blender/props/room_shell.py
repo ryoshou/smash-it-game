@@ -1,7 +1,10 @@
-"""Home Office shell: 8 x 8 floor at z = 0, back wall at y = +3.5, left wall at x = -4, window, baseboards.
+"""Home Office shell: a cosy 3.5 m wide room around the play desk (owner, checkpoint 2: "feel like we're in a room").
 
-Blender +Y is away from the player (Unity +Z). Each part stays a separate child mesh.
+The portrait camera sees only about +/-2 m at the back wall, so the side walls stand at x = +/-1.75 and show as
+corners, and the ceiling (3.1 m) shows along the top edge. Blender +Y is away from the player (Unity +Z). Parts stay
+separate child meshes: Floor, BackWall, LeftWall, RightWall, Ceiling, mouldings, baseboards, window, Pendant.
 """
+import math
 import os
 import sys
 
@@ -12,36 +15,58 @@ import bpy  # noqa: E402
 from lib import atlas, export, shapes  # noqa: E402
 from lib.palette import CELLS  # noqa: E402
 
-FLOOR = 8.0
-FLOOR_CENTER_Y = -0.5
-WALL_H = 4.0
-WALL_T = 0.1
+HALF_WIDTH = 1.75
+FRONT_Y = -4.5
 BACK_Y = 3.5
-LEFT_X = -4.0
+HEIGHT = 3.1
+WALL_T = 0.1
+TRIM = 0.12
+PENDANT = (0.0, 1.2)  # x, y under the ceiling
 
 
-def part(name, size, location, cell, height_range=(0.0, WALL_H)):
+def part(name, size, location, cell, height_range=(0.0, HEIGHT)):
     obj = shapes.rounded_box(name, size, bevel=0.01, segments=1)
     obj.location = location
     atlas.paint(obj, CELLS[cell], height_range=height_range)
     return obj
 
 
+def pendant():
+    x, y = PENDANT
+    cord = shapes.rounded_cylinder("Cord", 0.012, 0.45, bevel=0, verts=6)
+    cord.location = (x, y, HEIGHT - 0.45)
+    shade = shapes.rounded_cylinder("Shade", 0.26, 0.2, bevel=0.03, segments=2, verts=20)
+    shade.location = (x, y, HEIGHT - 0.65)
+    bulb = shapes.uv_sphere("Bulb", 0.08, segments=10, rings=6)
+    bulb.location = (x, y, HEIGHT - 0.68)
+    for obj, cell in ((cord, "charcoal"), (shade, "teal"), (bulb, "butter")):
+        atlas.paint(obj, CELLS[cell], height_range=(HEIGHT - 0.8, HEIGHT))
+    return shapes.join("Pendant", [shade, cord, bulb])
+
+
 def build(out):
     export.reset()
     root = bpy.data.objects.new("RoomShell", None)
     bpy.context.scene.collection.objects.link(root)
-    wall_len_x = FLOOR
-    wall_len_y = BACK_Y - (FLOOR_CENTER_Y - FLOOR / 2)
-    left_center_y = (FLOOR_CENTER_Y - FLOOR / 2 + BACK_Y - WALL_T) / 2
+    depth = BACK_Y - FRONT_Y
+    mid_y = (BACK_Y + FRONT_Y) / 2
+    width = 2 * HALF_WIDTH
     parts = [
-        part("Floor", (FLOOR, FLOOR, 0.05), (0, FLOOR_CENTER_Y, -0.05), "tan", (-0.05, 0.0)),
-        part("BackWall", (wall_len_x - 0.01, WALL_T, WALL_H), (0, BACK_Y - WALL_T / 2, 0), "cream"),
-        part("LeftWall", (WALL_T, wall_len_y - WALL_T, WALL_H), (LEFT_X + WALL_T / 2, left_center_y, 0), "peach"),
-        part("BaseboardBack", (wall_len_x - 0.01, 0.03, 0.12), (0, BACK_Y - WALL_T - 0.015, 0), "white", (0.0, 0.12)),
-        part("BaseboardLeft", (0.03, wall_len_y - WALL_T, 0.12), (LEFT_X + WALL_T + 0.015, left_center_y, 0), "white", (0.0, 0.12)),
-        part("WindowFrame", (1.6, 0.06, 1.2), (-1.4, BACK_Y - WALL_T - 0.03, 1.6), "white", (1.6, 2.8)),
-        part("WindowGlass", (1.44, 0.02, 1.04), (-1.4, BACK_Y - WALL_T - 0.07, 1.68), "glass", (1.68, 2.72)),
+        part("Floor", (width, depth, 0.05), (0, mid_y, -0.05), "tan", (-0.05, 0.0)),
+        part("BackWall", (width, WALL_T, HEIGHT), (0, BACK_Y - WALL_T / 2, 0), "peach"),
+        part("LeftWall", (WALL_T, depth - WALL_T, HEIGHT), (-HALF_WIDTH + WALL_T / 2, mid_y - WALL_T / 2, 0), "cream"),
+        part("RightWall", (WALL_T, depth - WALL_T, HEIGHT), (HALF_WIDTH - WALL_T / 2, mid_y - WALL_T / 2, 0), "cream"),
+        part("Ceiling", (width, depth, 0.05), (0, mid_y, HEIGHT), "white", (HEIGHT, HEIGHT + 0.05)),
+        part("MouldingBack", (width - 2 * WALL_T, 0.06, TRIM), (0, BACK_Y - WALL_T - 0.03, HEIGHT - TRIM), "white", (HEIGHT - TRIM, HEIGHT)),
+        part("MouldingLeft", (0.06, depth - WALL_T, TRIM), (-HALF_WIDTH + WALL_T + 0.03, mid_y - WALL_T / 2, HEIGHT - TRIM), "white", (HEIGHT - TRIM, HEIGHT)),
+        part("MouldingRight", (0.06, depth - WALL_T, TRIM), (HALF_WIDTH - WALL_T - 0.03, mid_y - WALL_T / 2, HEIGHT - TRIM), "white", (HEIGHT - TRIM, HEIGHT)),
+        part("BaseboardBack", (width - 2 * WALL_T, 0.04, TRIM), (0, BACK_Y - WALL_T - 0.02, 0), "white", (0.0, TRIM)),
+        part("BaseboardLeft", (0.04, depth - WALL_T, TRIM), (-HALF_WIDTH + WALL_T + 0.02, mid_y - WALL_T / 2, 0), "white", (0.0, TRIM)),
+        part("BaseboardRight", (0.04, depth - WALL_T, TRIM), (HALF_WIDTH - WALL_T - 0.02, mid_y - WALL_T / 2, 0), "white", (0.0, TRIM)),
+        part("WindowFrame", (1.2, 0.06, 1.1), (-0.85, BACK_Y - WALL_T - 0.03, 1.45), "white", (1.45, 2.55)),
+        part("WindowGlass", (1.04, 0.02, 0.94), (-0.85, BACK_Y - WALL_T - 0.07, 1.53), "glass", (1.53, 2.47)),
+        part("WindowSill", (1.36, 0.16, 0.05), (-0.85, BACK_Y - WALL_T - 0.08, 1.4), "white", (1.4, 1.45)),
+        pendant(),
     ]
     for p in parts:
         p.parent = root

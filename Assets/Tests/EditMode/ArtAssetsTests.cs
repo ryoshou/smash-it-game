@@ -115,17 +115,27 @@ namespace Game.Tests
         }
 
         [Test]
-        public void GeneratedRoomShell_BackWallIsAwayFromPlayer_LeftWallOnTheLeft()
+        public void GeneratedRoomShell_EnclosesTheDesk()
         {
+            // Owner, checkpoint 2: it should feel like being inside a room. The portrait camera only sees about
+            // +/-2 m at the back wall, so the side walls sit close enough to show as corners and the ceiling edge shows
+            // along the top.
             var room = Load("Generated/RoomShell.fbx").transform;
 
-            var back = ArtMeshStats.ModelBounds(room.Find("BackWall").gameObject);
-            var left = ArtMeshStats.ModelBounds(room.Find("LeftWall").gameObject);
-            var backCenter = room.Find("BackWall").TransformPoint(back.center);
-            var leftCenter = room.Find("LeftWall").TransformPoint(left.center);
+            Assert.Greater(Center(room, "BackWall").z, 3f, "back wall away from the player");
+            Assert.Less(Center(room, "LeftWall").x, -1.5f, "left wall on the left");
+            Assert.Greater(Center(room, "LeftWall").x, -2f, "left wall close enough to see");
+            Assert.Greater(Center(room, "RightWall").x, 1.5f, "right wall on the right");
+            Assert.Less(Center(room, "RightWall").x, 2f, "right wall close enough to see");
+            Assert.AreEqual(3.1f, Center(room, "Ceiling").y, 0.1f, "ceiling");
+            Assert.IsNotNull(room.Find("Pendant"), "a hanging lamp");
+        }
 
-            Assert.Greater(backCenter.z, 3f, $"back wall at {backCenter}");
-            Assert.Less(leftCenter.x, -3.5f, $"left wall at {leftCenter}");
+        private static Vector3 Center(Transform room, string part)
+        {
+            var child = room.Find(part);
+            Assert.IsNotNull(child, $"room shell has no {part}");
+            return child.TransformPoint(ArtMeshStats.ModelBounds(child.gameObject).center);
         }
 
         [Test]

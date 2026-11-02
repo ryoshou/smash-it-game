@@ -32,6 +32,11 @@ namespace Game.Editor
         private static readonly Vector3 DeskSize = new Vector3(2.0f, 0.08f, 1.5f);
         private const float LegSize = 0.07f;
         private const float YarnModelDiameter = 0.18f;
+        private const float SunIntensity = 0.85f;
+        private static readonly Color SunColor = new Color(1f, 0.93f, 0.84f);
+        private static readonly Color AmbientCeiling = new Color(0.93f, 0.85f, 0.76f);
+        private static readonly Color AmbientWalls = new Color(0.78f, 0.64f, 0.55f);
+        private static readonly Color AmbientFloor = new Color(0.5f, 0.38f, 0.3f);
         private static readonly Vector3 CatPosition = new Vector3(-0.34f, 0f, -1.95f);
         private const float CatYaw = 155f;
         private static readonly Vector3 CameraPosition = new Vector3(0f, 2.2f, -4.2f);
@@ -120,7 +125,13 @@ namespace Game.Editor
 
             var light = new GameObject("Directional Light").AddComponent<Light>();
             light.type = LightType.Directional;
-            light.intensity = 1.1f;
+            light.intensity = SunIntensity;
+            light.color = SunColor;
+            // Warm indoor fill instead of flat daylight (owner, checkpoint 2: feel like being in a room).
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = AmbientCeiling;
+            RenderSettings.ambientEquatorColor = AmbientWalls;
+            RenderSettings.ambientGroundColor = AmbientFloor;
             light.shadows = LightShadows.Soft;
             light.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
 
