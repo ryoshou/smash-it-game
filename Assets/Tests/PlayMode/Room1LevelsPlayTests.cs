@@ -11,7 +11,8 @@ namespace Game.Tests
 {
     /// <summary>
     /// A smoke test, not the M3 playtest bot: for each Room 1 level, every target must be knocked off by at least one
-    /// shot from a 9 yaw × 4 power grid (each shot on a freshly loaded level).
+    /// shot from a 9 yaw × 4 power grid, each on a freshly loaded level. A support is only reachable once what rests on
+    /// it is gone, so a target no fresh-level shot clears gets a second pass with the props above it removed.
     /// </summary>
     public sealed class Room1LevelsPlayTests
     {
@@ -62,10 +63,34 @@ namespace Game.Tests
                             if (probe.IsCleared(i)) knocked.Add(i);
                     }
                 foreach (int i in targets)
-                    if (!knocked.Contains(i)) unreachable.Add($"level {level + 1} target {i} ({probe.Kind(i)})");
+                {
+                    if (knocked.Contains(i)) continue;
+                    bool reached = false;
+                    yield return SweepWithLoadRemoved(level, i, result => reached = result);
+                    if (!reached) unreachable.Add($"level {level + 1} target {i} ({probe.Kind(i)})");
+                }
             }
 
             Assert.IsEmpty(unreachable, "No sampled shot knocks these off:\n" + string.Join("\n", unreachable));
+        }
+
+        private IEnumerator SweepWithLoadRemoved(int level, int target, System.Action<bool> done)
+        {
+            for (int y = 0; y < YawSteps; y++)
+                foreach (float power in Powers)
+                {
+                    bootstrap.LoadLevel(level);
+                    probe.RemoveLoadOn(target);
+                    yield return null;
+                    bootstrap.FireForTest(Pull(Mathf.Lerp(-1f, 1f, y / (YawSteps - 1f)), power));
+                    yield return new WaitForSeconds(SimulatedSeconds);
+                    if (probe.IsCleared(target))
+                    {
+                        done(true);
+                        yield break;
+                    }
+                }
+            done(false);
         }
 
         /// <param name="yaw01">-1 (full left aim) .. 1 (full right aim).</param>
@@ -94,6 +119,30 @@ namespace Game.Tests
             public bool IsCleared(int i) => spawner.Spawned[i].IsCleared;
 
             public PropKind Kind(int i) => spawner.Spawned[i].Kind;
+
+            /// <summary>Deactivates every prop resting higher than the target over its footprint.</summary>
+            public void RemoveLoadOn(int target)
+            {
+                var below = spawner.Spawned[target];
+                var bounds = Bounds(below);
+                for (int i = 0; i < spawner.Spawned.Count; i++)
+                {
+                    if (i == target) continue;
+                    var other = Bounds(spawner.Spawned[i]);
+                    bool above = other.center.y > bounds.center.y;
+                    bool over = Mathf.Abs(other.center.x - bounds.center.x) < (other.extents.x + bounds.extents.x)
+                                && Mathf.Abs(other.center.z - bounds.center.z) < (other.extents.z + bounds.extents.z);
+                    if (above && over) spawner.Spawned[i].gameObject.SetActive(false);
+                }
+            }
+
+            private static Bounds Bounds(World.DeskObject prop)
+            {
+                var colliders = prop.GetComponentsInChildren<Collider>();
+                var bounds = colliders[0].bounds;
+                foreach (var c in colliders) bounds.Encapsulate(c.bounds);
+                return bounds;
+            }
         }
     }
 }

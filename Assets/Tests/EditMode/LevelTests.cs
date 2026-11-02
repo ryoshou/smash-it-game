@@ -146,5 +146,15 @@ namespace Game.Tests
             Assert.AreEqual(Vector3.one, catalog.Get(PropKind.Keycap1u).size);
             Assert.Throws<KeyNotFoundException>(() => catalog.Get(PropKind.KeycapSpace));
         }
+
+        [Test]
+        public void Room1Levels_EveryPropIsATarget()
+        {
+            // Owner, checkpoint 2: props holding others up must be cleared too.
+            var list = UnityEditor.AssetDatabase.LoadAssetAtPath<LevelList>("Assets/_Game/Levels/Room1/Room1LevelList.asset");
+            for (int i = 0; i < list.Count; i++)
+                foreach (var prop in list.At(i).props)
+                    Assert.IsTrue(prop.isTarget, $"{list.At(i).id}: {prop.kind} at {prop.basePosition} is not a target");
+        }
     }
 }

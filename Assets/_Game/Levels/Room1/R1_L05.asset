@@ -23,22 +23,22 @@ MonoBehaviour:
     isTarget: 1
     variant: 0
   - kind: 5
-    basePosition: {x: -0.62, y: 0, z: 0.05}
+    basePosition: {x: -0.62, y: 0, z: 0.42}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 0
   - kind: 4
-    basePosition: {x: -0.62, y: 0.26, z: 0.05}
+    basePosition: {x: -0.62, y: 0.26, z: 0.42}
     yawDegrees: 0
     isTarget: 1
     variant: 2
   - kind: 5
-    basePosition: {x: 0.62, y: 0, z: 0.05}
+    basePosition: {x: 0.62, y: 0, z: 0.42}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 0
   - kind: 4
-    basePosition: {x: 0.62, y: 0.26, z: 0.05}
+    basePosition: {x: 0.62, y: 0.26, z: 0.42}
     yawDegrees: 0
     isTarget: 1
     variant: 1

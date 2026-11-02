@@ -20,12 +20,12 @@ MonoBehaviour:
   - kind: 1
     basePosition: {x: -0.62, y: 0, z: -0.029999997}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 0
   - kind: 1
     basePosition: {x: -0.62, y: 0, z: 0.13}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 2
   - kind: 4
     basePosition: {x: -0.62, y: 0.15, z: 0.05}
@@ -35,12 +35,12 @@ MonoBehaviour:
   - kind: 1
     basePosition: {x: 0.12, y: 0, z: 0.26999998}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 0
   - kind: 1
     basePosition: {x: 0.12, y: 0, z: 0.43}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 2
   - kind: 4
     basePosition: {x: 0.12, y: 0.15, z: 0.35}
@@ -50,12 +50,12 @@ MonoBehaviour:
   - kind: 1
     basePosition: {x: 0.62, y: 0, z: -0.28}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 0
   - kind: 1
     basePosition: {x: 0.62, y: 0, z: -0.120000005}
     yawDegrees: 0
-    isTarget: 0
+    isTarget: 1
     variant: 2
   - kind: 4
     basePosition: {x: 0.62, y: 0.15, z: -0.2}

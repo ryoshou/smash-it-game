@@ -8,7 +8,7 @@ namespace Game.Editor
 {
     /// <summary>
     /// Room 1 (Home Office) levels 1–5, one teaching idea each (spec §6.1): pull, power, aim and breaking, toppling a
-    /// tall stack, heavy objects (Hard). Supports under stacks are optional props. Written through LevelEditing.Save, so each is validated; fine-tune later in
+    /// tall stack, heavy objects (Hard). Every prop is a target, supports included (owner, checkpoint 2). Written through LevelEditing.Save, so each is validated; fine-tune later in
     /// the Level Editor (it saves to the same assets). Safe to re-run: it rewrites the layouts.
     /// </summary>
     public static class Room1LevelBuilder
@@ -67,8 +67,8 @@ namespace Game.Editor
             var spots = new[] { new Vector2(-0.62f, 0.05f), new Vector2(0.12f, 0.35f), new Vector2(0.62f, -0.2f) };
             for (int i = 0; i < spots.Length; i++)
             {
-                props.Add(Support(Cap(PropKind.Keycap2u, spots[i].x, 0f, spots[i].y - 0.08f, Look.Cream)));
-                props.Add(Support(Cap(PropKind.Keycap2u, spots[i].x, 0f, spots[i].y + 0.08f, Look.Sky)));
+                props.Add(Cap(PropKind.Keycap2u, spots[i].x, 0f, spots[i].y - 0.08f, Look.Cream));
+                props.Add(Cap(PropKind.Keycap2u, spots[i].x, 0f, spots[i].y + 0.08f, Look.Sky));
                 props.Add(Prop(PropKind.Mug, spots[i].x, Keycap, spots[i].y, i));
             }
             return props.ToArray();
@@ -79,7 +79,7 @@ namespace Game.Editor
         {
             var props = new List<PropPlacement>();
             float[] yaws = { 0f, 4f, -3f, 2f };
-            props.Add(Support(Prop(PropKind.Book, 0f, 0f, 0.15f, 0, yaws[0])));
+            props.Add(Prop(PropKind.Book, 0f, 0f, 0.15f, 0, yaws[0]));
             for (int i = 1; i < yaws.Length; i++)
                 props.Add(Prop(PropKind.Book, 0f, i * Book, 0.15f, 0, yaws[i]));
             for (int col = -1; col <= 1; col++)
@@ -91,21 +91,12 @@ namespace Game.Editor
         private static PropPlacement[] Heavy() => new[]
         {
             Prop(PropKind.CactusPot, 0f, 0f, 0.3f, 0),
-            Support(Prop(PropKind.Book, -0.62f, 0f, 0.05f, 0)),
-            Prop(PropKind.Mug, -0.62f, Book, 0.05f, 2),
-            Support(Prop(PropKind.Book, 0.62f, 0f, 0.05f, 0)),
-            Prop(PropKind.Mug, 0.62f, Book, 0.05f, 1),
+            // Books near the back edge, so once its mug is gone a hit can push a book off.
+            Prop(PropKind.Book, -0.62f, 0f, 0.42f, 0),
+            Prop(PropKind.Mug, -0.62f, Book, 0.42f, 2),
+            Prop(PropKind.Book, 0.62f, 0f, 0.42f, 0),
+            Prop(PropKind.Mug, 0.62f, Book, 0.42f, 1),
         };
-
-        /// <summary>
-        /// A prop that holds others up and that no single shot can reach once its load is gone, so clearing it is
-        /// optional (spec §4.3 allows props that don't count): it can still be knocked off for fun.
-        /// </summary>
-        private static PropPlacement Support(PropPlacement placement)
-        {
-            placement.isTarget = false;
-            return placement;
-        }
 
         private static PropPlacement Cap(PropKind kind, float x, float y, float z, Look look) => Prop(kind, x, y, z, (int)look);
 
