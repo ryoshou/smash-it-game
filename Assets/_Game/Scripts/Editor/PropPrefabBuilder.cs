@@ -21,7 +21,7 @@ namespace Game.Editor
         private const string KayKit = "KayKitFurniture";
         private static readonly string[] KeycapColours = { "cream", "pink", "sky" };
         private static readonly string[] MugColours = { "pink", "blue", "yellow" };
-        private static readonly Vector3 KeycapEnterSize = new Vector3(0.225f, 0.11f, 0.15f);
+        private static readonly Vector3 KeycapEnterSize = new Vector3(0.225f, 0.15f, 0.11f);
         private const float KeycapEnterMass = 0.06f;
         private static readonly Vector3 LayFlat = new Vector3(0f, 0f, 90f);
 

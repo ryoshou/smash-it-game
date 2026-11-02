@@ -43,7 +43,7 @@ namespace Game.Tests
                 Assert.AreEqual(PropKind.Keycap1u, p.kind);
             }
             for (int r = 0; r < 4; r++)
-                Assert.AreEqual(r * 0.112f, wall[r * 5].basePosition.y, Tolerance, $"row {r}");
+                Assert.AreEqual(r * 0.152f, wall[r * 5].basePosition.y, Tolerance, $"row {r}"); // standing keycaps: 0.15 + 2 mm gap
         }
 
         [Test]

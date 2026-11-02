@@ -13,9 +13,10 @@ namespace Game.Levels
 
         public static Vector3 Size(PropKind kind) => kind switch
         {
-            PropKind.Keycap1u => new Vector3(0.15f, 0.11f, 0.15f),
-            PropKind.Keycap2u => new Vector3(0.31f, 0.11f, 0.15f),
-            PropKind.KeycapSpace => new Vector3(0.63f, 0.11f, 0.15f),
+            // Standing up, letter towards the camera: width x 0.15 tall x 0.11 deep (owner, checkpoint 2).
+            PropKind.Keycap1u => new Vector3(0.15f, 0.15f, 0.11f),
+            PropKind.Keycap2u => new Vector3(0.31f, 0.15f, 0.11f),
+            PropKind.KeycapSpace => new Vector3(0.63f, 0.15f, 0.11f),
             _ => throw new KeyNotFoundException($"No placeholder size for {kind}."),
         };
 

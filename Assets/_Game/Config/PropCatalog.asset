@@ -21,7 +21,7 @@ MonoBehaviour:
       brokenPrefab: {fileID: 0}
     - prefab: {fileID: 6497009542685650023, guid: 6b9d79d52eb0f433cb40541b85ca5926, type: 3}
       brokenPrefab: {fileID: 0}
-    size: {x: 0.15, y: 0.11, z: 0.15}
+    size: {x: 0.15, y: 0.15, z: 0.11}
     mass: 0.04
     material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
     collider: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
       brokenPrefab: {fileID: 0}
     - prefab: {fileID: 7328646225141469407, guid: b9aa0d028b2ec409e8713b3e1ec685fb, type: 3}
       brokenPrefab: {fileID: 0}
-    size: {x: 0.31, y: 0.11, z: 0.15}
+    size: {x: 0.31, y: 0.15, z: 0.11}
     mass: 0.07
     material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
     collider: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
       brokenPrefab: {fileID: 0}
     - prefab: {fileID: 899560220381038630, guid: 54db4f8c88e754e75b8b39a82d02af8f, type: 3}
       brokenPrefab: {fileID: 0}
-    size: {x: 0.63, y: 0.11, z: 0.15}
+    size: {x: 0.63, y: 0.15, z: 0.11}
     mass: 0.12
     material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
     collider: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
       brokenPrefab: {fileID: 0}
     - prefab: {fileID: 6500175008866844602, guid: 346fd2dfe5cb54b5485a875f78344a85, type: 3}
       brokenPrefab: {fileID: 0}
-    size: {x: 0.225, y: 0.11, z: 0.15}
+    size: {x: 0.225, y: 0.15, z: 0.11}
     mass: 0.06
     material: {fileID: 13400000, guid: 4286ce0c590214f2c9a94883c282252b, type: 2}
     collider: 0

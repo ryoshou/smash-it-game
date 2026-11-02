@@ -15,7 +15,7 @@ namespace Game.Editor
     {
         public const string Folder = "Assets/_Game/Levels/Room1";
         public const string ListPath = Folder + "/Room1LevelList.asset";
-        private const float Keycap = 0.11f;   // keycap height
+        private const float Keycap = 0.15f;   // standing keycap height
         private const float Book = 0.26f;     // book height, lying flat
         private const float Pitch = 0.16f;    // 1u keycap spacing (0.15 + a gap)
 

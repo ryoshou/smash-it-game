@@ -43,27 +43,27 @@ MonoBehaviour:
     isTarget: 1
     variant: 1
   - kind: 0
-    basePosition: {x: -0.32, y: 0.11, z: -0.25}
+    basePosition: {x: -0.32, y: 0.15, z: -0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 1
   - kind: 0
-    basePosition: {x: -0.16, y: 0.11, z: -0.25}
+    basePosition: {x: -0.16, y: 0.15, z: -0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 2
   - kind: 0
-    basePosition: {x: 0, y: 0.11, z: -0.25}
+    basePosition: {x: 0, y: 0.15, z: -0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0
   - kind: 0
-    basePosition: {x: 0.16, y: 0.11, z: -0.25}
+    basePosition: {x: 0.16, y: 0.15, z: -0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 1
   - kind: 0
-    basePosition: {x: 0.32, y: 0.11, z: -0.25}
+    basePosition: {x: 0.32, y: 0.15, z: -0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 2

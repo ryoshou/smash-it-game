@@ -45,11 +45,13 @@ namespace Game.Tests
             Assert.AreSame(spec.variants[0].prefab, spec.Variant(-1).prefab);
         }
 
-        // Pinned from M1's PropCatalog.asset: checkpoint 1 approved the shot feel with these.
-        [TestCase(PropKind.Keycap1u, 0.15f, 0.11f, 0.15f, 0.04f)]
-        [TestCase(PropKind.Keycap2u, 0.31f, 0.11f, 0.15f, 0.07f)]
-        [TestCase(PropKind.KeycapSpace, 0.63f, 0.11f, 0.15f, 0.12f)]
-        public void KeycapSpecs_KeepM1Values(PropKind kind, float x, float y, float z, float mass)
+        // Keycaps stand up with the letter towards the camera (owner, checkpoint 2): width x 0.15 tall x 0.11 deep, the
+        // collider matching the new shape. Masses and the physics material stay M1's.
+        [TestCase(PropKind.Keycap1u, 0.15f, 0.15f, 0.11f, 0.04f)]
+        [TestCase(PropKind.Keycap2u, 0.31f, 0.15f, 0.11f, 0.07f)]
+        [TestCase(PropKind.KeycapSpace, 0.63f, 0.15f, 0.11f, 0.12f)]
+        [TestCase(PropKind.KeycapEnter, 0.225f, 0.15f, 0.11f, 0.06f)]
+        public void KeycapSpecs_StandUpright_KeepM1Masses(PropKind kind, float x, float y, float z, float mass)
         {
             var spec = catalog.Get(kind);
 
@@ -62,13 +64,13 @@ namespace Game.Tests
         }
 
         [Test]
-        public void KeycapPrefab_KeepsM1BoxCollider()
+        public void KeycapPrefab_ColliderMatchesStandingShape()
         {
             var prefab = catalog.Get(PropKind.Keycap1u).Variant(0).prefab;
             var box = prefab.GetComponent<BoxCollider>();
 
             Assert.IsNotNull(box);
-            Assert.AreEqual(new Vector3(0.15f, 0.11f, 0.15f), box.size);
+            Assert.AreEqual(new Vector3(0.15f, 0.15f, 0.11f), box.size);
             Assert.AreEqual(Vector3.zero, box.center);
         }
 

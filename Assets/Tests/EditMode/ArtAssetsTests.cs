@@ -25,14 +25,47 @@ namespace Game.Tests
         }
 
         [Test]
-        public void GeneratedKeycap1u_MatchesM1ColliderInUnityAxes()
+        public void GeneratedKeycap1u_StandsUpInUnityAxes()
         {
             var stats = Measure("Generated/Keycap1u_cream.fbx");
 
             Assert.Greater(stats.triangles, 0);
             Assert.AreEqual(1, stats.materialCount);
-            AssertSize(new Vector3(0.15f, 0.11f, 0.15f), stats.boundsSize, 0.005f);
+            AssertSize(new Vector3(0.15f, 0.15f, 0.11f), stats.boundsSize, 0.005f);
         }
+
+        [TestCase("Generated/Keycap1u_cream.fbx")]
+        [TestCase("Generated/Keycap2u_pink.fbx")]
+        [TestCase("Generated/KeycapEnter_sky.fbx")]
+        public void GeneratedKeycap_LetterFacesTheCamera(string model)
+        {
+            // The frontmost surface (-z, towards the camera) is the raised legend, in a darker cell than the body.
+            var root = Load(model);
+            var filter = root.GetComponentInChildren<MeshFilter>();
+            var toModel = root.transform.worldToLocalMatrix * filter.transform.localToWorldMatrix;
+            var vertices = filter.sharedMesh.vertices;
+            var uvs = filter.sharedMesh.uv;
+            int front = 0;
+            float frontZ = float.MaxValue;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                float z = toModel.MultiplyPoint3x4(vertices[i]).z;
+                if (z < frontZ) { frontZ = z; front = i; }
+            }
+            int bodyRow = CellOf(uvs[Highest(vertices, toModel)]).y;
+            Assert.AreNotEqual(CellOf(uvs[Highest(vertices, toModel)]), CellOf(uvs[front]),
+                $"frontmost point (z {frontZ}) should be the legend, not the body (body row {bodyRow})");
+        }
+
+        private static int Highest(Vector3[] vertices, Matrix4x4 toModel)
+        {
+            int top = 0;
+            for (int i = 1; i < vertices.Length; i++)
+                if (toModel.MultiplyPoint3x4(vertices[i]).y > toModel.MultiplyPoint3x4(vertices[top]).y) top = i;
+            return top;
+        }
+
+        private static Vector2Int CellOf(Vector2 uv) => new Vector2Int(Mathf.FloorToInt(uv.x * 8f), Mathf.FloorToInt(uv.y * 4f));
 
         // Upright sizes in Unity axes (y = height). A model imported on its side (e.g. the plain "fbx" instead of the
         // "fbx (unity)" variant) puts its height on another axis and fails here; the validator only sees the largest side.
