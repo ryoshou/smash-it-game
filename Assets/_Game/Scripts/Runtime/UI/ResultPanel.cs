@@ -1,4 +1,5 @@
 using System;
+using Game.Meta;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,19 +14,23 @@ namespace Game.UI
         [SerializeField] private Button secondary;
         [SerializeField] private Text secondaryLabel;
 
+        private UiStrings strings;
+
+        public void Bind(UiStrings uiStrings) => strings = uiStrings;
+
         public void ShowWin(Action onNext)
         {
-            title.text = "Desk cleared!";
-            SetButton(primary, primaryLabel, "Next", onNext);
+            title.text = strings.winTitle;
+            SetButton(primary, primaryLabel, strings.next, onNext);
             SetButton(secondary, secondaryLabel, null, null);
             gameObject.SetActive(true);
         }
 
         public void ShowLose(bool canContinue, Action onContinue, Action onRetry)
         {
-            title.text = "Out of shots";
-            SetButton(primary, primaryLabel, canContinue ? "+3 shots" : null, canContinue ? onContinue : null);
-            SetButton(secondary, secondaryLabel, "Retry", onRetry);
+            title.text = strings.loseTitle;
+            SetButton(primary, primaryLabel, canContinue ? strings.continueAd : null, canContinue ? onContinue : null);
+            SetButton(secondary, secondaryLabel, strings.retry, onRetry);
             gameObject.SetActive(true);
         }
 

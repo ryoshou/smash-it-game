@@ -1,18 +1,33 @@
+using System;
 using Game.Levels;
+using Game.Meta;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.UI
 {
-    /// <summary>Shot counter and level number (labelled when Hard, spec §6.1).</summary>
+    /// <summary>Shot counter, level number (labelled when Hard, spec §6.1) and the pause button.</summary>
     public sealed class Hud : MonoBehaviour
     {
         [SerializeField] private Text shotsText;
         [SerializeField] private Text levelText;
+        [SerializeField] private Button pauseButton;
 
-        public void SetShots(int shots) => shotsText.text = $"Shots: {shots}";
+        private UiStrings strings;
 
-        public void SetLevel(int level, Difficulty difficulty) =>
-            levelText.text = difficulty == Difficulty.Hard ? $"Level {level} · Hard" : $"Level {level}";
+        /// <summary>A null onPause hides the pause button.</summary>
+        public void Bind(UiStrings uiStrings, Action onPause)
+        {
+            strings = uiStrings;
+            if (pauseButton == null) return;
+            pauseButton.onClick.RemoveAllListeners();
+            pauseButton.gameObject.SetActive(onPause != null);
+            if (onPause != null) pauseButton.onClick.AddListener(() => onPause());
+        }
+
+        public void SetShots(int shots) => shotsText.text = string.Format(strings.shotsFormat, shots);
+
+        public void SetLevel(int levelNumber, Difficulty difficulty) =>
+            levelText.text = string.Format(difficulty == Difficulty.Hard ? strings.levelHardFormat : strings.levelFormat, levelNumber);
     }
 }

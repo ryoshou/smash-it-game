@@ -2,6 +2,7 @@ using Game.Controls;
 using Game.Core;
 using Game.Juice;
 using Game.Levels;
+using Game.Meta;
 using Game.UI;
 using Game.View;
 using Game.World;
@@ -25,6 +26,7 @@ namespace Game
         [SerializeField] private SlingshotView view;
         [SerializeField] private Hud hud;
         [SerializeField] private ResultPanel resultPanel;
+        [SerializeField] private UiStrings strings;
         [SerializeField] private JuiceConfig juice;
         [SerializeField] private SfxPlayer sfx;
         [SerializeField] private CameraShake shake;
@@ -104,6 +106,8 @@ namespace Game
             tally = new ShotTally(Tuning.settleHoldSeconds, Tuning.settleMaxWaitSeconds);
             gesture = new SlingshotGesture(Tuning);
 
+            hud.Bind(strings, null);
+            resultPanel.Bind(strings);
             input.Bind(gesture, CanGrab, pouch, cam);
             input.Released += OnReleased;
             view.Bind(gesture, Tuning);

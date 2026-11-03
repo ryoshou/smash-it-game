@@ -57,11 +57,16 @@ namespace Game.Editor
             var level = Label("Level", hud, "Level 1", 56, TextAnchor.MiddleLeft);
             Place(level.rectTransform, new Vector2(0f, 0f), new Vector2(0.5f, 1f), new Vector2(60f, 0f), Vector2.zero);
             var shots = Label("Shots", hud, "Shots: 6", 56, TextAnchor.MiddleRight);
-            Place(shots.rectTransform, new Vector2(0.5f, 0f), new Vector2(1f, 1f), Vector2.zero, new Vector2(-60f, 0f));
+            Place(shots.rectTransform, new Vector2(0.5f, 0f), new Vector2(1f, 1f), Vector2.zero, new Vector2(-200f, 0f));
+            // Top-right, clear of the pouch at the bottom.
+            var (pause, pauseLabel) = Button("Pause", hud, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), 56);
+            Place((RectTransform)pause.transform, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-170f, -55f), new Vector2(-50f, 55f));
+            pauseLabel.text = "II";
 
             var component = hud.gameObject.AddComponent<Hud>();
             PrototypeSceneBuilder.SetReference(component, "shotsText", shots);
             PrototypeSceneBuilder.SetReference(component, "levelText", level);
+            PrototypeSceneBuilder.SetReference(component, "pauseButton", pause);
             levelLabel = level;
             return component;
         }

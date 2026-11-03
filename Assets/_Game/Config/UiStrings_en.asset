@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9de86faf62fc4096b62362caa758f75, type: 3}
+  m_Name: UiStrings_en
+  m_EditorClassIdentifier: Game.Runtime::Game.Meta.UiStrings
+  shotsFormat: 'Shots: {0}'
+  levelFormat: Level {0}
+  levelHardFormat: "Level {0} \xB7 Hard"
+  playFormat: "Play \xB7 Level {0}"
+  removeAdsFormat: Remove Ads {0}
+  revealFormat: 'New thing to knock over: {0}!'
+  testPurchaseFormat: 'Test purchase: Remove Ads for {0}'
+  winTitle: Desk cleared!
+  next: Next
+  loseTitle: Out of shots
+  continueAd: +3 shots
+  retry: Retry
+  paused: Paused
+  resume: Resume
+  restart: Restart level
+  sound: Sound
+  music: Music
+  haptics: Vibration
+  restore: Restore purchases
+  restored: Purchases restored
+  nothingToRestore: Nothing to restore
+  privacy: Privacy policy
+  testAd: Test ad
+  close: Close
+  buy: Buy
+  cancel: Cancel
+  title: Smash It
+  propNames:
+  - Keycap
+  - Wide Keycap
+  - Spacebar
+  - Enter Key
+  - Coffee Mug
+  - Book
+  - Cactus

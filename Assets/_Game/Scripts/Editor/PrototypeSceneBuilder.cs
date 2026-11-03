@@ -22,7 +22,7 @@ namespace Game.Editor
 
         private static readonly string[] BootstrapFields =
         {
-            "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel",
+            "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel", "strings",
             "juice", "sfx", "shake", "shotFeedback", "impactFeedback", "debris",
             "propFeel", "vfx", "propFeedback", "winFeedback", "confetti", "confettiAnchor", "roomPresenter",
             "catReactions", "catAnimator",
@@ -48,6 +48,7 @@ namespace Game.Editor
         public static void Rebuild()
         {
             PrototypeAssetBuilder.RebuildAll();
+            MetaAssetBuilder.Build();
             Directory.CreateDirectory(PrefabsFolder);
             Directory.CreateDirectory(MaterialsFolder);
             Directory.CreateDirectory(Path.GetDirectoryName(ScenePath));
@@ -171,7 +172,7 @@ namespace Game.Editor
                 tuning,
                 Room1LevelBuilder.BuildAll(),
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
-                spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result,
+                spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result, MetaAssetBuilder.LoadStrings(),
                 juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),
                 debris, VfxBuilder.LoadOrCreateLibrary(), juiceObject.AddComponent<VfxPool>(),
                 juiceObject.AddComponent<PropFeedback>(), juiceObject.AddComponent<WinFeedback>(),
