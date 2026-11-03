@@ -1,18 +1,21 @@
 # smash-it-game — portrait mobile physics game (cat + slingshot knocks things off a desk), Unity 6000.6 (3D URP)
 
 ## Goal right now
-M2 vertical slice per `docs/superpowers/plans/2026-11-02-m2-vertical-slice.md` → owner checkpoint 2 (Room 1 look,
-the cat, 4 prop types with full juice, sounds, 5 levels). M1 shot feel is approved with default `ShotTuning`: don't
-change existing ShotTuning defaults, keycap colliders/masses, camera, pouch or ball physics. iOS builds only.
+M3 "Room 1 complete" per `docs/superpowers/plans/2026-11-03-m3-room1-complete.md` → owner checkpoint 3 (25 Home
+Office levels, all screens, save, simulated ads + Remove Ads). The final cat is deferred to checkpoint 4 (owner): the
+blockout cat stays. Approved feel is frozen: don't change existing ShotTuning defaults, keycap colliders/masses, camera,
+pouch or ball physics. No real ad/IAP/consent/analytics SDKs until M4. iOS builds only.
 
 ## Layout
 - `Assets/_Game/Scripts/Runtime/` → `Game.Runtime.asmdef`
   - `Core/` pure rules: ShotTuning, SlingshotMath, SlingshotGesture, TrajectoryMath, ImpactMath, SettleMath,
     ClearRule, BallLife, ShotBudget, RoundJudge, GameEvents
+  - `Meta/` pure app rules: SaveData/SaveCodec/Profile (save), AppFlow (screens), AdPacing, AppConfig, UiStrings (all
+    player-visible text) · `Monetization/` IAdService/IPurchaseService + simulated implementations (M4: MAX, IAP)
   - `Levels/` LevelDef, LevelList, PropCatalog, PrototypeLevels · `World/` DeskObject, YarnBall, BallPool, LevelSpawner
   - `Controls/` SlingshotInput · `View/` SlingshotView · `UI/` Hud, ResultPanel, DebugTuningPanel
   - `Juice/` feedback (listens to GameEvents, never referenced by gameplay) · `Audio/` sfxr synth (ported from ant-game)
-  - `GameBootstrap.cs` owns and ticks the model
+  - `GameBootstrap.cs` owns and ticks the round · `AppController.cs` owns the app around it (flow, save, panels, ads)
 - `Assets/_Game/Scripts/Editor/` → `Game.Editor.asmdef`: PrototypeAssetBuilder, PrototypeSceneBuilder, BuildScripts
 - `Assets/_Game/Config/` ScriptableObject assets · `Assets/_Game/Levels/` level data · `Assets/_Game/Scenes/Game.unity`
 - `Assets/_Game/Art/` Packs/ (copied by `tools/assets/import-packs.sh` from `pack-manifest.txt`), Generated/ (Blender output), Materials/
@@ -45,6 +48,7 @@ change existing ShotTuning defaults, keycap colliders/masses, camera, pouch or b
 | Generated models | edit `tools/blender/…` scripts, run `tools/blender/build.sh [name]` (never hand-edit fbx) |
 | Build | `tools/unity/build.sh ios` (Android deferred until release) |
 | Visual check | `tools/unity/snapshot.sh out.png [level] [--break] [--cat Take:s]` (editor closed) or `unity command capture_game_view` |
+| Level balance | `tools/unity/playtest-bot.sh` (editor closed; `SMASH_BOT_LEVELS="6,7"` re-plays a subset) rewrites `docs/playtest/room1-report.*`; re-run after any layout change or `PlaytestReportTests` fails |
 | Editor builders | `tools/unity/run-method.sh Game.Editor.PrototypeSceneBuilder.Rebuild` rebuilds props, vfx, sounds, room, cat, levels and the scene |
 | Blender tests | `tools/blender/build.sh --tests`; authored models: Blender +Y = Unity +Z (export bakes the turn) |
 

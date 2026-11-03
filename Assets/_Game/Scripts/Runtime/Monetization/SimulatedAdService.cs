@@ -34,14 +34,24 @@ namespace Game.Monetization
 
         public void ShowInterstitial(Action closed)
         {
-            if (!InterstitialReady) return;
+            if (IsShowing) return;
+            if (!InterstitialReady)
+            {
+                closed?.Invoke();
+                return;
+            }
             onInterstitialClosed = closed;
             Open();
         }
 
         public void ShowRewarded(Action<bool> finished)
         {
-            if (!RewardedReady) return;
+            if (IsShowing) return;
+            if (!RewardedReady)
+            {
+                finished?.Invoke(false);
+                return;
+            }
             onRewardedFinished = finished;
             Open();
         }

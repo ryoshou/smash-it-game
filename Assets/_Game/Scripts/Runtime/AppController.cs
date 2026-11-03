@@ -202,7 +202,10 @@ namespace Game
             ads.ShowInterstitial(bootstrap.Next);
         }
 
-        /// <summary>+3 shots only for a rewarded ad watched to the end; an early close leaves the lose panel up.</summary>
+        /// <summary>
+        /// +3 shots only for a rewarded ad watched to the end; an early close, or an ad that went away since the panel
+        /// opened, leaves the lose panel up (re-shown, so Retry works and +3 hides if no ad is ready).
+        /// </summary>
         private void OnContinueTapped() => ads.ShowRewarded(watched =>
         {
             if (!watched)

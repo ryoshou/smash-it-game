@@ -7,6 +7,8 @@ namespace Game.Meta
     public static class SaveCodec
     {
         public const int Version = 1;
+        /// <summary>A sane ceiling for a saved level (a tampered save can't overflow the level number).</summary>
+        public const int MaxLevelIndex = 99999;
 
         public static string Write(SaveData data) => JsonUtility.ToJson(data);
 
@@ -23,7 +25,7 @@ namespace Game.Meta
                 Debug.LogWarning($"Unreadable save, starting fresh: {e.Message}");
                 return new SaveData();
             }
-            data.levelIndex = Mathf.Max(0, data.levelIndex);
+            data.levelIndex = Mathf.Clamp(data.levelIndex, 0, MaxLevelIndex);
             return data;
         }
     }

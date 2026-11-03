@@ -50,6 +50,10 @@ namespace Game.Tests
             Assert.AreEqual(0, SaveCodec.Read("{\"levelIndex\":-4}").levelIndex);
 
         [Test]
+        public void Read_HugeLevel_ClampsToMax() =>
+            Assert.AreEqual(SaveCodec.MaxLevelIndex, SaveCodec.Read("{\"levelIndex\":2147483647}").levelIndex);
+
+        [Test]
         public void Read_UnknownFields_KeepsKnownOnes() =>
             Assert.AreEqual(3, SaveCodec.Read("{\"version\":9,\"levelIndex\":3,\"future\":1}").levelIndex);
 

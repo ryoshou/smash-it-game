@@ -100,6 +100,23 @@ namespace Game.Tests
         }
 
         [UnityTest]
+        public IEnumerator ShowRewarded_Offline_ReportsNotRewardedAtOnce()
+        {
+            ads.Offline = true;
+            int calls = 0, closed = 0;
+            bool rewarded = true;
+
+            ads.ShowRewarded(r => { calls++; rewarded = r; });
+            ads.ShowInterstitial(() => closed++);
+            yield return null;
+
+            Assert.AreEqual(1, calls);
+            Assert.IsFalse(rewarded);
+            Assert.AreEqual(1, closed);
+            Assert.IsFalse(ads.IsShowing);
+        }
+
+        [UnityTest]
         public IEnumerator Buy_ThenRestoreAfterClearingSave_ReportsOwned()
         {
             bool purchased = false, owned = false;

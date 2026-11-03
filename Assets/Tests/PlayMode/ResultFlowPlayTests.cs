@@ -109,6 +109,23 @@ namespace Game.Tests
             Assert.IsTrue(IsShown<ResultPanel>());
         }
 
+        /// <summary>Review: the ad went away between the lose panel opening and the tap; the panel must not freeze.</summary>
+        [UnityTest]
+        public IEnumerator Lose_AdGoneBeforeContinueTap_ReShowsLoseWithRetry()
+        {
+            yield return LaunchAndPlay();
+            yield return Lose();
+            Assert.IsTrue(ButtonNamed<ResultPanel>("Primary").gameObject.activeSelf);
+
+            Ads.Offline = true;
+            Tap("Primary");
+
+            Assert.IsTrue(IsShown<ResultPanel>());
+            Assert.IsFalse(ButtonNamed<ResultPanel>("Primary").gameObject.activeSelf, "+3 shots should hide once no ad is ready");
+            Tap("Secondary");
+            Assert.AreEqual(RoundState.Playing, Bootstrap.State, "Retry must still work");
+        }
+
         [UnityTest]
         public IEnumerator Lose_RewardedWatched_AddsThreeShots()
         {
