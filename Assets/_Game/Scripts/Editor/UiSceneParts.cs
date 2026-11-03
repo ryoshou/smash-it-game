@@ -91,7 +91,7 @@ namespace Game.Editor
         }
 
         /// <summary>Hidden tuning panel in the top half (away from the pouch); the level label becomes its toggle.</summary>
-        public static void BuildDebugPanel(Parts parts, GameBootstrap bootstrap, ShotTuning tuningAsset)
+        public static Transform BuildDebugPanel(Parts parts, GameBootstrap bootstrap, ShotTuning tuningAsset)
         {
             parts.LevelLabel.raycastTarget = true;
             var toggle = parts.LevelLabel.gameObject.AddComponent<Button>();
@@ -131,6 +131,7 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(component, "resetButton", reset);
             SetArray(component, "sliders", sliders);
             SetArray(component, "sliderLabels", labels);
+            return panel;
         }
 
         private static void SetArray(Object target, string field, Object[] values)

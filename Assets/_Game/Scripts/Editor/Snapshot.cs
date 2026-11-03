@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using Game.Levels;
+using Game.Meta;
+using Game.UI;
 using Game.World;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -19,17 +21,18 @@ namespace Game.Editor
         private const int Height = 2532;
         private const float ShardSpread = 0.18f;
 
-        /// <summary>Command line: -snapshotOut path.png [-snapshotLevel n] [-snapshotBreak] [-snapshotCatPose Take:seconds].</summary>
+        /// <summary>Command line: -snapshotOut path.png [-snapshotLevel n] [-snapshotBreak] [-snapshotCatPose Take:seconds]
+        /// [-snapshotScreen home|pause].</summary>
         public static void FromCommandLine()
         {
             string[] args = Environment.GetCommandLineArgs();
             string output = Arg(args, "-snapshotOut") ?? throw new ArgumentException("-snapshotOut is required");
             int level = int.TryParse(Arg(args, "-snapshotLevel"), out int n) ? n : 0;
             bool stageBreak = Array.IndexOf(args, "-snapshotBreak") >= 0;
-            Capture(output, level, stageBreak, Arg(args, "-snapshotCatPose"));
+            Capture(output, level, stageBreak, Arg(args, "-snapshotCatPose"), Arg(args, "-snapshotScreen"));
         }
 
-        public static void Capture(string output, int levelIndex, bool stageBreak, string catPose = null)
+        public static void Capture(string output, int levelIndex, bool stageBreak, string catPose = null, string screen = null)
         {
             EditorSceneManager.OpenScene(PrototypeSceneBuilder.ScenePath, OpenSceneMode.Single);
             var bootstrap = UnityEngine.Object.FindAnyObjectByType<GameBootstrap>();
@@ -41,6 +44,7 @@ namespace Game.Editor
             PlaceProps(level, catalog);
             if (stageBreak) StageBreak(catalog);
             if (catPose != null) PoseCat(catPose);
+            if (screen != null) ShowScreen(screen, levelIndex);
             Render(Camera.main, output);
             Debug.Log($"[Snapshot] wrote {output}");
         }
@@ -91,6 +95,41 @@ namespace Game.Editor
             foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(CatAnimatorBuilder.ModelPath))
                 if (asset is AnimationClip clip && clip.name == parts[0])
                     clip.SampleAnimation(animator.gameObject, seconds);
+        }
+
+        /// <summary>Shows a UI screen as AppController would, and moves the canvases onto the camera so the render has them.</summary>
+        private static void ShowScreen(string screen, int levelIndex)
+        {
+            var strings = MetaAssetBuilder.LoadStrings();
+            UnityEngine.Object.FindAnyObjectByType<Game.UI.SplashScreen>(FindObjectsInactive.Include).Hide();
+            UnityEngine.Object.FindAnyObjectByType<DebugTuningPanel>().gameObject.SetActive(false); // hidden at runtime
+            var hud = UnityEngine.Object.FindAnyObjectByType<Hud>(FindObjectsInactive.Include);
+            hud.Bind(strings, () => { });
+            hud.SetLevel(levelIndex + 1, Difficulty.Normal);
+            hud.SetShots(6);
+            switch (screen)
+            {
+                case "home":
+                    hud.gameObject.SetActive(false);
+                    var home = UnityEngine.Object.FindAnyObjectByType<HomeScreen>(FindObjectsInactive.Include);
+                    home.Bind(strings);
+                    home.Show(levelIndex + 1, true, MetaAssetBuilder.LoadAppConfig().simulatedPrice, () => { }, () => { }, () => { });
+                    break;
+                case "pause":
+                    var pause = UnityEngine.Object.FindAnyObjectByType<PausePanel>(FindObjectsInactive.Include);
+                    pause.Bind(strings, _ => { }, _ => { }, _ => { }, () => { }, () => { }, () => { }, () => { });
+                    pause.Show(true, new SaveData { music = false });
+                    break;
+                default: throw new ArgumentException($"unknown screen '{screen}' (home|pause)");
+            }
+            foreach (var canvas in UnityEngine.Object.FindObjectsByType<Canvas>())
+            {
+                if (!canvas.isRootCanvas) continue;
+                canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                canvas.worldCamera = Camera.main;
+                canvas.planeDistance = 0.5f;
+            }
+            Canvas.ForceUpdateCanvases();
         }
 
         private static void Burst(GameObject prefab, Vector3 at, float seconds)

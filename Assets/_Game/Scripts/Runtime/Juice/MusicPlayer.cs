@@ -11,7 +11,21 @@ namespace Game.Juice
         private float fadeSeconds;
         private float fadeAge;
 
+        private bool muted;
+
         public AudioClip Current => source != null ? source.clip : null;
+
+        /// <summary>The Music setting. The track keeps its place while muted.</summary>
+        public bool Muted
+        {
+            get => muted;
+            set
+            {
+                muted = value;
+                EnsureSource();
+                source.mute = value;
+            }
+        }
 
         public void Play(AudioClip loop, float fade)
         {

@@ -25,6 +25,7 @@ MonoBehaviour:
   continueAd: +3 shots
   retry: Retry
   paused: Paused
+  settings: Settings
   resume: Resume
   restart: Restart level
   sound: Sound

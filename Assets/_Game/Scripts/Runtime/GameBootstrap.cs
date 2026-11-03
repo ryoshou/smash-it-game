@@ -2,10 +2,10 @@ using Game.Controls;
 using Game.Core;
 using Game.Juice;
 using Game.Levels;
-using Game.Meta;
 using Game.UI;
 using Game.View;
 using Game.World;
+using System;
 using UnityEngine;
 
 namespace Game
@@ -25,8 +25,6 @@ namespace Game
         [SerializeField] private SlingshotInput input;
         [SerializeField] private SlingshotView view;
         [SerializeField] private Hud hud;
-        [SerializeField] private ResultPanel resultPanel;
-        [SerializeField] private UiStrings strings;
         [SerializeField] private JuiceConfig juice;
         [SerializeField] private SfxPlayer sfx;
         [SerializeField] private CameraShake shake;
@@ -56,11 +54,23 @@ namespace Game
         public ShotBudget Budget { get; private set; }
         public RoundState State { get; private set; }
         public int ActiveDebrisSets => debris.ActiveSets;
+        public LevelList Levels => levels;
+        public LevelDef Level { get; private set; }
+        /// <summary>The player's level index; it can run past the list, which wraps (LevelList.At).</summary>
+        public int LevelIndex => levelIndex;
+        /// <summary>Off behind the home and pause screens; ANDed into the grab check.</summary>
+        public bool InputEnabled { get; set; } = true;
+        /// <summary>No ball in flight and nothing on the desk moving.</summary>
+        public bool IsDeskQuiet => !pool.AnyActive && !spawner.AnyMoving();
+
+        /// <summary>Won or Lost, once per round end; the app shows the result panel.</summary>
+        public event Action<RoundState> RoundFinished;
 
         public void LoadLevel(int index)
         {
             levelIndex = index;
             var level = levels.At(index);
+            Level = level;
             roomPresenter.Apply(level.room);
             pool.DespawnAll();
             vfx.StopAll();
@@ -72,7 +82,6 @@ namespace Game
             tally.Reset();
             State = RoundState.Playing;
             lastFireTime = float.NegativeInfinity;
-            resultPanel.Hide();
             hud.SetLevel(index + 1, level.difficulty);
             hud.SetShots(Budget.Remaining);
         }
@@ -90,7 +99,6 @@ namespace Game
             judge.Reset();
             tally.Reset();
             State = RoundState.Playing;
-            resultPanel.Hide();
             hud.SetShots(Budget.Remaining);
         }
 
@@ -106,8 +114,6 @@ namespace Game
             tally = new ShotTally(Tuning.settleHoldSeconds, Tuning.settleMaxWaitSeconds);
             gesture = new SlingshotGesture(Tuning);
 
-            hud.Bind(strings, null);
-            resultPanel.Bind(strings);
             input.Bind(gesture, CanGrab, pouch, cam);
             input.Released += OnReleased;
             view.Bind(gesture, Tuning);
@@ -119,8 +125,6 @@ namespace Game
             winFeedback.Bind(Events, vfx, confetti, confettiAnchor);
             catReactions.Bind(Events, catAnimator);
         }
-
-        private void Start() => LoadLevel(EditorStartLevel.Consume(0));
 
         private void OnDestroy()
         {
@@ -146,18 +150,14 @@ namespace Game
             tally.Reset();
             gesture.Cancel();
             Events.RaiseRoundEnded(State);
-            if (State == RoundState.Won)
-            {
-                spawner.PopRemaining();
-                resultPanel.ShowWin(Next);
-            }
-            else resultPanel.ShowLose(Budget.CanContinue, Continue, Retry);
+            if (State == RoundState.Won) spawner.PopRemaining();
+            RoundFinished?.Invoke(State);
         }
 
         private void OnTargetCleared(int remaining) => tally.TargetCleared();
 
         private bool CanGrab() =>
-            State == RoundState.Playing && Budget.Remaining > 0 && Time.time - lastFireTime >= Tuning.reloadSeconds;
+            InputEnabled && State == RoundState.Playing && Budget.Remaining > 0 && Time.time - lastFireTime >= Tuning.reloadSeconds;
 
         private void RaisePullChanges()
         {

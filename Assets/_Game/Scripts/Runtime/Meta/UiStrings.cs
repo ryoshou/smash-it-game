@@ -23,6 +23,7 @@ namespace Game.Meta
         public string continueAd = "+3 shots";
         public string retry = "Retry";
         public string paused = "Paused";
+        public string settings = "Settings";
         public string resume = "Resume";
         public string restart = "Restart level";
         public string sound = "Sound";

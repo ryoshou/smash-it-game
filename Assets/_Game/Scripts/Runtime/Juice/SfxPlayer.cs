@@ -22,6 +22,9 @@ namespace Game.Juice
         private AudioSource[] sources;
         private SfxVoiceLimiter limiter;
 
+        /// <summary>The Sound setting: when true nothing plays.</summary>
+        public bool Muted { get; set; }
+
         private void Awake()
         {
             if (config == null || presets == null)
@@ -49,7 +52,7 @@ namespace Game.Juice
         /// <returns>False when nothing plays: no clip for the sound, or its copies are capped.</returns>
         public bool Play(SfxId id, int maxCopies, float pitch = 1f)
         {
-            if (bank == null) return false;
+            if (bank == null || Muted) return false;
             AudioClip clip = bank.Clip(id);
             if (clip == null) return false;
             float safePitch = Mathf.Clamp(pitch, MinPitch, MaxPitch);
@@ -69,7 +72,7 @@ namespace Game.Juice
         /// <returns>False when nothing plays: no clip, or its copies are capped.</returns>
         public bool PlayClip(AudioClip clip, int voiceKey, float volume, float pitch, int maxCopies)
         {
-            if (clip == null || sources == null) return false;
+            if (clip == null || sources == null || Muted) return false;
             float safePitch = Mathf.Clamp(pitch, MinPitch, MaxPitch);
             int voice = limiter.Acquire(voiceKey, Time.unscaledTime, clip.length / safePitch, maxCopies);
             if (voice < 0) return false;

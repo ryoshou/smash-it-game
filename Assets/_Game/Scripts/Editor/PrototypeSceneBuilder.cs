@@ -22,7 +22,7 @@ namespace Game.Editor
 
         private static readonly string[] BootstrapFields =
         {
-            "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud", "resultPanel", "strings",
+            "tuningAsset", "levels", "catalog", "spawner", "pool", "pouch", "cam", "input", "view", "hud",
             "juice", "sfx", "shake", "shotFeedback", "impactFeedback", "debris",
             "propFeel", "vfx", "propFeedback", "winFeedback", "confetti", "confettiAnchor", "roomPresenter",
             "catReactions", "catAnimator",
@@ -153,7 +153,9 @@ namespace Game.Editor
             var spawner = new GameObject("Level Spawner").AddComponent<LevelSpawner>();
             var debris = new GameObject("Debris Pool").AddComponent<DebrisPool>();
             var ui = UiSceneParts.Build();
-            MonetizationSceneParts.Build(MetaAssetBuilder.LoadAppConfig(), MetaAssetBuilder.LoadStrings());
+            var appConfig = MetaAssetBuilder.LoadAppConfig();
+            var strings = MetaAssetBuilder.LoadStrings();
+            var money = MonetizationSceneParts.Build(appConfig, strings);
 
             var juice = SlingshotSceneParts.LoadOrCreateJuice();
             var shake = camera.gameObject.AddComponent<CameraShake>();
@@ -167,27 +169,29 @@ namespace Game.Editor
             var input = bootstrap.AddComponent<SlingshotInput>();
             var game = bootstrap.AddComponent<GameBootstrap>();
             var tuning = AssetDatabase.LoadAssetAtPath<ShotTuning>(ConfigFolder + "/ShotTuning.asset");
-            UiSceneParts.BuildDebugPanel(ui, game, tuning);
+            var debugPanel = UiSceneParts.BuildDebugPanel(ui, game, tuning);
             WireBootstrap(game, new Object[]
             {
                 tuning,
                 Room1LevelBuilder.BuildAll(),
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
-                spawner, pool, pouch, camera, input, view, ui.Hud, ui.Result, MetaAssetBuilder.LoadStrings(),
+                spawner, pool, pouch, camera, input, view, ui.Hud,
                 juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),
                 debris, VfxBuilder.LoadOrCreateLibrary(), juiceObject.AddComponent<VfxPool>(),
                 juiceObject.AddComponent<PropFeedback>(), juiceObject.AddComponent<WinFeedback>(),
-                VfxBuilder.LoadConfetti(), ConfettiAnchor(), Room(camera, juice, juiceObject),
+                VfxBuilder.LoadConfetti(), ConfettiAnchor(), Room(camera, juice, juiceObject, out var music),
                 juiceObject.AddComponent<CatReactions>(), PlaceCat(),
             });
+            var app = MetaSceneParts.Build(ui, money, game, sfx, music, appConfig, strings);
+            MetaSceneParts.BuildDebugButtons(debugPanel, app, money.Ads);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
         }
 
-        private static RoomPresenter Room(Camera camera, JuiceConfig juice, GameObject juiceObject)
+        private static RoomPresenter Room(Camera camera, JuiceConfig juice, GameObject juiceObject, out MusicPlayer music)
         {
-            var music = juiceObject.AddComponent<MusicPlayer>();
+            music = juiceObject.AddComponent<MusicPlayer>();
             SetReference(music, "config", juice);
             var room = new GameObject("Room").AddComponent<RoomPresenter>();
             SetReference(room, "cam", camera);

@@ -27,9 +27,12 @@ namespace Game.Juice
         private static AndroidJavaClass effects;
 #endif
 
+        /// <summary>The Vibration setting.</summary>
+        public static bool Enabled = true;
+
         public static void Play(HapticKind kind, HapticPulse pulse)
         {
-            if (pulse.IsNone) return;
+            if (pulse.IsNone || !Enabled) return;
 #if UNITY_IOS && !UNITY_EDITOR
             GameHapticsImpact((int)kind, pulse.Amount01);
 #elif UNITY_ANDROID && !UNITY_EDITOR
