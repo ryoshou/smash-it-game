@@ -114,5 +114,27 @@ namespace Game.Tests
             Assert.AreEqual(expected.y, actual.y, Tolerance, "y");
             Assert.AreEqual(expected.z, actual.z, Tolerance, "z");
         }
+
+        [Test]
+        public void PullFor_RoundTripsThroughCompute()
+        {
+            var result = SlingshotMath.Compute(SlingshotMath.PullFor(10f * Mathf.Deg2Rad, 0.5f, tuning), tuning);
+
+            Assert.IsTrue(result.Fired);
+            float yawDeg = Mathf.Atan2(result.Velocity.x, result.Velocity.z) * Mathf.Rad2Deg;
+            Assert.AreEqual(10f, yawDeg, 0.1f);
+            Assert.AreEqual(0.5f, result.Power01, 1e-3f);
+        }
+
+        [Test]
+        public void PullFor_ClampsYaw()
+        {
+            var pull = SlingshotMath.PullFor(80f * Mathf.Deg2Rad, 1f, tuning);
+            var result = SlingshotMath.Compute(pull, tuning);
+
+            float yawDeg = Mathf.Atan2(result.Velocity.x, result.Velocity.z) * Mathf.Rad2Deg;
+            Assert.AreEqual(tuning.maxYawDeg, yawDeg, 0.1f);
+            Assert.AreEqual(tuning.maxPull, pull.magnitude, 1e-5f);
+        }
     }
 }

@@ -41,13 +41,13 @@ namespace Game.Tests
             yield return null;
         }
 
-        [UnityTest]
+        [UnityTest, Timeout(900000)]
         public IEnumerator EveryTarget_IsKnockedOffBySomeSampledShot()
         {
             var levels = (LevelList)new UnityEditor.SerializedObject(bootstrap).FindProperty("levels").objectReferenceValue;
             Assert.AreEqual("Room1LevelList", levels.name, "the game should play Room 1");
             var unreachable = new List<string>();
-            for (int level = 0; level < 5; level++)
+            for (int level = 0; level < levels.Count; level++)
             {
                 bootstrap.LoadLevel(level);
                 var targets = probe.TargetIndices();
@@ -94,13 +94,8 @@ namespace Game.Tests
         }
 
         /// <param name="yaw01">-1 (full left aim) .. 1 (full right aim).</param>
-        private Vector2 Pull(float yaw01, float power)
-        {
-            var t = bootstrap.Tuning;
-            float yaw = yaw01 * t.maxYawDeg * Mathf.Deg2Rad;
-            float length = Mathf.Lerp(t.minPull, t.maxPull, power);
-            return new Vector2(-Mathf.Sin(yaw), -Mathf.Cos(yaw)) * length;
-        }
+        private Vector2 Pull(float yaw01, float power) =>
+            SlingshotMath.PullFor(yaw01 * bootstrap.Tuning.maxYawDeg * Mathf.Deg2Rad, power, bootstrap.Tuning);
 
         private sealed class LevelSpawnerProbe
         {

@@ -27,5 +27,15 @@ namespace Game.Core
                 Mathf.Cos(elevation) * Mathf.Cos(yaw));
             return new LaunchResult(true, speed * direction, power);
         }
+
+        /// <summary>The inverse of Compute's aim: the pull that launches at this yaw and power (bots and tests).</summary>
+        /// <param name="yawRadians">Clamped to ±maxYawDeg; positive aims right.</param>
+        public static Vector2 PullFor(float yawRadians, float power01, ShotTuning t)
+        {
+            float maxYaw = t.maxYawDeg * Mathf.Deg2Rad;
+            float yaw = Mathf.Clamp(yawRadians, -maxYaw, maxYaw);
+            float length = Mathf.Lerp(t.minPull, t.maxPull, Mathf.Clamp01(power01));
+            return new Vector2(-Mathf.Sin(yaw), -Mathf.Cos(yaw)) * length;
+        }
     }
 }

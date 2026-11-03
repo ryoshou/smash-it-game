@@ -22,7 +22,7 @@ try: root = ET.parse(sys.argv[1]).getroot()
 except (OSError, ET.ParseError) as e: print('no results:', e, '(see Logs/*-batch.log)'); sys.exit(1)
 print(f"total={root.get('total')} passed={root.get('passed')} failed={root.get('failed')}")
 for case in root.iter('test-case'):
-    if case.get('result') != 'Passed':
+    if case.get('result') == 'Failed':
         msg = case.find('failure/message')
         print('FAIL', case.get('fullname'), ((msg.text if msg is not None else '') or '')[:300])
 sys.exit(0 if int(root.get('total', 0)) > 0 and root.get('failed') == '0' else 1)
