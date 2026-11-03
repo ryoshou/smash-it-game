@@ -31,6 +31,7 @@ namespace Game.Editor
 
         private static readonly Vector3 DeskSize = new Vector3(2.0f, 0.08f, 1.5f);
         private const float LegSize = 0.07f;
+        private const float BackDeskThickness = 0.06f;
         private const float YarnModelDiameter = 0.18f;
         private const float SunIntensity = 0.85f;
         private static readonly Color SunColor = new Color(1f, 0.93f, 0.84f);
@@ -57,8 +58,9 @@ namespace Game.Editor
             VfxBuilder.BuildAll();
             SoundSetBuilder.BuildAll();
             var desk = WriteDeskPrefab();
+            var backDesk = WriteBackDeskPrefab();
             var ball = WriteBallPrefab();
-            BuildScene(desk, ball);
+            BuildScene(desk, backDesk, ball);
         }
 
         /// <summary>The generated office desk on top of M1's collider boxes (top surface at DeskTopY), so play is unchanged.</summary>
@@ -75,6 +77,33 @@ namespace Game.Editor
                 ColliderBox(root.transform, $"Leg {i} Collider", new Vector3(x, legHeight / 2f, z), new Vector3(LegSize, legHeight, LegSize));
             }
             return SavePrefab(root, "Desk");
+        }
+
+        /// <summary>
+        /// The raised back desk: a collider top at LevelSpawner.BackDeskTop with a KayKit small table stretched to fit
+        /// under it. No FloorSurface: props landing on it are still on a desk.
+        /// </summary>
+        private static GameObject WriteBackDeskPrefab()
+        {
+            var root = new GameObject("Back Desk");
+            var top = LevelSpawner.BackDeskTop;
+            var size = LevelDef.DefaultBackDeskSize;
+            var visual = ArtVisual(root.transform, "Packs/KayKitFurniture/table_small.fbx", "KayKitFurniture", Vector3.zero, 1f);
+            var bounds = RendererBounds(visual);
+            visual.localScale = new Vector3(size.x / bounds.size.x, top.y / bounds.size.y, size.y / bounds.size.z);
+            visual.localPosition = new Vector3(top.x - bounds.center.x * visual.localScale.x, -bounds.min.y * visual.localScale.y,
+                top.z - bounds.center.z * visual.localScale.z);
+            ColliderBox(root.transform, "Top Collider", new Vector3(top.x, top.y - BackDeskThickness / 2f, top.z),
+                new Vector3(size.x, BackDeskThickness, size.y));
+            return SavePrefab(root, "BackDesk");
+        }
+
+        private static Bounds RendererBounds(Transform visual)
+        {
+            var renderers = visual.GetComponentsInChildren<Renderer>();
+            var bounds = renderers[0].bounds;
+            foreach (var r in renderers) bounds.Encapsulate(r.bounds);
+            return bounds;
         }
 
         private static void ColliderBox(Transform parent, string name, Vector3 center, Vector3 size)
@@ -112,11 +141,14 @@ namespace Game.Editor
             return SavePrefab(ball, "YarnBall");
         }
 
-        private static void BuildScene(GameObject deskPrefab, GameObject ballPrefab)
+        private static void BuildScene(GameObject deskPrefab, GameObject backDeskPrefab, GameObject ballPrefab)
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             PrefabUtility.InstantiatePrefab(deskPrefab);
+            var backDesk = (GameObject)PrefabUtility.InstantiatePrefab(backDeskPrefab);
+            backDesk.name = "Back Desk";
+            backDesk.SetActive(false);
             // The room backdrop draws the floor; this collider makes breaking work in every room.
             var floor = new GameObject("Floor");
             var floorBox = floor.AddComponent<BoxCollider>();
@@ -151,6 +183,7 @@ namespace Game.Editor
             var pool = new GameObject("Ball Pool").AddComponent<BallPool>();
             SetReference(pool, "ballPrefab", ballPrefab.GetComponent<YarnBall>());
             var spawner = new GameObject("Level Spawner").AddComponent<LevelSpawner>();
+            SetReference(spawner, "backDesk", backDesk);
             var debris = new GameObject("Debris Pool").AddComponent<DebrisPool>();
             var ui = UiSceneParts.Build();
             var appConfig = MetaAssetBuilder.LoadAppConfig();

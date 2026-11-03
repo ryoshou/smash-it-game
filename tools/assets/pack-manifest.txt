@@ -19,3 +19,5 @@ KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_medium.fbx	KayKitFurnitu
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/furniturebits_texture.png	KayKitFurniture/furniturebits_texture.png
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_large_A.fbx	KayKitFurniture/pictureframe_large_A.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_medium.fbx	KayKitFurniture/pictureframe_medium.fbx
+# Back desk for two-desk levels (M3 Task 6)
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_small.fbx	KayKitFurniture/table_small.fbx

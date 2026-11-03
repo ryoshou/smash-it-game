@@ -9,7 +9,7 @@ namespace Game.Levels
     {
         public PropKind kind;
 
-        /// <summary>Bottom-face center, relative to the desk-top center; +z is away from the player.</summary>
+        /// <summary>Bottom-face center, relative to its desk's top center; +z is away from the player.</summary>
         public Vector3 basePosition;
 
         public float yawDegrees;
@@ -17,5 +17,8 @@ namespace Game.Levels
 
         [Tooltip("Which look (e.g. colour) of the kind; out of range uses the first.")]
         public int variant;
+
+        [Tooltip("0 = main desk, 1 = the raised back desk.")]
+        public int desk;
     }
 }

@@ -16,80 +16,97 @@ MonoBehaviour:
   shots: 6
   difficulty: 0
   deskSize: {x: 2, y: 1.5}
+  hasBackDesk: 0
+  backDeskSize: {x: 1.2, y: 0.5}
   props:
   - kind: 1
     basePosition: {x: -0.63, y: 0, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: -0.315, y: 0, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0, y: 0, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0.315, y: 0, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0.63, y: 0, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: -0.4725, y: 0.15200001, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: -0.1575, y: 0.15200001, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0.1575, y: 0.15200001, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0.4725, y: 0.15200001, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: -0.315, y: 0.30400002, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0, y: 0.30400002, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0.315, y: 0.30400002, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: -0.1575, y: 0.45600003, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0.1575, y: 0.45600003, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   - kind: 1
     basePosition: {x: 0, y: 0.60800004, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
+    desk: 0
   room: {fileID: 0}

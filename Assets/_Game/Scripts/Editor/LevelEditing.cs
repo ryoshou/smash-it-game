@@ -18,6 +18,7 @@ namespace Game.Editor
         private const char Separator = '#';
         private const string Target = "T";
         private const string Decoration = "D";
+        private const float OnDeskTolerance = 0.01f;
 
         public static Transform Spawn(LevelDef level, PropCatalog catalog, Scene scene)
         {
@@ -34,7 +35,7 @@ namespace Game.Editor
             int variant = spec.VariantIndex(placement.variant);
             var instance = (GameObject)PrefabUtility.InstantiatePrefab(spec.Variant(variant).prefab, root);
             instance.name = Name(placement.kind, variant, placement.isTarget);
-            instance.transform.SetPositionAndRotation(WorldPosition(placement.basePosition, spec.size),
+            instance.transform.SetPositionAndRotation(WorldPosition(placement.desk, placement.basePosition, spec.size),
                 Quaternion.Euler(0f, placement.yawDegrees, 0f));
             foreach (var body in instance.GetComponentsInChildren<Rigidbody>()) body.isKinematic = true;
             return instance;
@@ -61,12 +62,14 @@ namespace Game.Editor
             placement = default;
             if (!TryParse(child.name, out var kind, out int variant, out bool isTarget)) return false;
             var size = catalog.Get(kind).size;
+            int desk = DeskUnder(child.position - Vector3.up * (size.y / 2f));
             placement = new PropPlacement
             {
                 kind = kind,
                 variant = variant,
                 isTarget = isTarget,
-                basePosition = child.position - WorldPosition(Vector3.zero, size),
+                desk = desk,
+                basePosition = child.position - WorldPosition(desk, Vector3.zero, size),
                 yawDegrees = Mathf.DeltaAngle(0f, child.eulerAngles.y),
             };
             return true;
@@ -99,8 +102,19 @@ namespace Game.Editor
 
         public static bool IsTarget(GameObject instance) => TryParse(instance.name, out _, out _, out bool isTarget) && isTarget;
 
-        private static Vector3 WorldPosition(Vector3 basePosition, Vector3 size) =>
-            new Vector3(0f, LevelSpawner.DeskTopY, 0f) + basePosition + Vector3.up * (size.y / 2f);
+        private static Vector3 WorldPosition(int desk, Vector3 basePosition, Vector3 size) =>
+            LevelSpawner.DeskTop(desk) + basePosition + Vector3.up * (size.y / 2f);
+
+        /// <summary>The back desk when the prop's base is at or above its top and within its footprint, else the main desk.</summary>
+        private static int DeskUnder(Vector3 baseWorld)
+        {
+            var top = LevelSpawner.BackDeskTop;
+            var size = LevelDef.DefaultBackDeskSize;
+            bool onBack = baseWorld.y >= top.y - OnDeskTolerance
+                          && Mathf.Abs(baseWorld.x - top.x) <= size.x / 2f
+                          && Mathf.Abs(baseWorld.z - top.z) <= size.y / 2f;
+            return onBack ? LevelDef.BackDesk : LevelDef.MainDesk;
+        }
 
         private static string Name(PropKind kind, int variant, bool isTarget) =>
             $"{kind}{Separator}{variant}{Separator}{(isTarget ? Target : Decoration)}";

@@ -103,6 +103,46 @@ namespace Game.Tests
             Assert.IsFalse(Level(new[] { Target(new Vector3(0f, -0.01f, 0f)) }).Validate(out _));
         }
 
+        private static PropPlacement BackTarget(Vector3 basePosition) =>
+            new PropPlacement { kind = PropKind.Keycap1u, basePosition = basePosition, isTarget = true, desk = 1 };
+
+        [Test]
+        public void Validate_BackDeskProp_WithoutBackDesk_Fails()
+        {
+            Assert.IsFalse(Level(new[] { BackTarget(Vector3.zero) }).Validate(out string error));
+            StringAssert.Contains("back desk", error);
+        }
+
+        [Test]
+        public void Validate_BackDeskProp_UsesBackDeskBounds()
+        {
+            var inside = Level(new[] { BackTarget(new Vector3(0.5f, 0f, 0.2f)) });
+            var outside = Level(new[] { BackTarget(new Vector3(0.7f, 0f, 0f)) });
+            inside.hasBackDesk = outside.hasBackDesk = true;
+
+            Assert.IsTrue(inside.Validate(out string error), error);
+            Assert.IsFalse(outside.Validate(out _));
+        }
+
+        [Test]
+        public void Validate_UnknownDesk_Fails()
+        {
+            var level = Level(new[] { new PropPlacement { kind = PropKind.Mug, isTarget = true, desk = 2 } });
+            level.hasBackDesk = true;
+
+            Assert.IsFalse(level.Validate(out _));
+        }
+
+        [Test]
+        public void Validate_MoreThanMaxProps_Fails()
+        {
+            var props = new PropPlacement[LevelDef.MaxProps + 1];
+            for (int i = 0; i < props.Length; i++) props[i] = Target(Vector3.zero);
+
+            Assert.IsFalse(Level(props).Validate(out string error));
+            StringAssert.Contains("props", error);
+        }
+
         [Test]
         public void LevelList_At_WrapsAround()
         {

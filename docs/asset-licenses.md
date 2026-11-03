@@ -33,6 +33,7 @@ Paths are relative to the project root.
 | `Assets/_Game/Art/Packs/KayKitFurniture/book_set.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | backdrop decor |
 | `Assets/_Game/Art/Packs/KayKitFurniture/lamp_standing.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | backdrop decor |
 | `Assets/_Game/Art/Packs/KayKitFurniture/pictureframe_standing_A.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | backdrop decor |
+| `Assets/_Game/Art/Packs/KayKitFurniture/table_small.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | back desk (two-desk levels) |
 | `Assets/_Game/Art/Packs/KayKitFurniture/cactus_medium_A.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | backdrop decor |
 | `Assets/_Game/Art/Packs/KayKitFurniture/shelf_B_large_decorated.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | backdrop decor |
 | `Assets/_Game/Art/Packs/KayKitFurniture/rug_rectangle_stripes_A.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | backdrop decor |

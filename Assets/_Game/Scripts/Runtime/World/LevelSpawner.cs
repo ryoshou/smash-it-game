@@ -10,7 +10,14 @@ namespace Game.World
     public sealed class LevelSpawner : MonoBehaviour
     {
         public const float DeskTopY = 1.0f;
+        /// <summary>Top centre of the raised back desk (LevelDef.hasBackDesk).</summary>
+        public static readonly Vector3 BackDeskTop = new Vector3(0f, 1.3f, 1.05f);
         public static readonly Bounds PlayVolume = new Bounds(new Vector3(0f, 2f, 0f), new Vector3(8f, 6f, 8f));
+
+        [Tooltip("Shown only on levels that use it.")]
+        [SerializeField] private GameObject backDesk;
+
+        public static Vector3 DeskTop(int desk) => desk == LevelDef.BackDesk ? BackDeskTop : new Vector3(0f, DeskTopY, 0f);
 
         private readonly List<DeskObject> spawned = new List<DeskObject>();
 
@@ -38,11 +45,11 @@ namespace Game.World
             Clear();
             debris = debrisPool;
             tuning = t;
-            var deskTop = new Vector3(0f, DeskTopY, 0f);
+            if (backDesk != null) backDesk.SetActive(level.hasBackDesk);
             foreach (var placement in level.props)
             {
                 var spec = catalog.Get(placement.kind);
-                var position = deskTop + placement.basePosition + Vector3.up * (spec.size.y / 2f);
+                var position = DeskTop(placement.desk) + placement.basePosition + Vector3.up * (spec.size.y / 2f);
                 var rotation = Quaternion.Euler(0f, placement.yawDegrees, 0f);
                 var instance = Instantiate(spec.Variant(placement.variant).prefab, position, rotation, transform);
                 spawned.Add(Configure(instance, spec, placement, t, events));

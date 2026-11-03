@@ -54,6 +54,25 @@ namespace Game.Tests
         }
 
         [Test]
+        public void SpawnThenCapture_BackDeskProp_KeepsDeskAndPosition()
+        {
+            level.hasBackDesk = true;
+            level.props = new[]
+            {
+                new PropPlacement { kind = PropKind.Mug, basePosition = new Vector3(0.2f, 0f, -0.1f), isTarget = true, desk = 1 },
+                new PropPlacement { kind = PropKind.Keycap1u, basePosition = new Vector3(0.2f, 0f, 0.7f), isTarget = true },
+            };
+            var root = LevelEditing.Spawn(level, catalog, scene);
+
+            var captured = LevelEditing.Capture(root, catalog);
+
+            Assert.AreEqual(1, captured[0].desk);
+            Assert.AreEqual(0, captured[1].desk, "a prop near the back edge stays on the main desk");
+            Assert.Less(Vector3.Distance(level.props[0].basePosition, captured[0].basePosition), 1e-4f);
+            Assert.Less(Vector3.Distance(level.props[1].basePosition, captured[1].basePosition), 1e-4f);
+        }
+
+        [Test]
         public void Capture_DuplicatedProp_KeepsItsTargetFlag()
         {
             var root = LevelEditing.Spawn(level, catalog, scene);
