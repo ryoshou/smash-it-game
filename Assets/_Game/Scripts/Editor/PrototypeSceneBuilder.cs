@@ -153,6 +153,7 @@ namespace Game.Editor
             var spawner = new GameObject("Level Spawner").AddComponent<LevelSpawner>();
             var debris = new GameObject("Debris Pool").AddComponent<DebrisPool>();
             var ui = UiSceneParts.Build();
+            MonetizationSceneParts.Build(MetaAssetBuilder.LoadAppConfig(), MetaAssetBuilder.LoadStrings());
 
             var juice = SlingshotSceneParts.LoadOrCreateJuice();
             var shake = camera.gameObject.AddComponent<CameraShake>();

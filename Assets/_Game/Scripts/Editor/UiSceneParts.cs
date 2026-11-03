@@ -142,7 +142,7 @@ namespace Game.Editor
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        private static (Button, Text) Button(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax, int fontSize = 64)
+        internal static (Button, Text) Button(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax, int fontSize = 64)
         {
             var rect = Rect(name, parent, anchorMin, anchorMax, Vector2.zero, Vector2.zero);
             rect.gameObject.AddComponent<Image>().color = ButtonColor;
@@ -152,7 +152,7 @@ namespace Game.Editor
             return (button, label);
         }
 
-        private static Text Label(string name, Transform parent, string text, int size, TextAnchor anchor)
+        internal static Text Label(string name, Transform parent, string text, int size, TextAnchor anchor)
         {
             var label = new GameObject(name, typeof(RectTransform)).AddComponent<Text>();
             label.transform.SetParent(parent, false);
@@ -165,7 +165,7 @@ namespace Game.Editor
             return label;
         }
 
-        private static RectTransform Rect(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
+        internal static RectTransform Rect(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax,
             Vector2 offsetMin, Vector2 offsetMax)
         {
             var rect = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();
@@ -174,7 +174,7 @@ namespace Game.Editor
             return rect;
         }
 
-        private static void Place(RectTransform rect, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax)
+        internal static void Place(RectTransform rect, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax)
         {
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
