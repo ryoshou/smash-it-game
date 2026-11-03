@@ -1,5 +1,7 @@
+using System;
 using Game.Core;
 using Game.Juice;
+using Game.Levels;
 using Game.Meta;
 using Game.Monetization;
 using Game.UI;
@@ -34,8 +36,17 @@ namespace Game
         private AppFlow flow;
         private AdPacing pacing;
         private float splashEndsAt;
+        private Func<float> clock = () => Time.unscaledTime;
+        private bool hasStoppedTime;
 
         public AppScreen Screen => flow.Screen;
+
+        /// <summary>Tests drive ad pacing time; the session (and the last-ad time) restarts at clock().</summary>
+        public void SetClockForTest(Func<float> testClock)
+        {
+            clock = testClock;
+            pacing = new AdPacing(config, clock());
+        }
 
         /// <summary>Debug panel: wipe the save and go back to a fresh home screen.</summary>
         public void ResetSave()
@@ -56,7 +67,7 @@ namespace Game
 
             profile = new Profile(new PlayerPrefsSaveStore());
             flow = new AppFlow(!profile.Data.firstRunDone);
-            pacing = new AdPacing(config, Time.unscaledTime);
+            pacing = new AdPacing(config, clock());
             flow.Changed += OnScreenChanged;
 
             hud.Bind(strings, () => flow.Pause());
@@ -113,8 +124,7 @@ namespace Game
                     resultPanel.Hide();
                     hud.gameObject.SetActive(false);
                     SetPlaying(false);
-                    if (bootstrap.LevelIndex != profile.Data.levelIndex) bootstrap.LoadLevel(profile.Data.levelIndex);
-                    ShowHome();
+                    ShowHome(); // the level was loaded at Start (or by ResetSave)
                     break;
                 case AppScreen.Playing:
                     splash.Hide();
@@ -124,6 +134,7 @@ namespace Game
                     SetPlaying(true);
                     break;
                 case AppScreen.Paused:
+                    hasStoppedTime = true;
                     Time.timeScale = 0f;
                     bootstrap.InputEnabled = false;
                     pause.Show(true, profile.Data);
@@ -131,9 +142,11 @@ namespace Game
             }
         }
 
+        /// <summary>Only undoes the pause's time stop, so a test or the bot can fast-forward time.</summary>
         private void SetPlaying(bool playing)
         {
-            Time.timeScale = 1f;
+            if (hasStoppedTime) Time.timeScale = 1f;
+            hasStoppedTime = false;
             bootstrap.InputEnabled = playing;
         }
 
@@ -153,17 +166,53 @@ namespace Game
             bootstrap.Retry();
         }
 
+        /// <summary>A win is saved at once, before any tap (spec §10), so a kill on the win panel keeps it.</summary>
         private void OnRoundFinished(RoundState state)
         {
             if (state == RoundState.Won)
             {
-                resultPanel.ShowWin(() => { resultPanel.Hide(); bootstrap.Next(); });
+                profile.RecordWin(bootstrap.LevelIndex);
+                pacing.LevelWon();
+                var reveal = UnlockReveal.After(bootstrap.Levels, bootstrap.LevelIndex);
+                resultPanel.ShowWin(reveal, strings.PropName(reveal.Next), OnNextTapped);
                 return;
             }
-            resultPanel.ShowLose(bootstrap.Budget.CanContinue,
-                () => { resultPanel.Hide(); bootstrap.Continue(); },
-                () => { resultPanel.Hide(); bootstrap.Retry(); });
+            ShowLose();
         }
+
+        private void ShowLose() =>
+            resultPanel.ShowLose(bootstrap.Budget.CanContinue && ads != null && ads.RewardedReady, OnContinueTapped, () =>
+            {
+                resultPanel.Hide();
+                bootstrap.Retry();
+            });
+
+        /// <summary>Spec §8: an interstitial only here, after a win, when paced and loaded; otherwise straight on.</summary>
+        private void OnNextTapped()
+        {
+            resultPanel.Hide();
+            int wonLevelNumber = bootstrap.LevelIndex + 1;
+            if (ads == null || !ads.InterstitialReady
+                || !pacing.ShouldShowInterstitial(wonLevelNumber, clock(), profile.Data.removeAds))
+            {
+                bootstrap.Next();
+                return;
+            }
+            pacing.InterstitialShown(clock());
+            ads.ShowInterstitial(bootstrap.Next);
+        }
+
+        /// <summary>+3 shots only for a rewarded ad watched to the end; an early close leaves the lose panel up.</summary>
+        private void OnContinueTapped() => ads.ShowRewarded(watched =>
+        {
+            if (!watched)
+            {
+                ShowLose();
+                return;
+            }
+            resultPanel.Hide();
+            bootstrap.Continue();
+        });
 
         private void BuyRemoveAds() => store?.BuyRemoveAds(purchased =>
         {

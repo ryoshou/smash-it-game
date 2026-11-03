@@ -14,6 +14,8 @@ namespace Game.Editor
         private static readonly Color Ink = new Color(0.3f, 0.22f, 0.3f);
         private static readonly Color PanelColor = new Color(1f, 0.97f, 0.95f, 0.95f);
         private static readonly Color ButtonColor = new Color(1f, 0.72f, 0.62f);
+        private static readonly Color BarBackColor = new Color(0.3f, 0.22f, 0.3f, 0.18f);
+        private static readonly Color BarFillColor = new Color(0.98f, 0.55f, 0.42f);
         private const int DebugSliderCount = 7;
 
         public readonly struct Parts
@@ -80,7 +82,19 @@ namespace Game.Editor
             var (primary, primaryLabel) = Button("Primary", panel, new Vector2(0.1f, 0.33f), new Vector2(0.9f, 0.55f));
             var (secondary, secondaryLabel) = Button("Secondary", panel, new Vector2(0.1f, 0.06f), new Vector2(0.9f, 0.28f));
 
+            // The reveal bar sits where the second button would be; a win shows only Next.
+            var reveal = Rect("Reveal", panel, new Vector2(0.06f, 0.04f), new Vector2(0.94f, 0.3f), Vector2.zero, Vector2.zero);
+            var revealText = Label("Text", reveal, "", 44, TextAnchor.MiddleCenter);
+            Place(revealText.rectTransform, new Vector2(0f, 0.45f), Vector2.one, Vector2.zero, Vector2.zero);
+            var bar = Rect("Bar", reveal, new Vector2(0.04f, 0.1f), new Vector2(0.96f, 0.38f), Vector2.zero, Vector2.zero);
+            bar.gameObject.AddComponent<Image>().color = BarBackColor;
+            var fill = Rect("Fill", bar, Vector2.zero, new Vector2(0.5f, 1f), Vector2.zero, Vector2.zero);
+            fill.gameObject.AddComponent<Image>().color = BarFillColor;
+
             var component = panel.gameObject.AddComponent<ResultPanel>();
+            PrototypeSceneBuilder.SetReference(component, "revealRoot", reveal.gameObject);
+            PrototypeSceneBuilder.SetReference(component, "revealText", revealText);
+            PrototypeSceneBuilder.SetReference(component, "revealFill", fill);
             PrototypeSceneBuilder.SetReference(component, "title", title);
             PrototypeSceneBuilder.SetReference(component, "primary", primary);
             PrototypeSceneBuilder.SetReference(component, "primaryLabel", primaryLabel);

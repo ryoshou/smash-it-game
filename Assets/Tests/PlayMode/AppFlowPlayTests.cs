@@ -6,7 +6,6 @@ using Game.Monetization;
 using Game.UI;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
@@ -19,36 +18,21 @@ namespace Game.Tests
         private GameBootstrap bootstrap;
 
         [SetUp]
-        public void ClearSave()
-        {
-            PlayerPrefs.DeleteKey(PlayerPrefsSaveStore.Key);
-            PlayerPrefs.DeleteKey(SimulatedPurchaseService.OwnershipKey);
-        }
+        public void SetUp() => AppTestKit.ClearSave();
 
         [TearDown]
-        public void TearDown()
-        {
-            Time.timeScale = 1f;
-            ClearSave();
-        }
+        public void TearDown() => AppTestKit.ClearSave();
 
         private IEnumerator Launch(int savedLevel = 0)
         {
-            new Profile(new PlayerPrefsSaveStore()).RecordWin(savedLevel - 1);
-            yield return SceneManager.LoadSceneAsync("Game");
-            app = Object.FindAnyObjectByType<AppController>();
-            bootstrap = Object.FindAnyObjectByType<GameBootstrap>();
-            Assert.IsNotNull(app, "scene has no AppController");
-            float deadline = Time.realtimeSinceStartup + 5f;
-            while (app.Screen != AppScreen.Home && Time.realtimeSinceStartup < deadline) yield return null;
-            Assert.AreEqual(AppScreen.Home, app.Screen);
+            yield return AppTestKit.Launch(savedLevel);
+            app = AppTestKit.App;
+            bootstrap = AppTestKit.Bootstrap;
         }
 
-        private static Button ButtonNamed<T>(string name) where T : Component =>
-            Object.FindAnyObjectByType<T>(FindObjectsInactive.Include).GetComponentsInChildren<Button>(true).First(b => b.name == name);
+        private static Button ButtonNamed<T>(string name) where T : Component => AppTestKit.ButtonNamed<T>(name);
 
-        private static bool ShowsText<T>(string text) where T : Component =>
-            Object.FindAnyObjectByType<T>(FindObjectsInactive.Include).GetComponentsInChildren<Text>().Any(t => t.text == text);
+        private static bool ShowsText<T>(string text) where T : Component => AppTestKit.ShowsText<T>(text);
 
         [UnityTest]
         public IEnumerator Launch_ShowsHomeWithSavedLevel()
