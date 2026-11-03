@@ -145,9 +145,9 @@ Then **soft launch** in 1–2 smaller markets for a few weeks. Watch day-1 and d
 ## 10a. Owner checkpoints [Claude's call]
 The owner judges feel and art. The builder decides everything else. The owner plays a device build at these points, and work past each one waits for their OK:
 1. **Shooting prototype:** slingshot, arc, one desk of keycaps, placeholder art. This confirms the shot feel.
-2. **Vertical slice:** Room 1's look, the cat, 3–4 object types with full juice, and 5 levels. This confirms the art direction and audio, including the refined scripted props. It's also where the owner decides whether to keep the generated cat or commission one (§12.3).
+2. **Vertical slice:** Room 1's look, the cat, 3–4 object types with full juice, and 5 levels. This confirms the art direction and audio, including the refined scripted props. The cat here is the scripted blockout; the final cat is deferred (see checkpoint 4).
 3. **Room 1 complete:** 25 levels, all screens, ads and the purchase in test mode.
-4. **Content complete:** 100 levels, ready for soft launch.
+4. **Content complete:** 100 levels, ready for soft launch. The final cat lands before this checkpoint: the owner decides here (or earlier, once everything else is validated) between the AI-generated cat and a commissioned one (§12.3). [Owner, 2026-11-03: validate everything else before spending time on the cat.]
 
 The builder (with the bot) does the full 100-level playthrough. The owner may spot-check.
 
@@ -197,7 +197,7 @@ Measured from the pack files:
 - **The cat (highest risk).** It needs idle, pull/aim (holding the slingshot), release, celebrate (smug) and annoyed animations.
   - [Claude's call] Design it as a sitting, chunky cat whose acting is mostly upper body, head and tail, so rigging stays simple.
   - The builder chooses the rigging route: an AI auto-rig, a hand rig in Blender, or simple squash-and-stretch.
-  - **Fallback:** if the generated cat isn't cute enough at checkpoint 2, the owner commissions just the cat from an artist (the owner has said there's budget for this).
+  - **Fallback:** if the generated cat isn't cute enough at checkpoint 4, the owner commissions just the cat from an artist (the owner has said there's budget for this).
 - **Breakable versions:** mugs, pots, cans and the like are pre-fractured in Blender (Cell Fracture or scripted cuts).
   - [Claude's call] 6–12 pieces per object, sharing the atlas. Broken faces use a lighter cell of the object's own color.
 - **Room backdrops:** built from pack walls, floors and furniture.
