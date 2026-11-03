@@ -11,8 +11,9 @@ namespace Game.Tests
 {
     /// <summary>
     /// A smoke test, not the M3 playtest bot: for each Room 1 level, every target must be knocked off by at least one
-    /// shot from a 9 yaw × 4 power grid, each on a freshly loaded level. A support is only reachable once what rests on
-    /// it is gone, so a target no fresh-level shot clears gets a second pass with the props above it removed.
+    /// shot from a 9 yaw × 4 power grid, each on a freshly loaded level. Some targets are only reachable once others are
+    /// gone (a support, or a prop shielded by another), so a target no fresh-level shot clears gets a second pass alone
+    /// on its desk, aimed at, a few shots per power: that proves nothing is stuck. Level difficulty is the bot's job.
     /// </summary>
     public sealed class Room1LevelsPlayTests
     {
@@ -20,6 +21,9 @@ namespace Game.Tests
         private static readonly float[] Powers = { 0.4f, 0.6f, 0.8f, 1f };
         private const float SimulatedSeconds = 3f;
         private const float FastForward = 10f;
+        private const int AloneShots = 3;
+        // M2's levels; from M3 the playtest bot gates every level (a win clears every target, and every band needs wins).
+        private const int SmokeLevels = 5;
 
         private GameBootstrap bootstrap;
         private LevelSpawnerProbe probe;
@@ -47,7 +51,7 @@ namespace Game.Tests
             var levels = (LevelList)new UnityEditor.SerializedObject(bootstrap).FindProperty("levels").objectReferenceValue;
             Assert.AreEqual("Room1LevelList", levels.name, "the game should play Room 1");
             var unreachable = new List<string>();
-            for (int level = 0; level < levels.Count; level++)
+            for (int level = 0; level < SmokeLevels; level++)
             {
                 bootstrap.LoadLevel(level);
                 var targets = probe.TargetIndices();
@@ -66,7 +70,7 @@ namespace Game.Tests
                 {
                     if (knocked.Contains(i)) continue;
                     bool reached = false;
-                    yield return SweepWithLoadRemoved(level, i, result => reached = result);
+                    yield return SweepAlone(level, i, result => reached = result);
                     if (!reached) unreachable.Add($"level {level + 1} target {i} ({probe.Kind(i)})");
                 }
             }
@@ -74,22 +78,26 @@ namespace Game.Tests
             Assert.IsEmpty(unreachable, "No sampled shot knocks these off:\n" + string.Join("\n", unreachable));
         }
 
-        private IEnumerator SweepWithLoadRemoved(int level, int target, System.Action<bool> done)
+        /// <summary>The target alone on its desk, aimed at directly; up to AloneShots shots per power, like a player would.</summary>
+        private IEnumerator SweepAlone(int level, int target, System.Action<bool> done)
         {
-            for (int y = 0; y < YawSteps; y++)
-                foreach (float power in Powers)
+            var pouch = GameObject.Find("Pouch").transform.position;
+            foreach (float power in Powers)
+            {
+                bootstrap.LoadLevel(level);
+                probe.RemoveAllBut(target);
+                yield return null;
+                for (int shot = 0; shot < AloneShots; shot++)
                 {
-                    bootstrap.LoadLevel(level);
-                    probe.RemoveLoadOn(target);
-                    yield return null;
-                    bootstrap.FireForTest(Pull(Mathf.Lerp(-1f, 1f, y / (YawSteps - 1f)), power));
+                    var at = probe.Position(target);
+                    float yaw = Mathf.Atan2(at.x - pouch.x, at.z - pouch.z);
+                    bootstrap.FireForTest(SlingshotMath.PullFor(yaw, power, bootstrap.Tuning));
                     yield return new WaitForSeconds(SimulatedSeconds);
-                    if (probe.IsCleared(target))
-                    {
-                        done(true);
-                        yield break;
-                    }
+                    if (!probe.IsCleared(target)) continue;
+                    done(true);
+                    yield break;
                 }
+            }
             done(false);
         }
 
@@ -115,28 +123,13 @@ namespace Game.Tests
 
             public PropKind Kind(int i) => spawner.Spawned[i].Kind;
 
-            /// <summary>Deactivates every prop resting higher than the target over its footprint.</summary>
-            public void RemoveLoadOn(int target)
-            {
-                var below = spawner.Spawned[target];
-                var bounds = Bounds(below);
-                for (int i = 0; i < spawner.Spawned.Count; i++)
-                {
-                    if (i == target) continue;
-                    var other = Bounds(spawner.Spawned[i]);
-                    bool above = other.center.y > bounds.center.y;
-                    bool over = Mathf.Abs(other.center.x - bounds.center.x) < (other.extents.x + bounds.extents.x)
-                                && Mathf.Abs(other.center.z - bounds.center.z) < (other.extents.z + bounds.extents.z);
-                    if (above && over) spawner.Spawned[i].gameObject.SetActive(false);
-                }
-            }
+            public Vector3 Position(int i) => spawner.Spawned[i].Body.position;
 
-            private static Bounds Bounds(World.DeskObject prop)
+            /// <summary>Deactivates every prop except the target.</summary>
+            public void RemoveAllBut(int target)
             {
-                var colliders = prop.GetComponentsInChildren<Collider>();
-                var bounds = colliders[0].bounds;
-                foreach (var c in colliders) bounds.Encapsulate(c.bounds);
-                return bounds;
+                for (int i = 0; i < spawner.Spawned.Count; i++)
+                    if (i != target) spawner.Spawned[i].gameObject.SetActive(false);
             }
         }
     }

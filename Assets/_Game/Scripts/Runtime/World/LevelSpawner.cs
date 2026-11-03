@@ -11,7 +11,7 @@ namespace Game.World
     {
         public const float DeskTopY = 1.0f;
         /// <summary>Top centre of the raised back desk (LevelDef.hasBackDesk).</summary>
-        public static readonly Vector3 BackDeskTop = new Vector3(0f, 1.3f, 1.05f);
+        public static readonly Vector3 BackDeskTop = new Vector3(0f, 1.3f, 1.2f);
         public static readonly Bounds PlayVolume = new Bounds(new Vector3(0f, 2f, 0f), new Vector3(8f, 6f, 8f));
 
         [Tooltip("Shown only on levels that use it.")]

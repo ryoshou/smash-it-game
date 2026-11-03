@@ -98,6 +98,26 @@ namespace Game.Tests
             AssertDefaults(new Profile(store).Data);
         }
 
+        [Test]
+        public void PlayerPrefsStore_SavesAndLoadsUnderItsKey()
+        {
+            bool had = PlayerPrefs.HasKey(PlayerPrefsSaveStore.Key);
+            string before = PlayerPrefs.GetString(PlayerPrefsSaveStore.Key, "");
+            try
+            {
+                var store = new PlayerPrefsSaveStore();
+                store.Save("{\"levelIndex\":12}");
+
+                Assert.AreEqual("{\"levelIndex\":12}", store.Load());
+                Assert.AreEqual(12, new Profile(store).Data.levelIndex);
+            }
+            finally
+            {
+                if (had) PlayerPrefs.SetString(PlayerPrefsSaveStore.Key, before);
+                else PlayerPrefs.DeleteKey(PlayerPrefsSaveStore.Key);
+            }
+        }
+
         private static void AssertDefaults(SaveData data)
         {
             Assert.AreEqual(0, data.levelIndex);

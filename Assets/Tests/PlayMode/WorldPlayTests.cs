@@ -53,11 +53,12 @@ namespace Game.Tests
         }
 
         [UnityTest]
+        [Timeout(600000)]
         public IEnumerator Room1Levels_AreStableAtSpawn()
         {
             var levels = AssetDatabase.LoadAssetAtPath<LevelList>(Room1ListPath);
             Assert.IsNotNull(levels, "Room 1 level list is missing");
-            Assert.AreEqual(5, levels.Count);
+            Assert.AreEqual(25, levels.Count);
             yield return AssertStable(levels);
         }
 

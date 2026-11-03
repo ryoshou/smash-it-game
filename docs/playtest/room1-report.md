@@ -4,8 +4,28 @@
 
 | Level | Band | Shots | Clear rate | Median shots on win | In band |
 |---|---|---|---|---|---|
-| R1_L01 | teaching | 5 | 0.90 | 3 | yes |
-| R1_L02 | teaching | 5 | 0.93 | 3.5 | yes |
-| R1_L03 | teaching | 6 | 1.00 | 4 | yes |
-| R1_L04 | teaching | 6 | 0.97 | 4 | yes |
-| R1_L05 | hard | 7 | 1.00 | 5 | **no** |
+| R1_L01 | teaching | 5 | 0.83 | 4 | yes |
+| R1_L02 | teaching | 5 | 0.93 | 3 | yes |
+| R1_L03 | teaching | 6 | 0.97 | 4 | yes |
+| R1_L04 | teaching | 6 | 0.90 | 4 | yes |
+| R1_L05 | hard | 5 | 0.23 | 5 | yes |
+| R1_L06 | teaching | 7 | 0.77 | 4 | yes |
+| R1_L07 | teaching | 5 | 0.87 | 3 | yes |
+| R1_L08 | teaching | 6 | 1.00 | 4 | yes |
+| R1_L09 | teaching | 7 | 1.00 | 3.5 | yes |
+| R1_L10 | hard | 9 | 0.27 | 7 | yes |
+| R1_L11 | normal | 5 | 0.73 | 4 | yes |
+| R1_L12 | normal | 5 | 0.83 | 4 | yes |
+| R1_L13 | normal | 7 | 0.90 | 5 | yes |
+| R1_L14 | normal | 7 | 0.77 | 5 | yes |
+| R1_L15 | hard | 5 | 0.60 | 5 | yes |
+| R1_L16 | normal | 5 | 0.93 | 4 | yes |
+| R1_L17 | normal | 7 | 0.90 | 5 | yes |
+| R1_L18 | normal | 8 | 0.40 | 7 | yes |
+| R1_L19 | normal | 6 | 0.53 | 5 | yes |
+| R1_L20 | hard | 10 | 0.20 | 10 | yes |
+| R1_L21 | normal | 6 | 0.90 | 4 | yes |
+| R1_L22 | normal | 7 | 0.93 | 5 | yes |
+| R1_L23 | normal | 8 | 0.80 | 7 | yes |
+| R1_L24 | normal | 8 | 0.93 | 6.5 | yes |
+| R1_L25 | hard | 10 | 0.27 | 9 | yes |
