@@ -30,6 +30,10 @@ namespace Game.Editor
             var mugBreak = Set("Break_Mug", 0.85f, Breaking + "glass_breaking_01.ogg", Breaking + "glass_breaking_02.ogg", Breaking + "glass_breaking_03.ogg");
             var potBreak = Set("Break_CactusPot", 0.9f, Breaking + "rock_breaking_01.ogg", Breaking + "rock_breaking_02.ogg", Breaking + "rock_breaking_03.ogg");
             var pop = Set("Break_Pop", 0.6f, Pops + "pop1.ogg", Pops + "pop2.ogg", Pops + "pop3.ogg");
+            var cupHit = Set("Hit_PaperCup", 0.6f, Kenney + "drop_001.ogg", Kenney + "drop_002.ogg", Kenney + "drop_003.ogg");
+            var cupBreak = Set("Break_PaperCup", 0.65f, Kenney + "scratch_001.ogg", Kenney + "scratch_002.ogg", Kenney + "scratch_003.ogg");
+            var lampHit = Set("Hit_DeskLamp", 0.75f, Breaking + "metal_hit_01.ogg", Breaking + "metal_hit_02.ogg", Breaking + "metal_hit_03.ogg");
+            var lampBreak = Set("Break_DeskLamp", 0.8f, Breaking + "metal_falling_01.ogg", Breaking + "metal_falling_02.ogg");
 
             var library = VfxBuilder.LoadOrCreateLibrary();
             var feels = library.feels;
@@ -40,6 +44,8 @@ namespace Game.Editor
                     case PropKind.Mug: feels[i].hit = mugHit; feels[i].breakSound = mugBreak; break;
                     case PropKind.Book: feels[i].hit = bookHit; feels[i].breakSound = pop; break;
                     case PropKind.CactusPot: feels[i].hit = potHit; feels[i].breakSound = potBreak; break;
+                    case PropKind.PaperCup: feels[i].hit = cupHit; feels[i].breakSound = cupBreak; break;
+                    case PropKind.DeskLamp: feels[i].hit = lampHit; feels[i].breakSound = lampBreak; break;
                     default: feels[i].hit = keycapHit; feels[i].breakSound = pop; break;
                 }
             }

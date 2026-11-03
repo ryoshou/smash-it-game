@@ -54,6 +54,21 @@ namespace Game.Tests
             }
         }
 
+        /// <summary>Spec §9: the new kinds sound like themselves, not like any other kind.</summary>
+        [TestCase(PropKind.PaperCup)]
+        [TestCase(PropKind.DeskLamp)]
+        public void NewKind_HasItsOwnSounds(PropKind kind)
+        {
+            var shipped = AssetDatabase.LoadAssetAtPath<PropFeelLibrary>(VfxBuilder.LibraryPath);
+            Assert.IsTrue(shipped.TryGet(kind, out var mine), $"{kind} has no feel");
+            foreach (var other in shipped.feels)
+            {
+                if (other.kind == kind) continue;
+                Assert.AreNotSame(mine.hit, other.hit, $"{kind} hit is shared with {other.kind}");
+                Assert.AreNotSame(mine.breakSound, other.breakSound, $"{kind} break is shared with {other.kind}");
+            }
+        }
+
         private static void AssertSet(Game.Audio.SoundSet set, string what)
         {
             Assert.IsNotNull(set, what);

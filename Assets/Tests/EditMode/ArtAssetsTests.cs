@@ -74,6 +74,8 @@ namespace Game.Tests
         [TestCase("Packs/TinyTreats/mug_A_yellow.fbx", 0.585f, 0.35f, 0.432f)]
         [TestCase("Packs/KayKitFurniture/book_single.fbx", 0.26f, 0.5f, 0.365f)]
         [TestCase("Packs/KayKitFurniture/cactus_small_A.fbx", 0.5f, 0.552f, 0.5f)]
+        [TestCase("Packs/TinyTreats/coffee_cup_takeaway.fbx", 0.342f, 0.41f, 0.342f)]
+        [TestCase("Packs/KayKitFurniture/lamp_table.fbx", 1f, 1.022f, 1f)]
         public void PackProp_ImportsUpright(string model, float x, float y, float z)
         {
             AssertSize(new Vector3(x, y, z), Measure(model).boundsSize, 0.01f);

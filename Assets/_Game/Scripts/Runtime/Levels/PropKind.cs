@@ -10,5 +10,7 @@ namespace Game.Levels
         Mug,
         Book,
         CactusPot,
+        PaperCup,
+        DeskLamp,
     }
 }

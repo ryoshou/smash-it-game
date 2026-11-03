@@ -31,8 +31,10 @@ namespace Game.Editor
             var material = ParticleMaterial();
             var puff = Save(Burst("DustPuff", material, 24, 0.5f, new Vector2(0.06f, 0.14f), new Vector2(0.4f, 1.2f), 0.1f, Cream, Cream));
             var sparkle = Save(Burst("ShardSparkle", material, 16, 0.4f, new Vector2(0.03f, 0.07f), new Vector2(1f, 2.2f), 0.6f, Color.white, Butter));
+            var paperPuff = Save(Burst("PaperPuff", material, 12, 0.35f, new Vector2(0.03f, 0.08f), new Vector2(0.3f, 0.9f), 0.05f, Color.white, Cream));
+            var sparks = Save(Burst("SparkPuff", material, 20, 0.3f, new Vector2(0.02f, 0.05f), new Vector2(1.4f, 2.8f), 0.8f, Butter, Color.white));
             Save(Confetti(material));
-            FillLibrary(puff, sparkle);
+            FillLibrary(puff, sparkle, paperPuff, sparks);
             AssetDatabase.SaveAssets();
         }
 
@@ -49,7 +51,7 @@ namespace Game.Editor
         }
 
         /// <summary>Sets each kind's break effect; keeps any sounds already assigned.</summary>
-        private static void FillLibrary(ParticleSystem puff, ParticleSystem sparkle)
+        private static void FillLibrary(ParticleSystem puff, ParticleSystem sparkle, ParticleSystem paperPuff, ParticleSystem sparks)
         {
             var library = LoadOrCreateLibrary();
             var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath);
@@ -60,7 +62,12 @@ namespace Game.Editor
                 library.TryGet(kinds[i], out var feel);
                 feel.kind = kinds[i];
                 if (feel.hitMinSpeed <= 0f) feel.hitMinSpeed = DefaultHitMinSpeed;
-                feel.breakVfx = catalog.Get(kinds[i]).breakMode == BreakMode.Shatter ? sparkle : puff;
+                feel.breakVfx = kinds[i] switch
+                {
+                    PropKind.PaperCup => paperPuff,
+                    PropKind.DeskLamp => sparks,
+                    _ => catalog.Get(kinds[i]).breakMode == BreakMode.Shatter ? sparkle : puff,
+                };
                 feels[i] = feel;
             }
             library.feels = feels;

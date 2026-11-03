@@ -28,3 +28,15 @@ audio/wubitog-pops/x/3pops/pop1.ogg	Sfx/Pops/pop1.ogg
 audio/wubitog-pops/x/3pops/pop2.ogg	Sfx/Pops/pop2.ogg
 audio/wubitog-pops/x/3pops/pop3.ogg	Sfx/Pops/pop3.ogg
 audio/mintodog-cozy/cozy_puzzle_in-game_2_bpm90.ogg	Music/cozy_puzzle_in-game_2_bpm90.ogg
+# Room 1 new kinds (M3 Task 7)
+audio/kenney-interface/x/Audio/drop_001.ogg	Sfx/KenneyInterface/drop_001.ogg
+audio/kenney-interface/x/Audio/drop_002.ogg	Sfx/KenneyInterface/drop_002.ogg
+audio/kenney-interface/x/Audio/drop_003.ogg	Sfx/KenneyInterface/drop_003.ogg
+audio/kenney-interface/x/Audio/scratch_001.ogg	Sfx/KenneyInterface/scratch_001.ogg
+audio/kenney-interface/x/Audio/scratch_002.ogg	Sfx/KenneyInterface/scratch_002.ogg
+audio/kenney-interface/x/Audio/scratch_003.ogg	Sfx/KenneyInterface/scratch_003.ogg
+audio/rubberduck-breaking/x/bfh1_metal_hit_01.ogg	Sfx/BreakingFalling/bfh1_metal_hit_01.ogg
+audio/rubberduck-breaking/x/bfh1_metal_hit_02.ogg	Sfx/BreakingFalling/bfh1_metal_hit_02.ogg
+audio/rubberduck-breaking/x/bfh1_metal_hit_03.ogg	Sfx/BreakingFalling/bfh1_metal_hit_03.ogg
+audio/rubberduck-breaking/x/bfh1_metal_falling_01.ogg	Sfx/BreakingFalling/bfh1_metal_falling_01.ogg
+audio/rubberduck-breaking/x/bfh1_metal_falling_02.ogg	Sfx/BreakingFalling/bfh1_metal_falling_02.ogg

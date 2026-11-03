@@ -21,3 +21,6 @@ KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_large_A.fbx	KayKi
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_medium.fbx	KayKitFurniture/pictureframe_medium.fbx
 # Back desk for two-desk levels (M3 Task 6)
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_small.fbx	KayKitFurniture/table_small.fbx
+# Room 1 new kinds (M3 Task 7)
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/coffee_cup_takeaway.fbx	TinyTreats/coffee_cup_takeaway.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/lamp_table.fbx	KayKitFurniture/lamp_table.fbx

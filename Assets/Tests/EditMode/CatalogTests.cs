@@ -78,6 +78,8 @@ namespace Game.Tests
         [TestCase(PropKind.Book, BreakMode.Pop, PropColliderShape.Box)]
         [TestCase(PropKind.CactusPot, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.KeycapEnter, BreakMode.Pop, PropColliderShape.Box)]
+        [TestCase(PropKind.PaperCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.DeskLamp, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
             var spec = catalog.Get(kind);
@@ -87,6 +89,25 @@ namespace Game.Tests
             Assert.Greater(spec.mass, 0f);
             Assert.Greater(spec.size.y, 0f);
         }
+
+        [Test]
+        public void PaperCup_IsLighterThanEveryKeycap()
+        {
+            float cup = catalog.Get(PropKind.PaperCup).mass;
+            foreach (var kind in new[] { PropKind.Keycap1u, PropKind.Keycap2u, PropKind.KeycapSpace, PropKind.KeycapEnter })
+                Assert.Less(cup, catalog.Get(kind).mass, kind.ToString());
+        }
+
+        [Test]
+        public void PaperCup_IsAboutAFifthTallerThanAMug()
+        {
+            float ratio = catalog.Get(PropKind.PaperCup).size.y / catalog.Get(PropKind.Mug).size.y;
+            Assert.That(ratio, Is.InRange(1.1f, 1.3f));
+        }
+
+        [Test]
+        public void DeskLamp_IsAboutFortyFiveCentimetresTall() =>
+            Assert.AreEqual(0.45f, catalog.Get(PropKind.DeskLamp).size.y, 0.01f);
 
         [Test]
         public void Book_LiesFlat_ForStacking()

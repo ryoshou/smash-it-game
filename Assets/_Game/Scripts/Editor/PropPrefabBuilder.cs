@@ -24,6 +24,7 @@ namespace Game.Editor
         private static readonly Vector3 KeycapEnterSize = new Vector3(0.225f, 0.15f, 0.11f);
         private const float KeycapEnterMass = 0.06f;
         private static readonly Vector3 LayFlat = new Vector3(0f, 0f, 90f);
+        private const float DeskLampScale = 0.44f; // the KayKit lamp is 1 m tall; a desk lamp is ~0.45 m
 
         private sealed class Source
         {
@@ -37,6 +38,7 @@ namespace Game.Editor
             public BreakMode breakMode;
             public Vector3? size;
             public Vector3 visualEuler;
+            public float visualScale = 1f;
         }
 
         [MenuItem("Smash/Build Props")]
@@ -95,6 +97,19 @@ namespace Game.Editor
                 variants = new[] { Art + "Packs/KayKitFurniture/cactus_small_A.fbx" },
                 broken = new[] { Art + "Generated/CactusPot_broken.fbx" },
             };
+            // Room 1 new kinds (spec §6.1): a featherweight that flies, and a top-heavy one that topples.
+            yield return new Source
+            {
+                kind = PropKind.PaperCup, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.03f,
+                physics = WritePhysicsMaterial("PaperCup", 0.4f, 0.4f, 0.3f), breakMode = BreakMode.Pop,
+                variants = new[] { Art + "Packs/TinyTreats/coffee_cup_takeaway.fbx" },
+            };
+            yield return new Source
+            {
+                kind = PropKind.DeskLamp, atlas = KayKit, collider = PropColliderShape.ConvexMesh, mass = 0.6f,
+                physics = WritePhysicsMaterial("DeskLamp", 0.5f, 0.6f, 0.05f), breakMode = BreakMode.Pop,
+                variants = new[] { Art + "Packs/KayKitFurniture/lamp_table.fbx" }, visualScale = DeskLampScale,
+            };
         }
 
         private static Source Keycap(PropKind kind, Vector3 size, float mass, PhysicsMaterial physics) => new Source
@@ -135,6 +150,7 @@ namespace Game.Editor
         {
             var root = new GameObject(name);
             var visual = AddVisual(root, modelPath, source.visualEuler, atlas);
+            visual.transform.localScale = Vector3.one * source.visualScale;
             bounds = ArtMeshStats.ModelBounds(root);
             visual.transform.localPosition = -bounds.center;
 
@@ -158,6 +174,7 @@ namespace Game.Editor
         {
             var root = new GameObject(name);
             var visual = AddVisual(root, modelPath, source.visualEuler, atlas);
+            visual.transform.localScale = Vector3.one * source.visualScale;
             visual.transform.localPosition = -intactCenter;
             var pieces = visual.GetComponentsInChildren<MeshFilter>();
             var targets = new Transform[pieces.Length];

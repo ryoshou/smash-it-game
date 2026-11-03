@@ -189,6 +189,26 @@ namespace Game.Tests
             Object.Destroy(cube);
         }
 
+        [UnityTest]
+        public IEnumerator DeskLamp_HitHigh_Topples()
+        {
+            var lamp = LoadOne(PropKind.DeskLamp);
+            yield return WaitSeconds(0.5f);
+            float height = catalog.Get(PropKind.DeskLamp).size.y;
+            var shade = new Vector3(0f, LevelSpawner.DeskTopY + height * 0.8f, 0f);
+
+            Object.FindAnyObjectByType<BallPool>().Get().Launch(shade + new Vector3(0f, 0f, -0.5f),
+                new Vector3(0f, 0f, bootstrap.Tuning.minSpeed), bootstrap.Tuning, bootstrap.Events);
+            float tilt = 0f;
+            for (int i = 0; i < Steps(2f) && lamp.gameObject.activeSelf; i++)
+            {
+                yield return new WaitForFixedUpdate();
+                tilt = Mathf.Max(tilt, Vector3.Angle(Vector3.up, lamp.transform.up));
+            }
+
+            Assert.Greater(tilt, 45f, "a level shot at the shade should tip the lamp over");
+        }
+
         private DeskObject LoadOne(PropKind kind) => LoadMany(kind, 1)[0];
 
         private DeskObject[] LoadMany(PropKind kind, int count)

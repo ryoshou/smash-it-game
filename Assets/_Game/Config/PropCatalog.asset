@@ -96,3 +96,21 @@ MonoBehaviour:
     material: {fileID: 13400000, guid: 0e245e1ca9ff24407883664c83422c85, type: 2}
     collider: 1
     breakMode: 2
+  - kind: 7
+    variants:
+    - prefab: {fileID: 5925604682420044174, guid: 53e0b0309945c461da51423397f38ed2, type: 3}
+      brokenPrefab: {fileID: 0}
+    size: {x: 0.34187678, y: 0.41000006, z: 0.34187675}
+    mass: 0.03
+    material: {fileID: 13400000, guid: e72d3600601fc4fe8a47fe8bbc2e5e67, type: 2}
+    collider: 1
+    breakMode: 1
+  - kind: 8
+    variants:
+    - prefab: {fileID: 6679627716603554586, guid: 7acf6f2dac1fe440bb566c9c020a7f3a, type: 3}
+      brokenPrefab: {fileID: 0}
+    size: {x: 0.44, y: 0.4495327, z: 0.44}
+    mass: 0.6
+    material: {fileID: 13400000, guid: 07abdcf770d9e404d9bb3e7c4205dfd0, type: 2}
+    collider: 1
+    breakMode: 1
