@@ -123,6 +123,28 @@ namespace Game.Tests
             Assert.AreEqual(0, spawner.TargetsRemaining);
         }
 
+        /// <summary>A crowded fortress (many colliders in range) must not crowd the second fizzy out of the burst.</summary>
+        [UnityTest]
+        public IEnumerator FizzySoda_Burst_ChainsThroughACrowd()
+        {
+            var props = new System.Collections.Generic.List<PropPlacement> { At(PropKind.FizzySoda, 0f, 0f), At(PropKind.FizzySoda, 0.45f, 0f) };
+            for (int i = 0; i < 12; i++)
+                for (int level = 0; level < 3; level++)
+                {
+                    var spot = Quaternion.Euler(0f, i * 30f, 0f) * new Vector3(0f, 0f, 0.3f);
+                    if (Mathf.Abs(spot.x - 0.45f) < 0.2f && Mathf.Abs(spot.z) < 0.2f) continue;
+                    props.Add(new PropPlacement { kind = PropKind.Keycap1u, basePosition = new Vector3(spot.x, level * 0.15f, spot.z), isTarget = true });
+                }
+            Load(props.ToArray());
+            var second = spawner.Spawned[1];
+            yield return Seconds(1f);
+
+            TipOver(spawner.Spawned[0]);
+            yield return Seconds(2f * FuseSeconds + 1f);
+
+            Assert.IsTrue(second.IsBroken, $"the second fizzy was crowded out ({props.Count} props in range)");
+        }
+
         [UnityTest]
         public IEnumerator Restart_DuringFuse_NoBurstInNewRound()
         {
