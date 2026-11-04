@@ -49,6 +49,9 @@ namespace Game.Editor
             var canBreak = Set("Break_SodaCan", 0.75f, Breaking + "metal_falling_03.ogg", Breaking + "metal_falling_04.ogg", Breaking + "metal_falling_05.ogg");
             var padHit = Set("Hit_GameController", 0.6f, Kenney + "switch_001.ogg", Kenney + "switch_002.ogg", Kenney + "switch_003.ogg", Kenney + "switch_004.ogg");
             var padBreak = Set("Break_GameController", 0.65f, Kenney + "glitch_001.ogg", Kenney + "glitch_002.ogg", Kenney + "glitch_003.ogg", Kenney + "glitch_004.ogg");
+            var fizzHit = Set("Hit_FizzySoda", 0.65f, Kenney + "toggle_001.ogg", Kenney + "toggle_002.ogg", Kenney + "toggle_003.ogg");
+            var fizzBurst = Set("Break_FizzySoda", 0.95f, Pops + "pop1.ogg", Kenney + "maximize_001.ogg", Pops + "pop2.ogg",
+                Kenney + "maximize_002.ogg", Pops + "pop3.ogg", Kenney + "maximize_003.ogg");
             var milkBreak = Set("Break_MilkBottle", 0.85f, Breaking + "glass_breaking_04.ogg", Breaking + "glass_breaking_05.ogg", Breaking + "glass_breaking_06.ogg");
 
             var library = VfxBuilder.LoadOrCreateLibrary();
@@ -70,6 +73,7 @@ namespace Game.Editor
                     case PropKind.PencilCup: feels[i].hit = pencilHit; feels[i].breakSound = pencilBreak; break;
                     case PropKind.SodaCan: feels[i].hit = canHit; feels[i].breakSound = canBreak; break;
                     case PropKind.GameController: feels[i].hit = padHit; feels[i].breakSound = padBreak; break;
+                    case PropKind.FizzySoda: feels[i].hit = fizzHit; feels[i].breakSound = fizzBurst; break;
                     default: feels[i].hit = keycapHit; feels[i].breakSound = pop; break;
                 }
             }

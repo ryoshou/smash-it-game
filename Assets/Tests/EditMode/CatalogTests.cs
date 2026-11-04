@@ -88,6 +88,7 @@ namespace Game.Tests
         [TestCase(PropKind.PencilCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.SodaCan, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.GameController, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.FizzySoda, BreakMode.Burst, PropColliderShape.ConvexMesh)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
             var spec = catalog.Get(kind);
@@ -166,6 +167,14 @@ namespace Game.Tests
 
             Assert.AreEqual(0.3f, can.size.y, 0.02f);
             Assert.Less(can.mass, catalog.Get(PropKind.Mug).mass);
+        }
+
+        [Test]
+        public void FizzySoda_HasAFuse_AndOtherKindsDoNot()
+        {
+            foreach (var spec in catalog.specs)
+                foreach (var variant in spec.variants)
+                    Assert.AreEqual(spec.kind == PropKind.FizzySoda, variant.prefab.GetComponent<Game.World.FizzFuse>() != null, spec.kind.ToString());
         }
 
         [Test]

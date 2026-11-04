@@ -28,6 +28,9 @@ namespace Game.World
         public PropKind Kind { get; private set; }
         public int Variant { get; private set; }
         public BreakMode BreakMode { get; private set; }
+        /// <summary>Touched the floor (or furniture that counts as floor) since it spawned.</summary>
+        public bool HasTouchedFloor { get; private set; }
+        public ShotTuning Tuning => tuning;
         public Rigidbody Body { get; private set; }
 
         public void Init(bool isTarget, float deskTopY, Bounds playVolume, ShotTuning t, PropKind kind, int variant,
@@ -36,6 +39,7 @@ namespace Game.World
             IsTarget = isTarget;
             IsCleared = false;
             IsBroken = false;
+            HasTouchedFloor = false;
             this.deskTopY = deskTopY;
             this.playVolume = playVolume;
             tuning = t;
@@ -53,6 +57,12 @@ namespace Game.World
         public void Pop()
         {
             if (!IsBroken) Break(BreakMode.Pop, raiseEvent: true);
+        }
+
+        /// <summary>The fizzy soda's burst (FizzFuse): counts as cleared and vanishes with its own sound and effect.</summary>
+        public void Burst()
+        {
+            if (!IsBroken) Break(BreakMode.Burst, raiseEvent: true);
         }
 
         private void Awake() => Body = GetComponent<Rigidbody>();
@@ -79,6 +89,7 @@ namespace Game.World
             if (events != null && speed >= tuning.propImpactMinSpeed)
                 events.RaisePropImpact(Kind, collision.GetContact(0).point, speed);
             bool touchedFloor = BreakMode != BreakMode.None && collision.collider.TryGetComponent(out FloorSurface _);
+            if (touchedFloor) HasTouchedFloor = true;
             if (BreakRule.ShouldBreak(BreakMode, IsBroken, touchedFloor)) Break(BreakMode, raiseEvent: true);
         }
 

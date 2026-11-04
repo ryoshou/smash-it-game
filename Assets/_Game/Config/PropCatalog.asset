@@ -204,3 +204,12 @@ MonoBehaviour:
     material: {fileID: 13400000, guid: 3b4a7f48ee4da460fbd11d2943ebdfb2, type: 2}
     collider: 1
     breakMode: 1
+  - kind: 17
+    variants:
+    - prefab: {fileID: 7411768833347630432, guid: ecd88adb218d64736801bcd5d68d0ab0, type: 3}
+      brokenPrefab: {fileID: 0}
+    size: {x: 0.21117693, y: 0.3132, z: 0.216}
+    mass: 0.12
+    material: {fileID: 13400000, guid: cffcd3625a0934a2192d0ca6624deb46, type: 2}
+    collider: 1
+    breakMode: 3

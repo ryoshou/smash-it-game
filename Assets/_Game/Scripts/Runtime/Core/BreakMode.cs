@@ -11,5 +11,8 @@ namespace Game.Core
 
         /// <summary>Swaps to its pre-fractured pieces, which fade away (mugs, pots).</summary>
         Shatter,
+
+        /// <summary>Bursts with a push when knocked over (the fizzy soda, FizzFuse); the floor alone never breaks it.</summary>
+        Burst,
     }
 }

@@ -23,5 +23,6 @@ namespace Game.Levels
         // M4a, Gaming Den (levels 76–100)
         SodaCan,
         GameController,
+        FizzySoda,
     }
 }

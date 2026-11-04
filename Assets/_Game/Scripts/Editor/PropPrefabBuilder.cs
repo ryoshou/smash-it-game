@@ -53,6 +53,7 @@ namespace Game.Editor
             public Vector3? size;
             public Vector3 visualEuler;
             public float visualScale = 1f;
+            public bool fizzFuse;
         }
 
         [MenuItem("Smash/Build Props")]
@@ -194,6 +195,13 @@ namespace Game.Editor
                 physics = WritePhysicsMaterial("GameController", 0.6f, 0.7f, 0.1f), breakMode = BreakMode.Pop,
                 variants = Paths("Generated/GameController_{0}.fbx", ControllerColours),
             };
+            // The special (spec §6.2): a can that bursts when knocked over.
+            yield return new Source
+            {
+                kind = PropKind.FizzySoda, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.12f,
+                physics = WritePhysicsMaterial("SodaCan", 0.4f, 0.5f, 0.15f), breakMode = BreakMode.Burst,
+                variants = new[] { Art + "Generated/FizzySoda.fbx" }, fizzFuse = true,
+            };
         }
 
         private static Source Keycap(PropKind kind, Vector3 size, float mass, PhysicsMaterial physics) => new Source
@@ -250,6 +258,7 @@ namespace Game.Editor
             body.interpolation = RigidbodyInterpolation.Interpolate;
             root.AddComponent<DeskObject>();
             root.AddComponent<FadeOut>();
+            if (source.fizzFuse) root.AddComponent<FizzFuse>();
             return Save(root, name);
         }
 

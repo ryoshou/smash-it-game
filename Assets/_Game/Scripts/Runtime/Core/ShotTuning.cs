@@ -62,6 +62,14 @@ namespace Game.Core
         [Header("Continue")]
         public int continueShots = 3;
 
+        [Header("Fizzy soda (spec §6.2)")]
+        [Tooltip("Tilt from upright (degrees) that arms the fuse; reaching the floor arms it too.")]
+        public float fizzTiltDegrees = 55f;
+        public float fizzFuseSeconds = 0.25f;
+        public float fizzBurstRadius = 0.7f;
+        [Tooltip("Impulse at the burst centre, falling off to zero at the radius.")]
+        public float fizzBurstStrength = 2.5f;
+
         public static ShotTuning CreateDefault() => CreateInstance<ShotTuning>();
 
         public ShotTuning Clone() => Instantiate(this);

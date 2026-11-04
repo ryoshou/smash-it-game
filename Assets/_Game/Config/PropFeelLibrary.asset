@@ -98,3 +98,8 @@ MonoBehaviour:
     breakSound: {fileID: 11400000, guid: 452aa7aefdb7e49a2bc2ba928467f1a9, type: 2}
     breakVfx: {fileID: 8712288456165266193, guid: 6869ee053805a4037b5ea79171457998, type: 3}
     hitMinSpeed: 0.5
+  - kind: 17
+    hit: {fileID: 11400000, guid: aa8522263501d41bea527f45f065fb45, type: 2}
+    breakSound: {fileID: 11400000, guid: 1123594aa7461476d86a477ff492062f, type: 2}
+    breakVfx: {fileID: 526875427210282292, guid: 8dd09fa4c92b84284b9a0bb63eab9381, type: 3}
+    hitMinSpeed: 0.5

@@ -52,6 +52,8 @@ namespace Game.Editor
                 // Wax flecks with a grey wisp: slow, light particles that drift up a little.
                 [PropKind.Candle] = Save(Burst("WaxAndSmoke", material, 18, 0.7f, new Vector2(0.03f, 0.1f), new Vector2(0.3f, 0.9f), -0.05f, Wax, Smoke)),
                 [PropKind.Hourglass] = Save(Burst("SandBurst", material, 30, 0.5f, new Vector2(0.015f, 0.04f), new Vector2(0.8f, 2f), 1f, Sand, Butter)),
+                // The fizzy burst: a big cyan bubble spray, wide and slow to fall.
+                [PropKind.FizzySoda] = Save(Burst("BubbleSpray", material, 48, 0.8f, new Vector2(0.04f, 0.11f), new Vector2(1.5f, 3.2f), 0.3f, Sky, Color.white)),
                 [PropKind.SodaCan] = Save(Burst("SilverFlecks", material, 20, 0.4f, new Vector2(0.02f, 0.045f), new Vector2(1.2f, 2.6f), 0.8f, Silver, Color.white)),
                 // Square-ish pixel puff: few, larger, quick particles in game colours.
                 [PropKind.GameController] = Save(Burst("PixelPuff", material, 12, 0.35f, new Vector2(0.05f, 0.09f), new Vector2(0.6f, 1.4f), 0.2f, Violet, Sky)),

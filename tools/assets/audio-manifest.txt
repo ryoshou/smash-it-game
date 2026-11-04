@@ -96,3 +96,9 @@ audio/kenney-interface/x/Audio/glitch_001.ogg	Sfx/KenneyInterface/glitch_001.ogg
 audio/kenney-interface/x/Audio/glitch_002.ogg	Sfx/KenneyInterface/glitch_002.ogg
 audio/kenney-interface/x/Audio/glitch_003.ogg	Sfx/KenneyInterface/glitch_003.ogg
 audio/kenney-interface/x/Audio/glitch_004.ogg	Sfx/KenneyInterface/glitch_004.ogg
+audio/kenney-interface/x/Audio/toggle_001.ogg	Sfx/KenneyInterface/toggle_001.ogg
+audio/kenney-interface/x/Audio/toggle_002.ogg	Sfx/KenneyInterface/toggle_002.ogg
+audio/kenney-interface/x/Audio/toggle_003.ogg	Sfx/KenneyInterface/toggle_003.ogg
+audio/kenney-interface/x/Audio/maximize_001.ogg	Sfx/KenneyInterface/maximize_001.ogg
+audio/kenney-interface/x/Audio/maximize_002.ogg	Sfx/KenneyInterface/maximize_002.ogg
+audio/kenney-interface/x/Audio/maximize_003.ogg	Sfx/KenneyInterface/maximize_003.ogg

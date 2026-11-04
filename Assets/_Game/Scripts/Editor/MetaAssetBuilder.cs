@@ -32,6 +32,7 @@ namespace Game.Editor
             { PropKind.PencilCup, "Pencil Cup" },
             { PropKind.SodaCan, "Soda Can" },
             { PropKind.GameController, "Game Controller" },
+            { PropKind.FizzySoda, "Fizzy Soda" },
         };
 
         [MenuItem("Smash/Build Meta Assets")]

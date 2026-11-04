@@ -94,6 +94,11 @@ namespace Game.World
 
         private void OnBroken(DeskObject prop, BreakMode mode)
         {
+            if (mode == BreakMode.Burst)
+            {
+                prop.gameObject.SetActive(false); // gone in the burst
+                return;
+            }
             if (mode == BreakMode.Shatter)
             {
                 debris?.Spawn(prop.Kind, prop.Variant, prop.Body.position, prop.Body.rotation,
