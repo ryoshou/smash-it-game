@@ -29,7 +29,7 @@ namespace Game.Editor
 
         /// <summary>Two plate stacks near the back edge that topple off it.</summary>
         public static PropPlacement[] PlateStacks() =>
-            Tower(PropKind.Plate, 5, Plate, -0.45f, 0.5f).Concat(Tower(PropKind.Plate, 5, Plate, 0.45f, 0.5f)).ToArray();
+            Tower(PropKind.Plate, 6, Plate, -0.45f, 0.5f).Concat(Tower(PropKind.Plate, 6, Plate, 0.45f, 0.5f)).ToArray();
 
         /// <summary>A row of mugs, each standing on a plate, near the back edge.</summary>
         public static PropPlacement[] MugsOnPlates() =>

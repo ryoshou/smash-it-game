@@ -103,6 +103,8 @@ namespace Game.Editor
             Prop(PropKind.Mug, 0f, 0f, -0.25f, 2),
             Can(-0.85f, 0f, 0.62f, 0),
             Can(0.85f, 0f, 0.62f, 1),
+            Prop(PropKind.GameController, -0.78f, 0f, 0.0f, 0),
+            Prop(PropKind.GameController, 0.78f, 0f, 0.0f, 2),
         };
 
         /// <summary>Everything Den: cans, controllers, a fizzy and keycaps.</summary>

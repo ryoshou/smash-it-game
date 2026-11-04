@@ -31,20 +31,8 @@ MonoBehaviour:
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 4
-    basePosition: {x: -0.62, y: 0.41, z: 0.25}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 9
-    basePosition: {x: -0.62, y: 0.76, z: 0.25}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 0
   - kind: 7
-    basePosition: {x: -0.62, y: 0.82, z: 0.25}
+    basePosition: {x: -0.62, y: 0.41, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0
@@ -61,20 +49,8 @@ MonoBehaviour:
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 4
-    basePosition: {x: 0, y: 0.41, z: 0.25}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 9
-    basePosition: {x: 0, y: 0.76, z: 0.25}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 0
   - kind: 7
-    basePosition: {x: 0, y: 0.82, z: 0.25}
+    basePosition: {x: 0, y: 0.41, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0
@@ -91,20 +67,8 @@ MonoBehaviour:
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 4
-    basePosition: {x: 0.62, y: 0.41, z: 0.25}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 3
-    desk: 0
-  - kind: 9
-    basePosition: {x: 0.62, y: 0.76, z: 0.25}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 0
   - kind: 7
-    basePosition: {x: 0.62, y: 0.82, z: 0.25}
+    basePosition: {x: 0.62, y: 0.41, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0

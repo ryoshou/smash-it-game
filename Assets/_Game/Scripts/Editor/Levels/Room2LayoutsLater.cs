@@ -32,15 +32,13 @@ namespace Game.Editor
                 .Concat(DonutStack(2, 0f, 0f, Plate).Prepend(Prop(PropKind.Plate, 0f, 0f, 0f)).Select(OnBack))
                 .ToArray();
 
-        /// <summary>Two towers of mugs and plates, alternating, each capped with a paper cup (a mug won't stand on a lid).</summary>
+        /// <summary>Three towers: a mug, a plate, a paper cup on top (a mug won't stand on a lid; taller towers never settled).</summary>
         public static PropPlacement[] CupMugTowers() =>
             new[] { -0.62f, 0f, 0.62f }.SelectMany((x, i) => new[]
                 {
                     Prop(PropKind.Mug, x, 0f, 0.25f, i),
                     Prop(PropKind.Plate, x, Mug, 0.25f),
-                    Prop(PropKind.Mug, x, Mug + Plate, 0.25f, i + 1),
-                    Prop(PropKind.Plate, x, 2f * Mug + Plate, 0.25f),
-                    Prop(PropKind.PaperCup, x, 2f * (Mug + Plate), 0.25f),
+                    Prop(PropKind.PaperCup, x, Mug + Plate, 0.25f),
                 })
                 .ToArray();
 

@@ -29,6 +29,8 @@ namespace Game.Editor
                 .Append(Prop(PropKind.Hourglass, 0f, 3f * Book, 0.45f))
                 .Append(Prop(PropKind.Hourglass, -0.65f, 0f, 0.5f))
                 .Append(Prop(PropKind.Hourglass, 0.65f, 0f, 0.5f))
+                .Append(Candle(-0.8f, 0f, -0.35f, 0))
+                .Append(Candle(0.8f, 0f, -0.35f, 1))
                 .ToArray();
 
         /// <summary>The study desk: books with candles, a mug, candles at the front.</summary>

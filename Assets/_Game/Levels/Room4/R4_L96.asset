@@ -61,4 +61,16 @@ MonoBehaviour:
     isTarget: 1
     variant: 1
     desk: 0
+  - kind: 16
+    basePosition: {x: -0.78, y: 0, z: 0}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 16
+    basePosition: {x: 0.78, y: 0, z: 0}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 2
+    desk: 0
   room: {fileID: 11400000, guid: a58937729462c408a8f0a0f430ae2734, type: 2}
