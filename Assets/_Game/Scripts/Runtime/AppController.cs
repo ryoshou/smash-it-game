@@ -58,6 +58,15 @@ namespace Game
             if (flow.Screen == AppScreen.Home) ShowHome();
         }
 
+        /// <summary>Debug panel: play the first level of the next room (wraps to level 1), saved as the current level.</summary>
+        public void JumpToNextRoom()
+        {
+            int next = bootstrap.Levels.NextRoomStart(bootstrap.LevelIndex);
+            profile.JumpTo(next);
+            resultPanel.Hide();
+            bootstrap.LoadLevel(next);
+        }
+
         private void Awake()
         {
             ads = adService as IAdService;

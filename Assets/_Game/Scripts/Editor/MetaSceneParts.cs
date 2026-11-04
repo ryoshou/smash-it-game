@@ -39,17 +39,19 @@ namespace Game.Editor
             return app;
         }
 
-        /// <summary>Two buttons under the hidden tuning panel, shown and hidden with it.</summary>
+        /// <summary>Three buttons under the hidden tuning panel, shown and hidden with it.</summary>
         public static void BuildDebugButtons(Transform debugPanel, AppController app, SimulatedAdService ads)
         {
             var (reset, _) = UiSceneParts.Button("Reset save", debugPanel, new Vector2(0f, -0.16f), new Vector2(0.48f, -0.03f), 40);
             var (offline, offlineLabel) = UiSceneParts.Button("Ads offline", debugPanel, new Vector2(0.52f, -0.16f), new Vector2(1f, -0.03f), 40);
+            var (nextRoom, _) = UiSceneParts.Button("Next room", debugPanel, new Vector2(0f, -0.30f), new Vector2(0.48f, -0.17f), 40);
             var component = debugPanel.gameObject.AddComponent<DebugMetaButtons>();
             PrototypeSceneBuilder.SetReference(component, "app", app);
             PrototypeSceneBuilder.SetReference(component, "ads", ads);
             PrototypeSceneBuilder.SetReference(component, "resetSaveButton", reset);
             PrototypeSceneBuilder.SetReference(component, "adsOfflineButton", offline);
             PrototypeSceneBuilder.SetReference(component, "adsOfflineLabel", offlineLabel);
+            PrototypeSceneBuilder.SetReference(component, "nextRoomButton", nextRoom);
         }
 
         private static SplashScreen BuildSplash(Transform canvas)

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-    /// <summary>Playtest-only buttons on the hidden debug panel: wipe the save, and take the test ads offline.</summary>
+    /// <summary>Playtest-only buttons on the hidden debug panel: wipe the save, take the test ads offline, jump to the next room.</summary>
     public sealed class DebugMetaButtons : MonoBehaviour
     {
         [SerializeField] private AppController app;
@@ -12,11 +12,13 @@ namespace Game.UI
         [SerializeField] private Button resetSaveButton;
         [SerializeField] private Button adsOfflineButton;
         [SerializeField] private Text adsOfflineLabel;
+        [SerializeField] private Button nextRoomButton;
 
         private void Awake()
         {
             resetSaveButton.onClick.AddListener(app.ResetSave);
             adsOfflineButton.onClick.AddListener(ToggleAdsOffline);
+            nextRoomButton.onClick.AddListener(app.JumpToNextRoom);
             RefreshLabel();
         }
 

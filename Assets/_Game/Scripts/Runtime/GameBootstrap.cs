@@ -14,6 +14,7 @@ namespace Game
     public sealed class GameBootstrap : MonoBehaviour
     {
         private const int TargetFrameRate = 60;
+        private const int TestTouchId = 0;
 
         [SerializeField] private ShotTuning tuningAsset;
         [SerializeField] private LevelList levels;
@@ -47,6 +48,7 @@ namespace Game
         private int levelIndex;
         private float lastFireTime = float.NegativeInfinity;
         private float lastPower = -1f;
+        private bool inputEnabled = true;
 
         /// <summary>The runtime clone of the tuning asset; the debug panel edits this, never the asset.</summary>
         public ShotTuning Tuning { get; private set; }
@@ -58,8 +60,17 @@ namespace Game
         public LevelDef Level { get; private set; }
         /// <summary>The player's level index; it can run past the list, which wraps (LevelList.At).</summary>
         public int LevelIndex => levelIndex;
-        /// <summary>Off behind the home and pause screens; ANDed into the grab check.</summary>
-        public bool InputEnabled { get; set; } = true;
+        /// <summary>Off behind the home and pause screens; ANDed into the grab check. Turning it off drops a held pull.</summary>
+        public bool InputEnabled
+        {
+            get => inputEnabled;
+            set
+            {
+                inputEnabled = value;
+                if (!value) gesture?.Cancel();
+            }
+        }
+        public bool IsHoldingPull => gesture.IsHolding;
         /// <summary>No ball in flight and nothing on the desk moving.</summary>
         public bool IsDeskQuiet => !pool.AnyActive && !spawner.AnyMoving();
 
@@ -88,6 +99,18 @@ namespace Game
 
         /// <summary>Same path as a real release.</summary>
         public void FireForTest(Vector2 pull) => OnReleased(SlingshotMath.Compute(pull, Tuning));
+
+        /// <summary>A finger grabs the pouch and holds this pull (screen-height units), as SlingshotInput would.</summary>
+        public void HoldForTest(Vector2 pull)
+        {
+            const float screenHeight = 1000f;
+            Vector2 grab = cam.WorldToScreenPoint(pouch.position);
+            if (gesture.TryBegin(TestTouchId, grab, grab, screenHeight, CanGrab()))
+                gesture.Move(TestTouchId, grab + pull * screenHeight);
+        }
+
+        /// <summary>The test finger lifts, through the same path as a real lift.</summary>
+        public void ReleaseHoldForTest() => OnReleased(gesture.End(TestTouchId, false));
 
         public void Next() => LoadLevel(levelIndex + 1);
 

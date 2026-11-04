@@ -22,6 +22,13 @@ namespace Game.Meta
             Flush();
         }
 
+        /// <summary>Debug jump: sets the saved level outright, even backwards.</summary>
+        public void JumpTo(int levelIndex)
+        {
+            Data.levelIndex = Mathf.Clamp(levelIndex, 0, SaveCodec.MaxLevelIndex);
+            Flush();
+        }
+
         public void SetSound(bool on) { Data.sound = on; Flush(); }
         public void SetMusic(bool on) { Data.music = on; Flush(); }
         public void SetHaptics(bool on) { Data.haptics = on; Flush(); }

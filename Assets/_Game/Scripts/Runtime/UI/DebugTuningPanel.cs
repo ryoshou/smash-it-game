@@ -66,6 +66,18 @@ namespace Game.UI
             }),
         };
 
+        /// <summary>
+        /// Development builds only (the owner's test build is one): otherwise the level label opens nothing and the
+        /// panel, with the debug buttons under it, never shows.
+        /// </summary>
+        public void ApplyBuildGate(bool allowed)
+        {
+            toggleTarget.enabled = allowed;
+            if (toggleTarget.targetGraphic != null) toggleTarget.targetGraphic.raycastTarget = allowed;
+            if (!allowed) panelRoot.SetActive(false);
+            enabled = allowed;
+        }
+
         private void Awake()
         {
             knobs = CreateKnobs();
@@ -85,6 +97,7 @@ namespace Game.UI
             toggleTarget.onClick.AddListener(OnToggleTapped);
             resetButton.onClick.AddListener(ResetToAsset);
             panelRoot.SetActive(false);
+            ApplyBuildGate(Debug.isDebugBuild);
         }
 
         /// <summary>FPS and active debris sets on the readout, refreshed twice a second while the panel is open.</summary>
@@ -98,7 +111,7 @@ namespace Game.UI
 
         private void OnToggleTapped()
         {
-            if (!tripleTap.Tap(Time.unscaledTime)) return;
+            if (!enabled || !tripleTap.Tap(Time.unscaledTime)) return;
             bool show = !panelRoot.activeSelf;
             panelRoot.SetActive(show);
             if (show) SyncFromTuning();
