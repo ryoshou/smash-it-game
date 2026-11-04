@@ -54,6 +54,13 @@ namespace Game.Editor
             for (int i = 0; i < count; i++) yield return Prop(kind, x, y0 + i * height, z, i % 3);
         }
 
+        /// <summary>A donut stack: frosted looks alternating, the shorter plain one on top.</summary>
+        public static IEnumerable<PropPlacement> DonutStack(int count, float x, float z, float y0 = 0f)
+        {
+            for (int i = 0; i < count; i++)
+                yield return Prop(PropKind.Donut, x, y0 + i * Donut, z, i == count - 1 ? 0 : 1 + i % 2);
+        }
+
         /// <summary>Two spacebars side by side (a deck deep enough to stand a cup on), resting at height y.</summary>
         public static IEnumerable<PropPlacement> Bridge(float x, float y, float z)
         {

@@ -26,6 +26,7 @@ namespace Game.Tests
         private static int FirstNumber(int room) => (room - 1) * LevelsPerRoom + 1;
 
         [TestCase(1)]
+        [TestCase(2)]
         public void Room_Has25Levels_WithHardEveryFifth(int room)
         {
             var list = Room(room);
@@ -42,6 +43,7 @@ namespace Game.Tests
         }
 
         [TestCase(1)]
+        [TestCase(2)]
         public void Room_ShotsWithinFiveToTen(int room)
         {
             var list = Room(room);
@@ -51,6 +53,7 @@ namespace Game.Tests
 
         /// <summary>Owner, checkpoint 2: props holding others up must be cleared too.</summary>
         [TestCase(1)]
+        [TestCase(2)]
         public void Room_EveryPropIsATarget(int room)
         {
             var list = Room(room);
@@ -60,6 +63,7 @@ namespace Game.Tests
         }
 
         [TestCase(1, new[] { 6, 10, 14, 18, 20, 24, 25 })]
+        [TestCase(2, new[] { 29, 33, 38, 40, 43, 48, 50 })]
         public void Room_TwoDeskLevels_UseTheBackDesk(int room, int[] twoDeskNumbers)
         {
             var list = Room(room);
@@ -75,6 +79,7 @@ namespace Game.Tests
         }
 
         [TestCase(1)]
+        [TestCase(2)]
         public void Room_LevelsUseItsOwnTheme(int room)
         {
             var theme = AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room));
@@ -108,7 +113,8 @@ namespace Game.Tests
         [Test]
         public void GameList_NewKindsArriveOnSchedule()
         {
-            var expected = new List<string> { "1:Keycap1u", "3:Mug", "4:Book", "5:CactusPot", "12:PaperCup", "21:DeskLamp" };
+            var expected = new List<string> { "1:Keycap1u", "3:Mug", "4:Book", "5:CactusPot", "12:PaperCup", "21:DeskLamp",
+                "26:Plate", "36:Donut", "46:MilkBottle" };
             var game = GameList();
             var seen = new HashSet<PropKind>();
             var intros = new List<string>();

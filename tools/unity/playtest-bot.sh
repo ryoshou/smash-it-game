@@ -19,4 +19,4 @@ except (OSError, ET.ParseError) as e: print('no results:', e, '(see Logs/bot-bat
 print(f"bot run: total={root.get('total')} passed={root.get('passed')} failed={root.get('failed')}")
 sys.exit(0 if int(root.get('total', 0)) > 0 and root.get('failed') == '0' else 1)
 PY
-cat docs/playtest/room1-report.md 2>/dev/null
+for r in $rooms; do cat "docs/playtest/room$r-report.md" 2>/dev/null; done

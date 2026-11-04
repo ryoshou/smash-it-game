@@ -134,7 +134,7 @@ MonoBehaviour:
     size: {x: 0.33362037, y: 0.16377625, z: 0.33362037}
     mass: 0.06
     material: {fileID: 13400000, guid: f6d42b943b4d6456892c7fdd35e1f200, type: 2}
-    collider: 1
+    collider: 0
     breakMode: 1
   - kind: 11
     variants:

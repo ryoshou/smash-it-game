@@ -16,6 +16,7 @@ namespace Game.Tests
         private const int LevelsPerRoom = 25;
 
         [TestCase(1)]
+        [TestCase(2)]
         public void PlaytestReport_CoversEveryLevelWithCurrentLayout(int room)
         {
             string path = Path.Combine(Application.dataPath, "..", PlaytestReport.PathFor(room));

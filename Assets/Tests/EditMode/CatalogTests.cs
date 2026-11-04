@@ -81,7 +81,7 @@ namespace Game.Tests
         [TestCase(PropKind.PaperCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.DeskLamp, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Plate, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Donut, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Donut, BreakMode.Pop, PropColliderShape.Box)]
         [TestCase(PropKind.MilkBottle, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {

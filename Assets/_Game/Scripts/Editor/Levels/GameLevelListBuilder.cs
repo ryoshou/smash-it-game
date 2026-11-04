@@ -25,6 +25,7 @@ namespace Game.Editor
         private static readonly Func<LevelList>[] RoomLevels =
         {
             Room1LevelBuilder.BuildAll,
+            Room2LevelBuilder.BuildAll,
         };
 
         public static string RoomFolder(int room) => $"Assets/_Game/Levels/Room{room}";

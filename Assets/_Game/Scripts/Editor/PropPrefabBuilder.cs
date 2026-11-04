@@ -131,7 +131,8 @@ namespace Game.Editor
             };
             yield return new Source
             {
-                kind = PropKind.Donut, atlas = BakedGoods, collider = PropColliderShape.ConvexMesh, mass = 0.06f,
+                // A box, not its hull: the icing domes the hull's top, and stacks of domes never settle.
+                kind = PropKind.Donut, atlas = BakedGoods, collider = PropColliderShape.Box, mass = 0.06f,
                 physics = WritePhysicsMaterial("Donut", 0.6f, 0.7f, 0.2f), breakMode = BreakMode.Pop,
                 variants = Paths($"Packs/{BakedGoods}/{{0}}.fbx", DonutLooks), visualScale = DonutScale,
             };
