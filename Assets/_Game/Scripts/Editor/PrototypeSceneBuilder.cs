@@ -58,7 +58,7 @@ namespace Game.Editor
             PropPrefabBuilder.BuildAll();
             VfxBuilder.BuildAll();
             SoundSetBuilder.BuildAll();
-            HomeOfficeBuilder.Build();
+            GameLevelListBuilder.BuildRooms();
             var desk = WriteDeskPrefab();
             var backDesk = WriteBackDeskPrefab();
             var ball = WriteBallPrefab();

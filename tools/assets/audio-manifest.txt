@@ -40,3 +40,6 @@ audio/rubberduck-breaking/x/bfh1_metal_hit_02.ogg	Sfx/BreakingFalling/bfh1_metal
 audio/rubberduck-breaking/x/bfh1_metal_hit_03.ogg	Sfx/BreakingFalling/bfh1_metal_hit_03.ogg
 audio/rubberduck-breaking/x/bfh1_metal_falling_01.ogg	Sfx/BreakingFalling/bfh1_metal_falling_01.ogg
 audio/rubberduck-breaking/x/bfh1_metal_falling_02.ogg	Sfx/BreakingFalling/bfh1_metal_falling_02.ogg
+audio/mintodog-cozy/cozy_puzzle_in-game_1_bpm118.ogg	Music/cozy_puzzle_in-game_1_bpm118.ogg
+audio/mintodog-cozy/cozy_puzzle_stage_select_bpm100.ogg	Music/cozy_puzzle_stage_select_bpm100.ogg
+audio/mintodog-cozy/cozy_puzzle_in-game_3_bpm108.ogg	Music/cozy_puzzle_in-game_3_bpm108.ogg

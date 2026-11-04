@@ -24,3 +24,12 @@ KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_small.fbx	KayKitFurnitur
 # Room 1 new kinds (M3 Task 7)
 Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/coffee_cup_takeaway.fbx	TinyTreats/coffee_cup_takeaway.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/lamp_table.fbx	KayKitFurniture/lamp_table.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/counter_table.fbx	TinyTreats/counter_table.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/coffee_machine.fbx	TinyTreats/coffee_machine.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/cookie_jar.fbx	TinyTreats/cookie_jar.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/coffee_cup_takeaway_stacked.fbx	TinyTreats/coffee_cup_takeaway_stacked.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/display_case_long.fbx	TinyTreats/display_case_long.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/wall_shelf_bakery_B.fbx	TinyTreats/wall_shelf_bakery_B.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/pastry_stand_A_decorated.fbx	TinyTreats/pastry_stand_A_decorated.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/curtains.fbx	TinyTreats/curtains.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/rug.fbx	TinyTreats/rug.fbx

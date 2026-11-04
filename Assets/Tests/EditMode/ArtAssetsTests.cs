@@ -81,10 +81,13 @@ namespace Game.Tests
             AssertSize(new Vector3(x, y, z), Measure(model).boundsSize, 0.01f);
         }
 
-        [Test]
-        public void GeneratedDesk_IsTwoByOneAndAHalf_OneMetreTall()
+        [TestCase("OfficeDesk")]
+        [TestCase("CafeDesk")]
+        [TestCase("LibraryDesk")]
+        [TestCase("DenDesk")]
+        public void GeneratedDesk_IsTwoByOneAndAHalf_OneMetreTall(string model)
         {
-            AssertSize(new Vector3(2.0f, 1.0f, 1.5f), Measure("Generated/OfficeDesk.fbx").boundsSize, 0.01f);
+            AssertSize(new Vector3(2.0f, 1.0f, 1.5f), Measure($"Generated/{model}.fbx").boundsSize, 0.01f);
         }
 
         [Test]
@@ -116,13 +119,16 @@ namespace Game.Tests
             AssertSize(whole.size, shards.size, 0.01f);
         }
 
-        [Test]
-        public void GeneratedRoomShell_EnclosesTheDesk()
+        [TestCase("RoomShell")]
+        [TestCase("RoomShell_Cafe")]
+        [TestCase("RoomShell_Library")]
+        [TestCase("RoomShell_Den")]
+        public void GeneratedRoomShell_EnclosesTheDesk(string model)
         {
             // Owner, checkpoint 2: it should feel like being inside a room. The portrait camera only sees about
             // +/-2 m at the back wall, so the side walls sit close enough to show as corners and the ceiling edge shows
             // along the top.
-            var room = Load("Generated/RoomShell.fbx").transform;
+            var room = Load($"Generated/{model}.fbx").transform;
 
             Assert.Greater(Center(room, "BackWall").z, 3f, "back wall away from the player");
             Assert.Less(Center(room, "LeftWall").x, -1.5f, "left wall on the left");

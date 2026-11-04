@@ -68,6 +68,7 @@ namespace Game.Tests
 
         /// <summary>The desk look (top 2.0 x 1.5 at y 1.0, centred) sits where the play desk's collider is.</summary>
         [TestCase(1)]
+        [TestCase(2)]
         public void EveryRoomBackdrop_HasItsDeskAtTheOrigin(int room)
         {
             var theme = AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room));
