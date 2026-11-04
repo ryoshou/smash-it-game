@@ -39,3 +39,13 @@ Tiny_Treats_Baked_Goods_1.0_FREE/Assets/Textures/tiny_treats_texture_1.png	TinyT
 Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/donut.fbx	TinyTreatsBakedGoods/donut.fbx
 Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/donut_pink.fbx	TinyTreatsBakedGoods/donut_pink.fbx
 Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/donut_chocolate.fbx	TinyTreatsBakedGoods/donut_chocolate.fbx
+KayKit_HalloweenBits_1.0_FREE/Assets/fbx(unity)/halloweenbits_texture.png	KayKitHalloween/halloweenbits_texture.png
+KayKit_HalloweenBits_1.0_FREE/Assets/fbx(unity)/candle.fbx	KayKitHalloween/candle.fbx
+KayKit_HalloweenBits_1.0_FREE/Assets/fbx(unity)/candle_thin.fbx	KayKitHalloween/candle_thin.fbx
+KayKit_HalloweenBits_1.0_FREE/Assets/fbx(unity)/candle_triple.fbx	KayKitHalloween/candle_triple.fbx
+KayKit_BoardGameBits_1.0_FREE/Assets/fbx(unity)/boardgame_bits_texture.png	KayKitBoardGame/boardgame_bits_texture.png
+KayKit_BoardGameBits_1.0_FREE/Assets/fbx(unity)/hourglass.fbx	KayKitBoardGame/hourglass.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/shelf_A_big.fbx	KayKitFurniture/shelf_A_big.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/armchair_pillows.fbx	KayKitFurniture/armchair_pillows.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/rug_oval_A.fbx	KayKitFurniture/rug_oval_A.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_large_B.fbx	KayKitFurniture/pictureframe_large_B.fbx

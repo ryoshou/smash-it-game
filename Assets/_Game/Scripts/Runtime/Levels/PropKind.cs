@@ -16,5 +16,9 @@ namespace Game.Levels
         Plate,
         Donut,
         MilkBottle,
+        // M4a, Library (levels 51–75)
+        Candle,
+        Hourglass,
+        PencilCup,
     }
 }

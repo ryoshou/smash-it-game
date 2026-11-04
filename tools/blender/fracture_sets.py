@@ -2,7 +2,8 @@
 
 Mug_<colour>_broken: the mug body cut into 7 shards plus the handle whole (8 pieces).
 CactusPot_broken: the pot cut into 7 shards plus the cactus whole, which spills out (8 pieces).
-Plate_broken / MilkBottle_broken: the plate / bottle cut into 7 shards plus its small parts whole (8 pieces).
+Plate_broken / MilkBottle_broken / Hourglass_broken: the plate / bottle / glass cut into 7 shards plus its other parts
+whole (8 pieces).
 Pieces keep the intact model's coordinates, so a set spawned at the prop's pose lines up with it.
 """
 import os
@@ -51,6 +52,7 @@ def build(out):
     build_set("CactusPot_broken", os.path.join("KayKitFurniture", "cactus_small_A.fbx"), "Atlas_KayKitFurniture", out)
     build_set("Plate_broken", os.path.join("TinyTreats", "plate.fbx"), "Atlas_TinyTreats", out)
     build_set("MilkBottle_broken", os.path.join("TinyTreats", "milk.fbx"), "Atlas_TinyTreats", out)
+    build_set("Hourglass_broken", os.path.join("KayKitBoardGame", "hourglass.fbx"), "Atlas_KayKitBoardGame", out)
 
 
 if __name__ == "__main__":

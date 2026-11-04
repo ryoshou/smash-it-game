@@ -16,6 +16,7 @@ namespace Game.Tests
 
         [TestCase(1, "HomeOfficeBackdrop")]
         [TestCase(2, "CafeBackdrop")]
+        [TestCase(3, "LibraryBackdrop")]
         public void RoomTheme_HasBackdropMusicAndColour(int room, string backdrop)
         {
             var theme = Theme(room);

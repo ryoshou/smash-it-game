@@ -81,6 +81,9 @@ namespace Game.Tests
         [TestCase("Packs/TinyTreatsBakedGoods/donut.fbx", 0.42f, 0.18f, 0.42f)]
         [TestCase("Packs/TinyTreatsBakedGoods/donut_pink.fbx", 0.417f, 0.205f, 0.417f)]
         [TestCase("Packs/TinyTreatsBakedGoods/donut_chocolate.fbx", 0.417f, 0.205f, 0.417f)]
+        [TestCase("Packs/KayKitHalloween/candle.fbx", 0.301f, 0.786f, 0.296f)]
+        [TestCase("Packs/KayKitHalloween/candle_thin.fbx", 0.174f, 0.786f, 0.171f)]
+        [TestCase("Packs/KayKitBoardGame/hourglass.fbx", 1f, 2.5f, 1f)]
         public void PackProp_ImportsUpright(string model, float x, float y, float z)
         {
             AssertSize(new Vector3(x, y, z), Measure(model).boundsSize, 0.01f);
@@ -93,6 +96,19 @@ namespace Game.Tests
         public void GeneratedDesk_IsTwoByOneAndAHalf_OneMetreTall(string model)
         {
             AssertSize(new Vector3(2.0f, 1.0f, 1.5f), Measure($"Generated/{model}.fbx").boundsSize, 0.01f);
+        }
+
+        [TestCase("Generated/PencilCup_teal.fbx", 600)]
+        [TestCase("Generated/PencilCup_rose.fbx", 600)]
+        [TestCase("Generated/PencilCup_butter.fbx", 600)]
+        public void GeneratedPencilCup_IsUprightAndInBudget(string model, int maxTriangles)
+        {
+            var stats = Measure(model);
+
+            Assert.AreEqual(0.4f, stats.boundsSize.y, 0.02f, "pencil tips reach about 0.4");
+            Assert.Less(stats.boundsSize.x, 0.25f);
+            Assert.Less(stats.boundsSize.z, 0.25f);
+            Assert.LessOrEqual(stats.triangles, maxTriangles);
         }
 
         [Test]
@@ -115,6 +131,7 @@ namespace Game.Tests
         [TestCase("Packs/KayKitFurniture/cactus_small_A.fbx", "Generated/CactusPot_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/plate.fbx", "Generated/Plate_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/milk.fbx", "Generated/MilkBottle_broken.fbx", 8)]
+        [TestCase("Packs/KayKitBoardGame/hourglass.fbx", "Generated/Hourglass_broken.fbx", 8)]
         public void BrokenSet_LinesUpWithIntactModel(string intact, string broken, int pieces)
         {
             var whole = ArtMeshStats.ModelBounds(Load(intact));

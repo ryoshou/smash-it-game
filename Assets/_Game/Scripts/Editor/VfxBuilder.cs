@@ -26,6 +26,10 @@ namespace Game.Editor
         private static readonly Color Mint = new Color(0.45f, 0.8f, 0.72f);
         private static readonly Color Milk = new Color(1f, 0.99f, 0.95f);
         private static readonly Color Rose = new Color(0.93f, 0.45f, 0.6f);
+        private static readonly Color Wax = new Color(0.98f, 0.94f, 0.8f);
+        private static readonly Color Smoke = new Color(0.7f, 0.7f, 0.72f);
+        private static readonly Color Sand = new Color(0.86f, 0.72f, 0.48f);
+        private static readonly Color Wood = new Color(0.72f, 0.5f, 0.32f);
 
         [MenuItem("Smash/Build Vfx")]
         public static void BuildAll()
@@ -43,6 +47,10 @@ namespace Game.Editor
                 [PropKind.Plate] = Save(Burst("ChinaChips", material, 18, 0.45f, new Vector2(0.03f, 0.06f), new Vector2(1.2f, 2.4f), 0.9f, Color.white, Sky)),
                 [PropKind.Donut] = Save(Burst("Sprinkles", material, 22, 0.45f, new Vector2(0.015f, 0.035f), new Vector2(0.8f, 1.8f), 0.7f, Pink, Rose)),
                 [PropKind.MilkBottle] = Save(Burst("MilkSplash", material, 26, 0.5f, new Vector2(0.05f, 0.12f), new Vector2(0.6f, 1.6f), 0.5f, Milk, Cream)),
+                // Wax flecks with a grey wisp: slow, light particles that drift up a little.
+                [PropKind.Candle] = Save(Burst("WaxAndSmoke", material, 18, 0.7f, new Vector2(0.03f, 0.1f), new Vector2(0.3f, 0.9f), -0.05f, Wax, Smoke)),
+                [PropKind.Hourglass] = Save(Burst("SandBurst", material, 30, 0.5f, new Vector2(0.015f, 0.04f), new Vector2(0.8f, 2f), 1f, Sand, Butter)),
+                [PropKind.PencilCup] = Save(Burst("WoodChips", material, 16, 0.45f, new Vector2(0.025f, 0.05f), new Vector2(1f, 2f), 0.9f, Wood, Butter)),
             };
             FillLibrary(puff, sparkle, paperPuff, sparks, kindBursts);
             AssetDatabase.SaveAssets();

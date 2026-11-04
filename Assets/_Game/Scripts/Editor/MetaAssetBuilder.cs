@@ -27,6 +27,9 @@ namespace Game.Editor
             { PropKind.Plate, "Plate" },
             { PropKind.Donut, "Donut" },
             { PropKind.MilkBottle, "Milk Bottle" },
+            { PropKind.Candle, "Candle" },
+            { PropKind.Hourglass, "Hourglass" },
+            { PropKind.PencilCup, "Pencil Cup" },
         };
 
         [MenuItem("Smash/Build Meta Assets")]

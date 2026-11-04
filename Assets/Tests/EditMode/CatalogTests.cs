@@ -83,6 +83,9 @@ namespace Game.Tests
         [TestCase(PropKind.Plate, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Donut, BreakMode.Pop, PropColliderShape.Box)]
         [TestCase(PropKind.MilkBottle, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Candle, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Hourglass, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.PencilCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
             var spec = catalog.Get(kind);
@@ -140,6 +143,18 @@ namespace Game.Tests
 
             Assert.Greater(milk, catalog.Get(PropKind.Mug).size.y);
             Assert.AreEqual(0.42f, milk, 0.02f);
+        }
+
+        /// <summary>Library kinds, sized to the mug (0.35 tall): a candle and an hourglass about 0.4 tall, both slim.</summary>
+        [TestCase(PropKind.Candle, 0.39f)]
+        [TestCase(PropKind.Hourglass, 0.4f)]
+        [TestCase(PropKind.PencilCup, 0.4f)]
+        public void LibraryKind_IsTallAndSlim(PropKind kind, float height)
+        {
+            var size = catalog.Get(kind).size;
+
+            Assert.AreEqual(height, size.y, 0.02f);
+            Assert.Less(size.x, size.y * 0.6f, "slim enough to topple");
         }
 
         [Test]

@@ -14,6 +14,9 @@ namespace Game.Editor
         public const float Plate = 0.06f;
         public const float Donut = 0.164f;   // the frosted looks (1, 2); the plain one (0) is 0.144, so it goes on top
         public const float MilkBottle = 0.422f;
+        public const float Candle = 0.393f;
+        public const float Hourglass = 0.4f;
+        public const float PencilCup = 0.403f;
         public const float Pitch = 0.16f;    // 1u keycap spacing (0.15 + a gap)
         public const float WidePitch = 0.32f; // 2u keycap spacing (0.31 + a gap)
         public const float DeckDepth = 0.065f; // half the spacing of a two-spacebar deck

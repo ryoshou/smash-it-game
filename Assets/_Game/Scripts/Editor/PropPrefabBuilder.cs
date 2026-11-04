@@ -31,6 +31,12 @@ namespace Game.Editor
         private const float PlateScale = 0.6f;      // 0.45 wide: a mug's 0.43-deep base fits on it
         private const float DonutScale = 0.8f;      // 0.34 wide
         private const float MilkBottleScale = 0.9f; // 0.42 tall, taller than a mug
+        private const string Halloween = "KayKitHalloween";
+        private const string BoardGame = "KayKitBoardGame";
+        private static readonly string[] CandleLooks = { "candle", "candle_thin" };
+        private static readonly string[] PencilCupColours = { "teal", "rose", "butter" };
+        private const float CandleScale = 0.5f;     // the Halloween candle is 0.79 tall; 0.39 sits beside a mug
+        private const float HourglassScale = 0.16f; // the board-game hourglass is 2.5 tall; 0.4
 
         private sealed class Source
         {
@@ -117,6 +123,7 @@ namespace Game.Editor
                 variants = new[] { Art + "Packs/KayKitFurniture/lamp_table.fbx" }, visualScale = DeskLampScale,
             };
             foreach (var source in CafeSources()) yield return source;
+            foreach (var source in LibrarySources()) yield return source;
         }
 
         /// <summary>Room 2 new kinds (spec §6.1): a thin plate that shatters, a featherweight ring, a top-heavy bottle.</summary>
@@ -142,6 +149,30 @@ namespace Game.Editor
                 physics = WritePhysicsMaterial("MilkBottle", 0.4f, 0.5f, 0.05f), breakMode = BreakMode.Shatter,
                 variants = new[] { Art + "Packs/TinyTreats/milk.fbx" },
                 broken = new[] { Art + "Generated/MilkBottle_broken.fbx" }, visualScale = MilkBottleScale,
+            };
+        }
+
+        /// <summary>Room 3 new kinds: a tall candle that topples, a heavy glass hourglass, a pencil cup.</summary>
+        private static IEnumerable<Source> LibrarySources()
+        {
+            yield return new Source
+            {
+                kind = PropKind.Candle, atlas = Halloween, collider = PropColliderShape.ConvexMesh, mass = 0.15f,
+                physics = WritePhysicsMaterial("Candle", 0.6f, 0.7f, 0.05f), breakMode = BreakMode.Pop,
+                variants = Paths($"Packs/{Halloween}/{{0}}.fbx", CandleLooks), visualScale = CandleScale,
+            };
+            yield return new Source
+            {
+                kind = PropKind.Hourglass, atlas = BoardGame, collider = PropColliderShape.ConvexMesh, mass = 0.4f,
+                physics = WritePhysicsMaterial("Hourglass", 0.4f, 0.5f, 0.05f), breakMode = BreakMode.Shatter,
+                variants = new[] { Art + $"Packs/{BoardGame}/hourglass.fbx" },
+                broken = new[] { Art + "Generated/Hourglass_broken.fbx" }, visualScale = HourglassScale,
+            };
+            yield return new Source
+            {
+                kind = PropKind.PencilCup, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.25f,
+                physics = WritePhysicsMaterial("PencilCup", 0.5f, 0.6f, 0.05f), breakMode = BreakMode.Pop,
+                variants = Paths("Generated/PencilCup_{0}.fbx", PencilCupColours),
             };
         }
 

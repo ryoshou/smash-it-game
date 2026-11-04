@@ -129,6 +129,10 @@ namespace Game.Tests
                 Look(Place(PropKind.Donut, 0.7f, -0.4f), 0),
                 Look(Place(PropKind.Donut, -0.5f, 0.35f), 1),
                 Look(Place(PropKind.Donut, 0.4f, 0.35f), 2),
+                Look(Place(PropKind.Candle, -0.85f, 0.1f), 0),
+                Look(Place(PropKind.Candle, -0.2f, 0.6f), 1),
+                Place(PropKind.Hourglass, 0.15f, 0.1f),
+                Look(Place(PropKind.PencilCup, 0.85f, 0.1f), 0),
             };
             Assert.IsTrue(level.Validate(out string error), error);
             spawner.Load(level, catalog, tuning, null, null);

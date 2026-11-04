@@ -60,6 +60,9 @@ namespace Game.Tests
         [TestCase(PropKind.Plate)]
         [TestCase(PropKind.Donut)]
         [TestCase(PropKind.MilkBottle)]
+        [TestCase(PropKind.Candle)]
+        [TestCase(PropKind.Hourglass)]
+        [TestCase(PropKind.PencilCup)]
         public void NewKind_HasItsOwnSounds(PropKind kind)
         {
             var shipped = AssetDatabase.LoadAssetAtPath<PropFeelLibrary>(VfxBuilder.LibraryPath);
@@ -76,6 +79,9 @@ namespace Game.Tests
         [TestCase(PropKind.Plate)]
         [TestCase(PropKind.Donut)]
         [TestCase(PropKind.MilkBottle)]
+        [TestCase(PropKind.Candle)]
+        [TestCase(PropKind.Hourglass)]
+        [TestCase(PropKind.PencilCup)]
         public void NewKind_HasItsOwnBreakEffect(PropKind kind)
         {
             var shipped = AssetDatabase.LoadAssetAtPath<PropFeelLibrary>(VfxBuilder.LibraryPath);

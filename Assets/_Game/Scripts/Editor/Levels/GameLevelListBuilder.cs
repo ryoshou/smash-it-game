@@ -19,6 +19,7 @@ namespace Game.Editor
         {
             (HomeOfficeBuilder.ThemePath, HomeOfficeBuilder.Build),
             (CafeBuilder.ThemePath, CafeBuilder.Build),
+            (LibraryBuilder.ThemePath, LibraryBuilder.Build),
         };
 
         /// <summary>Each room's levels builder; a room joins the game list once its levels exist.</summary>

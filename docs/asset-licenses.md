@@ -133,3 +133,37 @@ Paths are relative to the project root.
 | `Assets/_Game/Audio/Sfx/KenneyInterface/glass_004.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
 | `Assets/_Game/Audio/Sfx/KenneyInterface/glass_005.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
 | `Assets/_Game/Audio/Sfx/KenneyInterface/glass_006.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
+| `Assets/_Game/Art/Packs/KayKitHalloween/halloweenbits_texture.png` | KayKit Halloween Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | Halloween Bits atlas |
+| `Assets/_Game/Art/Packs/KayKitHalloween/candle.fbx` | KayKit Halloween Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | candle prop |
+| `Assets/_Game/Art/Packs/KayKitHalloween/candle_thin.fbx` | KayKit Halloween Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | candle prop |
+| `Assets/_Game/Art/Packs/KayKitHalloween/candle_triple.fbx` | KayKit Halloween Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | Library backdrop decor |
+| `Assets/_Game/Art/Packs/KayKitBoardGame/boardgame_bits_texture.png` | KayKit Board Game Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | Board Game Bits atlas |
+| `Assets/_Game/Art/Packs/KayKitBoardGame/hourglass.fbx` | KayKit Board Game Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | hourglass prop |
+| `Assets/_Game/Art/Packs/KayKitFurniture/shelf_A_big.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | Library backdrop wall shelf |
+| `Assets/_Game/Art/Packs/KayKitFurniture/armchair_pillows.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | Library backdrop armchair |
+| `Assets/_Game/Art/Packs/KayKitFurniture/rug_oval_A.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | Library backdrop rug |
+| `Assets/_Game/Art/Packs/KayKitFurniture/pictureframe_large_B.fbx` | KayKit Furniture Bits 1.0 (https://kaylousberg.itch.io/) | Kay Lousberg | CC0 1.0 | Library backdrop wall art |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_wood_falling_01.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_wood_falling_02.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_misc_01.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_misc_02.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_misc_03.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_misc_04.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_misc_05.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_misc_06.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_misc_07.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_hit_01.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_hit_02.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_hit_03.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_hit_04.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_wood_breaking_01.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_wood_breaking_02.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_wood_breaking_03.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/BreakingFalling/bfh1_wood_breaking_04.ogg` | 75 CC0 breaking/falling/hit sfx (https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx) | rubberduck | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/KenneyInterface/tick_001.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/KenneyInterface/tick_002.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/KenneyInterface/tick_004.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
+| `Assets/_Game/Art/Generated/PencilCup_teal.fbx` | generated by `tools/blender/props/pencil_cup.py` | project | project-owned | uses the Tiny Treats atlas (CC0) |
+| `Assets/_Game/Art/Generated/PencilCup_rose.fbx` | generated by `tools/blender/props/pencil_cup.py` | project | project-owned | uses the Tiny Treats atlas (CC0) |
+| `Assets/_Game/Art/Generated/PencilCup_butter.fbx` | generated by `tools/blender/props/pencil_cup.py` | project | project-owned | uses the Tiny Treats atlas (CC0) |
+| `Assets/_Game/Art/Generated/Hourglass_broken.fbx` | generated by `tools/blender/fracture_sets.py` from hourglass | project (from Kay Lousberg's CC0 model) | CC0 1.0 derivative | 8 pieces |

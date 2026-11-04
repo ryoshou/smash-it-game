@@ -39,6 +39,12 @@ namespace Game.Editor
             var donutHit = Set("Hit_Donut", 0.55f, Kenney + "close_001.ogg", Kenney + "close_002.ogg", Kenney + "close_003.ogg");
             var donutBreak = Set("Break_Donut", 0.6f, Kenney + "minimize_001.ogg", Kenney + "minimize_002.ogg", Kenney + "minimize_003.ogg");
             var milkHit = Set("Hit_MilkBottle", 0.7f, Kenney + "glass_003.ogg", Kenney + "glass_004.ogg", Kenney + "glass_005.ogg", Kenney + "glass_006.ogg");
+            var candleHit = Set("Hit_Candle", 0.7f, Breaking + "wood_falling_01.ogg", Breaking + "wood_falling_02.ogg");
+            var candleBreak = Set("Break_Candle", 0.7f, Breaking + "misc_01.ogg", Breaking + "misc_02.ogg", Breaking + "misc_03.ogg");
+            var hourglassHit = Set("Hit_Hourglass", 0.65f, Kenney + "tick_001.ogg", Kenney + "tick_002.ogg", Kenney + "tick_004.ogg");
+            var hourglassBreak = Set("Break_Hourglass", 0.85f, Breaking + "misc_04.ogg", Breaking + "misc_05.ogg", Breaking + "misc_06.ogg", Breaking + "misc_07.ogg");
+            var pencilHit = Set("Hit_PencilCup", 0.7f, Breaking + "hit_01.ogg", Breaking + "hit_02.ogg", Breaking + "hit_03.ogg", Breaking + "hit_04.ogg");
+            var pencilBreak = Set("Break_PencilCup", 0.75f, Breaking + "wood_breaking_01.ogg", Breaking + "wood_breaking_02.ogg", Breaking + "wood_breaking_03.ogg", Breaking + "wood_breaking_04.ogg");
             var milkBreak = Set("Break_MilkBottle", 0.85f, Breaking + "glass_breaking_04.ogg", Breaking + "glass_breaking_05.ogg", Breaking + "glass_breaking_06.ogg");
 
             var library = VfxBuilder.LoadOrCreateLibrary();
@@ -55,6 +61,9 @@ namespace Game.Editor
                     case PropKind.Plate: feels[i].hit = plateHit; feels[i].breakSound = plateBreak; break;
                     case PropKind.Donut: feels[i].hit = donutHit; feels[i].breakSound = donutBreak; break;
                     case PropKind.MilkBottle: feels[i].hit = milkHit; feels[i].breakSound = milkBreak; break;
+                    case PropKind.Candle: feels[i].hit = candleHit; feels[i].breakSound = candleBreak; break;
+                    case PropKind.Hourglass: feels[i].hit = hourglassHit; feels[i].breakSound = hourglassBreak; break;
+                    case PropKind.PencilCup: feels[i].hit = pencilHit; feels[i].breakSound = pencilBreak; break;
                     default: feels[i].hit = keycapHit; feels[i].breakSound = pop; break;
                 }
             }
