@@ -28,6 +28,7 @@ namespace Game.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
         public void Room_Has25Levels_WithHardEveryFifth(int room)
         {
             var list = Room(room);
@@ -46,6 +47,7 @@ namespace Game.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
         public void Room_ShotsWithinFiveToTen(int room)
         {
             var list = Room(room);
@@ -57,6 +59,7 @@ namespace Game.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
         public void Room_EveryPropIsATarget(int room)
         {
             var list = Room(room);
@@ -68,6 +71,7 @@ namespace Game.Tests
         [TestCase(1, new[] { 6, 10, 14, 18, 20, 24, 25 })]
         [TestCase(2, new[] { 29, 33, 38, 40, 43, 48, 50 })]
         [TestCase(3, new[] { 54, 58, 60, 64, 68, 70, 74, 75 })]
+        [TestCase(4, new[] { 79, 83, 85, 88, 94, 98, 100 })]
         public void Room_TwoDeskLevels_UseTheBackDesk(int room, int[] twoDeskNumbers)
         {
             var list = Room(room);
@@ -85,6 +89,7 @@ namespace Game.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
         public void Room_LevelsUseItsOwnTheme(int room)
         {
             var theme = AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room));
@@ -105,6 +110,7 @@ namespace Game.Tests
             }
 
             CollectionAssert.AreEqual(expected, game.levels);
+            Assert.AreEqual(GameLevelListBuilder.RoomCount * LevelsPerRoom, game.Count, "spec §6.1: 100 levels");
             for (int i = 0; i < game.Count; i++)
             {
                 var match = Regex.Match(game.At(i).id, @"^R(\d)_L(\d{2,})$");
@@ -120,7 +126,8 @@ namespace Game.Tests
         {
             var expected = new List<string> { "1:Keycap1u", "3:Mug", "4:Book", "5:CactusPot", "12:PaperCup", "21:DeskLamp",
                 "26:Plate", "36:Donut", "46:MilkBottle",
-                "51:Candle", "61:Hourglass", "71:PencilCup" };
+                "51:Candle", "61:Hourglass", "71:PencilCup",
+                "76:SodaCan", "86:GameController", "91:FizzySoda" };
             var game = GameList();
             var seen = new HashSet<PropKind>();
             var intros = new List<string>();

@@ -186,7 +186,7 @@ MonoBehaviour:
       brokenPrefab: {fileID: 0}
     - prefab: {fileID: 7795138034876803521, guid: dd05054b131564fc09c2a45433e60c78, type: 3}
       brokenPrefab: {fileID: 0}
-    size: {x: 0.18, y: 0.301, z: 0.18}
+    size: {x: 0.18, y: 0.29999998, z: 0.18}
     mass: 0.12
     material: {fileID: 13400000, guid: cffcd3625a0934a2192d0ca6624deb46, type: 2}
     collider: 1

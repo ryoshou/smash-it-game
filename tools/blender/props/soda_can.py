@@ -1,6 +1,6 @@
 """Soda cans for the Gaming Den (Room 4), and the fizzy soda special (spec §6.2).
 
-A can is 0.3 tall and 0.18 wide (a Tiny Treats mug is 0.35 tall), with a rounded rim and a ring-pull bump; flat top
+A can is 0.3 tall and 0.18 wide (a Tiny Treats mug is 0.35 tall), with a rounded rim; flat top
 and bottom so cans stack. Writes SodaCan_<colour>.fbx for each colour, and FizzySoda.fbx: the same can in lime with a
 band of bubble dots and a bulged top, so it reads as "about to burst".
 """
@@ -27,10 +27,8 @@ def can(name, cell, fizzy=False):
     rim = shapes.rounded_cylinder("Rim", RADIUS * 0.88, RIM, bevel=0.004, segments=1, verts=16)
     rim.location.z = HEIGHT - RIM
     atlas.paint(rim, CELLS["silver"])
-    tab = shapes.rounded_box("Tab", (0.05, 0.03, 0.006), bevel=0.002, segments=1)
-    tab.location = (0.0, -0.02, HEIGHT - 0.005)  # 1 mm proud of the rim, so stacked cans sit flat
-    atlas.paint(tab, CELLS["gray"])
-    parts = [body, rim, tab]
+    # No ring-pull bump: any bump on the lid tilts the can stacked on it, and towers never settle.
+    parts = [body, rim]
     if fizzy:
         dome = shapes.uv_sphere("Dome", RADIUS * 0.8, segments=12, rings=6)
         dome.scale = (1.0, 1.0, 0.35)

@@ -29,6 +29,7 @@ namespace Game.Editor
             Room1LevelBuilder.BuildAll,
             Room2LevelBuilder.BuildAll,
             Room3LevelBuilder.BuildAll,
+            Room4LevelBuilder.BuildAll,
         };
 
         public static string RoomFolder(int room) => $"Assets/_Game/Levels/Room{room}";
