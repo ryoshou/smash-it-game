@@ -1,22 +1,24 @@
 # smash-it-game — portrait mobile physics game (cat + slingshot knocks things off a desk), Unity 6000.6 (3D URP)
 
 ## Goal right now
-M3 "Room 1 complete" per `docs/superpowers/plans/2026-11-03-m3-room1-complete.md` → owner checkpoint 3 (25 Home
-Office levels, all screens, save, simulated ads + Remove Ads). The final cat is deferred to checkpoint 4 (owner): the
-blockout cat stays. Approved feel is frozen: don't change existing ShotTuning defaults, keycap colliders/masses, camera,
-pouch or ball physics. No real ad/IAP/consent/analytics SDKs until M4. iOS builds only.
+M4a "Rooms 2–4" per `docs/superpowers/plans/2026-11-04-m4a-rooms-2-4.md` → owner content check (100 levels in 4 rooms:
+Home Office, Café, Library, Gaming Den; 9 new kinds incl. the fizzy soda; all bot-verified). Next is M4b (MAX, IAP,
+consent/ATT, Firebase, release build) and the final cat (checkpoint 4). Approved feel is frozen: don't change existing
+ShotTuning defaults, keycap colliders/masses, camera, pouch, ball physics, Room 1 layouts or the back desk's position.
+On two-desk levels keep tall heavy props outside the back desk's span (x ±0.6). iOS builds only.
 
 ## Layout
 - `Assets/_Game/Scripts/Runtime/` → `Game.Runtime.asmdef`
   - `Core/` pure rules: ShotTuning, SlingshotMath, SlingshotGesture, TrajectoryMath, ImpactMath, SettleMath,
-    ClearRule, BallLife, ShotBudget, RoundJudge, GameEvents
+    ClearRule, BallLife, ShotBudget, RoundJudge, GameEvents, FizzRule
   - `Meta/` pure app rules: SaveData/SaveCodec/Profile (save), AppFlow (screens), AdPacing, AppConfig, UiStrings (all
     player-visible text) · `Monetization/` IAdService/IPurchaseService + simulated implementations (M4: MAX, IAP)
-  - `Levels/` LevelDef, LevelList, PropCatalog, PrototypeLevels · `World/` DeskObject, YarnBall, BallPool, LevelSpawner
+  - `Levels/` LevelDef, LevelList, PropCatalog, PrototypeLevels, RoomTheme · `World/` DeskObject, FizzFuse, YarnBall, BallPool, LevelSpawner
   - `Controls/` SlingshotInput · `View/` SlingshotView · `UI/` Hud, ResultPanel, DebugTuningPanel
   - `Juice/` feedback (listens to GameEvents, never referenced by gameplay) · `Audio/` sfxr synth (ported from ant-game)
   - `GameBootstrap.cs` owns and ticks the round · `AppController.cs` owns the app around it (flow, save, panels, ads)
-- `Assets/_Game/Scripts/Editor/` → `Game.Editor.asmdef`: PrototypeAssetBuilder, PrototypeSceneBuilder, BuildScripts
+- `Assets/_Game/Scripts/Editor/` → `Game.Editor.asmdef`: PrototypeSceneBuilder, BuildScripts; `Rooms/` (RoomKit + one
+  builder per room); `Levels/` (LayoutKit, Room<N>Layouts, Room<N>LevelBuilder, GameLevelListBuilder)
 - `Assets/_Game/Config/` ScriptableObject assets · `Assets/_Game/Levels/` level data · `Assets/_Game/Scenes/Game.unity`
 - `Assets/_Game/Art/` Packs/ (copied by `tools/assets/import-packs.sh` from `pack-manifest.txt`), Generated/ (Blender output), Materials/
   — every file needs a row in `docs/asset-licenses.md`; `ArtPostprocessor` + `ArtCheck` enforce budgets on import
