@@ -8,28 +8,28 @@ using UnityEngine;
 namespace Game.Tests
 {
     /// <summary>
-    /// Spec §6.3 gate: every Room 1 level has a playtest-bot result for its current layout, inside its band. Moving a
+    /// Spec §6.3 gate: every level of every room has a playtest-bot result for its current layout, inside its band. Moving a
     /// prop changes the fingerprint, so this fails until tools/unity/playtest-bot.sh is re-run.
     /// </summary>
     public sealed class PlaytestReportTests
     {
-        private const string ListPath = "Assets/_Game/Levels/Room1/Room1LevelList.asset";
+        private const int LevelsPerRoom = 25;
 
-        [Test]
-        public void PlaytestReport_CoversEveryRoom1LevelWithCurrentLayout()
+        [TestCase(1)]
+        public void PlaytestReport_CoversEveryLevelWithCurrentLayout(int room)
         {
-            string path = Path.Combine(Application.dataPath, "..", PlaytestReport.Room1Path);
-            Assert.IsTrue(File.Exists(path), $"no playtest report at {PlaytestReport.Room1Path}: run tools/unity/playtest-bot.sh");
+            string path = Path.Combine(Application.dataPath, "..", PlaytestReport.PathFor(room));
+            Assert.IsTrue(File.Exists(path), $"no playtest report at {PlaytestReport.PathFor(room)}: run tools/unity/playtest-bot.sh");
             var report = JsonUtility.FromJson<PlaytestReport>(File.ReadAllText(path));
             var rows = new Dictionary<string, PlaytestReport.Row>();
             foreach (var row in report.rows) rows[row.id] = row;
-            var list = AssetDatabase.LoadAssetAtPath<LevelList>(ListPath);
+            var list = AssetDatabase.LoadAssetAtPath<LevelList>(Game.Editor.GameLevelListBuilder.RoomListPath(room));
             var problems = new List<string>();
 
             for (int i = 0; i < list.Count; i++)
             {
                 var level = list.At(i);
-                var band = ClearRateBand.For(level.difficulty, i + 1);
+                var band = ClearRateBand.For(level.difficulty, (room - 1) * LevelsPerRoom + i + 1);
                 if (!rows.TryGetValue(level.id, out var found)) problems.Add($"{level.id}: not in the report");
                 else if (found.fingerprint != LevelFingerprint.Of(level)) problems.Add($"{level.id}: layout changed since the bot ran");
                 else if (!band.Accepts(found.clearRate))

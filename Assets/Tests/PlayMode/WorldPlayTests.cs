@@ -13,7 +13,7 @@ namespace Game.Tests
     public sealed class WorldPlayTests
     {
         private const string LevelListPath = "Assets/_Game/Levels/PrototypeLevelList.asset";
-        private const string Room1ListPath = "Assets/_Game/Levels/Room1/Room1LevelList.asset";
+        private const string GameListPath = "Assets/_Game/Levels/GameLevelList.asset";
         private const string CatalogPath = "Assets/_Game/Config/PropCatalog.asset";
         private const string TuningPath = "Assets/_Game/Config/ShotTuning.asset";
 
@@ -53,12 +53,12 @@ namespace Game.Tests
         }
 
         [UnityTest]
-        [Timeout(600000)]
-        public IEnumerator Room1Levels_AreStableAtSpawn()
+        [Timeout(1800000)]
+        public IEnumerator GameLevels_AreStableAtSpawn()
         {
-            var levels = AssetDatabase.LoadAssetAtPath<LevelList>(Room1ListPath);
-            Assert.IsNotNull(levels, "Room 1 level list is missing");
-            Assert.AreEqual(25, levels.Count);
+            var levels = AssetDatabase.LoadAssetAtPath<LevelList>(GameListPath);
+            Assert.IsNotNull(levels, "game level list is missing");
+            Assert.GreaterOrEqual(levels.Count, 25);
             yield return AssertStable(levels);
         }
 

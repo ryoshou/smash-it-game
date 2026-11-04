@@ -48,8 +48,8 @@ pouch or ball physics. No real ad/IAP/consent/analytics SDKs until M4. iOS build
 | Generated models | edit `tools/blender/…` scripts, run `tools/blender/build.sh [name]` (never hand-edit fbx) |
 | Build | `tools/unity/build.sh ios` (Android deferred until release) |
 | Visual check | `tools/unity/snapshot.sh out.png [level] [--break] [--cat Take:s]` (editor closed) or `unity command capture_game_view` |
-| Level balance | `tools/unity/playtest-bot.sh` (editor closed; `SMASH_BOT_LEVELS="6,7"` re-plays a subset) rewrites `docs/playtest/room1-report.*`; re-run after any layout change or `PlaytestReportTests` fails |
-| Editor builders | `tools/unity/run-method.sh Game.Editor.PrototypeSceneBuilder.Rebuild` rebuilds props, vfx, sounds, room, cat, levels and the scene |
+| Level balance | `tools/unity/playtest-bot.sh` (editor closed; `SMASH_BOT_ROOMS="2 3"` picks rooms, `SMASH_BOT_LEVELS="26,27"` re-plays global level numbers) rewrites `docs/playtest/room<N>-report.*`; re-run after any layout change or `PlaytestReportTests` fails |
+| Editor builders | `tools/unity/run-method.sh Game.Editor.PrototypeSceneBuilder.Rebuild` rebuilds props, vfx, sounds, rooms (`Editor/Rooms/`), cat, levels (`Editor/Levels/`, joined by `GameLevelListBuilder`) and the scene |
 | Blender tests | `tools/blender/build.sh --tests`; authored models: Blender +Y = Unity +Z (export bakes the turn) |
 
 - Always pass `--caller plugin --skill <skill>` on `unity command` calls; `--format json` when parsing.

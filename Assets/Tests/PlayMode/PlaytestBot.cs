@@ -17,10 +17,11 @@ using Random = System.Random;
 namespace Game.Tests
 {
     /// <summary>
-    /// Spec §6.3 playtest bot. Plays every Room 1 level 30 times at 20× speed like a player using the trajectory preview:
+    /// Spec §6.3 playtest bot. Plays every level of a room 30 times at 20× speed like a player using the trajectory preview:
     /// pick a random remaining target, aim at it and pick the power whose arc passes through it, both with noise. It
-    /// writes docs/playtest/room1-report.{json,md}. Not part of the normal suite: run tools/unity/playtest-bot.sh
-    /// (SMASH_BOT_LEVELS="6,7" re-runs only those level numbers and keeps the other rows).
+    /// writes docs/playtest/room&lt;N&gt;-report.{json,md}. Not part of the normal suite: run tools/unity/playtest-bot.sh
+    /// (SMASH_BOT_ROOMS="2 3" picks rooms; SMASH_BOT_LEVELS="26,27" re-runs only those global level numbers and keeps
+    /// the other rows). Levels play at their index in the game list, as a player meets them.
     /// </summary>
     [Explicit, Category("Bot")]
     public sealed class PlaytestBot
@@ -32,7 +33,6 @@ namespace Game.Tests
         private const int PowerSearchSteps = 100;
         private const float QuietCapSeconds = 3f;
         private const float RoundEndCapSeconds = 15f;
-        private const string ListPath = "Assets/_Game/Levels/Room1/Room1LevelList.asset";
         private const string LevelsVariable = "SMASH_BOT_LEVELS";
 
         private GameBootstrap bootstrap;
@@ -58,23 +58,29 @@ namespace Game.Tests
         }
 
         [UnityTest, Timeout(3600000)]
-        public IEnumerator PlayRoom1()
+        public IEnumerator PlayRoom([Values(1, 2, 3, 4)] int room)
         {
-            var list = UnityEditor.AssetDatabase.LoadAssetAtPath<LevelList>(ListPath);
+            // GameLevelListBuilder.RoomListPath (editor-only assembly).
+            var list = UnityEditor.AssetDatabase.LoadAssetAtPath<LevelList>($"Assets/_Game/Levels/Room{room}/Room{room}LevelList.asset");
+            if (list == null) Assert.Ignore($"room {room} has no levels yet");
+            int offset = System.Array.IndexOf(bootstrap.Levels.levels, list.At(0));
+            Assert.GreaterOrEqual(offset, 0, $"room {room} is not in the game list");
             var only = OnlyLevels();
-            var rows = ReadExistingRows();
+            string path = PlaytestReport.PathFor(room);
+            var rows = ReadExistingRows(path);
             for (int i = 0; i < list.Count; i++)
             {
-                if (only != null && !only.Contains(i + 1)) continue;
+                int index = offset + i;
+                if (only != null && !only.Contains(index + 1)) continue;
                 var level = list.At(i);
                 var shotsOnWin = new List<int>();
-                var rng = new Random(1000 + i);
+                var rng = new Random(1000 + index);
                 for (int attempt = 0; attempt < Attempts; attempt++)
-                    yield return PlayOnce(i, level, rng, shotsOnWin);
-                rows[level.id] = Row(level, i + 1, shotsOnWin);
+                    yield return PlayOnce(index, level, rng, shotsOnWin);
+                rows[level.id] = Row(level, index + 1, shotsOnWin);
                 Debug.Log($"[Bot] {level.id}: {shotsOnWin.Count}/{Attempts}");
             }
-            Write(list, rows);
+            Write(room, path, list, offset, rows);
         }
 
         private IEnumerator PlayOnce(int index, LevelDef level, Random rng, List<int> shotsOnWin)
@@ -161,20 +167,20 @@ namespace Game.Tests
 
         private static string FullPath(string relative) => Path.Combine(Application.dataPath, "..", relative);
 
-        private static Dictionary<string, PlaytestReport.Row> ReadExistingRows()
+        private static Dictionary<string, PlaytestReport.Row> ReadExistingRows(string relative)
         {
             var rows = new Dictionary<string, PlaytestReport.Row>();
-            string path = FullPath(PlaytestReport.Room1Path);
+            string path = FullPath(relative);
             if (!File.Exists(path)) return rows;
             foreach (var row in JsonUtility.FromJson<PlaytestReport>(File.ReadAllText(path)).rows) rows[row.id] = row;
             return rows;
         }
 
         /// <summary>Rows in list order; ids no longer in the list are dropped.</summary>
-        private static void Write(LevelList list, Dictionary<string, PlaytestReport.Row> rows)
+        private static void Write(int room, string path, LevelList list, int offset, Dictionary<string, PlaytestReport.Row> rows)
         {
             var ordered = new List<PlaytestReport.Row>();
-            var md = new StringBuilder("# Room 1 playtest bot report\n\n");
+            var md = new StringBuilder($"# Room {room} playtest bot report\n\n");
             md.Append($"{Attempts} attempts per level; seeded policy: random remaining target, aim and preview-arc power with ")
               .Append($"noise (σ {AimNoiseDeg}° aim, σ {PowerNoise} power), ")
               .Append("no continues. Bands: teaching 0.60–1.00, normal 0.35–0.95, hard 0.15–0.65 (spec §6.3).\n\n")
@@ -185,13 +191,13 @@ namespace Game.Tests
                 if (!rows.TryGetValue(level.id, out var row)) continue;
                 ordered.Add(row);
                 bool fresh = row.fingerprint == LevelFingerprint.Of(level);
-                bool ok = ClearRateBand.For(level.difficulty, i + 1).Accepts(row.clearRate);
+                bool ok = ClearRateBand.For(level.difficulty, offset + i + 1).Accepts(row.clearRate);
                 md.Append($"| {level.id} | {row.band} | {level.shots} | {row.clearRate:0.00} | {row.medianShotsOnWin:0.#} | ")
                   .Append(!fresh ? "stale" : ok ? "yes" : "**no**").Append(" |\n");
             }
-            Directory.CreateDirectory(Path.GetDirectoryName(FullPath(PlaytestReport.Room1Path)));
-            File.WriteAllText(FullPath(PlaytestReport.Room1Path), JsonUtility.ToJson(new PlaytestReport { rows = ordered.ToArray() }, true));
-            File.WriteAllText(FullPath(Path.ChangeExtension(PlaytestReport.Room1Path, ".md")), md.ToString());
+            Directory.CreateDirectory(Path.GetDirectoryName(FullPath(path)));
+            File.WriteAllText(FullPath(path), JsonUtility.ToJson(new PlaytestReport { rows = ordered.ToArray() }, true));
+            File.WriteAllText(FullPath(Path.ChangeExtension(path, ".md")), md.ToString());
         }
     }
 }

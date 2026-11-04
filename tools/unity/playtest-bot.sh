@@ -1,13 +1,16 @@
 #!/bin/bash
-# Usage: [SMASH_BOT_LEVELS="6,7"] playtest-bot.sh — runs the PlaytestBot (spec §6.3) headless with the Editor CLOSED and
-# writes docs/playtest/room1-report.{json,md}. With SMASH_BOT_LEVELS, only those level numbers are re-played.
+# Usage: [SMASH_BOT_ROOMS="2 3"] [SMASH_BOT_LEVELS="26,27"] playtest-bot.sh — runs the PlaytestBot (spec §6.3) headless
+# with the Editor CLOSED and writes docs/playtest/room<N>-report.{json,md} for each room (default: all four). With
+# SMASH_BOT_LEVELS, only those global level numbers are re-played; the other rows are kept.
 cd "$(dirname "$0")/../.."
 version=$(sed -n 's/^m_EditorVersion: //p' ProjectSettings/ProjectVersion.txt)
 editor="/Applications/Unity/Hub/Editor/$version/Unity.app/Contents/MacOS/Unity"
 results="$PWD/Logs/bot-results.xml"
+rooms="${SMASH_BOT_ROOMS:-1 2 3 4}"
+filter=$(for r in $rooms; do printf 'Game\\.Tests\\.PlaytestBot\\.PlayRoom\\(%s\\);' "$r"; done)
 rm -f "$results"
 "$editor" -batchmode -projectPath "$PWD" -logFile Logs/bot-batch.log -runTests -testPlatform PlayMode \
-  -testFilter "Game.Tests.PlaytestBot" -testCategory Bot -testResults "$results" >/dev/null 2>&1
+  -testFilter "${filter%;}" -testCategory Bot -testResults "$results" >/dev/null 2>&1
 grep -h "\[Bot\]" Logs/bot-batch.log | grep -v "Debug.Log" | sed 's/^.*\[Bot\]/[Bot]/'
 python3 - "$results" <<'PY'
 import sys, xml.etree.ElementTree as ET

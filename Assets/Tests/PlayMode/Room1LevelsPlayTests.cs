@@ -49,7 +49,7 @@ namespace Game.Tests
         public IEnumerator EveryTarget_IsKnockedOffBySomeSampledShot()
         {
             var levels = (LevelList)new UnityEditor.SerializedObject(bootstrap).FindProperty("levels").objectReferenceValue;
-            Assert.AreEqual("Room1LevelList", levels.name, "the game should play Room 1");
+            Assert.AreEqual("GameLevelList", levels.name, "the game should play the game list");
             var unreachable = new List<string>();
             for (int level = 0; level < SmokeLevels; level++)
             {

@@ -12,17 +12,16 @@ namespace Game.Editor
     /// </summary>
     public static class Room1LevelBuilder
     {
-        public const string Folder = "Assets/_Game/Levels/Room1";
-        public const string ListPath = Folder + "/Room1LevelList.asset";
+        private const int Room = 1;
         private const Difficulty N = Difficulty.Normal;
         private const Difficulty H = Difficulty.Hard;
 
         [MenuItem("Smash/Build Room 1 Levels")]
         public static LevelList BuildAll()
         {
-            Directory.CreateDirectory(Folder);
+            Directory.CreateDirectory(GameLevelListBuilder.RoomFolder(Room));
             var room = AssetDatabase.LoadAssetAtPath<RoomTheme>(HomeOfficeBuilder.ThemePath) ?? HomeOfficeBuilder.Build();
-            var list = LoadOrCreate<LevelList>(ListPath);
+            var list = LevelAssetWriter.LoadOrCreate<LevelList>(GameLevelListBuilder.RoomListPath(Room));
             list.levels = new[]
             {
                 Write("R1_L01", room, 5, N, Room1Layouts.FirstPull()),
@@ -57,24 +56,7 @@ namespace Game.Editor
         }
 
         private static LevelDef Write(string id, RoomTheme room, int shots, Difficulty difficulty, PropPlacement[] props,
-            bool backDesk = false)
-        {
-            var level = LoadOrCreate<LevelDef>($"{Folder}/{id}.asset");
-            level.id = id;
-            level.room = room;
-            level.hasBackDesk = backDesk;
-            string error = LevelEditing.Save(level, props, shots, difficulty);
-            if (error != null) throw new System.InvalidOperationException(error);
-            return level;
-        }
-
-        private static T LoadOrCreate<T>(string path) where T : ScriptableObject
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<T>(path);
-            if (asset != null) return asset;
-            asset = ScriptableObject.CreateInstance<T>();
-            AssetDatabase.CreateAsset(asset, path);
-            return asset;
-        }
+            bool backDesk = false) =>
+            LevelAssetWriter.Write(GameLevelListBuilder.RoomFolder(Room), id, room, shots, difficulty, props, backDesk);
     }
 }

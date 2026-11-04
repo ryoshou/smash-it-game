@@ -17,6 +17,7 @@ namespace Game.Editor
     {
         public const string ScenePath = "Assets/_Game/Scenes/Game.unity";
         private const string PrefabsFolder = "Assets/_Game/Prefabs";
+        public const string DeskPrefabPath = PrefabsFolder + "/Desk.prefab";
         private const string MaterialsFolder = "Assets/_Game/Materials";
         private const string ConfigFolder = PrototypeAssetBuilder.ConfigFolder;
 
@@ -57,17 +58,20 @@ namespace Game.Editor
             PropPrefabBuilder.BuildAll();
             VfxBuilder.BuildAll();
             SoundSetBuilder.BuildAll();
+            HomeOfficeBuilder.Build();
             var desk = WriteDeskPrefab();
             var backDesk = WriteBackDeskPrefab();
             var ball = WriteBallPrefab();
             BuildScene(desk, backDesk, ball);
         }
 
-        /// <summary>The generated office desk on top of M1's collider boxes (top surface at DeskTopY), so play is unchanged.</summary>
+        /// <summary>
+        /// M1's collider boxes (top surface at DeskTopY), so play is unchanged. No renderer: each room's backdrop carries
+        /// its own desk look over them (RoomKit.PlaceDesk).
+        /// </summary>
         private static GameObject WriteDeskPrefab()
         {
             var root = new GameObject("Desk");
-            ArtVisual(root.transform, "Generated/OfficeDesk.fbx", "TinyTreats", Vector3.zero, 1f);
             ColliderBox(root.transform, "Top Collider", new Vector3(0f, LevelSpawner.DeskTopY - DeskSize.y / 2f, 0f), DeskSize);
             float legHeight = LevelSpawner.DeskTopY - DeskSize.y;
             for (int i = 0; i < 4; i++)
@@ -206,7 +210,7 @@ namespace Game.Editor
             WireBootstrap(game, new Object[]
             {
                 tuning,
-                Room1LevelBuilder.BuildAll(),
+                GameLevelListBuilder.BuildAll(),
                 AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath),
                 spawner, pool, pouch, camera, input, view, ui.Hud,
                 juice, sfx, shake, juiceObject.AddComponent<ShotFeedback>(), juiceObject.AddComponent<ImpactFeedback>(),
@@ -230,7 +234,7 @@ namespace Game.Editor
             SetReference(room, "cam", camera);
             SetReference(room, "music", music);
             SetReference(room, "juice", juice);
-            SetReference(room, "fallback", HomeOfficeBuilder.Build());
+            SetReference(room, "fallback", AssetDatabase.LoadAssetAtPath<RoomTheme>(HomeOfficeBuilder.ThemePath));
             return room;
         }
 

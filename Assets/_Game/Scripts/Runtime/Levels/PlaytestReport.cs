@@ -6,7 +6,8 @@ namespace Game.Levels
     [Serializable]
     public sealed class PlaytestReport
     {
-        public const string Room1Path = "docs/playtest/room1-report.json";
+        /// <summary>One report per room: docs/playtest/room&lt;N&gt;-report.json (Room 1's path is unchanged since M3).</summary>
+        public static string PathFor(int room) => $"docs/playtest/room{room}-report.json";
 
         public Row[] rows = new Row[0];
 
