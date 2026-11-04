@@ -60,6 +60,24 @@ namespace Game.Tests
         }
 
         [UnityTest]
+        public IEnumerator Plate_HitsFloor_Shatters()
+        {
+            var plate = LoadOne(PropKind.Plate);
+            Teleport(plate, BesideDesk);
+            int peak = 0;
+
+            for (int i = 0; i < Steps(1f); i++)
+            {
+                yield return new WaitForFixedUpdate();
+                peak = Mathf.Max(peak, debris.ActiveSets);
+            }
+
+            Assert.AreEqual(1, peak, "the plate never shattered");
+            Assert.IsTrue(plate.IsCleared);
+            Assert.IsFalse(plate.gameObject.activeSelf);
+        }
+
+        [UnityTest]
         public IEnumerator KeycapDroppedOnFloor_PopsAndDeactivates()
         {
             var keycap = LoadOne(PropKind.Keycap1u);

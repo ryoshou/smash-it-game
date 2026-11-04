@@ -76,6 +76,11 @@ namespace Game.Tests
         [TestCase("Packs/KayKitFurniture/cactus_small_A.fbx", 0.5f, 0.552f, 0.5f)]
         [TestCase("Packs/TinyTreats/coffee_cup_takeaway.fbx", 0.342f, 0.41f, 0.342f)]
         [TestCase("Packs/KayKitFurniture/lamp_table.fbx", 1f, 1.022f, 1f)]
+        [TestCase("Packs/TinyTreats/plate.fbx", 0.75f, 0.1f, 0.75f)]
+        [TestCase("Packs/TinyTreats/milk.fbx", 0.363f, 0.468f, 0.332f)]
+        [TestCase("Packs/TinyTreatsBakedGoods/donut.fbx", 0.42f, 0.18f, 0.42f)]
+        [TestCase("Packs/TinyTreatsBakedGoods/donut_pink.fbx", 0.417f, 0.205f, 0.417f)]
+        [TestCase("Packs/TinyTreatsBakedGoods/donut_chocolate.fbx", 0.417f, 0.205f, 0.417f)]
         public void PackProp_ImportsUpright(string model, float x, float y, float z)
         {
             AssertSize(new Vector3(x, y, z), Measure(model).boundsSize, 0.01f);
@@ -108,6 +113,8 @@ namespace Game.Tests
         [TestCase("Packs/TinyTreats/mug_A_blue.fbx", "Generated/Mug_blue_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/mug_A_yellow.fbx", "Generated/Mug_yellow_broken.fbx", 8)]
         [TestCase("Packs/KayKitFurniture/cactus_small_A.fbx", "Generated/CactusPot_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/plate.fbx", "Generated/Plate_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/milk.fbx", "Generated/MilkBottle_broken.fbx", 8)]
         public void BrokenSet_LinesUpWithIntactModel(string intact, string broken, int pieces)
         {
             var whole = ArtMeshStats.ModelBounds(Load(intact));

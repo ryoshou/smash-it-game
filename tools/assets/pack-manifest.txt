@@ -33,3 +33,9 @@ Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/wall_shelf_bakery_B.fbx	T
 Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/pastry_stand_A_decorated.fbx	TinyTreats/pastry_stand_A_decorated.fbx
 Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/curtains.fbx	TinyTreats/curtains.fbx
 Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/rug.fbx	TinyTreats/rug.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/plate.fbx	TinyTreats/plate.fbx
+Tiny_Treats_Bakery_Interior_1.1_FREE/Assets/fbx(unity)/milk.fbx	TinyTreats/milk.fbx
+Tiny_Treats_Baked_Goods_1.0_FREE/Assets/Textures/tiny_treats_texture_1.png	TinyTreatsBakedGoods/tiny_treats_texture_1.png
+Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/donut.fbx	TinyTreatsBakedGoods/donut.fbx
+Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/donut_pink.fbx	TinyTreatsBakedGoods/donut_pink.fbx
+Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/donut_chocolate.fbx	TinyTreatsBakedGoods/donut_chocolate.fbx

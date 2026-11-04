@@ -12,5 +12,9 @@ namespace Game.Levels
         CactusPot,
         PaperCup,
         DeskLamp,
+        // M4a, Café (levels 26–50)
+        Plate,
+        Donut,
+        MilkBottle,
     }
 }

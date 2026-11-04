@@ -115,6 +115,41 @@ namespace Game.Tests
             Object.Destroy(level);
         }
 
+        /// <summary>Each M4 kind, every look, stands still where it spawns.</summary>
+        [UnityTest]
+        public IEnumerator RoomKinds_AreStableAtSpawn()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(CatalogPath);
+            var level = ScriptableObject.CreateInstance<LevelDef>();
+            level.id = "RoomKinds";
+            level.props = new[]
+            {
+                Place(PropKind.Plate, -0.7f, -0.4f),
+                Place(PropKind.MilkBottle, 0f, -0.4f),
+                Look(Place(PropKind.Donut, 0.7f, -0.4f), 0),
+                Look(Place(PropKind.Donut, -0.5f, 0.35f), 1),
+                Look(Place(PropKind.Donut, 0.4f, 0.35f), 2),
+            };
+            Assert.IsTrue(level.Validate(out string error), error);
+            spawner.Load(level, catalog, tuning, null, null);
+
+            yield return FixedSteps(Seconds(3f));
+
+            Assert.AreEqual(level.props.Length, spawner.TargetsRemaining, "a prop fell off at spawn");
+            foreach (var prop in spawner.Spawned)
+            {
+                Assert.IsTrue(prop.Body.IsSleeping(), $"{prop.name} still awake after 3 s");
+                Assert.Greater(Vector3.Dot(prop.transform.up, Vector3.up), 0.99f, $"{prop.name} is not upright");
+            }
+            Object.Destroy(level);
+        }
+
+        private static PropPlacement Look(PropPlacement placement, int variant)
+        {
+            placement.variant = variant;
+            return placement;
+        }
+
         [UnityTest]
         public IEnumerator PreviewMatchesFlight()
         {

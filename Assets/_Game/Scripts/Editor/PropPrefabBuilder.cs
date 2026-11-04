@@ -25,6 +25,12 @@ namespace Game.Editor
         private const float KeycapEnterMass = 0.06f;
         private static readonly Vector3 LayFlat = new Vector3(0f, 0f, 90f);
         private const float DeskLampScale = 0.44f; // the KayKit lamp is 1 m tall; a desk lamp is ~0.45 m
+        private const string BakedGoods = "TinyTreatsBakedGoods";
+        private static readonly string[] DonutLooks = { "donut", "donut_pink", "donut_chocolate" };
+        // Tiny Treats models share the mug's toy scale (a mug is 0.585 wide); these keep the new kinds in proportion.
+        private const float PlateScale = 0.6f;      // 0.45 wide: a mug's 0.43-deep base fits on it
+        private const float DonutScale = 0.8f;      // 0.34 wide
+        private const float MilkBottleScale = 0.9f; // 0.42 tall, taller than a mug
 
         private sealed class Source
         {
@@ -109,6 +115,32 @@ namespace Game.Editor
                 kind = PropKind.DeskLamp, atlas = KayKit, collider = PropColliderShape.ConvexMesh, mass = 0.6f,
                 physics = WritePhysicsMaterial("DeskLamp", 0.5f, 0.6f, 0.05f), breakMode = BreakMode.Pop,
                 variants = new[] { Art + "Packs/KayKitFurniture/lamp_table.fbx" }, visualScale = DeskLampScale,
+            };
+            foreach (var source in CafeSources()) yield return source;
+        }
+
+        /// <summary>Room 2 new kinds (spec §6.1): a thin plate that shatters, a featherweight ring, a top-heavy bottle.</summary>
+        private static IEnumerable<Source> CafeSources()
+        {
+            yield return new Source
+            {
+                kind = PropKind.Plate, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.25f,
+                physics = WritePhysicsMaterial("Plate", 0.4f, 0.5f, 0.05f), breakMode = BreakMode.Shatter,
+                variants = new[] { Art + "Packs/TinyTreats/plate.fbx" },
+                broken = new[] { Art + "Generated/Plate_broken.fbx" }, visualScale = PlateScale,
+            };
+            yield return new Source
+            {
+                kind = PropKind.Donut, atlas = BakedGoods, collider = PropColliderShape.ConvexMesh, mass = 0.06f,
+                physics = WritePhysicsMaterial("Donut", 0.6f, 0.7f, 0.2f), breakMode = BreakMode.Pop,
+                variants = Paths($"Packs/{BakedGoods}/{{0}}.fbx", DonutLooks), visualScale = DonutScale,
+            };
+            yield return new Source
+            {
+                kind = PropKind.MilkBottle, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.35f,
+                physics = WritePhysicsMaterial("MilkBottle", 0.4f, 0.5f, 0.05f), breakMode = BreakMode.Shatter,
+                variants = new[] { Art + "Packs/TinyTreats/milk.fbx" },
+                broken = new[] { Art + "Generated/MilkBottle_broken.fbx" }, visualScale = MilkBottleScale,
             };
         }
 

@@ -80,6 +80,9 @@ namespace Game.Tests
         [TestCase(PropKind.KeycapEnter, BreakMode.Pop, PropColliderShape.Box)]
         [TestCase(PropKind.PaperCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.DeskLamp, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Plate, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Donut, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.MilkBottle, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
             var spec = catalog.Get(kind);
@@ -108,6 +111,36 @@ namespace Game.Tests
         [Test]
         public void DeskLamp_IsAboutFortyFiveCentimetresTall() =>
             Assert.AreEqual(0.45f, catalog.Get(PropKind.DeskLamp).size.y, 0.01f);
+
+        /// <summary>The plate is wide enough to stand a mug on (Tiny Treats mugs are 0.43 deep), and thin.</summary>
+        [Test]
+        public void Plate_IsFlatterThanItIsWide()
+        {
+            var plate = catalog.Get(PropKind.Plate).size;
+            var mug = catalog.Get(PropKind.Mug).size;
+
+            Assert.Less(plate.y * 5f, plate.x);
+            Assert.Greater(plate.x, mug.z, "a mug's base fits on a plate");
+            Assert.AreEqual(0.45f, plate.x, 0.02f);
+        }
+
+        [Test]
+        public void Donut_LiesFlat_ForStacking()
+        {
+            var size = catalog.Get(PropKind.Donut).size;
+
+            Assert.Less(size.y * 2f, size.x);
+            Assert.Less(catalog.Get(PropKind.Donut).mass, catalog.Get(PropKind.Keycap1u).mass * 2f, "a donut is light");
+        }
+
+        [Test]
+        public void MilkBottle_IsTallerThanAMug()
+        {
+            float milk = catalog.Get(PropKind.MilkBottle).size.y;
+
+            Assert.Greater(milk, catalog.Get(PropKind.Mug).size.y);
+            Assert.AreEqual(0.42f, milk, 0.02f);
+        }
 
         [Test]
         public void Book_LiesFlat_ForStacking()

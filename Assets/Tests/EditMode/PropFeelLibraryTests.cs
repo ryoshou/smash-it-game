@@ -57,6 +57,9 @@ namespace Game.Tests
         /// <summary>Spec §9: the new kinds sound like themselves, not like any other kind.</summary>
         [TestCase(PropKind.PaperCup)]
         [TestCase(PropKind.DeskLamp)]
+        [TestCase(PropKind.Plate)]
+        [TestCase(PropKind.Donut)]
+        [TestCase(PropKind.MilkBottle)]
         public void NewKind_HasItsOwnSounds(PropKind kind)
         {
             var shipped = AssetDatabase.LoadAssetAtPath<PropFeelLibrary>(VfxBuilder.LibraryPath);
@@ -67,6 +70,19 @@ namespace Game.Tests
                 Assert.AreNotSame(mine.hit, other.hit, $"{kind} hit is shared with {other.kind}");
                 Assert.AreNotSame(mine.breakSound, other.breakSound, $"{kind} break is shared with {other.kind}");
             }
+        }
+
+        /// <summary>From M4 each new kind breaks with its own effect (M3's kinds share puff and sparkle).</summary>
+        [TestCase(PropKind.Plate)]
+        [TestCase(PropKind.Donut)]
+        [TestCase(PropKind.MilkBottle)]
+        public void NewKind_HasItsOwnBreakEffect(PropKind kind)
+        {
+            var shipped = AssetDatabase.LoadAssetAtPath<PropFeelLibrary>(VfxBuilder.LibraryPath);
+            Assert.IsTrue(shipped.TryGet(kind, out var mine), $"{kind} has no feel");
+            Assert.IsNotNull(mine.breakVfx, $"{kind} has no break effect");
+            foreach (var other in shipped.feels)
+                if (other.kind != kind) Assert.AreNotSame(mine.breakVfx, other.breakVfx, $"{kind} effect is shared with {other.kind}");
         }
 
         private static void AssertSet(Game.Audio.SoundSet set, string what)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Game.Core;
 using Game.Juice;
@@ -23,6 +24,8 @@ namespace Game.Editor
         private static readonly Color Butter = new Color(1f, 0.85f, 0.4f);
         private static readonly Color Sky = new Color(0.55f, 0.8f, 0.95f);
         private static readonly Color Mint = new Color(0.45f, 0.8f, 0.72f);
+        private static readonly Color Milk = new Color(1f, 0.99f, 0.95f);
+        private static readonly Color Rose = new Color(0.93f, 0.45f, 0.6f);
 
         [MenuItem("Smash/Build Vfx")]
         public static void BuildAll()
@@ -34,7 +37,14 @@ namespace Game.Editor
             var paperPuff = Save(Burst("PaperPuff", material, 12, 0.35f, new Vector2(0.03f, 0.08f), new Vector2(0.3f, 0.9f), 0.05f, Color.white, Cream));
             var sparks = Save(Burst("SparkPuff", material, 20, 0.3f, new Vector2(0.02f, 0.05f), new Vector2(1.4f, 2.8f), 0.8f, Butter, Color.white));
             Save(Confetti(material));
-            FillLibrary(puff, sparkle, paperPuff, sparks);
+            var kindBursts = new Dictionary<PropKind, ParticleSystem>
+            {
+                // From M4 every new kind breaks with its own effect.
+                [PropKind.Plate] = Save(Burst("ChinaChips", material, 18, 0.45f, new Vector2(0.03f, 0.06f), new Vector2(1.2f, 2.4f), 0.9f, Color.white, Sky)),
+                [PropKind.Donut] = Save(Burst("Sprinkles", material, 22, 0.45f, new Vector2(0.015f, 0.035f), new Vector2(0.8f, 1.8f), 0.7f, Pink, Rose)),
+                [PropKind.MilkBottle] = Save(Burst("MilkSplash", material, 26, 0.5f, new Vector2(0.05f, 0.12f), new Vector2(0.6f, 1.6f), 0.5f, Milk, Cream)),
+            };
+            FillLibrary(puff, sparkle, paperPuff, sparks, kindBursts);
             AssetDatabase.SaveAssets();
         }
 
@@ -51,7 +61,8 @@ namespace Game.Editor
         }
 
         /// <summary>Sets each kind's break effect; keeps any sounds already assigned.</summary>
-        private static void FillLibrary(ParticleSystem puff, ParticleSystem sparkle, ParticleSystem paperPuff, ParticleSystem sparks)
+        private static void FillLibrary(ParticleSystem puff, ParticleSystem sparkle, ParticleSystem paperPuff, ParticleSystem sparks,
+            Dictionary<PropKind, ParticleSystem> kindBursts)
         {
             var library = LoadOrCreateLibrary();
             var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath);
@@ -62,7 +73,7 @@ namespace Game.Editor
                 library.TryGet(kinds[i], out var feel);
                 feel.kind = kinds[i];
                 if (feel.hitMinSpeed <= 0f) feel.hitMinSpeed = DefaultHitMinSpeed;
-                feel.breakVfx = kinds[i] switch
+                feel.breakVfx = kindBursts.TryGetValue(kinds[i], out var own) ? own : kinds[i] switch
                 {
                     PropKind.PaperCup => paperPuff,
                     PropKind.DeskLamp => sparks,
