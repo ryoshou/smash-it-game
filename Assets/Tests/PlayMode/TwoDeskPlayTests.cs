@@ -25,7 +25,7 @@ namespace Game.Tests
             bootstrap = Object.FindAnyObjectByType<GameBootstrap>();
             spawner = Object.FindAnyObjectByType<LevelSpawner>();
             list = ScriptableObject.CreateInstance<LevelList>();
-            list.levels = new[] { TwoDeskLevel(), OneDeskLevel(), BookBelowBackDesk() };
+            list.levels = new[] { TwoDeskLevel(), OneDeskLevel() };
             var so = new UnityEditor.SerializedObject(bootstrap);
             so.FindProperty("levels").objectReferenceValue = list;
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -57,19 +57,6 @@ namespace Game.Tests
             var level = ScriptableObject.CreateInstance<LevelDef>();
             level.id = "one-desk";
             level.props = new[] { new PropPlacement { kind = PropKind.Mug, isTarget = true } };
-            return level;
-        }
-
-        private static LevelDef BookBelowBackDesk()
-        {
-            var level = ScriptableObject.CreateInstance<LevelDef>();
-            level.id = "book-below-back-desk";
-            level.hasBackDesk = true;
-            level.props = new[]
-            {
-                new PropPlacement { kind = PropKind.Book, basePosition = new Vector3(0f, 0f, 0.5f), isTarget = true },
-                new PropPlacement { kind = PropKind.Keycap1u, isTarget = true, desk = 1 },
-            };
             return level;
         }
 
@@ -117,27 +104,6 @@ namespace Game.Tests
 
             Assert.IsTrue(spawner.Spawned[1].IsCleared);
             Assert.AreEqual(2, spawner.TargetsRemaining);
-        }
-
-        /// <summary>
-        /// A tall prop pushed straight back off the main desk would jam under the back desk's top (the gap is 0.24) and
-        /// could never clear; it counts as off the desk instead.
-        /// </summary>
-        [UnityTest]
-        public IEnumerator BookPushedUnderTheBackDesk_IsCleared()
-        {
-            bootstrap.LoadLevel(2);
-            yield return new WaitForSeconds(0.5f);
-            var book = spawner.Spawned[0];
-
-            // Where the bot's lost rounds left books: resting on the main desk's back edge, its back end under the slab.
-            var wedged = new Vector3(0f, LevelSpawner.DeskTopY + 0.135f, 0.8f);
-            book.transform.position = wedged;
-            book.Body.position = wedged;
-            book.Body.linearVelocity = new Vector3(0f, 0f, 0.4f);
-            yield return new WaitForSeconds(3f);
-
-            Assert.IsTrue(book.IsCleared, $"the book is stuck at {book.Body.position}");
         }
 
         [UnityTest]

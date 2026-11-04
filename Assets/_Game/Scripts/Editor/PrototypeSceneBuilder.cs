@@ -33,7 +33,6 @@ namespace Game.Editor
         private static readonly Vector3 DeskSize = new Vector3(2.0f, 0.08f, 1.5f);
         private const float LegSize = 0.07f;
         private const float BackDeskThickness = 0.06f;
-        private const float UnderTopClearance = 0.005f;
         private const float YarnModelDiameter = 0.18f;
         private const float SunIntensity = 0.85f;
         private static readonly Color SunColor = new Color(1f, 0.93f, 0.84f);
@@ -86,8 +85,7 @@ namespace Game.Editor
 
         /// <summary>
         /// The raised back desk: a collider top at LevelSpawner.BackDeskTop with a KayKit small table stretched to fit
-        /// under it. No FloorSurface on its top: props landing on it are still on a desk. The space under the top is a
-        /// FloorSurface catch.
+        /// under it. No FloorSurface: props landing on it are still on a desk.
         /// </summary>
         private static GameObject WriteBackDeskPrefab()
         {
@@ -101,15 +99,6 @@ namespace Game.Editor
                 top.z - bounds.center.z * visual.localScale.z);
             ColliderBox(root.transform, "Top Collider", new Vector3(top.x, top.y - BackDeskThickness / 2f, top.z),
                 new Vector3(size.x, BackDeskThickness, size.y));
-            // Under the top, from the main desk's height up: anything pushed back into that 0.24 m gap would jam there
-            // and could never clear, so it counts as floor (breaks and clears).
-            float catchBottom = LevelSpawner.DeskTopY + UnderTopClearance;
-            float catchTop = top.y - BackDeskThickness - UnderTopClearance;
-            var under = new GameObject("Under Top Catch").AddComponent<BoxCollider>();
-            under.transform.SetParent(root.transform, false);
-            under.transform.localPosition = new Vector3(top.x, (catchBottom + catchTop) / 2f, top.z);
-            under.size = new Vector3(size.x, catchTop - catchBottom, size.y);
-            under.gameObject.AddComponent<FloorSurface>();
             return SavePrefab(root, "BackDesk");
         }
 
