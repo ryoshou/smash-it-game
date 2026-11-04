@@ -103,6 +103,15 @@ namespace Game.Tests
             float end = Time.time;
             while (bootstrap.State == RoundState.Playing && Time.time - end < RoundEndCapSeconds) yield return null;
             if (bootstrap.State == RoundState.Won) shotsOnWin.Add(level.shots - bootstrap.Budget.Remaining);
+            else LogLeftovers(level);
+        }
+
+        /// <summary>On a loss, which targets were left and where: the first thing to read when a level won't clear.</summary>
+        private void LogLeftovers(LevelDef level)
+        {
+            var left = spawner.Spawned.Where(p => p.IsTarget && !p.IsCleared)
+                .Select(p => $"{p.Kind}@({p.Body.position.x:0.00},{p.Body.position.y:0.00},{p.Body.position.z:0.00})");
+            Debug.Log($"[Bot] {level.id} lost, left: {string.Join(" ", left)}");
         }
 
         /// <summary>The power whose arc (as the preview draws it) passes closest to the target's centre.</summary>

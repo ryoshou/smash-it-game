@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a070f86dab2049fabbeda948faca804, type: 3}
+  m_Name: R3_L53
+  m_EditorClassIdentifier: Game.Runtime::Game.Levels.LevelDef
+  id: R3_L53
+  shots: 6
+  difficulty: 0
+  deskSize: {x: 2, y: 1.5}
+  hasBackDesk: 0
+  backDeskSize: {x: 1.2, y: 0.5}
+  props:
+  - kind: 5
+    basePosition: {x: -0.55, y: 0, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 12
+    basePosition: {x: -0.55, y: 0.26, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 5
+    basePosition: {x: 0, y: 0, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 5
+    basePosition: {x: 0, y: 0.26, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 1
+    desk: 0
+  - kind: 12
+    basePosition: {x: 0, y: 0.52, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 1
+    desk: 0
+  - kind: 5
+    basePosition: {x: 0.55, y: 0, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 5
+    basePosition: {x: 0.55, y: 0.26, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 1
+    desk: 0
+  - kind: 5
+    basePosition: {x: 0.55, y: 0.52, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 2
+    desk: 0
+  - kind: 12
+    basePosition: {x: 0.55, y: 0.78, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  room: {fileID: 11400000, guid: b823c7f8149ba4b19a9f9048c7134fb9, type: 2}
