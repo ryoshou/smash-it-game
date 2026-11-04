@@ -37,6 +37,8 @@ namespace Game.Editor
         private static readonly string[] PencilCupColours = { "teal", "rose", "butter" };
         private const float CandleScale = 0.5f;     // the Halloween candle is 0.79 tall; 0.39 sits beside a mug
         private const float HourglassScale = 0.16f; // the board-game hourglass is 2.5 tall; 0.4
+        private static readonly string[] CanColours = { "red", "blue", "grass" };
+        private static readonly string[] ControllerColours = { "charcoal", "red", "sky" };
 
         private sealed class Source
         {
@@ -124,6 +126,7 @@ namespace Game.Editor
             };
             foreach (var source in CafeSources()) yield return source;
             foreach (var source in LibrarySources()) yield return source;
+            foreach (var source in DenSources()) yield return source;
         }
 
         /// <summary>Room 2 new kinds (spec §6.1): a thin plate that shatters, a featherweight ring, a top-heavy bottle.</summary>
@@ -173,6 +176,23 @@ namespace Game.Editor
                 kind = PropKind.PencilCup, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.25f,
                 physics = WritePhysicsMaterial("PencilCup", 0.5f, 0.6f, 0.05f), breakMode = BreakMode.Pop,
                 variants = Paths("Generated/PencilCup_{0}.fbx", PencilCupColours),
+            };
+        }
+
+        /// <summary>Room 4 new kinds: a light can that flies and stacks, a flat controller that slides.</summary>
+        private static IEnumerable<Source> DenSources()
+        {
+            yield return new Source
+            {
+                kind = PropKind.SodaCan, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.12f,
+                physics = WritePhysicsMaterial("SodaCan", 0.4f, 0.5f, 0.15f), breakMode = BreakMode.Pop,
+                variants = Paths("Generated/SodaCan_{0}.fbx", CanColours),
+            };
+            yield return new Source
+            {
+                kind = PropKind.GameController, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.2f,
+                physics = WritePhysicsMaterial("GameController", 0.6f, 0.7f, 0.1f), breakMode = BreakMode.Pop,
+                variants = Paths("Generated/GameController_{0}.fbx", ControllerColours),
             };
         }
 

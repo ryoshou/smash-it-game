@@ -86,6 +86,8 @@ namespace Game.Tests
         [TestCase(PropKind.Candle, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Hourglass, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.PencilCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.SodaCan, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.GameController, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
             var spec = catalog.Get(kind);
@@ -155,6 +157,24 @@ namespace Game.Tests
 
             Assert.AreEqual(height, size.y, 0.02f);
             Assert.Less(size.x, size.y * 0.6f, "slim enough to topple");
+        }
+
+        [Test]
+        public void SodaCan_IsLightAndAboutAMugTall()
+        {
+            var can = catalog.Get(PropKind.SodaCan);
+
+            Assert.AreEqual(0.3f, can.size.y, 0.02f);
+            Assert.Less(can.mass, catalog.Get(PropKind.Mug).mass);
+        }
+
+        [Test]
+        public void GameController_LiesFlat()
+        {
+            var size = catalog.Get(PropKind.GameController).size;
+
+            Assert.Less(size.y * 3f, size.x);
+            Assert.Less(size.y * 2f, size.z);
         }
 
         [Test]

@@ -111,6 +111,32 @@ namespace Game.Tests
             Assert.LessOrEqual(stats.triangles, maxTriangles);
         }
 
+        [TestCase("Generated/SodaCan_red.fbx")]
+        [TestCase("Generated/SodaCan_blue.fbx")]
+        [TestCase("Generated/SodaCan_grass.fbx")]
+        [TestCase("Generated/FizzySoda.fbx")]
+        public void GeneratedSodaCan_IsUprightAndInBudget(string model)
+        {
+            var stats = Measure(model);
+
+            Assert.AreEqual(0.3f, stats.boundsSize.y, 0.02f);
+            Assert.Less(stats.boundsSize.x, 0.23f);
+            Assert.LessOrEqual(stats.triangles, model.Contains("Fizzy") ? 1000 : 500);
+        }
+
+        [TestCase("Generated/GameController_charcoal.fbx")]
+        [TestCase("Generated/GameController_red.fbx")]
+        [TestCase("Generated/GameController_sky.fbx")]
+        public void GeneratedController_LiesFlatAndInBudget(string model)
+        {
+            var stats = Measure(model);
+
+            Assert.AreEqual(0.4f, stats.boundsSize.x, 0.02f);
+            Assert.Less(stats.boundsSize.y, 0.11f);
+            Assert.AreEqual(0.26f, stats.boundsSize.z, 0.02f);
+            Assert.LessOrEqual(stats.triangles, 1200);
+        }
+
         [Test]
         public void GeneratedSlingshot_AnchorsAtM1ForkTips()
         {

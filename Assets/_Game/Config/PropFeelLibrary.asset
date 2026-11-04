@@ -88,3 +88,13 @@ MonoBehaviour:
     breakSound: {fileID: 11400000, guid: f53b83850374345b8b5ddd5d1bb6d4c9, type: 2}
     breakVfx: {fileID: 7811286167132547189, guid: 87fac762976aa4ebea4a26c729b03f3c, type: 3}
     hitMinSpeed: 0.5
+  - kind: 15
+    hit: {fileID: 11400000, guid: ac0a28f789049471995a524b83ba71b8, type: 2}
+    breakSound: {fileID: 11400000, guid: 6092140d061d64dae9d00ada9a28ef0d, type: 2}
+    breakVfx: {fileID: 7997868216970100106, guid: 51f36e1ac3e0d412ab4a519e097448fe, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 16
+    hit: {fileID: 11400000, guid: a3c89145b6c9d4a85b5341dabe99a398, type: 2}
+    breakSound: {fileID: 11400000, guid: 452aa7aefdb7e49a2bc2ba928467f1a9, type: 2}
+    breakVfx: {fileID: 8712288456165266193, guid: 6869ee053805a4037b5ea79171457998, type: 3}
+    hitMinSpeed: 0.5

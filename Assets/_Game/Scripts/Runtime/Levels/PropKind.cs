@@ -20,5 +20,8 @@ namespace Game.Levels
         Candle,
         Hourglass,
         PencilCup,
+        // M4a, Gaming Den (levels 76–100)
+        SodaCan,
+        GameController,
     }
 }

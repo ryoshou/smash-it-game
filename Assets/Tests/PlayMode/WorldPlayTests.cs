@@ -133,6 +133,8 @@ namespace Game.Tests
                 Look(Place(PropKind.Candle, -0.2f, 0.6f), 1),
                 Place(PropKind.Hourglass, 0.15f, 0.1f),
                 Look(Place(PropKind.PencilCup, 0.85f, 0.1f), 0),
+                Look(Place(PropKind.SodaCan, -0.45f, 0.6f), 2),
+                Look(Place(PropKind.GameController, 0.5f, 0.6f), 1),
             };
             Assert.IsTrue(level.Validate(out string error), error);
             spawner.Load(level, catalog, tuning, null, null);

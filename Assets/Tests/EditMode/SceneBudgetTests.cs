@@ -70,6 +70,7 @@ namespace Game.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
         public void EveryRoomBackdrop_HasItsDeskAtTheOrigin(int room)
         {
             var theme = AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room));

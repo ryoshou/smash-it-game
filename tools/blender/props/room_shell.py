@@ -29,7 +29,7 @@ STYLES = {
     "RoomShell": ("tan", "peach", "cream", "white", "teal"),
     "RoomShell_Cafe": ("apricot", "butter", "cream", "white", "rose"),
     "RoomShell_Library": ("brown", "sage", "sage", "cream", "pine"),
-    "RoomShell_Den": ("gray_mid", "ocean", "blue", "slate", "periwinkle"),
+    "RoomShell_Den": ("slate", "ocean", "blue", "gray_dark", "periwinkle"),
 }
 
 

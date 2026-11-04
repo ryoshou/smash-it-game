@@ -45,6 +45,10 @@ namespace Game.Editor
             var hourglassBreak = Set("Break_Hourglass", 0.85f, Breaking + "misc_04.ogg", Breaking + "misc_05.ogg", Breaking + "misc_06.ogg", Breaking + "misc_07.ogg");
             var pencilHit = Set("Hit_PencilCup", 0.7f, Breaking + "hit_01.ogg", Breaking + "hit_02.ogg", Breaking + "hit_03.ogg", Breaking + "hit_04.ogg");
             var pencilBreak = Set("Break_PencilCup", 0.75f, Breaking + "wood_breaking_01.ogg", Breaking + "wood_breaking_02.ogg", Breaking + "wood_breaking_03.ogg", Breaking + "wood_breaking_04.ogg");
+            var canHit = Set("Hit_SodaCan", 0.7f, Breaking + "metal_hit_04.ogg", Breaking + "metal_hit_05.ogg", Breaking + "metal_hit_06.ogg");
+            var canBreak = Set("Break_SodaCan", 0.75f, Breaking + "metal_falling_03.ogg", Breaking + "metal_falling_04.ogg", Breaking + "metal_falling_05.ogg");
+            var padHit = Set("Hit_GameController", 0.6f, Kenney + "switch_001.ogg", Kenney + "switch_002.ogg", Kenney + "switch_003.ogg", Kenney + "switch_004.ogg");
+            var padBreak = Set("Break_GameController", 0.65f, Kenney + "glitch_001.ogg", Kenney + "glitch_002.ogg", Kenney + "glitch_003.ogg", Kenney + "glitch_004.ogg");
             var milkBreak = Set("Break_MilkBottle", 0.85f, Breaking + "glass_breaking_04.ogg", Breaking + "glass_breaking_05.ogg", Breaking + "glass_breaking_06.ogg");
 
             var library = VfxBuilder.LoadOrCreateLibrary();
@@ -64,6 +68,8 @@ namespace Game.Editor
                     case PropKind.Candle: feels[i].hit = candleHit; feels[i].breakSound = candleBreak; break;
                     case PropKind.Hourglass: feels[i].hit = hourglassHit; feels[i].breakSound = hourglassBreak; break;
                     case PropKind.PencilCup: feels[i].hit = pencilHit; feels[i].breakSound = pencilBreak; break;
+                    case PropKind.SodaCan: feels[i].hit = canHit; feels[i].breakSound = canBreak; break;
+                    case PropKind.GameController: feels[i].hit = padHit; feels[i].breakSound = padBreak; break;
                     default: feels[i].hit = keycapHit; feels[i].breakSound = pop; break;
                 }
             }

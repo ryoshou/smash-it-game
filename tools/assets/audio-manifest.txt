@@ -82,3 +82,17 @@ audio/rubberduck-breaking/x/bfh1_wood_breaking_04.ogg	Sfx/BreakingFalling/bfh1_w
 audio/kenney-interface/x/Audio/tick_001.ogg	Sfx/KenneyInterface/tick_001.ogg
 audio/kenney-interface/x/Audio/tick_002.ogg	Sfx/KenneyInterface/tick_002.ogg
 audio/kenney-interface/x/Audio/tick_004.ogg	Sfx/KenneyInterface/tick_004.ogg
+audio/rubberduck-breaking/x/bfh1_metal_hit_04.ogg	Sfx/BreakingFalling/bfh1_metal_hit_04.ogg
+audio/rubberduck-breaking/x/bfh1_metal_hit_05.ogg	Sfx/BreakingFalling/bfh1_metal_hit_05.ogg
+audio/rubberduck-breaking/x/bfh1_metal_hit_06.ogg	Sfx/BreakingFalling/bfh1_metal_hit_06.ogg
+audio/rubberduck-breaking/x/bfh1_metal_falling_03.ogg	Sfx/BreakingFalling/bfh1_metal_falling_03.ogg
+audio/rubberduck-breaking/x/bfh1_metal_falling_04.ogg	Sfx/BreakingFalling/bfh1_metal_falling_04.ogg
+audio/rubberduck-breaking/x/bfh1_metal_falling_05.ogg	Sfx/BreakingFalling/bfh1_metal_falling_05.ogg
+audio/kenney-interface/x/Audio/switch_001.ogg	Sfx/KenneyInterface/switch_001.ogg
+audio/kenney-interface/x/Audio/switch_002.ogg	Sfx/KenneyInterface/switch_002.ogg
+audio/kenney-interface/x/Audio/switch_003.ogg	Sfx/KenneyInterface/switch_003.ogg
+audio/kenney-interface/x/Audio/switch_004.ogg	Sfx/KenneyInterface/switch_004.ogg
+audio/kenney-interface/x/Audio/glitch_001.ogg	Sfx/KenneyInterface/glitch_001.ogg
+audio/kenney-interface/x/Audio/glitch_002.ogg	Sfx/KenneyInterface/glitch_002.ogg
+audio/kenney-interface/x/Audio/glitch_003.ogg	Sfx/KenneyInterface/glitch_003.ogg
+audio/kenney-interface/x/Audio/glitch_004.ogg	Sfx/KenneyInterface/glitch_004.ogg

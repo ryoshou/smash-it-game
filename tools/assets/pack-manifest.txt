@@ -49,3 +49,6 @@ KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/shelf_A_big.fbx	KayKitFurnitur
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/armchair_pillows.fbx	KayKitFurniture/armchair_pillows.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/rug_oval_A.fbx	KayKitFurniture/rug_oval_A.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_large_B.fbx	KayKitFurniture/pictureframe_large_B.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_low.fbx	KayKitFurniture/table_low.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/shelf_A_small.fbx	KayKitFurniture/shelf_A_small.fbx
+KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/rug_rectangle_B.fbx	KayKitFurniture/rug_rectangle_B.fbx

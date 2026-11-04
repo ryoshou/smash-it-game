@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad00b97f7c2b3484ba0ab597f7f50c05, type: 3}
+  m_Name: Break_GameController
+  m_EditorClassIdentifier: Game.Runtime::Game.Audio.SoundSet
+  clips:
+  - {fileID: 8300000, guid: e47a2abf121234240a0f3fb2be0c4775, type: 3}
+  - {fileID: 8300000, guid: 0b9ca1d033bb744e686f0383cc844d08, type: 3}
+  - {fileID: 8300000, guid: 25237bb2d694b409095968b5ab3f3d8c, type: 3}
+  - {fileID: 8300000, guid: 334f2bdd937554626882ebcede4feef6, type: 3}
+  volume: 0.65
+  pitchAtSoft: 1.05
+  pitchAtHard: 0.9
+  softSpeed: 0.5
+  hardSpeed: 4

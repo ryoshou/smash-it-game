@@ -30,6 +30,8 @@ namespace Game.Editor
         private static readonly Color Smoke = new Color(0.7f, 0.7f, 0.72f);
         private static readonly Color Sand = new Color(0.86f, 0.72f, 0.48f);
         private static readonly Color Wood = new Color(0.72f, 0.5f, 0.32f);
+        private static readonly Color Silver = new Color(0.85f, 0.87f, 0.92f);
+        private static readonly Color Violet = new Color(0.7f, 0.45f, 1f);
 
         [MenuItem("Smash/Build Vfx")]
         public static void BuildAll()
@@ -50,6 +52,9 @@ namespace Game.Editor
                 // Wax flecks with a grey wisp: slow, light particles that drift up a little.
                 [PropKind.Candle] = Save(Burst("WaxAndSmoke", material, 18, 0.7f, new Vector2(0.03f, 0.1f), new Vector2(0.3f, 0.9f), -0.05f, Wax, Smoke)),
                 [PropKind.Hourglass] = Save(Burst("SandBurst", material, 30, 0.5f, new Vector2(0.015f, 0.04f), new Vector2(0.8f, 2f), 1f, Sand, Butter)),
+                [PropKind.SodaCan] = Save(Burst("SilverFlecks", material, 20, 0.4f, new Vector2(0.02f, 0.045f), new Vector2(1.2f, 2.6f), 0.8f, Silver, Color.white)),
+                // Square-ish pixel puff: few, larger, quick particles in game colours.
+                [PropKind.GameController] = Save(Burst("PixelPuff", material, 12, 0.35f, new Vector2(0.05f, 0.09f), new Vector2(0.6f, 1.4f), 0.2f, Violet, Sky)),
                 [PropKind.PencilCup] = Save(Burst("WoodChips", material, 16, 0.45f, new Vector2(0.025f, 0.05f), new Vector2(1f, 2f), 0.9f, Wood, Butter)),
             };
             FillLibrary(puff, sparkle, paperPuff, sparks, kindBursts);

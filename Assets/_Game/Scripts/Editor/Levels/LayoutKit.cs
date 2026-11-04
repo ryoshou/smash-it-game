@@ -17,6 +17,8 @@ namespace Game.Editor
         public const float Candle = 0.393f;
         public const float Hourglass = 0.4f;
         public const float PencilCup = 0.403f;
+        public const float SodaCan = 0.301f;
+        public const float Controller = 0.092f; // lying flat
         public const float Pitch = 0.16f;    // 1u keycap spacing (0.15 + a gap)
         public const float WidePitch = 0.32f; // 2u keycap spacing (0.31 + a gap)
         public const float DeckDepth = 0.065f; // half the spacing of a two-spacebar deck
