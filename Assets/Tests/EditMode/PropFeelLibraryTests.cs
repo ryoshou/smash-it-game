@@ -97,6 +97,30 @@ namespace Game.Tests
                 if (other.kind != kind) Assert.AreNotSame(mine.breakVfx, other.breakVfx, $"{kind} effect is shared with {other.kind}");
         }
 
+        /// <summary>Kitchen spec §6: food leaves a flat splat on the floor that shrinks away, never piling up.</summary>
+        [Test]
+        public void SplashVfx_HasAFlatSplatThatShrinksToNothing()
+        {
+            var shipped = AssetDatabase.LoadAssetAtPath<PropFeelLibrary>(VfxBuilder.LibraryPath);
+            var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(PrototypeAssetBuilder.CatalogPath);
+            int splashKinds = 0;
+            foreach (PropKind kind in Enum.GetValues(typeof(PropKind)))
+            {
+                if (catalog.Get(kind).breakMode != BreakMode.Splash) continue;
+                splashKinds++;
+                Assert.IsTrue(shipped.TryGet(kind, out var feel), $"{kind} has no feel");
+                Assert.IsNotNull(feel.breakVfx, $"{kind} has no break effect");
+                var splat = feel.breakVfx.transform.Find("Splat");
+                Assert.IsNotNull(splat, $"{kind} effect has no Splat");
+                var system = splat.GetComponent<ParticleSystem>();
+                Assert.AreEqual(ParticleSystemRenderMode.HorizontalBillboard, splat.GetComponent<ParticleSystemRenderer>().renderMode, kind.ToString());
+                Assert.LessOrEqual(system.main.startLifetime.constantMax, 2.5f, $"{kind} splat lingers");
+                Assert.IsTrue(system.sizeOverLifetime.enabled, $"{kind} splat never shrinks");
+                Assert.AreEqual(0f, system.sizeOverLifetime.size.curve.Evaluate(1f), 1e-4f, $"{kind} splat doesn't shrink to nothing");
+            }
+            Assert.Greater(splashKinds, 0, "no Splash kinds");
+        }
+
         private static void AssertSet(Game.Audio.SoundSet set, string what)
         {
             Assert.IsNotNull(set, what);

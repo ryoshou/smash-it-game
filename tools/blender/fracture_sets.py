@@ -4,6 +4,7 @@ Mug_<colour>_broken: the mug body cut into 7 shards plus the handle whole (8 pie
 CactusPot_broken: the pot cut into 7 shards plus the cactus whole, which spills out (8 pieces).
 Plate_broken / MilkBottle_broken / Hourglass_broken: the plate / bottle / glass cut into 7 shards plus its other parts
 whole (8 pieces).
+Donut_<look>_broken: food splashes into chunks (Kitchen spec §6): the whole donut cut into 4 pieces.
 Pieces keep the intact model's coordinates, so a set spawned at the prop's pose lines up with it.
 """
 import os
@@ -46,6 +47,19 @@ def build_set(name, pack_file, material, out):
     export.fbx([root], os.path.join(out, f"{name}.fbx"), material=material, authored=False)
 
 
+def build_chunks(name, pack_file, material, out, pieces):
+    """Food: the whole model, every part together, cut into a few chunks."""
+    export.reset()
+    source = fracture.import_pack(os.path.join(PACKS, pack_file))
+    chunks = fracture.shatter(source, pieces=pieces, seed=SEED)
+    root = bpy.data.objects.new(name, None)
+    bpy.context.scene.collection.objects.link(root)
+    for i, piece in enumerate(chunks):
+        piece.name = f"Piece_{i:02d}"
+        piece.parent = root
+    export.fbx([root], os.path.join(out, f"{name}.fbx"), material=material, authored=False)
+
+
 def build(out):
     for colour in ("pink", "blue", "yellow"):
         build_set(f"Mug_{colour}_broken", os.path.join("TinyTreats", f"mug_A_{colour}.fbx"), "Atlas_TinyTreats", out)
@@ -53,6 +67,9 @@ def build(out):
     build_set("Plate_broken", os.path.join("TinyTreats", "plate.fbx"), "Atlas_TinyTreats", out)
     build_set("MilkBottle_broken", os.path.join("TinyTreats", "milk.fbx"), "Atlas_TinyTreats", out)
     build_set("Hourglass_broken", os.path.join("KayKitBoardGame", "hourglass.fbx"), "Atlas_KayKitBoardGame", out)
+    for look in ("donut", "donut_pink", "donut_chocolate"):
+        name = "Donut" + look[len("donut"):] + "_broken"
+        build_chunks(name, os.path.join("TinyTreatsBakedGoods", f"{look}.fbx"), "Atlas_TinyTreatsBakedGoods", out, pieces=4)
 
 
 if __name__ == "__main__":

@@ -158,6 +158,9 @@ namespace Game.Tests
         [TestCase("Packs/TinyTreats/plate.fbx", "Generated/Plate_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/milk.fbx", "Generated/MilkBottle_broken.fbx", 8)]
         [TestCase("Packs/KayKitBoardGame/hourglass.fbx", "Generated/Hourglass_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreatsBakedGoods/donut.fbx", "Generated/Donut_broken.fbx", 4)]
+        [TestCase("Packs/TinyTreatsBakedGoods/donut_pink.fbx", "Generated/Donut_pink_broken.fbx", 4)]
+        [TestCase("Packs/TinyTreatsBakedGoods/donut_chocolate.fbx", "Generated/Donut_chocolate_broken.fbx", 4)]
         public void BrokenSet_LinesUpWithIntactModel(string intact, string broken, int pieces)
         {
             var whole = ArtMeshStats.ModelBounds(Load(intact));

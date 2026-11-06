@@ -27,6 +27,7 @@ namespace Game.Editor
         private const float DeskLampScale = 0.44f; // the KayKit lamp is 1 m tall; a desk lamp is ~0.45 m
         private const string BakedGoods = "TinyTreatsBakedGoods";
         private static readonly string[] DonutLooks = { "donut", "donut_pink", "donut_chocolate" };
+        private static readonly string[] DonutBrokenSets = { "Donut", "Donut_pink", "Donut_chocolate" };
         // Tiny Treats models share the mug's toy scale (a mug is 0.585 wide); these keep the new kinds in proportion.
         private const float PlateScale = 0.6f;      // 0.45 wide: a mug's 0.43-deep base fits on it
         private const float DonutScale = 0.8f;      // 0.34 wide
@@ -144,8 +145,9 @@ namespace Game.Editor
             {
                 // A box, not its hull: the icing domes the hull's top, and stacks of domes never settle.
                 kind = PropKind.Donut, atlas = BakedGoods, collider = PropColliderShape.Box, mass = 0.06f,
-                physics = WritePhysicsMaterial("Donut", 0.6f, 0.7f, 0.2f), breakMode = BreakMode.Pop,
-                variants = Paths($"Packs/{BakedGoods}/{{0}}.fbx", DonutLooks), visualScale = DonutScale,
+                physics = WritePhysicsMaterial("Donut", 0.6f, 0.7f, 0.2f), breakMode = BreakMode.Splash,
+                variants = Paths($"Packs/{BakedGoods}/{{0}}.fbx", DonutLooks),
+                broken = Paths("Generated/{0}_broken.fbx", DonutBrokenSets), visualScale = DonutScale,
             };
             yield return new Source
             {

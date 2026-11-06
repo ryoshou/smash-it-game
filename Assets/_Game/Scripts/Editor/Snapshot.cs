@@ -89,19 +89,30 @@ namespace Game.Editor
             }
         }
 
-        /// <summary>A mug mid-shatter on the floor beside the desk, with the shard sparkle and a dust puff.</summary>
+        /// <summary>
+        /// A mug mid-shatter on the floor beside the desk, with the shard sparkle and a dust puff, and a donut splashing
+        /// beside it (chunks, droplets and its splat on the floor).
+        /// </summary>
         private static void StageBreak(PropCatalog catalog)
         {
             var at = new Vector3(0.5f, 0.2f, -1.5f);
-            var broken = UnityEngine.Object.Instantiate(catalog.Get(PropKind.Mug).Variant(0).brokenPrefab, at, Quaternion.identity);
+            Spread(catalog.Get(PropKind.Mug).Variant(0).brokenPrefab, at);
+            Burst(AssetDatabase.LoadAssetAtPath<GameObject>(VfxBuilder.VfxFolder + "/ShardSparkle.prefab"), at, 0.12f);
+            var splashAt = new Vector3(0.3f, 0.015f, -0.95f);
+            Spread(catalog.Get(PropKind.Donut).Variant(1).brokenPrefab, splashAt + Vector3.up * 0.1f);
+            Burst(AssetDatabase.LoadAssetAtPath<GameObject>(VfxBuilder.VfxFolder + "/DonutSplash.prefab"), splashAt, 0.15f);
+            Burst(AssetDatabase.LoadAssetAtPath<GameObject>(VfxBuilder.VfxFolder + "/DustPuff.prefab"), at + new Vector3(-1.1f, 0f, 0f), 0.15f);
+        }
+
+        private static void Spread(GameObject brokenPrefab, Vector3 at)
+        {
+            var broken = UnityEngine.Object.Instantiate(brokenPrefab, at, Quaternion.identity);
             broken.SetActive(true);
             foreach (var body in broken.GetComponentsInChildren<Rigidbody>())
             {
                 var outward = body.transform.position - at;
                 body.transform.position += outward.normalized * ShardSpread;
             }
-            Burst(AssetDatabase.LoadAssetAtPath<GameObject>(VfxBuilder.VfxFolder + "/ShardSparkle.prefab"), at, 0.12f);
-            Burst(AssetDatabase.LoadAssetAtPath<GameObject>(VfxBuilder.VfxFolder + "/DustPuff.prefab"), at + new Vector3(-1.1f, 0f, 0f), 0.15f);
         }
 
         /// <summary>"Take:seconds" — samples one of the cat's takes onto the scene cat (edit mode cannot run the Animator).</summary>

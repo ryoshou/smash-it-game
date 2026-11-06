@@ -39,7 +39,7 @@ namespace Game.Editor
             var root = new GameObject("LibraryBackdrop");
             RoomKit.Place(root, "Generated/RoomShell_Library.fbx", TinyTreats, Vector3.zero, 0f);
             RoomKit.PlaceDesk(root, "Generated/LibraryDesk.fbx", TinyTreats);
-            RoomKit.Place(root, Furniture + "rug_oval_A.fbx", KayKit, new Vector3(0f, 0.002f, 0.2f), 0f, RugScale);
+            RoomKit.PlaceRug(root, Furniture + "rug_oval_A.fbx", KayKit, new Vector3(0f, 0.002f, 0.2f), RugScale);
 
             // A tall decorated bookcase along the right wall, an armchair and standing lamp in the left corner.
             RoomKit.Solid(RoomKit.FlushSideWall(

@@ -99,7 +99,7 @@ namespace Game.World
                 prop.gameObject.SetActive(false); // gone in the burst
                 return;
             }
-            if (mode == BreakMode.Shatter)
+            if (BreakRule.HasPieces(mode))
             {
                 debris?.Spawn(prop.Kind, prop.Variant, prop.Body.position, prop.Body.rotation,
                     prop.Body.linearVelocity, prop.Body.angularVelocity);

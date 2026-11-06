@@ -90,15 +90,19 @@ namespace Game.World
                 events.RaisePropImpact(Kind, collision.GetContact(0).point, speed);
             bool touchedFloor = BreakMode != BreakMode.None && collision.collider.TryGetComponent(out FloorSurface _);
             if (touchedFloor) HasTouchedFloor = true;
-            if (BreakRule.ShouldBreak(BreakMode, IsBroken, touchedFloor)) Break(BreakMode, raiseEvent: true);
+            if (!BreakRule.ShouldBreak(BreakMode, IsBroken, touchedFloor)) return;
+            // A splash leaves its splat where the food landed, which may be a counter top rather than the floor.
+            Break(BreakMode, raiseEvent: true, BreakMode == BreakMode.Splash ? collision.GetContact(0).point : Body.position);
         }
 
-        private void Break(BreakMode mode, bool raiseEvent)
+        private void Break(BreakMode mode, bool raiseEvent) => Break(mode, raiseEvent, Body.position);
+
+        private void Break(BreakMode mode, bool raiseEvent, Vector3 at)
         {
             IsBroken = true;
             // A prop can reach the floor in the same step it would have been marked cleared: count it exactly once.
             if (!IsCleared) LatchCleared();
-            if (raiseEvent) events?.RaiseBroke(Kind, Body.position, mode);
+            if (raiseEvent) events?.RaiseBroke(Kind, at, mode);
             Broken?.Invoke(this, mode);
         }
 

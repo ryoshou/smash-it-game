@@ -17,6 +17,19 @@ namespace Game.Tests
             Assert.IsTrue(BreakRule.ShouldBreak(BreakMode.Pop, isBroken: false, touchedFloor: true));
 
         [Test]
+        public void ShouldBreak_Splash_OnFloor() =>
+            Assert.IsTrue(BreakRule.ShouldBreak(BreakMode.Splash, isBroken: false, touchedFloor: true));
+
+        /// <summary>Shatter and Splash swap the prop for its pre-cut pieces; the rest never use a debris set.</summary>
+        [TestCase(BreakMode.None, false)]
+        [TestCase(BreakMode.Pop, false)]
+        [TestCase(BreakMode.Shatter, true)]
+        [TestCase(BreakMode.Burst, false)]
+        [TestCase(BreakMode.Splash, true)]
+        public void HasPieces_ShatterAndSplash_Only(BreakMode mode, bool expected) =>
+            Assert.AreEqual(expected, BreakRule.HasPieces(mode));
+
+        [Test]
         public void ShouldBreak_None_False() =>
             Assert.IsFalse(BreakRule.ShouldBreak(BreakMode.None, isBroken: false, touchedFloor: true));
 

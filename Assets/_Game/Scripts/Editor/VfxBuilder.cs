@@ -10,7 +10,8 @@ namespace Game.Editor
 {
     /// <summary>
     /// Writes the break and win effects (dust puff, shard sparkle, confetti) and fills PropFeelLibrary's effect per
-    /// kind: pops puff, shatters sparkle. Colours come from the Tiny Treats atlas palette. Safe to re-run.
+    /// kind: pops puff, shatters sparkle, food splashes in its own colour (Kitchen spec §6). Colours come from the
+    /// Tiny Treats atlas palette. Safe to re-run.
     /// </summary>
     public static class VfxBuilder
     {
@@ -18,6 +19,10 @@ namespace Game.Editor
         public const string LibraryPath = PrototypeAssetBuilder.ConfigFolder + "/PropFeelLibrary.asset";
         private const string ParticleShader = "Universal Render Pipeline/Particles/Unlit";
         private const float DefaultHitMinSpeed = 0.5f;
+        private const float SplatSeconds = 1.8f;
+        private const float SplatHoldUntil = 0.55f; // of its life, full size; then it shrinks to nothing
+        private const float DefaultSplatSize = 0.35f;
+        private const int SplatTextureSize = 64;
 
         private static readonly Color Cream = new Color(0.98f, 0.92f, 0.86f);
         private static readonly Color Pink = new Color(0.96f, 0.6f, 0.72f);
@@ -47,7 +52,7 @@ namespace Game.Editor
             {
                 // From M4 every new kind breaks with its own effect.
                 [PropKind.Plate] = Save(Burst("ChinaChips", material, 18, 0.45f, new Vector2(0.03f, 0.06f), new Vector2(1.2f, 2.4f), 0.9f, Color.white, Sky)),
-                [PropKind.Donut] = Save(Burst("Sprinkles", material, 22, 0.45f, new Vector2(0.015f, 0.035f), new Vector2(0.8f, 1.8f), 0.7f, Pink, Rose)),
+                [PropKind.Donut] = Save(Splash("DonutSplash", Rose)),
                 [PropKind.MilkBottle] = Save(Burst("MilkSplash", material, 26, 0.5f, new Vector2(0.05f, 0.12f), new Vector2(0.6f, 1.6f), 0.5f, Milk, Cream)),
                 // Wax flecks with a grey wisp: slow, light particles that drift up a little.
                 [PropKind.Candle] = Save(Burst("WaxAndSmoke", material, 18, 0.7f, new Vector2(0.03f, 0.1f), new Vector2(0.3f, 0.9f), -0.05f, Wax, Smoke)),
@@ -92,7 +97,7 @@ namespace Game.Editor
                 {
                     PropKind.PaperCup => paperPuff,
                     PropKind.DeskLamp => sparks,
-                    _ => catalog.Get(kinds[i]).breakMode == BreakMode.Shatter ? sparkle : puff,
+                    _ => BreakRule.HasPieces(catalog.Get(kinds[i]).breakMode) ? sparkle : puff,
                 };
                 feels[i] = feel;
             }
@@ -115,6 +120,32 @@ namespace Game.Editor
             shape.radius = 0.08f;
             FadeAndShrink(system);
             return system;
+        }
+
+        /// <summary>
+        /// A juicy droplet burst in the food's colour plus a child <see cref="PropFeedback.SplatName"/>: one flat
+        /// particle lying where the food landed, full size for a moment, then shrinking away.
+        /// </summary>
+        public static ParticleSystem Splash(string name, Color colour, float splatSize = DefaultSplatSize)
+        {
+            var droplets = Burst(name, ParticleMaterial(), 26, 0.5f, new Vector2(0.025f, 0.06f), new Vector2(1f, 2.2f), 1f,
+                colour, Color.Lerp(colour, Color.white, 0.35f));
+            var splat = NewSystem(PropFeedback.SplatName, SplatMaterial(), 1);
+            splat.transform.SetParent(droplets.transform, false);
+            var main = splat.main;
+            main.startLifetime = SplatSeconds;
+            main.startSpeed = 0f;
+            main.startSize = splatSize;
+            main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+            main.startColor = colour;
+            var shape = splat.shape;
+            shape.enabled = false;
+            var size = splat.sizeOverLifetime;
+            size.enabled = true;
+            size.size = new ParticleSystem.MinMaxCurve(1f, new AnimationCurve(
+                new Keyframe(0f, 1f), new Keyframe(SplatHoldUntil, 1f), new Keyframe(1f, 0f)));
+            splat.GetComponent<ParticleSystemRenderer>().renderMode = ParticleSystemRenderMode.HorizontalBillboard;
+            return droplets;
         }
 
         private static ParticleSystem Confetti(Material material)
@@ -178,6 +209,49 @@ namespace Game.Editor
             material = new Material(Shader.Find(ParticleShader));
             AssetDatabase.CreateAsset(material, path);
             return material;
+        }
+
+        /// <summary>An alpha-clipped particle material whose texture is a generated splat shape (no art file).</summary>
+        private static Material SplatMaterial()
+        {
+            string path = AtlasMaterialBuilder.MaterialsRoot + "/Splat.mat";
+            var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (material == null)
+            {
+                Directory.CreateDirectory(AtlasMaterialBuilder.MaterialsRoot);
+                material = new Material(Shader.Find(ParticleShader));
+                AssetDatabase.CreateAsset(material, path);
+            }
+            material.SetTexture("_BaseMap", SplatTexture());
+            material.SetFloat("_AlphaClip", 1f);
+            material.SetFloat("_Cutoff", 0.5f);
+            material.EnableKeyword("_ALPHATEST_ON");
+            EditorUtility.SetDirty(material);
+            return material;
+        }
+
+        /// <summary>A white blob with a wobbly rim and a few droplets round it; the particle colour tints it.</summary>
+        private static Texture2D SplatTexture()
+        {
+            string path = VfxFolder + "/SplatShape.asset";
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            if (texture != null) return texture;
+            texture = new Texture2D(SplatTextureSize, SplatTextureSize, TextureFormat.RGBA32, false) { name = "SplatShape" };
+            var droplets = new[] { new Vector3(0.8f, 0.25f, 0.07f), new Vector3(0.22f, 0.82f, 0.06f), new Vector3(0.15f, 0.3f, 0.05f) };
+            for (int y = 0; y < SplatTextureSize; y++)
+                for (int x = 0; x < SplatTextureSize; x++)
+                {
+                    var uv = new Vector2((x + 0.5f) / SplatTextureSize, (y + 0.5f) / SplatTextureSize);
+                    var offset = uv - new Vector2(0.5f, 0.5f);
+                    float angle = Mathf.Atan2(offset.y, offset.x);
+                    float rim = 0.3f + 0.04f * Mathf.Sin(angle * 5f) + 0.025f * Mathf.Sin(angle * 9f + 1.3f);
+                    bool inside = offset.magnitude < rim;
+                    foreach (var drop in droplets) inside |= Vector2.Distance(uv, drop) < drop.z;
+                    texture.SetPixel(x, y, inside ? Color.white : new Color(1f, 1f, 1f, 0f));
+                }
+            texture.Apply();
+            AssetDatabase.CreateAsset(texture, path);
+            return texture;
         }
 
         private static ParticleSystem Save(ParticleSystem system)

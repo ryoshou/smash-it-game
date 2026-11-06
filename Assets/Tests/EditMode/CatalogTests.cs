@@ -26,11 +26,11 @@ namespace Game.Tests
         }
 
         [Test]
-        public void ShatterSpecs_HaveBrokenPrefabForEveryVariant()
+        public void PieceSpecs_HaveBrokenPrefabForEveryVariant()
         {
             foreach (var spec in catalog.specs)
             {
-                if (spec.breakMode != BreakMode.Shatter) continue;
+                if (!BreakRule.HasPieces(spec.breakMode)) continue;
                 foreach (var variant in spec.variants)
                     Assert.IsNotNull(variant.brokenPrefab, $"{spec.kind} variant {variant.prefab?.name} has no broken set");
             }
@@ -81,7 +81,7 @@ namespace Game.Tests
         [TestCase(PropKind.PaperCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.DeskLamp, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Plate, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Donut, BreakMode.Pop, PropColliderShape.Box)]
+        [TestCase(PropKind.Donut, BreakMode.Splash, PropColliderShape.Box)]
         [TestCase(PropKind.MilkBottle, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Candle, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Hourglass, BreakMode.Shatter, PropColliderShape.ConvexMesh)]

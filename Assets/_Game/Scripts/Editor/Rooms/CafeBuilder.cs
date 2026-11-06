@@ -39,7 +39,7 @@ namespace Game.Editor
             var root = new GameObject("CafeBackdrop");
             RoomKit.Place(root, "Generated/RoomShell_Cafe.fbx", TinyTreats, Vector3.zero, 0f);
             RoomKit.PlaceDesk(root, "Generated/CafeDesk.fbx", TinyTreats);
-            RoomKit.Place(root, Bakery + "rug.fbx", TinyTreats, new Vector3(0f, 0.002f, 0.2f), 0f, RugScale);
+            RoomKit.PlaceRug(root, Bakery + "rug.fbx", TinyTreats, new Vector3(0f, 0.002f, 0.2f), RugScale);
 
             // The counter (side-on) against the left wall, coffee machine and cookie jar on it.
             var counter = RoomKit.Solid(RoomKit.FlushSideWall(

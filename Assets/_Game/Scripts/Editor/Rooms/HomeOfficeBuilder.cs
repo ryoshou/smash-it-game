@@ -27,7 +27,7 @@ namespace Game.Editor
             var root = new GameObject("HomeOfficeBackdrop");
             RoomKit.Place(root, "Generated/RoomShell.fbx", TinyTreats, Vector3.zero, 0f);
             RoomKit.PlaceDesk(root, "Generated/OfficeDesk.fbx", TinyTreats);
-            RoomKit.Place(root, "Packs/KayKitFurniture/rug_rectangle_stripes_A.fbx", KayKit, new Vector3(0f, 0.002f, 0.2f), 0f);
+            RoomKit.PlaceRug(root, "Packs/KayKitFurniture/rug_rectangle_stripes_A.fbx", KayKit, new Vector3(0f, 0.002f, 0.2f));
 
             // Furniture stands against the walls (the room is only 3.5 m wide), clear of the play desk and shot corridor.
             var table = RoomKit.Solid(RoomKit.AgainstSideWall(

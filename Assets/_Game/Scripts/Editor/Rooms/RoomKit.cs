@@ -19,6 +19,7 @@ namespace Game.Editor
         public const string TinyTreats = "TinyTreats";
         public const float WallInnerX = 1.65f;   // room shell side walls (1.75) minus their thickness
         public const float BackWallZ = 3.4f;     // room shell back wall's inner face
+        public const float RugThickness = 0.01f; // under JuiceConfig.splatLift, so splats show on rugs
         private const float WallGap = 0.05f;
         private const float WallHeight = 3.1f;
 
@@ -28,6 +29,22 @@ namespace Game.Editor
             foreach (var renderer in instance.GetComponentsInChildren<Renderer>())
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             return instance;
+        }
+
+        /// <summary>
+        /// A rug flattened to <see cref="RugThickness"/>: the floor collider is at y 0, so a thick rug would swallow the
+        /// pieces and splats that land on it (Kitchen spec §6).
+        /// </summary>
+        public static GameObject PlaceRug(GameObject root, string model, string atlas, Vector3 position, float scale = 1f)
+        {
+            var rug = Place(root, model, atlas, position, 0f, scale);
+            float height = ArtMeshStats.ModelBounds(rug).size.y;
+            if (height > RugThickness)
+            {
+                var size = rug.transform.localScale;
+                rug.transform.localScale = new Vector3(size.x, size.y * RugThickness / height, size.z);
+            }
+            return rug;
         }
 
         /// <summary>

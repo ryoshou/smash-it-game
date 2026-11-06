@@ -35,7 +35,7 @@ namespace Game.World
 
         public int Capacity => budget.Capacity;
 
-        /// <summary>Makes sure there are enough sets for every shattering prop in the level (capped by the budget).</summary>
+        /// <summary>Makes sure there are enough sets for every shattering or splashing prop in the level (capped by the budget).</summary>
         public void Prewarm(PropCatalog catalog, LevelDef level, ShotTuning t)
         {
             DespawnAll();
@@ -50,7 +50,7 @@ namespace Game.World
             foreach (var placement in level.props)
             {
                 var spec = catalog.Get(placement.kind);
-                if (spec.breakMode != BreakMode.Shatter) continue;
+                if (!BreakRule.HasPieces(spec.breakMode)) continue;
                 int key = Key(placement.kind, spec.VariantIndex(placement.variant));
                 needed[key] = needed.TryGetValue(key, out int n) ? n + 1 : 1;
                 if (!sets.ContainsKey(key)) sets[key] = new List<Set>();

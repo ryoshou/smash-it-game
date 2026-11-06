@@ -14,5 +14,8 @@ namespace Game.Core
 
         /// <summary>Bursts with a push when knocked over (the fizzy soda, FizzFuse); the floor alone never breaks it.</summary>
         Burst,
+
+        /// <summary>Bursts into its pieces with a splash in its own colour; a flat splat shrinks away (food).</summary>
+        Splash,
     }
 }

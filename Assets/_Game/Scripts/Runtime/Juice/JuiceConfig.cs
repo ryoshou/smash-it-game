@@ -46,6 +46,10 @@ namespace Game.Juice
         [Header("Break effects")]
         [Tooltip("Pooled copies of each break effect.")]
         [Min(1)] public int vfxPerKind = 3;
+        [Tooltip("Pooled copies of each splash effect (Kitchen spec §6): its splat lingers, and feasts land many at once.")]
+        [Min(1)] public int splashVfxPerKind = 8;
+        [Tooltip("Metres above the contact point a splat lies: clear of the floor and of the rugs on it (RoomKit.RugThickness).")]
+        [Min(0f)] public float splatLift = 0.015f;
 
         [Header("Slingshot view")]
         [Tooltip("World metres the pouch moves per screen height of pull.")]

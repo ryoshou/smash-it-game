@@ -36,7 +36,7 @@ namespace Game.Editor
             RoomKit.Place(root, "Generated/RoomShell_Den.fbx", TinyTreats, Vector3.zero, 0f);
             RoomKit.PlaceDesk(root, "Generated/DenDesk.fbx", TinyTreats);
 
-            RoomKit.Place(root, Furniture + "rug_rectangle_B.fbx", KayKit, new Vector3(0f, 0.002f, 0.2f), 0f, RugScale);
+            RoomKit.PlaceRug(root, Furniture + "rug_rectangle_B.fbx", KayKit, new Vector3(0f, 0.002f, 0.2f), RugScale);
             // The gaming armchair in the right corner, turned to the room; a low table against the back wall.
             RoomKit.Solid(RoomKit.FlushSideWall(
                 RoomKit.Place(root, Furniture + "armchair_pillows.fbx", KayKit, Vector3.zero, -135f, CouchScale), 1f, 2.75f));

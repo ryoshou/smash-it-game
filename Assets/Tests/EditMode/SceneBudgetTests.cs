@@ -96,6 +96,31 @@ namespace Game.Tests
             }
         }
 
+        /// <summary>
+        /// Kitchen spec §6: a splat lies just above the floor collider (y 0), so a rug over it must be thinner than the
+        /// splat's lift or it hides the splat.
+        /// </summary>
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        public void EveryRoomBackdrop_RugLiesUnderTheSplat(int room)
+        {
+            var theme = AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room));
+            float lift = AssetDatabase.LoadAssetAtPath<Game.Juice.JuiceConfig>("Assets/_Game/Config/JuiceConfig.asset").splatLift;
+            var instance = Object.Instantiate(theme.backdropPrefab);
+            try
+            {
+                foreach (var renderer in instance.GetComponentsInChildren<Renderer>())
+                    if (renderer.name.StartsWith("rug"))
+                        Assert.Less(renderer.bounds.max.y, lift, $"room {room}: {renderer.name} hides splats");
+            }
+            finally
+            {
+                Object.DestroyImmediate(instance);
+            }
+        }
+
         private static int PrefabTriangles(GameObject prefab)
         {
             int triangles = 0;
