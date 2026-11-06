@@ -84,6 +84,14 @@ namespace Game.Tests
         [TestCase("Packs/KayKitHalloween/candle.fbx", 0.301f, 0.786f, 0.296f)]
         [TestCase("Packs/KayKitHalloween/candle_thin.fbx", 0.174f, 0.786f, 0.171f)]
         [TestCase("Packs/KayKitBoardGame/hourglass.fbx", 1f, 2.5f, 1f)]
+        [TestCase("Packs/TinyTreats/countertop_sink.fbx", 2.0f, 1.758f, 1.501f)]
+        [TestCase("Packs/TinyTreats/countertop_single.fbx", 1.0f, 1.0f, 1.501f)]
+        [TestCase("Packs/TinyTreats/stove.fbx", 2.0f, 1.3f, 1.676f)]
+        [TestCase("Packs/TinyTreats/fridge.fbx", 2.04f, 3.0f, 1.616f)]
+        [TestCase("Packs/TinyTreats/kettle.fbx", 0.813f, 0.595f, 0.6f)]
+        [TestCase("Packs/TinyTreats/toaster.fbx", 0.916f, 0.6f, 0.5f)]
+        [TestCase("Packs/TinyTreats/blinds_kitchen.fbx", 1.6f, 1.95f, 0.3f)]
+        [TestCase("Packs/TinyTreats/dishrack_plates.fbx", 0.75f, 0.784f, 0.8f)]
         public void PackProp_ImportsUpright(string model, float x, float y, float z)
         {
             AssertSize(new Vector3(x, y, z), Measure(model).boundsSize, 0.01f);
@@ -93,6 +101,7 @@ namespace Game.Tests
         [TestCase("CafeDesk")]
         [TestCase("LibraryDesk")]
         [TestCase("DenDesk")]
+        [TestCase("KitchenDesk")]
         public void GeneratedDesk_IsTwoByOneAndAHalf_OneMetreTall(string model)
         {
             AssertSize(new Vector3(2.0f, 1.0f, 1.5f), Measure($"Generated/{model}.fbx").boundsSize, 0.01f);
@@ -176,6 +185,7 @@ namespace Game.Tests
         [TestCase("RoomShell_Cafe")]
         [TestCase("RoomShell_Library")]
         [TestCase("RoomShell_Den")]
+        [TestCase("RoomShell_Kitchen")]
         public void GeneratedRoomShell_EnclosesTheDesk(string model)
         {
             // Owner, checkpoint 2: it should feel like being inside a room. The portrait camera only sees about

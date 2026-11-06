@@ -52,3 +52,12 @@ KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/pictureframe_large_B.fbx	KayKi
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/table_low.fbx	KayKitFurniture/table_low.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/shelf_A_small.fbx	KayKitFurniture/shelf_A_small.fbx
 KayKit_Furniture_Bits_1.0_FREE/Assets/fbx (unity)/rug_rectangle_B.fbx	KayKitFurniture/rug_rectangle_B.fbx
+# Kitchen backdrop (Kitchen spec §7); same atlas as the other Tiny Treats packs
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/countertop_sink.fbx	TinyTreats/countertop_sink.fbx
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/countertop_single.fbx	TinyTreats/countertop_single.fbx
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/stove.fbx	TinyTreats/stove.fbx
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/fridge.fbx	TinyTreats/fridge.fbx
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/kettle.fbx	TinyTreats/kettle.fbx
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/toaster.fbx	TinyTreats/toaster.fbx
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/blinds_kitchen.fbx	TinyTreats/blinds_kitchen.fbx
+Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/dishrack_plates.fbx	TinyTreats/dishrack_plates.fbx

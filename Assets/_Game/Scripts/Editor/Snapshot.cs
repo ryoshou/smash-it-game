@@ -22,7 +22,7 @@ namespace Game.Editor
         private const float ShardSpread = 0.18f;
 
         /// <summary>Command line: -snapshotOut path.png [-snapshotLevel n] [-snapshotBreak] [-snapshotCatPose Take:seconds]
-        /// [-snapshotScreen home|pause] [-snapshotRoom n] (n: show the level in room n's backdrop instead of its own).</summary>
+        /// [-snapshotScreen home|pause] [-snapshotRoom n] [-snapshotTheme path] (show the level in room n's backdrop, or that RoomTheme's, instead of its own).</summary>
         public static void FromCommandLine()
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -30,7 +30,8 @@ namespace Game.Editor
             int level = int.TryParse(Arg(args, "-snapshotLevel"), out int n) ? n : 0;
             bool stageBreak = Array.IndexOf(args, "-snapshotBreak") >= 0;
             int room = int.TryParse(Arg(args, "-snapshotRoom"), out int r) ? r : 0;
-            Capture(output, level, null, stageBreak, Arg(args, "-snapshotCatPose"), Arg(args, "-snapshotScreen"), room);
+            string theme = Arg(args, "-snapshotTheme") ?? (room > 0 ? GameLevelListBuilder.ThemePath(room) : null);
+            Capture(output, level, null, stageBreak, Arg(args, "-snapshotCatPose"), Arg(args, "-snapshotScreen"), theme);
         }
 
         public static void Capture(string output, int levelIndex, bool stageBreak, string catPose = null, string screen = null) =>
@@ -40,7 +41,7 @@ namespace Game.Editor
         public static void Capture(string output, LevelDef layout) => Capture(output, 0, layout, false, null, null);
 
         private static void Capture(string output, int levelIndex, LevelDef layout, bool stageBreak, string catPose, string screen,
-            int roomOverride = 0)
+            string themeOverride = null)
         {
             // Opening the scene destroys an unsaved level, so carry it across as JSON.
             string layoutJson = layout != null ? JsonUtility.ToJson(layout) : null;
@@ -55,9 +56,7 @@ namespace Game.Editor
             var levels = (LevelList)so.FindProperty("levels").objectReferenceValue;
             var catalog = (PropCatalog)so.FindProperty("catalog").objectReferenceValue;
             var level = layout != null ? layout : levels.At(levelIndex);
-            ApplyRoom(roomOverride > 0
-                ? AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(roomOverride))
-                : level.room);
+            ApplyRoom(themeOverride != null ? AssetDatabase.LoadAssetAtPath<RoomTheme>(themeOverride) : level.room);
             PlaceProps(level, catalog);
             if (stageBreak) StageBreak(catalog);
             if (catPose != null) PoseCat(catPose);

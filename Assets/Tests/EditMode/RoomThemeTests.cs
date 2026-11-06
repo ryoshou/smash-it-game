@@ -28,6 +28,25 @@ namespace Game.Tests
             Assert.AreEqual(1f, theme.background.a, 0.001f);
         }
 
+        /// <summary>Kitchen spec §7: its own backdrop, a fifth music track no other room plays, and its own colour.</summary>
+        [Test]
+        public void KitchenTheme_HasBackdropMusicAndBackground()
+        {
+            var kitchen = AssetDatabase.LoadAssetAtPath<RoomTheme>(KitchenBuilder.ThemePath);
+
+            Assert.IsNotNull(kitchen, KitchenBuilder.ThemePath);
+            Assert.AreEqual("KitchenBackdrop", kitchen.backdropPrefab.name);
+            Assert.AreEqual(AssetDatabase.LoadAssetAtPath<AudioClip>(KitchenAudioTests.KitchenMusic), kitchen.music);
+            Assert.AreEqual(1f, kitchen.background.a, 0.001f);
+            foreach (string path in AssetDatabase.FindAssets("t:RoomTheme"))
+            {
+                var other = AssetDatabase.LoadAssetAtPath<RoomTheme>(AssetDatabase.GUIDToAssetPath(path));
+                if (other == kitchen) continue;
+                Assert.AreNotEqual(kitchen.music, other.music, $"{other.name} plays the Kitchen's music");
+                Assert.AreNotEqual(kitchen.background, other.background, $"{other.name} has the Kitchen's background");
+            }
+        }
+
         [Test]
         public void EveryRoom_HasItsOwnMusicAndBackground()
         {

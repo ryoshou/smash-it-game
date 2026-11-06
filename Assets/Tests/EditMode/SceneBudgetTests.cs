@@ -29,15 +29,11 @@ namespace Game.Tests
         [Test]
         public void SceneBudget_EveryGameLevel()
         {
-            scene = EditorSceneManager.OpenScene(PrototypeSceneBuilder.ScenePath, OpenSceneMode.Additive);
+            int sceneTriangles = SceneTriangles();
             var bootstrap = new SerializedObject(Object.FindAnyObjectByType<GameBootstrap>());
             var levels = (LevelList)bootstrap.FindProperty("levels").objectReferenceValue;
             var catalog = (PropCatalog)bootstrap.FindProperty("catalog").objectReferenceValue;
             Assert.AreEqual("GameLevelList", levels.name, "the scene should play the game list");
-            int sceneTriangles = 0;
-            foreach (var go in scene.GetRootGameObjects())
-                foreach (var renderer in go.GetComponentsInChildren<Renderer>(true))
-                    sceneTriangles += Triangles(renderer); // includes the back desk, shown or not
             var backdrops = new Dictionary<RoomTheme, int>();
 
             for (int i = 0; i < levels.Count; i++)
@@ -71,17 +67,33 @@ namespace Game.Tests
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]
-        public void EveryRoomBackdrop_HasItsDeskAtTheOrigin(int room)
+        public void EveryRoomBackdrop_HasItsDeskAtTheOrigin(int room) =>
+            AssertDeskAtTheOrigin(AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room)), $"room {room}");
+
+        [Test]
+        public void KitchenBackdrop_HasItsDeskAtTheOrigin() =>
+            AssertDeskAtTheOrigin(AssetDatabase.LoadAssetAtPath<RoomTheme>(KitchenBuilder.ThemePath), "the Kitchen");
+
+        /// <summary>Kitchen spec §2: feasts hold up to 40 props, so the room leaves them 40k of the 100k budget.</summary>
+        [Test]
+        public void KitchenBackdrop_UnderTriangleBudget()
         {
-            var theme = AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room));
-            Assert.IsNotNull(theme, $"room {room} has no theme");
+            const int KitchenRoomBudget = 60000;
+            int room = PrefabTriangles(AssetDatabase.LoadAssetAtPath<RoomTheme>(KitchenBuilder.ThemePath).backdropPrefab);
+
+            Assert.LessOrEqual(SceneTriangles() + room, KitchenRoomBudget);
+        }
+
+        private static void AssertDeskAtTheOrigin(RoomTheme theme, string room)
+        {
+            Assert.IsNotNull(theme, $"{room} has no theme");
             var look = theme.backdropPrefab.transform.Find(RoomKit.DeskLookName);
-            Assert.IsNotNull(look, $"room {room}'s backdrop has no {RoomKit.DeskLookName}");
+            Assert.IsNotNull(look, $"{room}'s backdrop has no {RoomKit.DeskLookName}");
             var instance = Object.Instantiate(look.gameObject);
             try
             {
                 var renderers = instance.GetComponentsInChildren<Renderer>();
-                Assert.IsNotEmpty(renderers);
+                Assert.IsNotEmpty(renderers, room);
                 var bounds = renderers[0].bounds;
                 foreach (var r in renderers) bounds.Encapsulate(r.bounds);
                 Assert.AreEqual(LevelSpawner.DeskTopY, bounds.max.y, 0.01f, "desk top height");
@@ -119,6 +131,17 @@ namespace Game.Tests
             {
                 Object.DestroyImmediate(instance);
             }
+        }
+
+        /// <summary>Opens the game scene and counts its own triangles (includes the back desk, shown or not).</summary>
+        private int SceneTriangles()
+        {
+            scene = EditorSceneManager.OpenScene(PrototypeSceneBuilder.ScenePath, OpenSceneMode.Additive);
+            int triangles = 0;
+            foreach (var go in scene.GetRootGameObjects())
+                foreach (var renderer in go.GetComponentsInChildren<Renderer>(true))
+                    triangles += Triangles(renderer);
+            return triangles;
         }
 
         private static int PrefabTriangles(GameObject prefab)

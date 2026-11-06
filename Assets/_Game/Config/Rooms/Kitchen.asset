@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3581bb1101c4ef2b10ac84839416ee, type: 3}
+  m_Name: Kitchen
+  m_EditorClassIdentifier: Game.Runtime::Game.Levels.RoomTheme
+  backdropPrefab: {fileID: 7638505340421197913, guid: bdd5d7385ad4a496398f00ce077ebb2a, type: 3}
+  music: {fileID: 8300000, guid: 199044bd15cc24e1e94485e4b11e41a8, type: 3}
+  background: {r: 0.82, g: 0.95, b: 0.9, a: 1}

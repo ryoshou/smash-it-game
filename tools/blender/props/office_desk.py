@@ -26,6 +26,7 @@ STYLES = {
     "CafeDesk": ("butter", "cream", None, None),
     "LibraryDesk": ("brown", "brown", "pine", None),
     "DenDesk": ("charcoal", "gray_dark", None, "periwinkle"),
+    "KitchenDesk": ("tan", "white", None, None),  # farmhouse table: oak top, painted legs
 }
 
 
