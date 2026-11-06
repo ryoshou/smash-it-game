@@ -54,6 +54,8 @@ namespace Game.Core
         public float debrisFadeSeconds = 0.6f;
         [Tooltip("Most shattered sets on screen at once; the oldest is recycled first. Lower on weak devices.")]
         public int maxDebrisSets = 6;
+        [Tooltip("Most shattered sets on screen at once on a Feast level (Kitchen spec §4), where far more props land.")]
+        public int feastDebrisSets = 12;
         [Tooltip("Outward impulse (N·s) on each piece when a prop shatters.")]
         public float breakScatterImpulse = 0.6f;
         [Tooltip("Relative speed (m/s) below which prop collisions raise no impact event.")]

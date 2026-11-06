@@ -27,6 +27,35 @@ namespace Game.Tests
         }
 
         [Test]
+        public void ShotTuning_FeastDebrisSets_Is12()
+        {
+            var tuning = ShotTuning.CreateDefault();
+            try
+            {
+                Assert.AreEqual(12, tuning.feastDebrisSets);
+            }
+            finally
+            {
+                Object.DestroyImmediate(tuning);
+            }
+        }
+
+        /// <summary>Frozen feel: feasts get their own cap, every other level keeps the approved six.</summary>
+        [Test]
+        public void ShotTuning_MaxDebrisSets_StillSix()
+        {
+            var tuning = ShotTuning.CreateDefault();
+            try
+            {
+                Assert.AreEqual(6, tuning.maxDebrisSets);
+            }
+            finally
+            {
+                Object.DestroyImmediate(tuning);
+            }
+        }
+
+        [Test]
         public void ShotTuning_Clone_CopiesEveryValue()
         {
             var tuning = ShotTuning.CreateDefault();

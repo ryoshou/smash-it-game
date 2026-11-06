@@ -6,8 +6,8 @@ using UnityEngine;
 namespace Game.World
 {
     /// <summary>
-    /// Pre-fractured sets, instantiated only in <see cref="Prewarm"/>. At most ShotTuning.maxDebrisSets are active;
-    /// beyond that the oldest set is recycled. Each set fades away and returns itself.
+    /// Pre-fractured sets, instantiated only in <see cref="Prewarm"/>. At most ShotTuning.maxDebrisSets are active
+    /// (feastDebrisSets on a Feast level); beyond that the oldest set is recycled. Each set fades away and returns itself.
     /// </summary>
     public sealed class DebrisPool : MonoBehaviour
     {
@@ -33,14 +33,17 @@ namespace Game.World
 
         public int ActiveSets => budget.Active;
 
+        public int Capacity => budget.Capacity;
+
         /// <summary>Makes sure there are enough sets for every shattering prop in the level (capped by the budget).</summary>
         public void Prewarm(PropCatalog catalog, LevelDef level, ShotTuning t)
         {
             DespawnAll();
             tuning = t;
-            if (budget.Capacity != Mathf.Max(1, t.maxDebrisSets))
+            int capacity = level.difficulty == Difficulty.Feast ? t.feastDebrisSets : t.maxDebrisSets;
+            if (budget.Capacity != Mathf.Max(1, capacity))
             {
-                budget = new DebrisBudget(t.maxDebrisSets);
+                budget = new DebrisBudget(capacity);
                 slots = new Set[budget.Capacity];
             }
             var needed = new Dictionary<int, int>();

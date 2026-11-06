@@ -11,6 +11,7 @@ namespace Game.Meta
         public string shotsFormat = "Shots: {0}";
         public string levelFormat = "Level {0}";
         public string levelHardFormat = "Level {0} · Hard";
+        public string levelFeastFormat = "Level {0} · Feast!";
         public string playFormat = "Play · Level {0}";
         public string removeAdsFormat = "Remove Ads {0}";
         public string revealFormat = "New thing to knock over: {0}!";

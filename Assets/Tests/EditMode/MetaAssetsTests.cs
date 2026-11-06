@@ -63,7 +63,7 @@ namespace Game.Tests
                 StringAssert.Contains("{0}", format, field.Name);
                 Assert.DoesNotThrow(() => string.Format(format, "x"), field.Name);
             }
-            Assert.AreEqual(7, formats);
+            Assert.AreEqual(8, formats);
         }
 
         [Test]

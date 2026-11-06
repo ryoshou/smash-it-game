@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-    /// <summary>Shot counter, level number (labelled when Hard, spec §6.1) and the pause button.</summary>
+    /// <summary>Shot counter, level number (labelled when Hard or a Feast, spec §6.1) and the pause button.</summary>
     public sealed class Hud : MonoBehaviour
     {
         [SerializeField] private Text shotsText;
@@ -28,6 +28,13 @@ namespace Game.UI
         public void SetShots(int shots) => shotsText.text = string.Format(strings.shotsFormat, shots);
 
         public void SetLevel(int levelNumber, Difficulty difficulty) =>
-            levelText.text = string.Format(difficulty == Difficulty.Hard ? strings.levelHardFormat : strings.levelFormat, levelNumber);
+            levelText.text = string.Format(LevelFormat(difficulty), levelNumber);
+
+        private string LevelFormat(Difficulty difficulty)
+        {
+            if (difficulty == Difficulty.Hard) return strings.levelHardFormat;
+            if (difficulty == Difficulty.Feast) return strings.levelFeastFormat;
+            return strings.levelFormat;
+        }
     }
 }

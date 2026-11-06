@@ -19,6 +19,19 @@ namespace Game.Tests
             Assert.AreEqual(max, band.Max, 1e-6f);
         }
 
+        /// <summary>Kitchen spec §4: feasts are a reward, checked against the easy band wherever they sit.</summary>
+        [TestCase(27)]
+        [TestCase(50)]
+        [TestCase(5)]
+        public void Feast_UsesTheFeastBand_AtAnyLevel(int levelNumber)
+        {
+            var band = ClearRateBand.For(Difficulty.Feast, levelNumber);
+
+            Assert.AreEqual("feast", band.Name);
+            Assert.AreEqual(0.60f, band.Min, 1e-6f);
+            Assert.AreEqual(1.00f, band.Max, 1e-6f);
+        }
+
         [Test]
         public void Band_Accepts_IsInclusive()
         {
