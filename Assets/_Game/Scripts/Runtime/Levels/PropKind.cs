@@ -12,15 +12,15 @@ namespace Game.Levels
         CactusPot,
         PaperCup,
         DeskLamp,
-        // M4a, Café (levels 26–50)
+        // M4a, Café (levels 51–75)
         Plate,
         Donut,
         MilkBottle,
-        // M4a, Library (levels 51–75)
+        // M4a, Library (levels 76–100)
         Candle,
         Hourglass,
         PencilCup,
-        // M4a, Gaming Den (levels 76–100)
+        // M4a, Gaming Den (levels 101–125)
         SodaCan,
         GameController,
         FizzySoda,

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Editor
 {
     /// <summary>
-    /// Room 2 (Café, levels 26–50): the butter-walled shell, the pale café desk, and Tiny Treats Bakery decor against
+    /// Room 3 (Café, levels 51–75): the butter-walled shell, the pale café desk, and Tiny Treats Bakery decor against
     /// the walls, all static and clear of the play desk and the shot corridor. Writes the backdrop prefab and theme.
     /// </summary>
     public static class CafeBuilder

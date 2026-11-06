@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Editor
 {
     /// <summary>
-    /// Room 3 (Library, levels 51–75): the sage shell, the walnut desk with its green inlay, bookshelves, a reading
+    /// Room 4 (Library, levels 76–100): the sage shell, the walnut desk with its green inlay, bookshelves, a reading
     /// armchair and lamp, candles, under a dim warm light. All static, clear of the desks and the shot corridor.
     /// </summary>
     public static class LibraryBuilder

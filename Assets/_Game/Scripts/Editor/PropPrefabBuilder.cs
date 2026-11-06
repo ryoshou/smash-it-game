@@ -132,7 +132,7 @@ namespace Game.Editor
             foreach (var source in KitchenPropSources.All()) yield return source;
         }
 
-        /// <summary>Room 2 new kinds (spec §6.1): a thin plate that shatters, a featherweight ring, a top-heavy bottle.</summary>
+        /// <summary>Café (Room 3) new kinds (spec §6.1): a thin plate that shatters, a featherweight ring, a top-heavy bottle.</summary>
         private static IEnumerable<Source> CafeSources()
         {
             yield return new Source
@@ -159,7 +159,7 @@ namespace Game.Editor
             };
         }
 
-        /// <summary>Room 3 new kinds: a tall candle that topples, a heavy glass hourglass, a pencil cup.</summary>
+        /// <summary>Library (Room 4) new kinds: a tall candle that topples, a heavy glass hourglass, a pencil cup.</summary>
         private static IEnumerable<Source> LibrarySources()
         {
             yield return new Source
@@ -183,7 +183,7 @@ namespace Game.Editor
             };
         }
 
-        /// <summary>Room 4 new kinds: a light can that flies and stacks, a flat controller that slides.</summary>
+        /// <summary>Gaming Den (Room 5) new kinds: a light can that flies and stacks, a flat controller that slides.</summary>
         private static IEnumerable<Source> DenSources()
         {
             yield return new Source

@@ -1,9 +1,10 @@
 # smash-it-game — portrait mobile physics game (cat + slingshot knocks things off a desk), Unity 6000.6 (3D URP)
 
 ## Goal right now
-M4a "Rooms 2–4" per `docs/superpowers/plans/2026-11-04-m4a-rooms-2-4.md` → owner content check (100 levels in 4 rooms:
-Home Office, Café, Library, Gaming Den; 9 new kinds incl. the fizzy soda; all bot-verified). Next is M4b (MAX, IAP,
-consent/ATT, Firebase, release build) and the final cat (checkpoint 4). Approved feel is frozen: don't change existing
+Kitchen room per `docs/superpowers/plans/2026-11-06-kitchen-room.md` → owner content check (125 levels in 5 rooms:
+Home Office 1–25, Kitchen 26–50, Café 51–75, Library 76–100, Gaming Den 101–125; the Kitchen's 14 true-to-size kinds,
+8 Feast levels, food that splashes). Next is M4b (MAX, IAP, consent/ATT, Firebase, release build) and the final cat
+(checkpoint 4). Approved feel is frozen: don't change existing
 ShotTuning defaults, keycap colliders/masses, camera, pouch, ball physics, Room 1 layouts or the back desk's position.
 On two-desk levels keep tall heavy props outside the back desk's span (x ±0.6). iOS builds only.
 

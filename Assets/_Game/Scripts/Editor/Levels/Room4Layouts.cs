@@ -6,113 +6,105 @@ using static Game.Editor.LayoutKit;
 namespace Game.Editor
 {
     /// <summary>
-    /// Room 4 (Gaming Den) layouts, levels 76–87: the soda can arrives at 76 and the game controller at 86. Every prop
-    /// is a target (owner, checkpoint 2); every 5th level is Hard.
+    /// Room 4 (Library) layouts, levels 76–87: the candle arrives at 76 and the hourglass at 86. Every prop is a target
+    /// (owner, checkpoint 2); every 5th level is Hard. Heavy books sit near the back edge, about one per shot.
     /// </summary>
     internal static partial class Room4Layouts
     {
-        private const float CanPitch = 0.2f;
         private static readonly float[] Thirds = { -0.6f, 0f, 0.6f };
 
-        internal static PropPlacement Can(float x, float y, float z, int i) => Prop(PropKind.SodaCan, x, y, z, i % 3);
+        /// <summary>A candle, alternating thick and thin, standing on whatever is below.</summary>
+        internal static PropPlacement Candle(float x, float y, float z, int i) => Prop(PropKind.Candle, x, y, z, i % 2);
 
-        /// <summary>A can pyramid, rows of count, count-1, ... 1, centred on x.</summary>
-        internal static IEnumerable<PropPlacement> CanPyramid(int count, float x, float z, float y0 = 0f)
-        {
-            for (int row = 0; row < count; row++)
-                for (int i = 0; i < count - row; i++)
-                    yield return Can(x + (i - (count - 1 - row) / 2f) * CanPitch, y0 + row * SodaCan, z, i + row);
-        }
+        /// <summary>New: the candle. A row of tall candles near the back edge.</summary>
+        public static PropPlacement[] CandleRow() =>
+            Enumerable.Range(0, 7).Select(i => Candle(-0.75f + i * 0.25f, 0f, 0.45f, i)).ToArray();
 
-        internal static IEnumerable<PropPlacement> CanTower(int count, float x, float z, float y0 = 0f) =>
-            Enumerable.Range(0, count).Select(i => Can(x, y0 + i * SodaCan, z, i));
-
-        /// <summary>New: the soda can. A 4-3-2-1 can pyramid near the back edge.</summary>
-        public static PropPlacement[] CanPyramid() => CanPyramid(4, 0f, 0.45f).ToArray();
-
-        /// <summary>Two tall stacked can towers.</summary>
-        public static PropPlacement[] CanTowers() => CanTower(4, -0.3f, 0.45f).Concat(CanTower(4, 0.3f, 0.45f)).ToArray();
-
-        /// <summary>Cans standing on top of two keycap walls.</summary>
-        public static PropPlacement[] CansOnWalls() =>
-            new[] { -0.5f, 0.5f }.SelectMany(x =>
-                    Wall(4, 2, x, 0.4f).Append(Can(x - 0.12f, 2f * Keycap, 0.4f, 0)).Append(Can(x + 0.12f, 2f * Keycap, 0.4f, 1)))
-                .ToArray();
-
-        /// <summary>Can pyramids on both desks.</summary>
-        public static PropPlacement[] PyramidsTwoDesks() =>
-            CanPyramid(3, 0f, 0.1f).Select(OnBack).Concat(CanPyramid(3, 0f, 0.45f)).ToArray();
-
-        /// <summary>Three desk lamps shield two can pyramids at the back, few shots (Hard).</summary>
-        public static PropPlacement[] LampShieldCans() =>
-            new[] { -0.55f, 0f, 0.55f }.Select(x => Prop(PropKind.DeskLamp, x, 0f, -0.1f))
-                .Concat(CanPyramid(3, -0.5f, 0.5f)).Concat(CanPyramid(3, 0.5f, 0.5f))
-                .ToArray();
-
-        /// <summary>The keyboard: a wide, low block of keycaps, two walls deep.</summary>
-        public static PropPlacement[] Keyboard() => Wall(8, 2, 0f, 0.3f).Concat(Wall(8, 2, 0f, 0.45f)).ToArray();
-
-        /// <summary>The snack desk: cans, paper cups and donut stacks.</summary>
-        public static PropPlacement[] SnackDesk() => new[]
-            {
-                Can(-0.75f, 0f, 0.45f, 0),
-                Can(-0.75f, SodaCan, 0.45f, 1),
-                Prop(PropKind.PaperCup, -0.35f, 0f, 0.45f),
-                Can(0.33f, 0f, 0.45f, 2),
-                Prop(PropKind.PaperCup, 0.75f, 0f, 0.45f),
-                Can(-0.2f, 0f, 0.05f, 1),
-            }
-            .Concat(DonutStack(2, 0.05f, 0.45f))
-            .Concat(DonutStack(2, 0.45f, 0.05f))
-            .ToArray();
-
-        /// <summary>A keycap wall on the back desk, cans in front.</summary>
-        public static PropPlacement[] BackWallFrontCans() =>
-            Wall(5, 2, 0f, 0.1f).Select(OnBack)
-                .Concat(new[] { -0.6f, 0f, 0.6f }.Select((x, i) => Can(x, 0f, 0.45f, i)))
-                .Concat(CanTower(2, -0.3f, 0.1f)).Concat(CanTower(2, 0.3f, 0.1f))
-                .ToArray();
-
-        /// <summary>Two spacebar decks on keycap legs, two cans on each.</summary>
-        public static PropPlacement[] CanBridges() =>
-            new[] { -0.42f, 0.42f }.SelectMany(x => DeckOnLegs(x, 0.3f)
-                    .Append(Can(x - 0.15f, 2f * Keycap, 0.3f, 0)).Append(Can(x + 0.15f, 2f * Keycap, 0.3f, 1)))
-                .ToArray();
-
-        /// <summary>Can towers on books on the main desk, a book with cans on the back desk (Hard).</summary>
-        public static PropPlacement[] TowersOnBooks() =>
-            // Books outside the back desk's span (x ±0.6): pushed straight back, a book jams under its top.
-            new[] { -0.74f, 0.74f }.SelectMany(x => CanTower(3, x, 0.45f, Book).Prepend(Prop(PropKind.Book, x, 0f, 0.45f)))
-                .Concat(new[] { Can(-0.15f, 0f, 0.15f, 0), Can(0.15f, 0f, 0.15f, 1) }.Select(OnBack))
-                .ToArray();
-
-        /// <summary>New: the game controller. Controllers lying on three keycap plinths.</summary>
-        public static PropPlacement[] ControllersOnPlinths() =>
-            Thirds.SelectMany((x, i) => Plinth(2, x, 0.4f)
-                    .Append(Prop(PropKind.GameController, x, 2f * Keycap, 0.4f, i))
-                    .Append(Can(x, 2f * Keycap + Controller, 0.4f, i)))
-                .ToArray();
-
-        /// <summary>Stacked controllers in front shield a row of cans.</summary>
-        public static PropPlacement[] ControllerShield() =>
-            new[] { -0.4f, 0.4f }.SelectMany((x, i) => new[]
+        /// <summary>Two candles on each of three books.</summary>
+        public static PropPlacement[] CandlesOnBooks() =>
+            Thirds.SelectMany((x, i) => new[]
                 {
-                    Prop(PropKind.GameController, x, 0f, 0.05f, i),
-                    Prop(PropKind.GameController, x, Controller, 0.05f, i + 1),
+                    Prop(PropKind.Book, x, 0f, 0.45f),
+                    Candle(x - 0.12f, Book, 0.45f, i),
+                    Candle(x + 0.12f, Book, 0.45f, i + 1),
                 })
-                .Concat(new[] { -0.6f, -0.2f, 0.2f, 0.6f }.Select((x, i) => Can(x, 0f, 0.5f, i)))
-                .Concat(new[] { -0.2f, 0.6f }.Select((x, i) => Can(x, SodaCan, 0.5f, i)))
                 .ToArray();
 
-        /// <summary>rows of 2u keycap pairs, two deep (0.31 x 0.27): steady enough to lay a controller on.</summary>
-        internal static IEnumerable<PropPlacement> Plinth(int rows, float x, float z, float y0 = 0f)
+        /// <summary>A book staircase, one, two and three high, a candle on each step.</summary>
+        public static PropPlacement[] BookStaircase() =>
+            new[] { -0.55f, 0f, 0.55f }.SelectMany((x, i) =>
+                    Tower(PropKind.Book, i + 1, Book, x, 0.5f).Append(Candle(x, (i + 1) * Book, 0.5f, i)))
+                .ToArray();
+
+        /// <summary>Walls on both desks: a keycap wall on the back desk, a wall of books near the main desk's back edge.</summary>
+        public static PropPlacement[] BookWalls() =>
+            Wall(4, 2, 0f, 0.1f).Select(OnBack)
+                // Outside the back desk's span (x ±0.6): a book pushed straight back would jam under its top.
+                .Concat(new[] { -0.74f, 0.74f }.Select(x => Prop(PropKind.Book, x, 0f, 0.4f)))
+                .ToArray();
+
+        /// <summary>Lob (Hard): two heavy books in front shield a row of candles at the back edge.</summary>
+        public static PropPlacement[] HeavyLob() =>
+            new[] { -0.35f, 0.35f }.Select(x => Prop(PropKind.Book, x, 0f, 0.05f))
+                .Concat(Enumerable.Range(0, 7).Select(i => Candle(-0.75f + i * 0.25f, 0f, 0.55f, i)))
+                .ToArray();
+
+        /// <summary>Bookends: a desk lamp at each end of a book row.</summary>
+        public static PropPlacement[] Bookends() => new[]
         {
-            for (int row = 0; row < rows; row++)
-            {
-                yield return Cap(PropKind.Keycap2u, x, y0 + row * Keycap, z - 0.08f, (Look)(row % 3));
-                yield return Cap(PropKind.Keycap2u, x, y0 + row * Keycap, z + 0.08f, (Look)((row + 1) % 3));
-            }
-        }
+            Prop(PropKind.DeskLamp, -0.75f, 0f, 0.45f),
+            Prop(PropKind.Book, -0.25f, 0f, 0.45f),
+            Candle(-0.25f, Book, 0.45f, 0),
+            Prop(PropKind.Book, 0.25f, 0f, 0.45f),
+            Candle(0.25f, Book, 0.45f, 1),
+            Prop(PropKind.DeskLamp, 0.75f, 0f, 0.45f),
+        };
+
+        /// <summary>A reading nook: mugs and candles around a cactus.</summary>
+        public static PropPlacement[] ReadingNook() => new[]
+        {
+            Prop(PropKind.CactusPot, 0f, 0f, 0.4f),
+            Prop(PropKind.Mug, -0.65f, 0f, 0.4f, 0),
+            Prop(PropKind.Mug, 0.65f, 0f, 0.4f, 1),
+            Candle(-0.35f, 0f, -0.05f, 0),
+            Candle(0.35f, 0f, -0.05f, 1),
+            Candle(-0.75f, 0f, -0.3f, 1),
+            Candle(0.75f, 0f, -0.3f, 0),
+        };
+
+        /// <summary>Candle rows on both desks.</summary>
+        public static PropPlacement[] CandleRowsTwoDesks() =>
+            Enumerable.Range(0, 3).Select(i => OnBack(Candle(-0.3f + i * 0.3f, 0f, 0.15f, i)))
+                .Concat(Enumerable.Range(0, 5).Select(i => Candle(-0.6f + i * 0.3f, 0f, 0.45f, i + 1)))
+                .ToArray();
+
+        /// <summary>Keycap walls framing a two-book stack.</summary>
+        public static PropPlacement[] FramedBooks() =>
+            Wall(2, 3, -0.7f, 0.4f).Concat(Wall(2, 3, 0.7f, 0.4f)).Concat(Tower(PropKind.Book, 2, Book, 0f, 0.45f)).ToArray();
+
+        /// <summary>Book, keycap and candle towers on the main desk; a book with candles on the back desk (Hard).</summary>
+        public static PropPlacement[] TowersTwoDesks() =>
+            Tower(PropKind.Book, 2, Book, 0f, 0.45f)
+                .Concat(Row(PropKind.Keycap1u, 3, 0f, Pitch, 2f * Book, 0.45f))
+                .Append(Candle(0f, 2f * Book + Keycap, 0.45f, 0))
+                .Append(Candle(-0.6f, 0f, 0.45f, 1))
+                .Append(Candle(0.6f, 0f, 0.45f, 0))
+                .Concat(new[] { Candle(-0.15f, 0f, 0.15f, 0), Candle(0.15f, 0f, 0.15f, 1) }.Select(OnBack))
+                .ToArray();
+
+        /// <summary>New: the hourglass. Hourglasses on books, one on the desk.</summary>
+        public static PropPlacement[] HourglassesOnBooks() => new[]
+        {
+            Prop(PropKind.Book, -0.55f, 0f, 0.45f),
+            Prop(PropKind.Hourglass, -0.55f, Book, 0.45f),
+            Prop(PropKind.Hourglass, 0f, 0f, 0.5f),
+            Prop(PropKind.Book, 0.55f, 0f, 0.45f),
+            Prop(PropKind.Hourglass, 0.55f, Book, 0.45f),
+        };
+
+        /// <summary>Hourglasses on two spacebar decks.</summary>
+        public static PropPlacement[] HourglassBridges() =>
+            new[] { -0.42f, 0.42f }.SelectMany(x => DeckOnLegs(x, 0.3f).Append(Prop(PropKind.Hourglass, x, 2f * Keycap, 0.3f))).ToArray();
 
         internal static IEnumerable<PropPlacement> DeckOnLegs(float x, float z)
         {

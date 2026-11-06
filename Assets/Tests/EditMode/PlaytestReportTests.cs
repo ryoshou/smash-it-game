@@ -19,6 +19,7 @@ namespace Game.Tests
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]
+        [TestCase(5)]
         public void PlaytestReport_CoversEveryLevelWithCurrentLayout(int room)
         {
             string path = Path.Combine(Application.dataPath, "..", PlaytestReport.PathFor(room));

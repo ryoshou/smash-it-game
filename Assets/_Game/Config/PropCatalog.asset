@@ -218,7 +218,7 @@ MonoBehaviour:
     - prefab: {fileID: 6531845891251215846, guid: c3b18e173e6b84081b3c5fc1f80bc151, type: 3}
       brokenPrefab: {fileID: 1047478866565460259, guid: a1ae2879bca714457ba6fd4b8be317b2, type: 3}
     size: {x: 0.80025005, y: 0.10670012, z: 0.80025005}
-    mass: 0.3
+    mass: 0.2
     material: {fileID: 13400000, guid: c463b7a17235d4af48b4cc19dfb3a93c, type: 2}
     collider: 1
     breakMode: 2

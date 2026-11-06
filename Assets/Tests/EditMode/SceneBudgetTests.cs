@@ -67,6 +67,7 @@ namespace Game.Tests
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]
+        [TestCase(5)]
         public void EveryRoomBackdrop_HasItsDeskAtTheOrigin(int room) =>
             AssertDeskAtTheOrigin(AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room)), $"room {room}");
 
@@ -116,6 +117,7 @@ namespace Game.Tests
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(4)]
+        [TestCase(5)]
         public void EveryRoomBackdrop_RugLiesUnderTheSplat(int room)
         {
             var theme = AssetDatabase.LoadAssetAtPath<RoomTheme>(GameLevelListBuilder.ThemePath(room));

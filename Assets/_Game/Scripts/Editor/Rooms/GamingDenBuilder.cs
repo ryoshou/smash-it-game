@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Editor
 {
     /// <summary>
-    /// Room 4 (Gaming Den, levels 76–100): the deep-blue shell, the charcoal desk with its violet band, a gaming armchair, a
+    /// Room 5 (Gaming Den, levels 101–125): the deep-blue shell, the charcoal desk with its violet band, a gaming armchair, a
     /// low table at the back, a gaming table with monitor, keyboard and headphones, and a violet and cyan glow.
     /// </summary>
     public static class GamingDenBuilder

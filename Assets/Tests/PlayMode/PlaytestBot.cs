@@ -58,7 +58,7 @@ namespace Game.Tests
         }
 
         [UnityTest, Timeout(3600000)]
-        public IEnumerator PlayRoom([Values(1, 2, 3, 4)] int room)
+        public IEnumerator PlayRoom([Values(1, 2, 3, 4, 5)] int room)
         {
             // GameLevelListBuilder.RoomListPath (editor-only assembly).
             var list = UnityEditor.AssetDatabase.LoadAssetAtPath<LevelList>($"Assets/_Game/Levels/Room{room}/Room{room}LevelList.asset");
@@ -192,7 +192,7 @@ namespace Game.Tests
             var md = new StringBuilder($"# Room {room} playtest bot report\n\n");
             md.Append($"{Attempts} attempts per level; seeded policy: random remaining target, aim and preview-arc power with ")
               .Append($"noise (σ {AimNoiseDeg}° aim, σ {PowerNoise} power), ")
-              .Append("no continues. Bands: teaching 0.60–1.00, normal 0.35–0.95, hard 0.15–0.65 (spec §6.3).\n\n")
+              .Append("no continues. Bands: teaching 0.60–1.00, normal 0.35–0.95, hard 0.15–0.65 (spec §6.3), feast 0.60–1.00 (Kitchen spec §4).\n\n")
               .Append("| Level | Band | Shots | Clear rate | Median shots on win | In band |\n|---|---|---|---|---|---|\n");
             for (int i = 0; i < list.Count; i++)
             {

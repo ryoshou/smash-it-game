@@ -73,6 +73,8 @@ namespace Game.World
             {
                 prop.Cleared -= OnCleared;
                 prop.Broken -= OnBroken;
+                // Out of physics now: Destroy waits for the frame's end, and several physics steps can run before it.
+                prop.gameObject.SetActive(false);
                 Destroy(prop.gameObject);
             }
             spawned.Clear();

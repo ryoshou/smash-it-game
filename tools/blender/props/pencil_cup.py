@@ -1,4 +1,4 @@
-"""Pencil cups for the Library (Room 3): a rounded cup with three pencils rising out of it, one joined mesh.
+"""Pencil cups for the Library (Room 4): a rounded cup with three pencils rising out of it, one joined mesh.
 
 Sized to the props around it (a Tiny Treats mug is 0.35 tall): the cup is 0.26 tall and 0.2 wide, the pencil tips
 reach about 0.42. Writes PencilCup_<colour>.fbx for each cup colour.

@@ -6,18 +6,20 @@ using UnityEditor;
 namespace Game.Editor
 {
     /// <summary>
-    /// The list the game plays: every room's 25 levels in room order (spec §6.1: 4 rooms, 100 levels). Save indices
-    /// 0–24 stay Room 1, so saves from before the later rooms carry over. A room joins once its levels builder exists.
+    /// The list the game plays: every room's 25 levels in room order (Kitchen spec §3: 5 rooms, 125 levels — Home
+    /// Office, Kitchen, Café, Library, Gaming Den). Save indices 0–24 stay Room 1, so saves from before the later rooms
+    /// carry over. A room joins once its levels builder exists.
     /// </summary>
     public static class GameLevelListBuilder
     {
         public const string ListPath = "Assets/_Game/Levels/GameLevelList.asset";
-        public const int RoomCount = 4;
+        public const int RoomCount = 5;
 
         /// <summary>Each room's theme and backdrop builder, in room order (room N at index N-1).</summary>
         private static readonly (string ThemePath, Func<RoomTheme> Build)[] Rooms =
         {
             (HomeOfficeBuilder.ThemePath, HomeOfficeBuilder.Build),
+            (KitchenBuilder.ThemePath, KitchenBuilder.Build),
             (CafeBuilder.ThemePath, CafeBuilder.Build),
             (LibraryBuilder.ThemePath, LibraryBuilder.Build),
             (GamingDenBuilder.ThemePath, GamingDenBuilder.Build),
@@ -30,6 +32,7 @@ namespace Game.Editor
             Room2LevelBuilder.BuildAll,
             Room3LevelBuilder.BuildAll,
             Room4LevelBuilder.BuildAll,
+            Room5LevelBuilder.BuildAll,
         };
 
         public static string RoomFolder(int room) => $"Assets/_Game/Levels/Room{room}";

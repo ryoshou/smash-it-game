@@ -19,160 +19,64 @@ MonoBehaviour:
   hasBackDesk: 1
   backDeskSize: {x: 1.2, y: 0.5}
   props:
-  - kind: 0
-    basePosition: {x: -0.32, y: 0, z: 0}
+  - kind: 30
+    basePosition: {x: -0.25, y: 0, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 1
-  - kind: 0
-    basePosition: {x: -0.16, y: 0, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 1
-  - kind: 0
-    basePosition: {x: 0, y: 0, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 1
-  - kind: 0
-    basePosition: {x: 0.16, y: 0, z: 0}
+  - kind: 30
+    basePosition: {x: 0.25, y: 0, z: 0}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 1
-  - kind: 0
-    basePosition: {x: 0.32, y: 0, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 1
-  - kind: 0
-    basePosition: {x: -0.32, y: 0.15, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 1
-  - kind: 0
-    basePosition: {x: -0.16, y: 0.15, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 1
-  - kind: 0
-    basePosition: {x: 0, y: 0.15, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 1
-  - kind: 0
-    basePosition: {x: 0.16, y: 0.15, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 1
-  - kind: 0
-    basePosition: {x: 0.32, y: 0.15, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 1
-  - kind: 9
-    basePosition: {x: -0.2, y: 0.3, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 1
-  - kind: 9
-    basePosition: {x: 0.2, y: 0.3, z: 0}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 1
-  - kind: 0
-    basePosition: {x: -0.65999997, y: 0, z: 0.35}
+  - kind: 23
+    basePosition: {x: -0.8, y: 0, z: 0.45}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 0
-    basePosition: {x: -0.5, y: 0, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 0
-    basePosition: {x: -0.34, y: 0, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 0
-    basePosition: {x: -0.65999997, y: 0.15, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 0
-    basePosition: {x: -0.5, y: 0.15, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 0
-    basePosition: {x: -0.34, y: 0.15, z: 0.35}
+  - kind: 23
+    basePosition: {x: -0.8, y: 0, z: -0.45}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 9
-    basePosition: {x: -0.5, y: 0.3, z: 0.35}
+  - kind: 23
+    basePosition: {x: 0.8, y: 0, z: 0.45}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 0
-    basePosition: {x: 0.34, y: 0, z: 0.35}
+  - kind: 23
+    basePosition: {x: 0.8, y: 0, z: -0.45}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 0
-    basePosition: {x: 0.5, y: 0, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 0
-    basePosition: {x: 0.65999997, y: 0, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 0
-    basePosition: {x: 0.34, y: 0.15, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 0
-    basePosition: {x: 0.5, y: 0.15, z: 0.35}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 0
-    basePosition: {x: 0.65999997, y: 0.15, z: 0.35}
+  - kind: 19
+    basePosition: {x: 0, y: 0, z: 0.35}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 9
-    basePosition: {x: 0.5, y: 0.3, z: 0.35}
+  - kind: 30
+    basePosition: {x: 0, y: 0.257, z: 0.35}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  room: {fileID: 11400000, guid: cb1769a094a444805b928f48302a7cad, type: 2}
+  - kind: 30
+    basePosition: {x: -0.42, y: 0, z: 0}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 30
+    basePosition: {x: 0.42, y: 0, z: 0}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  room: {fileID: 11400000, guid: 417b7fb7341044f879c72f6ac8754a10, type: 2}

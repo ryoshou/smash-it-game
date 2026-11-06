@@ -96,7 +96,7 @@ namespace Game.Tests
             ButtonNamed<HomeScreen>("Play").onClick.Invoke();
             yield return null;
 
-            Assert.IsTrue(ShowsText<Hud>("Level 27"));
+            Assert.IsTrue(ShowsText<Hud>("Level 27 · Feast!"), "level 27 is the Kitchen's first feast");
             Assert.AreEqual(bootstrap.Levels.At(26), bootstrap.Level);
         }
 

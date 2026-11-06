@@ -10,55 +10,67 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a070f86dab2049fabbeda948faca804, type: 3}
-  m_Name: R3_L66
+  m_Name: R2_L41
   m_EditorClassIdentifier: Game.Runtime::Game.Levels.LevelDef
   id: R3_L66
-  shots: 7
+  shots: 6
   difficulty: 0
   deskSize: {x: 2, y: 1.5}
   hasBackDesk: 0
   backDeskSize: {x: 1.2, y: 0.5}
   props:
-  - kind: 5
-    basePosition: {x: -0.55, y: 0, z: 0.45}
+  - kind: 4
+    basePosition: {x: -0.62, y: 0, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 12
-    basePosition: {x: -0.55, y: 0.26, z: 0.45}
+  - kind: 9
+    basePosition: {x: -0.62, y: 0.35, z: 0.25}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 7
+    basePosition: {x: -0.62, y: 0.41, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
   - kind: 4
-    basePosition: {x: 0, y: 0, z: 0.45}
+    basePosition: {x: 0, y: 0, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 1
     desk: 0
-  - kind: 5
-    basePosition: {x: 0.55, y: 0, z: 0.45}
+  - kind: 9
+    basePosition: {x: 0, y: 0.35, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 12
-    basePosition: {x: 0.55, y: 0.26, z: 0.45}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 12
-    basePosition: {x: -0.3, y: 0, z: -0.2}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 12
-    basePosition: {x: 0.3, y: 0, z: -0.2}
+  - kind: 7
+    basePosition: {x: 0, y: 0.41, z: 0.25}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  room: {fileID: 11400000, guid: b823c7f8149ba4b19a9f9048c7134fb9, type: 2}
+  - kind: 4
+    basePosition: {x: 0.62, y: 0, z: 0.25}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 2
+    desk: 0
+  - kind: 9
+    basePosition: {x: 0.62, y: 0.35, z: 0.25}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 7
+    basePosition: {x: 0.62, y: 0.41, z: 0.25}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  room: {fileID: 11400000, guid: cb1769a094a444805b928f48302a7cad, type: 2}

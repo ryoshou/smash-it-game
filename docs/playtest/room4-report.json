@@ -2,52 +2,142 @@
     "rows": [
         {
             "id": "R4_L76",
-            "fingerprint": "c44a3fb2fcdac978",
+            "fingerprint": "d0f50e355afb762e",
             "attempts": 30,
-            "wins": 26,
-            "clearRate": 0.8666666746139526,
-            "medianShotsOnWin": 4.0,
+            "wins": 20,
+            "clearRate": 0.6666666865348816,
+            "medianShotsOnWin": 5.0,
             "band": "normal"
         },
         {
             "id": "R4_L77",
-            "fingerprint": "abeec030ccd105c0",
+            "fingerprint": "4be8b7af2929cdf2",
             "attempts": 30,
-            "wins": 28,
-            "clearRate": 0.9333333373069763,
-            "medianShotsOnWin": 4.0,
+            "wins": 24,
+            "clearRate": 0.800000011920929,
+            "medianShotsOnWin": 5.0,
             "band": "normal"
         },
         {
             "id": "R4_L78",
-            "fingerprint": "931df1add0ebdd15",
+            "fingerprint": "1392d7d6beffd617",
             "attempts": 30,
-            "wins": 19,
-            "clearRate": 0.6333333253860474,
-            "medianShotsOnWin": 4.0,
+            "wins": 23,
+            "clearRate": 0.7666666507720947,
+            "medianShotsOnWin": 5.0,
             "band": "normal"
         },
         {
             "id": "R4_L79",
-            "fingerprint": "63cd53adedaa045b",
+            "fingerprint": "084df23cf427c131",
             "attempts": 30,
-            "wins": 28,
-            "clearRate": 0.9333333373069763,
+            "wins": 24,
+            "clearRate": 0.800000011920929,
             "medianShotsOnWin": 5.0,
             "band": "normal"
         },
         {
             "id": "R4_L80",
-            "fingerprint": "739885eaaf26f96c",
+            "fingerprint": "73c1c0189464b231",
             "attempts": 30,
-            "wins": 17,
-            "clearRate": 0.5666666626930237,
+            "wins": 7,
+            "clearRate": 0.23333333432674408,
             "medianShotsOnWin": 5.0,
             "band": "hard"
         },
         {
             "id": "R4_L81",
-            "fingerprint": "0c7452ba57796b9a",
+            "fingerprint": "bae58fa68fa1148b",
+            "attempts": 30,
+            "wins": 23,
+            "clearRate": 0.7666666507720947,
+            "medianShotsOnWin": 5.0,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L82",
+            "fingerprint": "b0153bd533077594",
+            "attempts": 30,
+            "wins": 27,
+            "clearRate": 0.8999999761581421,
+            "medianShotsOnWin": 6.0,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L83",
+            "fingerprint": "d92c556fd3a27b83",
+            "attempts": 30,
+            "wins": 13,
+            "clearRate": 0.4333333373069763,
+            "medianShotsOnWin": 7.0,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L84",
+            "fingerprint": "6a295ac0e2ed1feb",
+            "attempts": 30,
+            "wins": 25,
+            "clearRate": 0.8333333134651184,
+            "medianShotsOnWin": 5.0,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L85",
+            "fingerprint": "156fd7f4944b5188",
+            "attempts": 30,
+            "wins": 6,
+            "clearRate": 0.20000000298023224,
+            "medianShotsOnWin": 6.5,
+            "band": "hard"
+        },
+        {
+            "id": "R4_L86",
+            "fingerprint": "672eb22fdeb11040",
+            "attempts": 30,
+            "wins": 22,
+            "clearRate": 0.7333333492279053,
+            "medianShotsOnWin": 4.5,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L87",
+            "fingerprint": "76a045596e5423e0",
+            "attempts": 30,
+            "wins": 28,
+            "clearRate": 0.9333333373069763,
+            "medianShotsOnWin": 5.0,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L88",
+            "fingerprint": "f305ad4f2eb567e1",
+            "attempts": 30,
+            "wins": 14,
+            "clearRate": 0.46666666865348816,
+            "medianShotsOnWin": 5.0,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L89",
+            "fingerprint": "2390b9e81fa22f39",
+            "attempts": 30,
+            "wins": 14,
+            "clearRate": 0.46666666865348816,
+            "medianShotsOnWin": 7.5,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L90",
+            "fingerprint": "f8d50f9204ec4a7a",
+            "attempts": 30,
+            "wins": 5,
+            "clearRate": 0.1666666716337204,
+            "medianShotsOnWin": 5.0,
+            "band": "hard"
+        },
+        {
+            "id": "R4_L91",
+            "fingerprint": "3ef76107d9936945",
             "attempts": 30,
             "wins": 26,
             "clearRate": 0.8666666746139526,
@@ -55,174 +145,84 @@
             "band": "normal"
         },
         {
-            "id": "R4_L82",
-            "fingerprint": "20dc6c3f22b19cc1",
-            "attempts": 30,
-            "wins": 25,
-            "clearRate": 0.8333333134651184,
-            "medianShotsOnWin": 4.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L83",
-            "fingerprint": "b75481f93decdcab",
-            "attempts": 30,
-            "wins": 22,
-            "clearRate": 0.7333333492279053,
-            "medianShotsOnWin": 6.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L84",
-            "fingerprint": "fd414d5182f5e1b0",
-            "attempts": 30,
-            "wins": 23,
-            "clearRate": 0.7666666507720947,
-            "medianShotsOnWin": 6.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L85",
-            "fingerprint": "96892daaa9c9da35",
-            "attempts": 30,
-            "wins": 17,
-            "clearRate": 0.5666666626930237,
-            "medianShotsOnWin": 8.0,
-            "band": "hard"
-        },
-        {
-            "id": "R4_L86",
-            "fingerprint": "aefdb3cd8e7d1a0c",
-            "attempts": 30,
-            "wins": 15,
-            "clearRate": 0.5,
-            "medianShotsOnWin": 5.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L87",
-            "fingerprint": "103daa343cd938f5",
-            "attempts": 30,
-            "wins": 14,
-            "clearRate": 0.46666666865348816,
-            "medianShotsOnWin": 5.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L88",
-            "fingerprint": "7e902c54c4bea8d1",
-            "attempts": 30,
-            "wins": 22,
-            "clearRate": 0.7333333492279053,
-            "medianShotsOnWin": 6.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L89",
-            "fingerprint": "b1e82ae8598030a5",
-            "attempts": 30,
-            "wins": 11,
-            "clearRate": 0.36666667461395264,
-            "medianShotsOnWin": 5.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L90",
-            "fingerprint": "5dc24c4a3d3fa645",
-            "attempts": 30,
-            "wins": 14,
-            "clearRate": 0.46666666865348816,
-            "medianShotsOnWin": 7.0,
-            "band": "hard"
-        },
-        {
-            "id": "R4_L91",
-            "fingerprint": "65df94f67673219c",
-            "attempts": 30,
-            "wins": 23,
-            "clearRate": 0.7666666507720947,
-            "medianShotsOnWin": 4.0,
-            "band": "normal"
-        },
-        {
             "id": "R4_L92",
-            "fingerprint": "480701097c4ace26",
+            "fingerprint": "04b50f9fdd9765e0",
             "attempts": 30,
-            "wins": 25,
-            "clearRate": 0.8333333134651184,
-            "medianShotsOnWin": 4.0,
+            "wins": 22,
+            "clearRate": 0.7333333492279053,
+            "medianShotsOnWin": 5.0,
             "band": "normal"
         },
         {
             "id": "R4_L93",
-            "fingerprint": "d21d98e7b0bfcc32",
+            "fingerprint": "fd112b8c60c5d4a3",
             "attempts": 30,
-            "wins": 24,
-            "clearRate": 0.800000011920929,
-            "medianShotsOnWin": 3.0,
-            "band": "normal"
-        },
-        {
-            "id": "R4_L94",
-            "fingerprint": "8144534dee700487",
-            "attempts": 30,
-            "wins": 17,
-            "clearRate": 0.5666666626930237,
+            "wins": 13,
+            "clearRate": 0.4333333373069763,
             "medianShotsOnWin": 7.0,
             "band": "normal"
         },
         {
-            "id": "R4_L95",
-            "fingerprint": "c0bbac0161b67e58",
+            "id": "R4_L94",
+            "fingerprint": "94fba33893a93ce5",
             "attempts": 30,
-            "wins": 10,
-            "clearRate": 0.3333333432674408,
-            "medianShotsOnWin": 5.0,
+            "wins": 22,
+            "clearRate": 0.7333333492279053,
+            "medianShotsOnWin": 6.0,
+            "band": "normal"
+        },
+        {
+            "id": "R4_L95",
+            "fingerprint": "2a9d6b331fd0f228",
+            "attempts": 30,
+            "wins": 16,
+            "clearRate": 0.5333333611488342,
+            "medianShotsOnWin": 6.0,
             "band": "hard"
         },
         {
             "id": "R4_L96",
-            "fingerprint": "9965b9f1d6aeaf62",
+            "fingerprint": "d02e0a5c7c6bd10b",
             "attempts": 30,
-            "wins": 12,
-            "clearRate": 0.4000000059604645,
+            "wins": 21,
+            "clearRate": 0.699999988079071,
             "medianShotsOnWin": 5.0,
             "band": "normal"
         },
         {
             "id": "R4_L97",
-            "fingerprint": "e44ff09934d86df7",
+            "fingerprint": "12d27e6cd3d9e903",
             "attempts": 30,
-            "wins": 25,
-            "clearRate": 0.8333333134651184,
+            "wins": 21,
+            "clearRate": 0.699999988079071,
             "medianShotsOnWin": 5.0,
             "band": "normal"
         },
         {
             "id": "R4_L98",
-            "fingerprint": "2abf3a262630c13c",
+            "fingerprint": "dfc2ec07101d6e48",
             "attempts": 30,
-            "wins": 22,
-            "clearRate": 0.7333333492279053,
-            "medianShotsOnWin": 5.5,
+            "wins": 24,
+            "clearRate": 0.800000011920929,
+            "medianShotsOnWin": 4.0,
             "band": "normal"
         },
         {
             "id": "R4_L99",
-            "fingerprint": "284e52f6e6e083b3",
+            "fingerprint": "bda8732ad047dbc2",
             "attempts": 30,
-            "wins": 25,
-            "clearRate": 0.8333333134651184,
-            "medianShotsOnWin": 6.0,
+            "wins": 21,
+            "clearRate": 0.699999988079071,
+            "medianShotsOnWin": 7.0,
             "band": "normal"
         },
         {
             "id": "R4_L100",
-            "fingerprint": "628b2252cfce0dcf",
+            "fingerprint": "b2c99c26ba8b4161",
             "attempts": 30,
-            "wins": 11,
-            "clearRate": 0.36666667461395264,
-            "medianShotsOnWin": 9.0,
+            "wins": 13,
+            "clearRate": 0.4333333373069763,
+            "medianShotsOnWin": 8.0,
             "band": "hard"
         }
     ]

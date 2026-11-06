@@ -19,52 +19,76 @@ MonoBehaviour:
   hasBackDesk: 0
   backDeskSize: {x: 1.2, y: 0.5}
   props:
-  - kind: 6
-    basePosition: {x: -0.3, y: 0, z: 0.15}
+  - kind: 18
+    basePosition: {x: 0, y: 0, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 5
-    basePosition: {x: 0.4, y: 0, z: 0.15}
+  - kind: 30
+    basePosition: {x: 0, y: 0.107, z: 0.17000002}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 10
-    basePosition: {x: -0.6, y: 0, z: 0.55}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 10
-    basePosition: {x: -0.6, y: 0.164, z: 0.55}
+  - kind: 30
+    basePosition: {x: 0, y: 0.107, z: 0.43}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 10
-    basePosition: {x: 0, y: 0, z: 0.55}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 10
-    basePosition: {x: 0, y: 0.164, z: 0.55}
+  - kind: 23
+    basePosition: {x: -0.85, y: 0, z: 0.55}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 10
-    basePosition: {x: 0.6, y: 0, z: 0.55}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 10
-    basePosition: {x: 0.6, y: 0.164, z: 0.55}
+  - kind: 23
+    basePosition: {x: -0.55, y: 0, z: 0.55}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  room: {fileID: 11400000, guid: cb1769a094a444805b928f48302a7cad, type: 2}
+  - kind: 23
+    basePosition: {x: 0.55, y: 0, z: 0.55}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 23
+    basePosition: {x: 0.85, y: 0, z: 0.55}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 23
+    basePosition: {x: -0.75, y: 0, z: 0}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 23
+    basePosition: {x: 0.75, y: 0, z: 0}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 30
+    basePosition: {x: -0.6, y: 0, z: -0.45}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 30
+    basePosition: {x: 0, y: 0, z: -0.45}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 30
+    basePosition: {x: 0.6, y: 0, z: -0.45}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  room: {fileID: 11400000, guid: 417b7fb7341044f879c72f6ac8754a10, type: 2}

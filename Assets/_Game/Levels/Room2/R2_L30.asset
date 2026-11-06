@@ -13,142 +13,82 @@ MonoBehaviour:
   m_Name: R2_L30
   m_EditorClassIdentifier: Game.Runtime::Game.Levels.LevelDef
   id: R2_L30
-  shots: 8
+  shots: 6
   difficulty: 1
   deskSize: {x: 2, y: 1.5}
   hasBackDesk: 0
   backDeskSize: {x: 1.2, y: 0.5}
   props:
-  - kind: 6
-    basePosition: {x: 0, y: 0, z: -0.05}
+  - kind: 18
+    basePosition: {x: -0.5, y: 0, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 1
-    basePosition: {x: -0.62, y: 0, z: 0.37}
+  - kind: 19
+    basePosition: {x: -0.5, y: 0.107, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 1
-    basePosition: {x: -0.62, y: 0, z: 0.53}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 1
-    basePosition: {x: -0.62, y: 0.15, z: 0.37}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 1
-    basePosition: {x: -0.62, y: 0.15, z: 0.53}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 1
-    basePosition: {x: -0.62, y: 0.3, z: 0.37}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 1
-    basePosition: {x: -0.62, y: 0.3, z: 0.53}
+  - kind: 18
+    basePosition: {x: -0.5, y: 0.364, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 9
-    basePosition: {x: -0.62, y: 0.45000002, z: 0.45}
+  - kind: 19
+    basePosition: {x: -0.5, y: 0.471, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 1
-    basePosition: {x: 0, y: 0, z: 0.37}
+  - kind: 26
+    basePosition: {x: -0.5, y: 0.728, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 1
-    basePosition: {x: 0, y: 0, z: 0.53}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0, y: 0.15, z: 0.37}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0, y: 0.15, z: 0.53}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0, y: 0.3, z: 0.37}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0, y: 0.3, z: 0.53}
+  - kind: 18
+    basePosition: {x: 0.5, y: 0, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 9
-    basePosition: {x: 0, y: 0.45000002, z: 0.45}
+  - kind: 19
+    basePosition: {x: 0.5, y: 0.107, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 1
-    basePosition: {x: 0.62, y: 0, z: 0.37}
+  - kind: 18
+    basePosition: {x: 0.5, y: 0.364, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 1
-    basePosition: {x: 0.62, y: 0, z: 0.53}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0.62, y: 0.15, z: 0.37}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 1
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0.62, y: 0.15, z: 0.53}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0.62, y: 0.3, z: 0.37}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 2
-    desk: 0
-  - kind: 1
-    basePosition: {x: 0.62, y: 0.3, z: 0.53}
+  - kind: 19
+    basePosition: {x: 0.5, y: 0.471, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 9
-    basePosition: {x: 0.62, y: 0.45000002, z: 0.45}
+  - kind: 26
+    basePosition: {x: 0.5, y: 0.728, z: 0.15}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  room: {fileID: 11400000, guid: cb1769a094a444805b928f48302a7cad, type: 2}
+  - kind: 25
+    basePosition: {x: -0.2, y: 0, z: -0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 25
+    basePosition: {x: 0.2, y: 0, z: -0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  room: {fileID: 11400000, guid: 417b7fb7341044f879c72f6ac8754a10, type: 2}

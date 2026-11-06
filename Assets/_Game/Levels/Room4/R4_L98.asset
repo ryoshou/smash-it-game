@@ -10,67 +10,55 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a070f86dab2049fabbeda948faca804, type: 3}
-  m_Name: R4_L98
+  m_Name: R3_L73
   m_EditorClassIdentifier: Game.Runtime::Game.Levels.LevelDef
   id: R4_L98
-  shots: 8
+  shots: 5
   difficulty: 0
   deskSize: {x: 2, y: 1.5}
-  hasBackDesk: 1
+  hasBackDesk: 0
   backDeskSize: {x: 1.2, y: 0.5}
   props:
-  - kind: 17
-    basePosition: {x: -0.25, y: 0, z: 0.1}
+  - kind: 14
+    basePosition: {x: -0.6, y: 0, z: 0.05}
     yawDegrees: 0
     isTarget: 1
     variant: 0
-    desk: 1
-  - kind: 17
-    basePosition: {x: 0.25, y: 0, z: 0.1}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 1
-  - kind: 15
-    basePosition: {x: -0.5, y: 0, z: 0.1}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 1
-  - kind: 15
-    basePosition: {x: 0.5, y: 0, z: 0.1}
+    desk: 0
+  - kind: 14
+    basePosition: {x: 0, y: 0, z: 0.05}
     yawDegrees: 0
     isTarget: 1
     variant: 1
-    desk: 1
-  - kind: 17
-    basePosition: {x: -0.3, y: 0, z: 0.5}
+    desk: 0
+  - kind: 14
+    basePosition: {x: 0.6, y: 0, z: 0.05}
     yawDegrees: 0
     isTarget: 1
-    variant: 0
+    variant: 2
     desk: 0
-  - kind: 17
-    basePosition: {x: 0.3, y: 0, z: 0.5}
-    yawDegrees: 0
-    isTarget: 1
-    variant: 0
-    desk: 0
-  - kind: 15
+  - kind: 12
     basePosition: {x: -0.75, y: 0, z: 0.5}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
-  - kind: 15
-    basePosition: {x: 0, y: 0, z: 0.5}
+  - kind: 12
+    basePosition: {x: -0.3, y: 0, z: 0.5}
     yawDegrees: 0
     isTarget: 1
     variant: 1
     desk: 0
-  - kind: 15
+  - kind: 12
+    basePosition: {x: 0.3, y: 0, z: 0.5}
+    yawDegrees: 0
+    isTarget: 1
+    variant: 0
+    desk: 0
+  - kind: 12
     basePosition: {x: 0.75, y: 0, z: 0.5}
     yawDegrees: 0
     isTarget: 1
-    variant: 2
+    variant: 1
     desk: 0
-  room: {fileID: 11400000, guid: a58937729462c408a8f0a0f430ae2734, type: 2}
+  room: {fileID: 11400000, guid: b823c7f8149ba4b19a9f9048c7134fb9, type: 2}

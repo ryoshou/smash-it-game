@@ -53,7 +53,7 @@ namespace Game.Tests
         }
 
         [UnityTest]
-        [Timeout(1800000)]
+        [Timeout(3600000)]
         public IEnumerator GameLevels_AreStableAtSpawn()
         {
             var levels = AssetDatabase.LoadAssetAtPath<LevelList>(GameListPath);
@@ -148,6 +148,31 @@ namespace Game.Tests
                 Assert.Greater(Vector3.Dot(prop.transform.up, Vector3.up), 0.99f, $"{prop.name} is not upright");
             }
             Object.Destroy(level);
+        }
+
+        /// <summary>
+        /// A new level spawns into an empty desk: the last level's props leave physics at once, not at the end of the
+        /// frame, so they never shove the new layout (several physics steps can run in one frame).
+        /// </summary>
+        [UnityTest]
+        public IEnumerator Load_ReplacingALevel_RemovesTheOldPropsFromPhysicsAtOnce()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(CatalogPath);
+            var first = ScriptableObject.CreateInstance<LevelDef>();
+            first.id = "Old";
+            first.props = new[] { Place(PropKind.Mug, -0.5f, -0.3f) };
+            var second = ScriptableObject.CreateInstance<LevelDef>();
+            second.id = "New";
+            second.props = new[] { Place(PropKind.Mug, 0.5f, 0.3f) };
+            spawner.Load(first, catalog, tuning, null, null);
+            yield return FixedSteps(2);
+
+            spawner.Load(second, catalog, tuning, null, null);
+
+            var old = Physics.OverlapBox(new Vector3(-0.5f, LevelSpawner.DeskTopY + 0.15f, -0.3f), Vector3.one * 0.1f);
+            Assert.IsEmpty(old, "the old level's mug still collides");
+            Object.Destroy(first);
+            Object.Destroy(second);
         }
 
         /// <summary>Kitchen spec §5: every kitchen kind stands still where it spawns (the big ones, then the small).</summary>

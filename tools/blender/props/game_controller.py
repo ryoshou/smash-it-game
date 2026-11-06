@@ -1,4 +1,4 @@
-"""Game controllers for the Gaming Den (Room 4), lying flat: 0.4 wide, 0.1 tall, 0.26 deep (Blender +Y away).
+"""Game controllers for the Gaming Den (Room 5), lying flat: 0.4 wide, 0.1 tall, 0.26 deep (Blender +Y away).
 
 Two rounded grips towards the player, a d-pad on the left and four buttons on the right as bumps. The underside is
 flat so a controller lies still and stacks on keycaps. Writes GameController_<colour>.fbx for each body colour.

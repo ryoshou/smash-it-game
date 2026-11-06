@@ -1,4 +1,4 @@
-"""Soda cans for the Gaming Den (Room 4), and the fizzy soda special (spec §6.2).
+"""Soda cans for the Gaming Den (Room 5), and the fizzy soda special (spec §6.2).
 
 A can is 0.3 tall and 0.18 wide (a Tiny Treats mug is 0.35 tall), with a rounded rim; flat top
 and bottom so cans stack. Writes SodaCan_<colour>.fbx for each colour, and FizzySoda.fbx: the same can in lime with a

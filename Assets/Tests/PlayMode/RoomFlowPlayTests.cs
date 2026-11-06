@@ -74,7 +74,7 @@ namespace Game.Tests
         }
 
         [UnityTest]
-        public IEnumerator NextAfterLevel100_PlaysLevel1InHomeOffice()
+        public IEnumerator NextAfterLastLevel_PlaysLevel1InHomeOffice()
         {
             bootstrap.LoadLevel(1);
             yield return null;

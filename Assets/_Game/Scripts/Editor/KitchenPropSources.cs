@@ -33,10 +33,10 @@ namespace Game.Editor
 
         internal static IEnumerable<PropPrefabBuilder.Source> All()
         {
-            var china = PropPrefabBuilder.WritePhysicsMaterial("China", 0.4f, 0.5f, 0.05f);
+            var china = PropPrefabBuilder.WritePhysicsMaterial("China", 0.25f, 0.3f, 0.05f);
             var glass = PropPrefabBuilder.WritePhysicsMaterial("Glass", 0.3f, 0.4f, 0.05f);
-            var food = PropPrefabBuilder.WritePhysicsMaterial("Food", 0.7f, 0.8f, 0.02f);
-            yield return Dish(PropKind.DinnerPlate, $"Packs/{TinyTreats}/plate_A.fbx", 0.3f, china, DinnerPlateScale);
+            var food = PropPrefabBuilder.WritePhysicsMaterial("Food", 0.45f, 0.55f, 0.02f);
+            yield return Dish(PropKind.DinnerPlate, $"Packs/{TinyTreats}/plate_A.fbx", 0.2f, china, DinnerPlateScale);
             yield return Dish(PropKind.Bowl, $"Packs/{TinyTreats}/bowl.fbx", 0.25f, china, BowlScale);
             yield return Dish(PropKind.Teapot, $"Packs/{TinyTreats}/teapot.fbx", 0.6f, china, TeapotScale);
             yield return Dish(PropKind.WineGlass, $"Packs/{TinyTreats}/wine_glass.fbx", 0.15f, glass, WineGlassScale);
