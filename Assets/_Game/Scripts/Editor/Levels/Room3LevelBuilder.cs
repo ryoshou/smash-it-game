@@ -38,7 +38,7 @@ namespace Game.Editor
                 Write("R3_L63", room, 7, N, Room3Layouts.DonutTowersTwoDesks(), backDesk: true),
                 Write("R3_L64", room, 6, N, Room3Layouts.DonutRow()),
                 Write("R3_L65", room, 9, H, Room3Layouts.DonutPyramidTwoDesks(), backDesk: true),
-                Write("R3_L66", room, 6, N, Room3Layouts.CupMugTowers()),
+                Write("R3_L66", room, 5, N, Room3Layouts.CupMugTowers()),
                 Write("R3_L67", room, 7, N, Room3Layouts.DonutsBehindCactus()),
                 Write("R3_L68", room, 9, N, Room3Layouts.PlateTopWalls(), backDesk: true),
                 Write("R3_L69", room, 6, N, Room3Layouts.CafeCounter()),

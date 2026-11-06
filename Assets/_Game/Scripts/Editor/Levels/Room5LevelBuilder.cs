@@ -43,7 +43,7 @@ namespace Game.Editor
                 Write("R5_L118", room, 5, N, Room5Layouts.FizzyFortress()),
                 Write("R5_L119", room, 8, N, Room5Layouts.BackDeskFizzy(), backDesk: true),
                 Write("R5_L120", room, 5, H, Room5Layouts.FizzyBookFortress()),
-                Write("R5_L121", room, 5, N, Room5Layouts.FizzyByTheLamp()),
+                Write("R5_L121", room, 6, N, Room5Layouts.FizzyByTheLamp()),
                 Write("R5_L122", room, 6, N, Room5Layouts.EverythingDen()),
                 Write("R5_L123", room, 8, N, Room5Layouts.FizzyChainTwoDesks(), backDesk: true),
                 Write("R5_L124", room, 7, N, Room5Layouts.GreatestHits()),

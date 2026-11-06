@@ -91,6 +91,30 @@ namespace Game.Tests
             Assert.AreEqual(0.6f, splatY, NearSplat, "the splat should lie on the furniture's top");
         }
 
+        /// <summary>Food thrown into the side of furniture splats where it lands, never on the side face in mid-air.</summary>
+        [UnityTest]
+        public IEnumerator Food_HitsTheSideOfFurniture_SplatsWhereItLands()
+        {
+            shelf = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            shelf.transform.position = new Vector3(1.9f, 0.6f, -1.2f);
+            shelf.transform.localScale = new Vector3(0.4f, 1.2f, 0.8f); // side face at x 1.7, top at y 1.2
+            shelf.AddComponent<FloorSurface>();
+            var donut = LoadDonuts(1, Difficulty.Normal)[0];
+            Teleport(donut, new Vector3(1.3f, 0.7f, -1.2f));
+            donut.Body.linearVelocity = new Vector3(4f, 0f, 0f);
+            float highest = float.NegativeInfinity;
+            int seen = 0;
+
+            for (int i = 0; i < Steps(2f); i++)
+            {
+                yield return new WaitForFixedUpdate();
+                if (LiveSplats(out var y) > 0) { seen++; highest = Mathf.Max(highest, y); }
+            }
+
+            Assert.Greater(seen, 0, "the donut never splatted");
+            Assert.AreEqual(0f, highest, NearSplat, "a splat should lie on the floor, not on the shelf's side");
+        }
+
         [UnityTest]
         public IEnumerator Food_LeavesPlayVolume_NoSplat()
         {

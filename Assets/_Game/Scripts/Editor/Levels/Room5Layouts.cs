@@ -27,8 +27,8 @@ namespace Game.Editor
         internal static IEnumerable<PropPlacement> CanTower(int count, float x, float z, float y0 = 0f) =>
             Enumerable.Range(0, count).Select(i => Can(x, y0 + i * SodaCan, z, i));
 
-        /// <summary>New: the soda can. A 4-3-2-1 can pyramid near the back edge.</summary>
-        public static PropPlacement[] CanPyramid() => CanPyramid(4, 0f, 0.45f).ToArray();
+        /// <summary>New: the soda can. A 4-3-2-1 can pyramid set back from the edge.</summary>
+        public static PropPlacement[] CanPyramid() => CanPyramid(4, 0f, 0.3f).ToArray();
 
         /// <summary>Two tall stacked can towers.</summary>
         public static PropPlacement[] CanTowers() => CanTower(4, -0.3f, 0.45f).Concat(CanTower(4, 0.3f, 0.45f)).ToArray();

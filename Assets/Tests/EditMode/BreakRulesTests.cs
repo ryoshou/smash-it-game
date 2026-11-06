@@ -29,6 +29,15 @@ namespace Game.Tests
         public void HasPieces_ShatterAndSplash_Only(BreakMode mode, bool expected) =>
             Assert.AreEqual(expected, BreakRule.HasPieces(mode));
 
+        /// <summary>Food breaks when it lands on something; a glancing hit on a side face lets it fall on to splat.</summary>
+        [TestCase(BreakMode.Splash, 1f, true)]
+        [TestCase(BreakMode.Splash, -1f, true)]
+        [TestCase(BreakMode.Splash, 0.1f, false)]
+        [TestCase(BreakMode.Shatter, 0.1f, true)]
+        [TestCase(BreakMode.Pop, 0f, true)]
+        public void Lands_SplashNeedsAContactFromAbove(BreakMode mode, float normalY, bool expected) =>
+            Assert.AreEqual(expected, BreakRule.Lands(mode, normalY));
+
         [Test]
         public void ShouldBreak_None_False() =>
             Assert.IsFalse(BreakRule.ShouldBreak(BreakMode.None, isBroken: false, touchedFloor: true));

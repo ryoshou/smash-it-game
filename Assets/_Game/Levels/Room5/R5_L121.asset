@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: R4_L96
   m_EditorClassIdentifier: Game.Runtime::Game.Levels.LevelDef
   id: R5_L121
-  shots: 5
+  shots: 6
   difficulty: 0
   deskSize: {x: 2, y: 1.5}
   hasBackDesk: 0

@@ -86,13 +86,14 @@ namespace Game.World
         {
             if (tuning == null || IsBroken) return;
             float speed = collision.relativeVelocity.magnitude;
+            var contact = collision.GetContact(0);
             if (events != null && speed >= tuning.propImpactMinSpeed)
-                events.RaisePropImpact(Kind, collision.GetContact(0).point, speed);
+                events.RaisePropImpact(Kind, contact.point, speed);
             bool touchedFloor = BreakMode != BreakMode.None && collision.collider.TryGetComponent(out FloorSurface _);
             if (touchedFloor) HasTouchedFloor = true;
-            if (!BreakRule.ShouldBreak(BreakMode, IsBroken, touchedFloor)) return;
+            if (!BreakRule.ShouldBreak(BreakMode, IsBroken, touchedFloor && BreakRule.Lands(BreakMode, contact.normal.y))) return;
             // A splash leaves its splat where the food landed, which may be a counter top rather than the floor.
-            Break(BreakMode, raiseEvent: true, BreakMode == BreakMode.Splash ? collision.GetContact(0).point : Body.position);
+            Break(BreakMode, raiseEvent: true, BreakMode == BreakMode.Splash ? contact.point : Body.position);
         }
 
         private void Break(BreakMode mode, bool raiseEvent) => Break(mode, raiseEvent, Body.position);

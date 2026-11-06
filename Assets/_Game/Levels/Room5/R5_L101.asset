@@ -20,61 +20,61 @@ MonoBehaviour:
   backDeskSize: {x: 1.2, y: 0.5}
   props:
   - kind: 15
-    basePosition: {x: -0.3, y: 0, z: 0.45}
+    basePosition: {x: -0.3, y: 0, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
   - kind: 15
-    basePosition: {x: -0.1, y: 0, z: 0.45}
+    basePosition: {x: -0.1, y: 0, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 1
     desk: 0
   - kind: 15
-    basePosition: {x: 0.1, y: 0, z: 0.45}
+    basePosition: {x: 0.1, y: 0, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 2
     desk: 0
   - kind: 15
-    basePosition: {x: 0.3, y: 0, z: 0.45}
+    basePosition: {x: 0.3, y: 0, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
   - kind: 15
-    basePosition: {x: -0.2, y: 0.3, z: 0.45}
+    basePosition: {x: -0.2, y: 0.3, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 1
     desk: 0
   - kind: 15
-    basePosition: {x: 0, y: 0.3, z: 0.45}
+    basePosition: {x: 0, y: 0.3, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 2
     desk: 0
   - kind: 15
-    basePosition: {x: 0.2, y: 0.3, z: 0.45}
+    basePosition: {x: 0.2, y: 0.3, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
   - kind: 15
-    basePosition: {x: -0.1, y: 0.6, z: 0.45}
+    basePosition: {x: -0.1, y: 0.6, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 2
     desk: 0
   - kind: 15
-    basePosition: {x: 0.1, y: 0.6, z: 0.45}
+    basePosition: {x: 0.1, y: 0.6, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 0
     desk: 0
   - kind: 15
-    basePosition: {x: 0, y: 0.90000004, z: 0.45}
+    basePosition: {x: 0, y: 0.90000004, z: 0.3}
     yawDegrees: 0
     isTarget: 1
     variant: 0
