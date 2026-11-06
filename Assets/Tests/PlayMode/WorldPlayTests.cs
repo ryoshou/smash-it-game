@@ -150,6 +150,52 @@ namespace Game.Tests
             Object.Destroy(level);
         }
 
+        /// <summary>Kitchen spec §5: every kitchen kind stands still where it spawns (the big ones, then the small).</summary>
+        [UnityTest]
+        public IEnumerator KitchenKinds_AreStableAtSpawn()
+        {
+            yield return AssertStableAtSpawn("KitchenBig", new[]
+            {
+                Place(PropKind.DinnerPlate, -0.5f, -0.35f),
+                Place(PropKind.Teapot, 0.55f, -0.45f),
+                Place(PropKind.Bowl, -0.6f, 0.45f),
+                Place(PropKind.WineGlass, -0.1f, 0.4f),
+                Place(PropKind.KetchupBottle, 0.55f, 0.05f),
+                Place(PropKind.Burger, 0.38f, 0.5f),
+                Place(PropKind.Sandwich, 0.8f, 0.45f),
+            });
+            yield return AssertStableAtSpawn("KitchenSmall", new[]
+            {
+                Place(PropKind.JamJar, -0.8f, 0f),
+                Place(PropKind.DrinkCan, -0.45f, 0f),
+                Place(PropKind.Apple, -0.12f, 0f),
+                Place(PropKind.Tomato, 0.18f, 0f),
+                Place(PropKind.Cheese, 0.5f, 0f),
+                Place(PropKind.Cupcake, 0.82f, 0f),
+                Place(PropKind.Croissant, 0f, 0.45f),
+            });
+        }
+
+        private IEnumerator AssertStableAtSpawn(string id, PropPlacement[] props)
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<PropCatalog>(CatalogPath);
+            var level = ScriptableObject.CreateInstance<LevelDef>();
+            level.id = id;
+            level.props = props;
+            Assert.IsTrue(level.Validate(out string error), error);
+            spawner.Load(level, catalog, tuning, null, null);
+
+            yield return FixedSteps(Seconds(3f));
+
+            Assert.AreEqual(level.props.Length, spawner.TargetsRemaining, $"{id}: a prop fell off at spawn");
+            foreach (var prop in spawner.Spawned)
+            {
+                Assert.IsTrue(prop.Body.IsSleeping(), $"{prop.name} still awake after 3 s");
+                Assert.Greater(Vector3.Dot(prop.transform.up, Vector3.up), 0.99f, $"{prop.name} is not upright");
+            }
+            Object.Destroy(level);
+        }
+
         private static PropPlacement Look(PropPlacement placement, int variant)
         {
             placement.variant = variant;

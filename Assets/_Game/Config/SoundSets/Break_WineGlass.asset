@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad00b97f7c2b3484ba0ab597f7f50c05, type: 3}
+  m_Name: Break_WineGlass
+  m_EditorClassIdentifier: Game.Runtime::Game.Audio.SoundSet
+  clips:
+  - {fileID: 8300000, guid: 5d69dc5e81ae14f4a81261c2bf3c94b2, type: 3}
+  - {fileID: 8300000, guid: bf927b7636b3e42d3bbc61faa36e8f10, type: 3}
+  - {fileID: 8300000, guid: 0694176fde20347ee995bb67030bcde3, type: 3}
+  volume: 0.85
+  pitchAtSoft: 1.05
+  pitchAtHard: 0.9
+  softSpeed: 0.5
+  hardSpeed: 4

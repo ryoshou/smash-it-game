@@ -103,3 +103,73 @@ MonoBehaviour:
     breakSound: {fileID: 11400000, guid: 1123594aa7461476d86a477ff492062f, type: 2}
     breakVfx: {fileID: 526875427210282292, guid: 8dd09fa4c92b84284b9a0bb63eab9381, type: 3}
     hitMinSpeed: 0.5
+  - kind: 18
+    hit: {fileID: 11400000, guid: 913c2bc5552b54827b0051878cdfcfe2, type: 2}
+    breakSound: {fileID: 11400000, guid: 82bffacf344c34512920cec73445a9d3, type: 2}
+    breakVfx: {fileID: 1399100456211142162, guid: d99006fa54504459db3c1f02e4fb4052, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 19
+    hit: {fileID: 11400000, guid: 9cce65a35acbf48aea11a658d3742374, type: 2}
+    breakSound: {fileID: 11400000, guid: 0bd501cae5daa4e5d8a0916ef93dc8e2, type: 2}
+    breakVfx: {fileID: 2672003170491839105, guid: 56b58ed67b7a94f19a4470195fe67e4c, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 20
+    hit: {fileID: 11400000, guid: f86c4262ac8da4220abae10900f61cc5, type: 2}
+    breakSound: {fileID: 11400000, guid: 676135795f1c948c29963ca6808757f9, type: 2}
+    breakVfx: {fileID: 2624635463837204237, guid: 954d911aa892140fd922a06bc4ce1307, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 21
+    hit: {fileID: 11400000, guid: 71be8330716b74bff8da1ba9afcb4994, type: 2}
+    breakSound: {fileID: 11400000, guid: e258360d5e74a48fdb9cd716b9eb47a3, type: 2}
+    breakVfx: {fileID: 3217666919616340880, guid: e740abbd3677948458817ee16e97d8d3, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 22
+    hit: {fileID: 11400000, guid: bf7db786f95c54b70a8a7a75a3c6592d, type: 2}
+    breakSound: {fileID: 11400000, guid: f45dd8ecdcb214effbcfb00947ec1d8e, type: 2}
+    breakVfx: {fileID: 3465589684441125643, guid: c33b399dfcb5744688b8fcb39dbb3bc9, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 23
+    hit: {fileID: 11400000, guid: ab519f75b4b554f38abed0accba079fe, type: 2}
+    breakSound: {fileID: 11400000, guid: a9ada56179e4a423c8d9a8c3b746fce9, type: 2}
+    breakVfx: {fileID: 352805112301021947, guid: ab33c0d824eff4ed093d66dd1841c703, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 24
+    hit: {fileID: 11400000, guid: cbc7a972b95db477582d6e7fd9ff0ffa, type: 2}
+    breakSound: {fileID: 11400000, guid: eb77e6cc69b9b4240bf939cb1e3ba2c2, type: 2}
+    breakVfx: {fileID: 6551289768726636100, guid: 1944b7754c9a944a58dcdaeacbc11e22, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 25
+    hit: {fileID: 11400000, guid: 7ac158749cc8342c4827bce724fb1c70, type: 2}
+    breakSound: {fileID: 11400000, guid: 1088d3a4a70414a74899198036e2e451, type: 2}
+    breakVfx: {fileID: 5275140311486936257, guid: 5552b7acf63c4473da8123b7149296e7, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 26
+    hit: {fileID: 11400000, guid: ba01ab3d6031d42da9b2dab6fb41e778, type: 2}
+    breakSound: {fileID: 11400000, guid: 01f29f96ca11d4784892e5af01d8ada2, type: 2}
+    breakVfx: {fileID: 5824512854028698845, guid: d9e3b3509726c45ffa89997e037e3573, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 27
+    hit: {fileID: 11400000, guid: f884acbe0b91a4a8ea5ae1575a56f03a, type: 2}
+    breakSound: {fileID: 11400000, guid: 953460e22ef8e4db6b57f389e0d2a751, type: 2}
+    breakVfx: {fileID: 8822276705876876653, guid: 972d55d0ecfdf4ec29e69b1aff662303, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 28
+    hit: {fileID: 11400000, guid: 111983d1b750a4ad5bf4e62268b0bf81, type: 2}
+    breakSound: {fileID: 11400000, guid: d993acce6eb924c3ca4f20e7b06338e9, type: 2}
+    breakVfx: {fileID: 4907405376055875623, guid: b145d76a58a344ca580474e4f7abb9fc, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 29
+    hit: {fileID: 11400000, guid: e33eda8c3fc634da291fb095bff0f894, type: 2}
+    breakSound: {fileID: 11400000, guid: ae9e64216086b41a79819bc0e6a218e5, type: 2}
+    breakVfx: {fileID: 4320853215545296399, guid: 3fec875e425cc461ba338d3dde2d9f1e, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 30
+    hit: {fileID: 11400000, guid: 3eb24c85e419b4400bb2bb0fd6f08ce3, type: 2}
+    breakSound: {fileID: 11400000, guid: e1db3142dfaea4bef94f910be7ad45fa, type: 2}
+    breakVfx: {fileID: 6557039856913370563, guid: 551c362c448b34bdebd4e37d6af0c231, type: 3}
+    hitMinSpeed: 0.5
+  - kind: 31
+    hit: {fileID: 11400000, guid: e0aefb954cf4d44c78652ac7573775b0, type: 2}
+    breakSound: {fileID: 11400000, guid: fbdaceb1ce87d4afdba231c510722c1b, type: 2}
+    breakVfx: {fileID: 665137516821859248, guid: 10d4f84f5f80e4d76b2e4e90d91fba59, type: 3}
+    hitMinSpeed: 0.5

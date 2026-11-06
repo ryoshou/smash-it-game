@@ -61,3 +61,24 @@ Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/kettle.fbx	TinyTreats/ke
 Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/toaster.fbx	TinyTreats/toaster.fbx
 Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/blinds_kitchen.fbx	TinyTreats/blinds_kitchen.fbx
 Tiny_Treats_Charming_Kitchen_1.1_FREE/Assets/fbx(unity)/dishrack_plates.fbx	TinyTreats/dishrack_plates.fbx
+# Kitchen kinds (Kitchen spec §5): Picnic shares the Tiny Treats atlas; KayKit Restaurant has its own
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/plate_A.fbx	TinyTreats/plate_A.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/bowl.fbx	TinyTreats/bowl.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/teapot.fbx	TinyTreats/teapot.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/wine_glass.fbx	TinyTreats/wine_glass.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/jam.fbx	TinyTreats/jam.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/drink_can.fbx	TinyTreats/drink_can.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/apple.fbx	TinyTreats/apple.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/cheese_A.fbx	TinyTreats/cheese_A.fbx
+Tiny_Treats_Pleasant_Picnic_1.0_FREE/Assets/fbx(unity)/sandwich.fbx	TinyTreats/sandwich.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/restaurantbits_texture.png	KayKitRestaurant/restaurantbits_texture.png
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/ketchup.fbx	KayKitRestaurant/ketchup.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_tomato.fbx	KayKitRestaurant/food_ingredient_tomato.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_bun_top.fbx	KayKitRestaurant/food_ingredient_bun_top.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_bun_bottom.fbx	KayKitRestaurant/food_ingredient_bun_bottom.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_burger_cooked.fbx	KayKitRestaurant/food_ingredient_burger_cooked.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_cheese_slice.fbx	KayKitRestaurant/food_ingredient_cheese_slice.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_lettuce_slice.fbx	KayKitRestaurant/food_ingredient_lettuce_slice.fbx
+KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_tomato_slice.fbx	KayKitRestaurant/food_ingredient_tomato_slice.fbx
+Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/cupcake.fbx	TinyTreatsBakedGoods/cupcake.fbx
+Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/croissant.fbx	TinyTreatsBakedGoods/croissant.fbx

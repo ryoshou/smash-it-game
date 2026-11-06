@@ -64,8 +64,28 @@ namespace Game.Editor
                 [PropKind.GameController] = Save(Burst("PixelPuff", material, 12, 0.35f, new Vector2(0.05f, 0.09f), new Vector2(0.6f, 1.4f), 0.2f, Violet, Sky)),
                 [PropKind.PencilCup] = Save(Burst("WoodChips", material, 16, 0.45f, new Vector2(0.025f, 0.05f), new Vector2(1f, 2f), 0.9f, Wood, Butter)),
             };
+            AddKitchen(kindBursts, material);
             FillLibrary(puff, sparkle, paperPuff, sparks, kindBursts);
             AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>Kitchen kinds (Kitchen spec §6): dishes throw chips, food splashes in its own colour.</summary>
+        private static void AddKitchen(Dictionary<PropKind, ParticleSystem> bursts, Material material)
+        {
+            bursts[PropKind.DinnerPlate] = Save(Burst("WhiteChips", material, 18, 0.45f, new Vector2(0.03f, 0.06f), new Vector2(1.2f, 2.4f), 0.9f, Color.white, Cream));
+            bursts[PropKind.Bowl] = Save(Burst("SkyChips", material, 16, 0.45f, new Vector2(0.03f, 0.06f), new Vector2(1.1f, 2.2f), 0.9f, Sky, Color.white));
+            bursts[PropKind.Teapot] = Save(Burst("CreamChips", material, 22, 0.5f, new Vector2(0.035f, 0.07f), new Vector2(1.2f, 2.4f), 0.9f, Cream, Butter));
+            bursts[PropKind.WineGlass] = Save(Burst("GlassSparkle", material, 20, 0.4f, new Vector2(0.015f, 0.04f), new Vector2(1.4f, 2.8f), 0.7f, Color.white, Sky));
+            bursts[PropKind.DrinkCan] = Save(Burst("SilverFizz", material, 24, 0.45f, new Vector2(0.02f, 0.05f), new Vector2(1.2f, 2.6f), 0.4f, Silver, Sky));
+            bursts[PropKind.JamJar] = Save(Splash("JamSplash", new Color(0.72f, 0.12f, 0.3f), 0.38f));
+            bursts[PropKind.KetchupBottle] = Save(Splash("KetchupSplash", new Color(0.85f, 0.1f, 0.06f), 0.42f));
+            bursts[PropKind.Apple] = Save(Splash("AppleSplash", new Color(0.86f, 0.25f, 0.2f), 0.3f));
+            bursts[PropKind.Tomato] = Save(Splash("TomatoSplash", new Color(0.95f, 0.3f, 0.12f), 0.32f));
+            bursts[PropKind.Cheese] = Save(Splash("CheeseSplash", new Color(1f, 0.82f, 0.3f), 0.3f));
+            bursts[PropKind.Burger] = Save(Splash("BurgerSplash", new Color(0.6f, 0.34f, 0.18f), 0.36f));
+            bursts[PropKind.Cupcake] = Save(Splash("CupcakeSplash", new Color(0.97f, 0.6f, 0.75f), 0.28f));
+            bursts[PropKind.Croissant] = Save(Splash("CroissantSplash", new Color(0.92f, 0.7f, 0.35f), 0.3f));
+            bursts[PropKind.Sandwich] = Save(Splash("SandwichSplash", new Color(0.55f, 0.8f, 0.35f), 0.32f));
         }
 
         public static ParticleSystem LoadConfetti() =>

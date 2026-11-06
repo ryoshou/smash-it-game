@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Game.Audio;
 using Game.Juice;
@@ -55,6 +56,7 @@ namespace Game.Editor
                 Kenney + "maximize_002.ogg", Pops + "pop3.ogg", Kenney + "maximize_003.ogg");
             var milkBreak = Set("Break_MilkBottle", 0.85f, Breaking + "glass_breaking_04.ogg", Breaking + "glass_breaking_05.ogg", Breaking + "glass_breaking_06.ogg");
 
+            var kitchen = KitchenSets();
             var library = VfxBuilder.LoadOrCreateLibrary();
             var feels = library.feels;
             for (int i = 0; i < feels.Length; i++)
@@ -75,7 +77,10 @@ namespace Game.Editor
                     case PropKind.SodaCan: feels[i].hit = canHit; feels[i].breakSound = canBreak; break;
                     case PropKind.GameController: feels[i].hit = padHit; feels[i].breakSound = padBreak; break;
                     case PropKind.FizzySoda: feels[i].hit = fizzHit; feels[i].breakSound = fizzBurst; break;
-                    default: feels[i].hit = keycapHit; feels[i].breakSound = pop; break;
+                    default:
+                        if (kitchen.TryGetValue(feels[i].kind, out var sets)) (feels[i].hit, feels[i].breakSound) = sets;
+                        else (feels[i].hit, feels[i].breakSound) = (keycapHit, pop);
+                        break;
                 }
             }
             library.feels = feels;
@@ -83,6 +88,42 @@ namespace Game.Editor
             OverridePresets();
             AssetDatabase.SaveAssets();
         }
+
+        /// <summary>
+        /// Kitchen kinds (Kitchen spec §6): each its own hit and break set. Dishes clink and shatter; food thuds softly
+        /// and splats (Task 3's squish clips); the drink can rattles and clatters.
+        /// </summary>
+        private static Dictionary<PropKind, (SoundSet hit, SoundSet breakSound)> KitchenSets() => new Dictionary<PropKind, (SoundSet, SoundSet)>
+        {
+            [PropKind.DinnerPlate] = (Set("Hit_DinnerPlate", 0.7f, Breaking + "glass_falling_04.ogg", Breaking + "hit_05.ogg", Breaking + "hit_06.ogg"),
+                Set("Break_DinnerPlate", 0.85f, Breaking + "glass_breaking_01.ogg", Breaking + "breaking_02.ogg", Breaking + "rock_breaking_01.ogg")),
+            [PropKind.Bowl] = (Set("Hit_Bowl", 0.7f, Breaking + "hit_07.ogg", Breaking + "hit_08.ogg", Kenney + "drop_004.ogg"),
+                Set("Break_Bowl", 0.85f, Breaking + "glass_breaking_02.ogg", Breaking + "breaking_03.ogg", Breaking + "rock_breaking_02.ogg")),
+            [PropKind.Teapot] = (Set("Hit_Teapot", 0.75f, Kenney + "bong_001.ogg", Breaking + "hit_09.ogg", Breaking + "glass_hit_01.ogg"),
+                Set("Break_Teapot", 0.9f, Breaking + "breaking_01.ogg", Breaking + "rock_breaking_03.ogg", Breaking + "glass_breaking_03.ogg")),
+            [PropKind.WineGlass] = (Set("Hit_WineGlass", 0.6f, Kenney + "glass_001.ogg", Kenney + "glass_003.ogg", Kenney + "glass_005.ogg"),
+                Set("Break_WineGlass", 0.85f, Breaking + "glass_breaking_04.ogg", Breaking + "glass_breaking_05.ogg", Breaking + "glass_falling_03.ogg")),
+            [PropKind.JamJar] = (Set("Hit_JamJar", 0.65f, Breaking + "hit_10.ogg", Breaking + "hit_11.ogg", Kenney + "close_004.ogg"),
+                Set("Break_JamJar", 0.8f, Splats + "impactsplat01.wav", Splats + "impactsplat02.wav", Splats + "squish_03.mp3")),
+            [PropKind.KetchupBottle] = (Set("Hit_KetchupBottle", 0.65f, Kenney + "open_001.ogg", Kenney + "open_002.ogg", Breaking + "hit_12.ogg"),
+                Set("Break_KetchupBottle", 0.8f, Splats + "impactsplat03.wav", Splats + "impactsplat04.wav", Splats + "squish_04.mp3")),
+            [PropKind.DrinkCan] = (Set("Hit_DrinkCan", 0.7f, Breaking + "falling_01.ogg", Breaking + "falling_02.ogg", Breaking + "metal_hit_06.ogg"),
+                Set("Break_DrinkCan", 0.75f, Breaking + "metal_falling_01.ogg", Breaking + "metal_falling_03.ogg", Breaking + "metal_falling_05.ogg")),
+            [PropKind.Apple] = (Set("Hit_Apple", 0.6f, Kenney + "back_001.ogg", Kenney + "back_002.ogg", Kenney + "back_003.ogg"),
+                Set("Break_Apple", 0.75f, Splats + "squish_05.mp3", Splats + "squish_06.mp3", Splats + "impactsplat07.wav")),
+            [PropKind.Tomato] = (Set("Hit_Tomato", 0.6f, Kenney + "back_004.ogg", Kenney + "scroll_001.ogg", Kenney + "scroll_002.ogg"),
+                Set("Break_Tomato", 0.75f, Splats + "impactsplat05.wav", Splats + "impactsplat06.wav", Splats + "squishpop.mp3")),
+            [PropKind.Cheese] = (Set("Hit_Cheese", 0.6f, Breaking + "falling_03.ogg", Breaking + "falling_04.ogg", Kenney + "scroll_003.ogg"),
+                Set("Break_Cheese", 0.7f, Splats + "squish_01.mp3", Splats + "impactsplat08.wav", Splats + "squish_05.mp3")),
+            [PropKind.Burger] = (Set("Hit_Burger", 0.6f, Breaking + "falling_05.ogg", Breaking + "falling_06.ogg", Kenney + "scroll_004.ogg"),
+                Set("Break_Burger", 0.75f, Splats + "impactsplat02.wav", Splats + "impactsplat06.wav", Splats + "squish_06.mp3")),
+            [PropKind.Cupcake] = (Set("Hit_Cupcake", 0.55f, Kenney + "select_002.ogg", Kenney + "select_003.ogg", Kenney + "select_004.ogg"),
+                Set("Break_Cupcake", 0.7f, Splats + "squishpop.mp3", Splats + "squish_02.mp3", Splats + "impactsplat07.wav")),
+            [PropKind.Croissant] = (Set("Hit_Croissant", 0.55f, Kenney + "scratch_004.ogg", Kenney + "scratch_005.ogg", Kenney + "scroll_005.ogg"),
+                Set("Break_Croissant", 0.7f, Splats + "squish_03.mp3", Splats + "squish_04.mp3", Splats + "impactsplat08.wav")),
+            [PropKind.Sandwich] = (Set("Hit_Sandwich", 0.6f, Breaking + "falling_07.ogg", Breaking + "hit_13.ogg", Kenney + "select_005.ogg"),
+                Set("Break_Sandwich", 0.75f, Splats + "impactsplat04.wav", Splats + "impactsplat05.wav", Splats + "squish_01.mp3")),
+        };
 
         private static SoundSet Set(string name, float volume, params string[] clipPaths)
         {

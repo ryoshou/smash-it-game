@@ -5,6 +5,8 @@ CactusPot_broken: the pot cut into 7 shards plus the cactus whole, which spills 
 Plate_broken / MilkBottle_broken / Hourglass_broken: the plate / bottle / glass cut into 7 shards plus its other parts
 whole (8 pieces).
 Donut_<look>_broken: food splashes into chunks (Kitchen spec §6): the whole donut cut into 4 pieces.
+Kitchen kinds (Kitchen spec §5-6): dishes and glass cut into 8 shards (the teapot 7 plus its lid, handle and spout joined whole:
+8), jars and bottles into 6 chunks, food into 4. The burger's pieces are its own layers (props/burger.py).
 Pieces keep the intact model's coordinates, so a set spawned at the prop's pose lines up with it.
 """
 import os
@@ -33,15 +35,15 @@ def loose_parts(obj):
     return sorted(parts, key=lambda o: len(o.data.vertices), reverse=True)
 
 
-def build_set(name, pack_file, material, out):
+def build_set(name, pack_file, material, out, shards=SHARDS):
     export.reset()
     source = fracture.import_pack(os.path.join(PACKS, pack_file))
     largest, *rest = loose_parts(source)
     whole = shapes.join("Whole", rest) if len(rest) > 1 else rest[0]
-    shards = fracture.shatter(largest, pieces=SHARDS, seed=SEED)
+    cut = fracture.shatter(largest, pieces=shards, seed=SEED)
     root = bpy.data.objects.new(name, None)
     bpy.context.scene.collection.objects.link(root)
-    for i, piece in enumerate([*shards, whole]):
+    for i, piece in enumerate([*cut, whole]):
         piece.name = f"Piece_{i:02d}"
         piece.parent = root
     export.fbx([root], os.path.join(out, f"{name}.fbx"), material=material, authored=False)
@@ -70,6 +72,29 @@ def build(out):
     for look in ("donut", "donut_pink", "donut_chocolate"):
         name = "Donut" + look[len("donut"):] + "_broken"
         build_chunks(name, os.path.join("TinyTreatsBakedGoods", f"{look}.fbx"), "Atlas_TinyTreatsBakedGoods", out, pieces=4)
+    build_kitchen(out)
+
+
+# name: (pack file, atlas, pieces); every part of the model is cut together.
+KITCHEN_CHUNKS = {
+    "DinnerPlate_broken": ("TinyTreats/plate_A.fbx", "Atlas_TinyTreats", 8),
+    "Bowl_broken": ("TinyTreats/bowl.fbx", "Atlas_TinyTreats", 8),
+    "WineGlass_broken": ("TinyTreats/wine_glass.fbx", "Atlas_TinyTreats", 8),
+    "JamJar_broken": ("TinyTreats/jam.fbx", "Atlas_TinyTreats", 6),
+    "KetchupBottle_broken": ("KayKitRestaurant/ketchup.fbx", "Atlas_KayKitRestaurant", 6),
+    "Apple_broken": ("TinyTreats/apple.fbx", "Atlas_TinyTreats", 4),
+    "Tomato_broken": ("KayKitRestaurant/food_ingredient_tomato.fbx", "Atlas_KayKitRestaurant", 4),
+    "Cheese_broken": ("TinyTreats/cheese_A.fbx", "Atlas_TinyTreats", 4),
+    "Cupcake_broken": ("TinyTreatsBakedGoods/cupcake.fbx", "Atlas_TinyTreatsBakedGoods", 4),
+    "Croissant_broken": ("TinyTreatsBakedGoods/croissant.fbx", "Atlas_TinyTreatsBakedGoods", 4),
+    "Sandwich_broken": ("TinyTreats/sandwich.fbx", "Atlas_TinyTreats", 4),
+}
+
+
+def build_kitchen(out):
+    build_set("Teapot_broken", os.path.join("TinyTreats", "teapot.fbx"), "Atlas_TinyTreats", out)
+    for name, (pack_file, material, pieces) in KITCHEN_CHUNKS.items():
+        build_chunks(name, pack_file, material, out, pieces=pieces)
 
 
 if __name__ == "__main__":

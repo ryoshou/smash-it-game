@@ -16,7 +16,7 @@ namespace Game.Editor
     {
         public const string PropsFolder = "Assets/_Game/Prefabs/Props";
         public const string PhysicsFolder = "Assets/_Game/Materials";
-        private const string Art = "Assets/_Game/Art/";
+        internal const string Art = "Assets/_Game/Art/";
         private const string TinyTreats = "TinyTreats";
         private const string KayKit = "KayKitFurniture";
         private static readonly string[] KeycapColours = { "cream", "pink", "sky" };
@@ -41,7 +41,7 @@ namespace Game.Editor
         private static readonly string[] CanColours = { "red", "blue", "grass" };
         private static readonly string[] ControllerColours = { "charcoal", "red", "sky" };
 
-        private sealed class Source
+        internal sealed class Source
         {
             public PropKind kind;
             public string[] variants;
@@ -129,6 +129,7 @@ namespace Game.Editor
             foreach (var source in CafeSources()) yield return source;
             foreach (var source in LibrarySources()) yield return source;
             foreach (var source in DenSources()) yield return source;
+            foreach (var source in KitchenPropSources.All()) yield return source;
         }
 
         /// <summary>Room 2 new kinds (spec §6.1): a thin plate that shatters, a featherweight ring, a top-heavy bottle.</summary>

@@ -213,3 +213,129 @@ MonoBehaviour:
     material: {fileID: 13400000, guid: cffcd3625a0934a2192d0ca6624deb46, type: 2}
     collider: 1
     breakMode: 3
+  - kind: 18
+    variants:
+    - prefab: {fileID: 6531845891251215846, guid: c3b18e173e6b84081b3c5fc1f80bc151, type: 3}
+      brokenPrefab: {fileID: 1047478866565460259, guid: a1ae2879bca714457ba6fd4b8be317b2, type: 3}
+    size: {x: 0.80025005, y: 0.10670012, z: 0.80025005}
+    mass: 0.3
+    material: {fileID: 13400000, guid: c463b7a17235d4af48b4cc19dfb3a93c, type: 2}
+    collider: 1
+    breakMode: 2
+  - kind: 19
+    variants:
+    - prefab: {fileID: 3983038080623513683, guid: 5ede240e0392741a3aa0d40d634331ee, type: 3}
+      brokenPrefab: {fileID: 2405574060005873104, guid: aa976b70b218840878ba7ff6f0ae1c18, type: 3}
+    size: {x: 0.49999997, y: 0.2572478, z: 0.49999952}
+    mass: 0.25
+    material: {fileID: 13400000, guid: c463b7a17235d4af48b4cc19dfb3a93c, type: 2}
+    collider: 1
+    breakMode: 2
+  - kind: 20
+    variants:
+    - prefab: {fileID: 5463838187759836092, guid: 9555910d1e54648c1b84762276145116, type: 3}
+      brokenPrefab: {fileID: 8680304599666010754, guid: 829fa9a78c14b4600833fa59684aad19, type: 3}
+    size: {x: 0.74842405, y: 0.5001349, z: 0.5044458}
+    mass: 0.6
+    material: {fileID: 13400000, guid: c463b7a17235d4af48b4cc19dfb3a93c, type: 2}
+    collider: 1
+    breakMode: 2
+  - kind: 21
+    variants:
+    - prefab: {fileID: 5947138022068199735, guid: be87bdb7af526456ab6d1d1b07bebd57, type: 3}
+      brokenPrefab: {fileID: 8425258717579990616, guid: 7863f6b9f51004828a81591f0ab87084, type: 3}
+    size: {x: 0.44400024, y: 0.4995001, z: 0.444}
+    mass: 0.15
+    material: {fileID: 13400000, guid: 9a4081d8b13464f468760070a053ebf1, type: 2}
+    collider: 1
+    breakMode: 2
+  - kind: 22
+    variants:
+    - prefab: {fileID: 950906465515788657, guid: 90a34d33192524ff3bc77ac83473137d, type: 3}
+      brokenPrefab: {fileID: 3796325553027551694, guid: 192f08bab67c641568fc946cf67e2aac, type: 3}
+    size: {x: 0.28314, y: 0.34986266, z: 0.28314006}
+    mass: 0.3
+    material: {fileID: 13400000, guid: 9a4081d8b13464f468760070a053ebf1, type: 2}
+    collider: 1
+    breakMode: 4
+  - kind: 23
+    variants:
+    - prefab: {fileID: 3950799812342131795, guid: 0f4deb96cb6b04ee798469a5399c0f32, type: 3}
+      brokenPrefab: {fileID: 4776740732854426214, guid: 80d3d7adb3a05406ba85ca61468f3fb1, type: 3}
+    size: {x: 0.27, y: 0.70065725, z: 0.27000004}
+    mass: 0.35
+    material: {fileID: 13400000, guid: 9a4081d8b13464f468760070a053ebf1, type: 2}
+    collider: 1
+    breakMode: 4
+  - kind: 24
+    variants:
+    - prefab: {fileID: 6930836825290932150, guid: cb367cdf9a63b4d7fa8da6e94f06785d, type: 3}
+      brokenPrefab: {fileID: 0}
+    size: {x: 0.26975, y: 0.42032206, z: 0.26975006}
+    mass: 0.15
+    material: {fileID: 13400000, guid: 678f0de9270e24788a44f22fd768dd56, type: 2}
+    collider: 1
+    breakMode: 1
+  - kind: 25
+    variants:
+    - prefab: {fileID: 1565110214441328480, guid: 098362ef99bc34aeea62f28b24b64407, type: 3}
+      brokenPrefab: {fileID: 725050201783977062, guid: 8e113f7232cc34e20a37dea25d6e0668, type: 3}
+    size: {x: 0.2698313, y: 0.21865168, z: 0.26983127}
+    mass: 0.12
+    material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
+    collider: 1
+    breakMode: 4
+  - kind: 26
+    variants:
+    - prefab: {fileID: 4240956890412952952, guid: dd71f1fc682f5468790d73739fe92e95, type: 3}
+      brokenPrefab: {fileID: 878589470064880909, guid: 039d9054a5faf4154812eb7247402026, type: 3}
+    size: {x: 0.24975006, y: 0.23310001, z: 0.24975005}
+    mass: 0.1
+    material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
+    collider: 0
+    breakMode: 4
+  - kind: 27
+    variants:
+    - prefab: {fileID: 4582594880664263385, guid: 0a2846109dbc34fd894f8ac328d5356b, type: 3}
+      brokenPrefab: {fileID: 1872414078724474568, guid: 07d2a7749e1c74c99958c0ed696536b4, type: 3}
+    size: {x: 0.22656205, y: 0.26091504, z: 0.34998843}
+    mass: 0.15
+    material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
+    collider: 0
+    breakMode: 4
+  - kind: 28
+    variants:
+    - prefab: {fileID: 3662612269356026287, guid: 873dd27253d0f423da5f68065f9d1ab7, type: 3}
+      brokenPrefab: {fileID: 5682332176351055803, guid: 080a876e7cf934c129d827763a00faa4, type: 3}
+    size: {x: 0.350343, y: 0.36160406, z: 0.3503431}
+    mass: 0.15
+    material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
+    collider: 1
+    breakMode: 4
+  - kind: 29
+    variants:
+    - prefab: {fileID: 4540883498433352713, guid: f848057caf6c849b495a5092b2db79d4, type: 3}
+      brokenPrefab: {fileID: 41255957372734852, guid: 6e5073bf480184fc8a9ab2f41b1f214f, type: 3}
+    size: {x: 0.17724544, y: 0.25001565, z: 0.17724541}
+    mass: 0.06
+    material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
+    collider: 1
+    breakMode: 4
+  - kind: 30
+    variants:
+    - prefab: {fileID: 6142747126979732699, guid: d3334ee6a237048af979c2e37dd791c0, type: 3}
+      brokenPrefab: {fileID: 5414259513740554181, guid: fad28d55b0af94d6192ca38fd99a4b26, type: 3}
+    size: {x: 0.41981924, y: 0.17515883, z: 0.22190765}
+    mass: 0.05
+    material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
+    collider: 1
+    breakMode: 4
+  - kind: 31
+    variants:
+    - prefab: {fileID: 2151304450886862460, guid: 9f108444385ed43acb55d583166f59b1, type: 3}
+      brokenPrefab: {fileID: 6800652470347546237, guid: 84c0bab2f68284d819df3f19578ea0b8, type: 3}
+    size: {x: 0.34849662, y: 0.24426499, z: 0.3494429}
+    mass: 0.1
+    material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
+    collider: 0
+    breakMode: 4

@@ -19,6 +19,21 @@ namespace Game.Editor
         public const float PencilCup = 0.403f;
         public const float SodaCan = 0.3f;
         public const float Controller = 0.092f; // lying flat
+        // Kitchen kinds (Kitchen spec §5, true to size against the mug)
+        public const float DinnerPlate = 0.107f;
+        public const float Bowl = 0.257f;
+        public const float Teapot = 0.5f;
+        public const float WineGlass = 0.5f;
+        public const float JamJar = 0.35f;
+        public const float KetchupBottle = 0.701f;
+        public const float DrinkCan = 0.42f;
+        public const float Apple = 0.219f;
+        public const float Tomato = 0.233f;
+        public const float Cheese = 0.261f;
+        public const float Burger = 0.362f;
+        public const float Cupcake = 0.25f;
+        public const float Croissant = 0.175f;
+        public const float Sandwich = 0.244f;
         public const float Pitch = 0.16f;    // 1u keycap spacing (0.15 + a gap)
         public const float WidePitch = 0.32f; // 2u keycap spacing (0.31 + a gap)
         public const float DeckDepth = 0.065f; // half the spacing of a two-spacebar deck

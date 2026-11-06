@@ -92,6 +92,19 @@ namespace Game.Tests
         [TestCase("Packs/TinyTreats/toaster.fbx", 0.916f, 0.6f, 0.5f)]
         [TestCase("Packs/TinyTreats/blinds_kitchen.fbx", 1.6f, 1.95f, 0.3f)]
         [TestCase("Packs/TinyTreats/dishrack_plates.fbx", 0.75f, 0.784f, 0.8f)]
+        [TestCase("Packs/TinyTreats/plate_A.fbx", 0.75f, 0.1f, 0.75f)]
+        [TestCase("Packs/TinyTreats/bowl.fbx", 0.4f, 0.206f, 0.4f)]
+        [TestCase("Packs/TinyTreats/teapot.fbx", 0.919f, 0.614f, 0.62f)]
+        [TestCase("Packs/TinyTreats/wine_glass.fbx", 0.4f, 0.45f, 0.4f)]
+        [TestCase("Packs/TinyTreats/jam.fbx", 0.39f, 0.482f, 0.39f)]
+        [TestCase("Packs/KayKitRestaurant/ketchup.fbx", 0.3f, 0.779f, 0.3f)]
+        [TestCase("Packs/TinyTreats/drink_can.fbx", 0.325f, 0.506f, 0.325f)]
+        [TestCase("Packs/TinyTreats/apple.fbx", 0.439f, 0.356f, 0.439f)]
+        [TestCase("Packs/KayKitRestaurant/food_ingredient_tomato.fbx", 0.75f, 0.7f, 0.75f)]
+        [TestCase("Packs/TinyTreats/cheese_A.fbx", 0.243f, 0.28f, 0.375f)]
+        [TestCase("Packs/TinyTreatsBakedGoods/cupcake.fbx", 0.362f, 0.51f, 0.362f)]
+        [TestCase("Packs/TinyTreatsBakedGoods/croissant.fbx", 0.737f, 0.307f, 0.389f)]
+        [TestCase("Packs/TinyTreats/sandwich.fbx", 0.622f, 0.436f, 0.624f)]
         public void PackProp_ImportsUpright(string model, float x, float y, float z)
         {
             AssertSize(new Vector3(x, y, z), Measure(model).boundsSize, 0.01f);
@@ -170,6 +183,19 @@ namespace Game.Tests
         [TestCase("Packs/TinyTreatsBakedGoods/donut.fbx", "Generated/Donut_broken.fbx", 4)]
         [TestCase("Packs/TinyTreatsBakedGoods/donut_pink.fbx", "Generated/Donut_pink_broken.fbx", 4)]
         [TestCase("Packs/TinyTreatsBakedGoods/donut_chocolate.fbx", "Generated/Donut_chocolate_broken.fbx", 4)]
+        [TestCase("Packs/TinyTreats/plate_A.fbx", "Generated/DinnerPlate_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/bowl.fbx", "Generated/Bowl_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/teapot.fbx", "Generated/Teapot_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/wine_glass.fbx", "Generated/WineGlass_broken.fbx", 8)]
+        [TestCase("Packs/TinyTreats/jam.fbx", "Generated/JamJar_broken.fbx", 6)]
+        [TestCase("Packs/KayKitRestaurant/ketchup.fbx", "Generated/KetchupBottle_broken.fbx", 6)]
+        [TestCase("Packs/TinyTreats/apple.fbx", "Generated/Apple_broken.fbx", 4)]
+        [TestCase("Packs/KayKitRestaurant/food_ingredient_tomato.fbx", "Generated/Tomato_broken.fbx", 4)]
+        [TestCase("Packs/TinyTreats/cheese_A.fbx", "Generated/Cheese_broken.fbx", 4)]
+        [TestCase("Generated/Burger.fbx", "Generated/Burger_broken.fbx", 6)]
+        [TestCase("Packs/TinyTreatsBakedGoods/cupcake.fbx", "Generated/Cupcake_broken.fbx", 4)]
+        [TestCase("Packs/TinyTreatsBakedGoods/croissant.fbx", "Generated/Croissant_broken.fbx", 4)]
+        [TestCase("Packs/TinyTreats/sandwich.fbx", "Generated/Sandwich_broken.fbx", 4)]
         public void BrokenSet_LinesUpWithIntactModel(string intact, string broken, int pieces)
         {
             var whole = ArtMeshStats.ModelBounds(Load(intact));

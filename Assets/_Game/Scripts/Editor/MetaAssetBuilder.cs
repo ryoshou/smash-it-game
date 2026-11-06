@@ -33,6 +33,20 @@ namespace Game.Editor
             { PropKind.SodaCan, "Soda Can" },
             { PropKind.GameController, "Game Controller" },
             { PropKind.FizzySoda, "Fizzy Soda" },
+            { PropKind.DinnerPlate, "Dinner Plate" },
+            { PropKind.Bowl, "Bowl" },
+            { PropKind.Teapot, "Teapot" },
+            { PropKind.WineGlass, "Wine Glass" },
+            { PropKind.JamJar, "Jam Jar" },
+            { PropKind.KetchupBottle, "Ketchup" },
+            { PropKind.DrinkCan, "Drink Can" },
+            { PropKind.Apple, "Apple" },
+            { PropKind.Tomato, "Tomato" },
+            { PropKind.Cheese, "Cheese" },
+            { PropKind.Burger, "Burger" },
+            { PropKind.Cupcake, "Cupcake" },
+            { PropKind.Croissant, "Croissant" },
+            { PropKind.Sandwich, "Sandwich" },
         };
 
         [MenuItem("Smash/Build Meta Assets")]

@@ -78,6 +78,42 @@ namespace Game.Tests
         }
 
         [UnityTest]
+        public IEnumerator Teapot_HitsFloor_Shatters()
+        {
+            var teapot = LoadOne(PropKind.Teapot);
+            Teleport(teapot, BesideDesk);
+            int peak = 0;
+
+            for (int i = 0; i < Steps(1f); i++)
+            {
+                yield return new WaitForFixedUpdate();
+                peak = Mathf.Max(peak, debris.ActiveSets);
+            }
+
+            Assert.AreEqual(1, peak, "the teapot never shattered");
+            Assert.IsTrue(teapot.IsCleared);
+            Assert.IsFalse(teapot.gameObject.activeSelf);
+        }
+
+        [UnityTest]
+        public IEnumerator Apple_HitsFloor_Splashes()
+        {
+            var apple = LoadOne(PropKind.Apple);
+            Teleport(apple, BesideDesk);
+            int peak = 0;
+
+            for (int i = 0; i < Steps(1f); i++)
+            {
+                yield return new WaitForFixedUpdate();
+                peak = Mathf.Max(peak, debris.ActiveSets);
+            }
+
+            Assert.AreEqual(BreakMode.Splash, catalog.Get(PropKind.Apple).breakMode);
+            Assert.AreEqual(1, peak, "the apple never burst into chunks");
+            Assert.IsFalse(apple.gameObject.activeSelf);
+        }
+
+        [UnityTest]
         public IEnumerator KeycapDroppedOnFloor_PopsAndDeactivates()
         {
             var keycap = LoadOne(PropKind.Keycap1u);

@@ -37,6 +37,55 @@ namespace Game.Tests
         }
 
         [Test]
+        public void EveryKind_IsInTheCatalog_32Kinds()
+        {
+            Assert.AreEqual(32, Enum.GetValues(typeof(PropKind)).Length);
+            Assert.AreEqual(32, catalog.specs.Length);
+        }
+
+        /// <summary>
+        /// Kitchen spec §5: true proportion at the game's scale (the 0.35-tall mug stands for a real 10 cm mug, so
+        /// 1 real cm is 0.035). "h" is the height, "w" the widest side across the top.
+        /// </summary>
+        [TestCase(PropKind.DinnerPlate, "w", 0.80f)]
+        [TestCase(PropKind.Bowl, "w", 0.50f)]
+        [TestCase(PropKind.Teapot, "h", 0.50f)]
+        [TestCase(PropKind.WineGlass, "h", 0.50f)]
+        [TestCase(PropKind.JamJar, "h", 0.35f)]
+        [TestCase(PropKind.KetchupBottle, "h", 0.70f)]
+        [TestCase(PropKind.DrinkCan, "h", 0.42f)]
+        [TestCase(PropKind.Apple, "w", 0.27f)]
+        [TestCase(PropKind.Tomato, "w", 0.25f)]
+        [TestCase(PropKind.Cheese, "w", 0.35f)]
+        [TestCase(PropKind.Burger, "w", 0.35f)]
+        [TestCase(PropKind.Cupcake, "h", 0.25f)]
+        [TestCase(PropKind.Croissant, "w", 0.42f)]
+        [TestCase(PropKind.Sandwich, "w", 0.35f)]
+        public void KitchenKind_IsTrueToSize(PropKind kind, string axis, float target)
+        {
+            float measured = Measure(kind, axis);
+
+            Assert.AreEqual(target, measured, target * 0.1f, $"{kind} {axis}");
+        }
+
+        [Test]
+        public void KitchenKinds_KeepRealOrder()
+        {
+            Assert.Less(Measure(PropKind.Apple, "h"), Measure(PropKind.Mug, "h"), "apple vs mug");
+            Assert.Less(Measure(PropKind.Mug, "h"), Measure(PropKind.Teapot, "h"), "mug vs teapot");
+            Assert.Less(Measure(PropKind.Teapot, "h"), Measure(PropKind.KetchupBottle, "h"), "teapot vs ketchup");
+            Assert.Greater(Measure(PropKind.DinnerPlate, "w"), Measure(PropKind.Bowl, "w"), "plate vs bowl");
+            Assert.Greater(Measure(PropKind.Bowl, "w"), Measure(PropKind.Mug, "h"), "bowl vs mug");
+            Assert.Greater(Measure(PropKind.DrinkCan, "h"), Measure(PropKind.SodaCan, "h"), "drink can vs soda can");
+        }
+
+        private float Measure(PropKind kind, string axis)
+        {
+            var size = catalog.Get(kind).size;
+            return axis == "h" ? size.y : Mathf.Max(size.x, size.z);
+        }
+
+        [Test]
         public void Variant_OutOfRange_FallsBackToFirst()
         {
             var spec = catalog.Get(PropKind.Mug);
@@ -89,6 +138,20 @@ namespace Game.Tests
         [TestCase(PropKind.SodaCan, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.GameController, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.FizzySoda, BreakMode.Burst, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.DinnerPlate, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Bowl, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Teapot, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.WineGlass, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.JamJar, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.KetchupBottle, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.DrinkCan, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Apple, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Tomato, BreakMode.Splash, PropColliderShape.Box)]
+        [TestCase(PropKind.Cheese, BreakMode.Splash, PropColliderShape.Box)]
+        [TestCase(PropKind.Burger, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Cupcake, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Croissant, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Sandwich, BreakMode.Splash, PropColliderShape.Box)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
             var spec = catalog.Get(kind);

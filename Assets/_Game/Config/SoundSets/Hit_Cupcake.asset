@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad00b97f7c2b3484ba0ab597f7f50c05, type: 3}
+  m_Name: Hit_Cupcake
+  m_EditorClassIdentifier: Game.Runtime::Game.Audio.SoundSet
+  clips:
+  - {fileID: 8300000, guid: e5ffe9d8537354111b512ab553fbd27e, type: 3}
+  - {fileID: 8300000, guid: a2f203a7548c2414d83c67674cc4f195, type: 3}
+  - {fileID: 8300000, guid: 1f1bff8bb18694985b2c7144b472ce40, type: 3}
+  volume: 0.55
+  pitchAtSoft: 1.05
+  pitchAtHard: 0.9
+  softSpeed: 0.5
+  hardSpeed: 4

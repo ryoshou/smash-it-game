@@ -24,5 +24,20 @@ namespace Game.Levels
         SodaCan,
         GameController,
         FizzySoda,
+        // Kitchen (levels 26–50; Kitchen spec §5): dishes shatter, food splashes, all true to size
+        DinnerPlate,
+        Bowl,
+        Teapot,
+        WineGlass,
+        JamJar,
+        KetchupBottle,
+        DrinkCan,
+        Apple,
+        Tomato,
+        Cheese,
+        Burger,
+        Cupcake,
+        Croissant,
+        Sandwich,
     }
 }
