@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Break_Donut
   m_EditorClassIdentifier: Game.Runtime::Game.Audio.SoundSet
   clips:
-  - {fileID: 8300000, guid: 2b393e38793b14f9dbb255e6c24cb285, type: 3}
-  - {fileID: 8300000, guid: e190cb109d57c461fa0a58ebb1d5ec85, type: 3}
-  - {fileID: 8300000, guid: 0f13c7e45e1f5434c90b5bf69f80514c, type: 3}
+  - {fileID: 8300000, guid: 61916ab8307d8474684f0c7561c28ee5, type: 3}
+  - {fileID: 8300000, guid: 2597b95a01701401c9c2b0efa6e91add, type: 3}
+  - {fileID: 8300000, guid: fad86c5fd051e443e9a8f8bd5f9561b1, type: 3}
   volume: 0.6
   pitchAtSoft: 1.05
   pitchAtHard: 0.9

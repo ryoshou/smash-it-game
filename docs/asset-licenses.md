@@ -201,3 +201,20 @@ Paths are relative to the project root.
 | `Assets/_Game/Audio/Sfx/KenneyInterface/maximize_001.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
 | `Assets/_Game/Audio/Sfx/KenneyInterface/maximize_002.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
 | `Assets/_Game/Audio/Sfx/KenneyInterface/maximize_003.ogg` | Kenney Interface Sounds (https://opengameart.org/content/interface-sounds) | Kenney | CC0 1.0 |  |
+| `Assets/_Game/Audio/Sfx/Splats/squish_01.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/squish_02.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/squish_03.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/squish_04.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/squish_05.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/squish_06.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/squishpop.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/squishsplat_impact.mp3` | Squish Sounds Effects (https://opengameart.org/content/squish-sounds-effects) | EZduzziteh | CC0 1.0 | food splat (Kitchen spec §6) |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat01.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat02.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat03.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat04.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat05.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat06.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat07.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Sfx/Splats/impactsplat08.wav` | 8 wet squish, slurp impacts (https://opengameart.org/node/2547) | Independent.nu | CC0 1.0 | food splat; converted from the pack's FLAC to WAV |
+| `Assets/_Game/Audio/Music/good_morning_cakeflaps.ogg` | Good Morning (https://opengameart.org/node/86566) | Cakeflaps (You're Perfect Studio) | CC0 1.0 (offered as CC-BY 4.0, OGA-BY 3.0 or CC0; used under CC0) | Kitchen (Room 2) music loop, marked loopable by the author |
