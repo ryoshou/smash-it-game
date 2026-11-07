@@ -10,7 +10,10 @@ using UnityEngine.TestTools;
 
 namespace Game.Tests
 {
-    /// <summary>Kitchen spec §6: food bursts into chunks and leaves a coloured splat where it landed, which fades.</summary>
+    /// <summary>
+    /// Kitchen spec §6, as the owner revised it: food is not glass or china. It squashes flat in one piece, leaves a
+    /// coloured stain where it landed, then goes; the stain lingers a little longer and fades.
+    /// </summary>
     public sealed class SplashPlayTests
     {
         private const string CatalogPath = "Assets/_Game/Config/PropCatalog.asset";
@@ -49,11 +52,12 @@ namespace Game.Tests
         }
 
         [UnityTest]
-        public IEnumerator Donut_HitsFloor_SplatsAndChunksThenFades()
+        public IEnumerator Donut_HitsFloor_SquashesFlatAndStainsThenGoes()
         {
             var donut = LoadDonuts(1, Difficulty.Normal)[0];
+            float startHeight = donut.transform.localScale.y;
             Teleport(donut, BesideDesk);
-            float splatY = float.NaN;
+            float splatY = float.NaN, flattest = float.PositiveInfinity, lowest = float.PositiveInfinity;
             int peak = 0;
 
             for (int i = 0; i < Steps(1.2f); i++)
@@ -61,15 +65,22 @@ namespace Game.Tests
                 yield return new WaitForFixedUpdate();
                 peak = Mathf.Max(peak, debris.ActiveSets);
                 if (float.IsNaN(splatY) && LiveSplats(out var y) > 0) splatY = y;
+                if (!donut.IsBroken) continue;
+                flattest = Mathf.Min(flattest, donut.transform.localScale.y / startHeight);
+                lowest = Mathf.Min(lowest, donut.transform.position.y);
             }
 
-            Assert.AreEqual(1, peak, "the donut never swapped to its pieces");
-            Assert.IsFalse(donut.gameObject.activeSelf);
-            Assert.IsFalse(float.IsNaN(splatY), "no splat appeared");
-            Assert.AreEqual(0f, splatY, NearSplat, "the splat should lie on the floor");
+            Assert.AreEqual(0, peak, "food should not break into pieces");
+            Assert.IsTrue(donut.gameObject.activeSelf, "the squashed donut should still show a moment after landing");
+            Assert.Less(flattest, 0.5f, "the donut never squashed flat");
+            Assert.Less(lowest, 0.05f, "the squashed donut should lie on the floor");
+            Assert.IsFalse(float.IsNaN(splatY), "no stain appeared");
+            Assert.AreEqual(0f, splatY, NearSplat, "the stain should lie on the floor");
 
-            yield return WaitSeconds(SplatGoneBy);
-            Assert.AreEqual(0, LiveSplats(out _), "the splat should have faded");
+            yield return WaitSeconds(1.5f);
+            Assert.IsFalse(donut.gameObject.activeSelf, "the squashed donut should be gone");
+            yield return WaitSeconds(SplatGoneBy - 1.5f);
+            Assert.AreEqual(0, LiveSplats(out _), "the stain should have faded");
         }
 
         /// <summary>The owner wants stains to linger (2–5 s): still there after 3 s, gone a little after 4.</summary>
@@ -88,9 +99,9 @@ namespace Game.Tests
             Assert.AreEqual(0, LiveSplats(out _), "the stain should have faded");
         }
 
-        /// <summary>Tomato, cupcake and cheese splash the moment the ball touches them, staining the desk under them.</summary>
+        /// <summary>Tomato, cupcake and cheese squash the moment the ball touches them, right where they stood.</summary>
         [UnityTest]
-        public IEnumerator SoftFood_HitByTheBall_SplashesAtOnceOnTheDesk([ValueSource(nameof(SoftFoods))] PropKind kind)
+        public IEnumerator SoftFood_HitByTheBall_SquashesAtOnceOnTheDesk([ValueSource(nameof(SoftFoods))] PropKind kind)
         {
             var food = LoadKinds(kind)[0];
             yield return WaitSeconds(0.5f);
@@ -107,8 +118,12 @@ namespace Game.Tests
                 if (LiveSplatsAt(out Vector3 at) > 0) splat = at;
             }
 
-            Assert.IsFalse(food.gameObject.activeSelf, "it should splash when the ball touches it");
-            Assert.IsTrue(food.IsCleared, "a splashed target counts as cleared");
+            Assert.IsTrue(food.IsBroken, "it should squash when the ball touches it");
+            Assert.IsTrue(food.IsCleared, "a squashed target counts as cleared");
+            yield return WaitSeconds(0.2f);
+            var squashed = food.transform.position;
+            Assert.Less(new Vector2(squashed.x, squashed.z).magnitude, 0.15f, "it should squash where it stood");
+            Assert.Less(squashed.y, LevelSpawner.DeskTopY + catalog.Get(kind).size.y / 2f, "it should sit squashed on the desk");
             Assert.AreEqual(LevelSpawner.DeskTopY, splat.y, NearSplat, "the stain should lie on the desk under it");
             Assert.Less(new Vector2(splat.x, splat.z).magnitude, 0.15f, "the stain should be where the food stood, not where it was knocked to");
         }
@@ -227,19 +242,17 @@ namespace Game.Tests
             int pooledVfx = vfx.transform.childCount;
             for (int i = 0; i < donuts.Length; i++)
                 Teleport(donuts[i], new Vector3(-3.4f + (i % 10) * 0.75f, 0.6f + (i / 10) * 0.3f, -1.6f - (i / 10) * 0.5f));
-            int feastSets = bootstrap.Tuning.feastDebrisSets;
             int splashes = AssetDatabase.LoadAssetAtPath<JuiceConfig>(JuicePath).splashVfxPerKind;
             int peak = 0;
 
             for (int i = 0; i < Steps(2f); i++)
             {
                 yield return new WaitForFixedUpdate();
-                Assert.LessOrEqual(debris.ActiveSets, feastSets);
                 Assert.LessOrEqual(LiveSplats(out _), splashes);
                 peak = Mathf.Max(peak, debris.ActiveSets);
             }
 
-            Assert.AreEqual(feastSets, peak, "expected the feast budget to fill");
+            Assert.AreEqual(0, peak, "food never uses debris sets");
             Assert.AreEqual(pooledDebris, debris.transform.childCount, "debris was instantiated during play");
             Assert.AreEqual(pooledVfx, vfx.transform.childCount, "effects were instantiated during play");
         }

@@ -20,13 +20,13 @@ namespace Game.Tests
         public void ShouldBreak_Splash_OnFloor() =>
             Assert.IsTrue(BreakRule.ShouldBreak(BreakMode.Splash, isBroken: false, touchedFloor: true));
 
-        /// <summary>Shatter and Splash swap the prop for its pre-cut pieces; the rest never use a debris set.</summary>
+        /// <summary>Only Shatter swaps the prop for its pre-cut pieces; food squashes whole, the rest never use a debris set.</summary>
         [TestCase(BreakMode.None, false)]
         [TestCase(BreakMode.Pop, false)]
         [TestCase(BreakMode.Shatter, true)]
         [TestCase(BreakMode.Burst, false)]
-        [TestCase(BreakMode.Splash, true)]
-        public void HasPieces_ShatterAndSplash_Only(BreakMode mode, bool expected) =>
+        [TestCase(BreakMode.Splash, false)]
+        public void HasPieces_ShatterOnly(BreakMode mode, bool expected) =>
             Assert.AreEqual(expected, BreakRule.HasPieces(mode));
 
         /// <summary>Food breaks when it lands on something; a glancing hit on a side face lets it fall on to splat.</summary>

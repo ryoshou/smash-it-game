@@ -26,7 +26,7 @@ namespace Game.Core
         public static bool TouchBreaks(bool splashesOnTouch, bool byBall, float relativeSpeed, float minSpeed) =>
             splashesOnTouch && (byBall || relativeSpeed >= minSpeed);
 
-        /// <summary>Whether the prop swaps to its pre-cut pieces (a debris set) when it breaks.</summary>
-        public static bool HasPieces(BreakMode mode) => mode == BreakMode.Shatter || mode == BreakMode.Splash;
+        /// <summary>Whether the prop swaps to its pre-cut pieces (a debris set) when it breaks: glass and china only, food squashes whole.</summary>
+        public static bool HasPieces(BreakMode mode) => mode == BreakMode.Shatter;
     }
 }

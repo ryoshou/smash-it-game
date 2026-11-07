@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1998528530711770000}
   - component: {fileID: 6917560461457633588}
   - component: {fileID: 4262339103332870227}
+  - component: {fileID: 2813239434134339059}
   m_Layer: 0
   m_Name: Donut_2
   m_TagString: Untagged
@@ -109,6 +110,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
   targets: []
+--- !u!114 &2813239434134339059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7206032656084371627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627f879dd9d9d457ba82bdd3e719d1bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.World.Squash
+  height: 0.16377625
 --- !u!1001 &9139792977787476711
 PrefabInstance:
   m_ObjectHideFlags: 0

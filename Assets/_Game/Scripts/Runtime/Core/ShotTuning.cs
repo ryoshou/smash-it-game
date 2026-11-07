@@ -52,6 +52,10 @@ namespace Game.Core
         [Tooltip("Seconds broken pieces (or a popped prop) stay full size before shrinking away.")]
         public float debrisHoldSeconds = 1.2f;
         public float debrisFadeSeconds = 0.6f;
+        [Tooltip("Squashed food's height as a fraction of its own: food squashes whole instead of breaking, then holds and shrinks like debris.")]
+        [Range(0.1f, 1f)] public float squashFlatten = 0.3f;
+        [Tooltip("Seconds food takes to squash flat when it lands or is touched.")]
+        public float squashSeconds = 0.08f;
         [Tooltip("Most shattered sets on screen at once; the oldest is recycled first. Lower on weak devices.")]
         public int maxDebrisSets = 6;
         [Tooltip("Most shattered sets on screen at once on a Feast level (Kitchen spec §4), where far more props land.")]

@@ -33,6 +33,8 @@ namespace Game.World
         public BreakMode BreakMode { get; private set; }
         /// <summary>Touched the floor (or furniture that counts as floor) since it spawned.</summary>
         public bool HasTouchedFloor { get; private set; }
+        /// <summary>Where it broke: for food, the ground its stain lies on and where it squashes.</summary>
+        public Vector3 BrokeAt { get; private set; }
         public ShotTuning Tuning => tuning;
         public Rigidbody Body { get; private set; }
 
@@ -119,6 +121,7 @@ namespace Game.World
         private void Break(BreakMode mode, bool raiseEvent, Vector3 at)
         {
             IsBroken = true;
+            BrokeAt = at;
             // A prop can reach the floor in the same step it would have been marked cleared: count it exactly once.
             if (!IsCleared) LatchCleared();
             if (raiseEvent) events?.RaiseBroke(Kind, at, mode);

@@ -44,8 +44,8 @@ namespace Game.Editor
                 Write("R3_L69", room, 6, N, Room3Layouts.CafeCounter()),
                 Write("R3_L70", room, 6, H, Room3Layouts.CafeTower()),
                 Write("R3_L71", room, 5, N, Room3Layouts.MilkRow()),
-                Write("R3_L72", room, 6, N, Room3Layouts.MilkDominoes()),
-                Write("R3_L73", room, 8, N, Room3Layouts.MilkBehindPlates(), backDesk: true),
+                Write("R3_L72", room, 5, N, Room3Layouts.MilkDominoes()),
+                Write("R3_L73", room, 7, N, Room3Layouts.MilkBehindPlates(), backDesk: true),
                 Write("R3_L74", room, 7, N, Room3Layouts.MilkOnBooks()),
                 Write("R3_L75", room, 10, H, Room3Layouts.CafeFinale(), backDesk: true),
             };

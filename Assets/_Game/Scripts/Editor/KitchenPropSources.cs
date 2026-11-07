@@ -78,7 +78,9 @@ namespace Game.Editor
             PhysicsMaterial physics, float scale, BreakMode mode, PropColliderShape collider) => new PropPrefabBuilder.Source
         {
             kind = kind, atlas = atlas, collider = collider, mass = mass, physics = physics, breakMode = mode,
-            variants = new[] { Art + model }, broken = new[] { Art + $"Generated/{kind}_broken.fbx" }, visualScale = scale,
+            // Only glass and china break into pieces; food squashes whole (Squash).
+            variants = new[] { Art + model }, visualScale = scale,
+            broken = mode == BreakMode.Shatter ? new[] { Art + $"Generated/{kind}_broken.fbx" } : null,
         };
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7394976993168419108}
   - component: {fileID: 4913975252807786560}
   - component: {fileID: 7282170394152244904}
+  - component: {fileID: 5645895907385056352}
   m_Layer: 0
   m_Name: Tomato_0
   m_TagString: Untagged
@@ -109,6 +110,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
   targets: []
+--- !u!114 &5645895907385056352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4240956890412952952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627f879dd9d9d457ba82bdd3e719d1bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.World.Squash
+  height: 0.23310001
 --- !u!1001 &7699461270170541303
 PrefabInstance:
   m_ObjectHideFlags: 0

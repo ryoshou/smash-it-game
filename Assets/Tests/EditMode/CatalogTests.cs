@@ -162,6 +162,24 @@ namespace Game.Tests
             Assert.Greater(spec.size.y, 0f);
         }
 
+        /// <summary>Food is not glass or china: it squashes whole (no pieces) and leaves its stain.</summary>
+        [Test]
+        public void Food_SquashesWhole_NoPieces()
+        {
+            int food = 0;
+            foreach (var spec in catalog.specs)
+            {
+                if (spec.breakMode != BreakMode.Splash) continue;
+                food++;
+                foreach (var variant in spec.variants)
+                {
+                    Assert.IsNull(variant.brokenPrefab, $"{spec.kind} still breaks into pieces");
+                    Assert.IsNotNull(variant.prefab.GetComponent<Game.World.Squash>(), $"{spec.kind} can't squash");
+                }
+            }
+            Assert.Greater(food, 0, "no food kinds");
+        }
+
         /// <summary>The owner's soft foods splash the moment they are touched; everything else waits for the floor.</summary>
         [Test]
         public void OnlyTomatoCupcakeCheese_SplashOnTouch()

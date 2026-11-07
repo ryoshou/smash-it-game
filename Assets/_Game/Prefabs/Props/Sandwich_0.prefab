@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3176870115285135524}
   - component: {fileID: 2111031599836597693}
   - component: {fileID: 3564670311085513881}
+  - component: {fileID: 7999187932921120357}
   m_Layer: 0
   m_Name: Sandwich_0
   m_TagString: Untagged
@@ -109,6 +110,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
   targets: []
+--- !u!114 &7999187932921120357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2151304450886862460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627f879dd9d9d457ba82bdd3e719d1bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Runtime::Game.World.Squash
+  height: 0.24426499
 --- !u!1001 &8340775059669075520
 PrefabInstance:
   m_ObjectHideFlags: 0
