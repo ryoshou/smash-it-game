@@ -142,7 +142,8 @@ namespace Game.Tests
                 Assert.IsNotNull(splat, $"{kind} effect has no Splat");
                 var system = splat.GetComponent<ParticleSystem>();
                 Assert.AreEqual(ParticleSystemRenderMode.HorizontalBillboard, splat.GetComponent<ParticleSystemRenderer>().renderMode, kind.ToString());
-                Assert.LessOrEqual(system.main.startLifetime.constantMax, 2.5f, $"{kind} splat lingers");
+                // The owner's lingering stain: 2–5 s before it is gone.
+                Assert.That(system.main.startLifetime.constantMax, Is.InRange(2f, 5f), $"{kind} splat lifetime");
                 Assert.IsTrue(system.sizeOverLifetime.enabled, $"{kind} splat never shrinks");
                 Assert.AreEqual(0f, system.sizeOverLifetime.size.curve.Evaluate(1f), 1e-4f, $"{kind} splat doesn't shrink to nothing");
             }

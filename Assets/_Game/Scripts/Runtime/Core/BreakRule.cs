@@ -1,8 +1,8 @@
 namespace Game.Core
 {
     /// <summary>
-    /// Props break (pop, shatter or splash) the first time they touch the floor (spec §4.3). A Burst prop leaves it to its
-    /// fuse, which the floor arms.
+    /// Props break (pop, shatter or splash) the first time they touch the floor (spec §4.3); soft food splashes the
+    /// moment it is touched. A Burst prop leaves it to its fuse, which the floor arms.
     /// </summary>
     public static class BreakRule
     {
@@ -18,6 +18,13 @@ namespace Game.Core
         /// </summary>
         public static bool Lands(BreakMode mode, float contactNormalY) =>
             mode != BreakMode.Splash || System.Math.Abs(contactNormalY) >= MinLandingNormalY;
+
+        /// <summary>
+        /// Whether a contact breaks soft food that splashes on touch (the owner's tomato, cupcake and cheese): the cat's
+        /// ball does at any speed, anything else must hit it at least minSpeed, so neighbours resting against it don't.
+        /// </summary>
+        public static bool TouchBreaks(bool splashesOnTouch, bool byBall, float relativeSpeed, float minSpeed) =>
+            splashesOnTouch && (byBall || relativeSpeed >= minSpeed);
 
         /// <summary>Whether the prop swaps to its pre-cut pieces (a debris set) when it breaks.</summary>
         public static bool HasPieces(BreakMode mode) => mode == BreakMode.Shatter || mode == BreakMode.Splash;

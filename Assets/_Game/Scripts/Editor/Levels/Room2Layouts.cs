@@ -97,10 +97,10 @@ namespace Game.Editor
                 .Concat(CornerStacks.SelectMany(c => Stack(PropKind.Cheese, 3, c.x, c.y)))
                 .Concat(FrontCorners.Select(c => Food(PropKind.Apple, c.x, c.y))).ToArray();
 
-        /// <summary>Hard: a wide spread, few shots. Bowls of tomatoes at the back, tomatoes and cheese in rows.</summary>
+        /// <summary>Hard: a wide spread, few shots. Bowls of tomatoes at the back, apples and cheese in rows.</summary>
         public static PropPlacement[] WideSpread() =>
             new[] { -0.65f, 0f, 0.65f }.SelectMany(x => InBowl(x, 0.45f, 1))
-                .Concat(Line(PropKind.Tomato, 0f, -0.8f, -0.4f, 0f, 0.4f, 0.8f))
+                .Concat(Line(PropKind.Apple, 0f, -0.8f, -0.4f, 0f, 0.4f, 0.8f))
                 .Concat(Line(PropKind.Cheese, -0.45f, -0.8f, -0.4f, 0f, 0.4f, 0.8f)).ToArray();
 
         /// <summary>New: the jam jar and the cupcake. A plate of cupcakes, cupcake pairs at the sides, jars in front.</summary>

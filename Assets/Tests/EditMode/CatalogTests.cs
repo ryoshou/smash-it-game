@@ -162,6 +162,15 @@ namespace Game.Tests
             Assert.Greater(spec.size.y, 0f);
         }
 
+        /// <summary>The owner's soft foods splash the moment they are touched; everything else waits for the floor.</summary>
+        [Test]
+        public void OnlyTomatoCupcakeCheese_SplashOnTouch()
+        {
+            var soft = new[] { PropKind.Tomato, PropKind.Cupcake, PropKind.Cheese };
+            foreach (var spec in catalog.specs)
+                Assert.AreEqual(Array.IndexOf(soft, spec.kind) >= 0, spec.splashesOnTouch, spec.kind.ToString());
+        }
+
         [Test]
         public void PaperCup_IsLighterThanEveryKeycap()
         {

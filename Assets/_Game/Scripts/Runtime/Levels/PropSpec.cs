@@ -15,6 +15,8 @@ namespace Game.Levels
         public PhysicsMaterial material;
         public PropColliderShape collider;
         public BreakMode breakMode;
+        /// <summary>Splashes the moment the ball (or a hard hit) touches it, not only on the floor.</summary>
+        public bool splashesOnTouch;
 
         /// <summary>The variant at index, or the first one when the index is out of range.</summary>
         public PropVariant Variant(int index) => variants[VariantIndex(index)];

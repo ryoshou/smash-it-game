@@ -38,6 +38,14 @@ namespace Game.Tests
         public void Lands_SplashNeedsAContactFromAbove(BreakMode mode, float normalY, bool expected) =>
             Assert.AreEqual(expected, BreakRule.Lands(mode, normalY));
 
+        /// <summary>Soft food splashes the moment it is touched: by the ball at any speed, by anything else that hits it.</summary>
+        [TestCase(true, true, 0f, true)]
+        [TestCase(true, false, 0.4f, true)]
+        [TestCase(true, false, 0.1f, false)]
+        [TestCase(false, true, 5f, false)]
+        public void TouchBreaks_ByTheBallOrAHit(bool splashesOnTouch, bool byBall, float speed, bool expected) =>
+            Assert.AreEqual(expected, BreakRule.TouchBreaks(splashesOnTouch, byBall, speed, 0.4f));
+
         [Test]
         public void ShouldBreak_None_False() =>
             Assert.IsFalse(BreakRule.ShouldBreak(BreakMode.None, isBroken: false, touchedFloor: true));

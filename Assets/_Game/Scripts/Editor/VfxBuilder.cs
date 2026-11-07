@@ -19,8 +19,8 @@ namespace Game.Editor
         public const string LibraryPath = PrototypeAssetBuilder.ConfigFolder + "/PropFeelLibrary.asset";
         private const string ParticleShader = "Universal Render Pipeline/Particles/Unlit";
         private const float DefaultHitMinSpeed = 0.5f;
-        private const float SplatSeconds = 1.8f;
-        private const float SplatHoldUntil = 0.55f; // of its life, full size; then it shrinks to nothing
+        private const float SplatSeconds = 4f;      // the owner's lingering stain (2–5 s)
+        private const float SplatHoldUntil = 0.75f; // of its life, full size (3 s); then it shrinks to nothing
         private const float DefaultSplatSize = 0.35f;
         private const int SplatTextureSize = 64;
 

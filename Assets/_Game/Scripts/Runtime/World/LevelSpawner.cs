@@ -88,7 +88,7 @@ namespace Game.World
             // Load time only: convex props keep their colliders on the visual's children.
             if (spec.material != null)
                 foreach (var collider in instance.GetComponentsInChildren<Collider>()) collider.sharedMaterial = spec.material;
-            prop.Init(placement.isTarget, DeskTopY, PlayVolume, t, spec.kind, spec.VariantIndex(placement.variant), spec.breakMode, events);
+            prop.Init(placement.isTarget, DeskTopY, PlayVolume, t, spec.kind, spec.VariantIndex(placement.variant), spec.breakMode, spec.splashesOnTouch, events);
             prop.Cleared += OnCleared;
             prop.Broken += OnBroken;
             return prop;

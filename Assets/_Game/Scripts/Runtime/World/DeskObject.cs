@@ -7,12 +7,15 @@ namespace Game.World
 {
     /// <summary>
     /// A prop on the desk: caps its speeds, latches "cleared" once it falls off or leaves the play volume, raises
-    /// impact events, and breaks the first time it touches the floor.
+    /// impact events, and breaks the first time it touches the floor (soft food: the first time it is touched).
     /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     public sealed class DeskObject : MonoBehaviour
     {
+        private const float GroundProbeDistance = 3f;
+
         private float deskTopY;
+        private bool splashesOnTouch;
         private Bounds playVolume;
         private ShotTuning tuning;
         private GameEvents events;
@@ -34,7 +37,7 @@ namespace Game.World
         public Rigidbody Body { get; private set; }
 
         public void Init(bool isTarget, float deskTopY, Bounds playVolume, ShotTuning t, PropKind kind, int variant,
-            BreakMode mode, GameEvents gameEvents)
+            BreakMode mode, bool splashOnTouch, GameEvents gameEvents)
         {
             IsTarget = isTarget;
             IsCleared = false;
@@ -46,6 +49,7 @@ namespace Game.World
             Kind = kind;
             Variant = variant;
             BreakMode = mode;
+            splashesOnTouch = splashOnTouch;
             events = gameEvents;
         }
 
@@ -89,6 +93,12 @@ namespace Game.World
             var contact = collision.GetContact(0);
             if (events != null && speed >= tuning.propImpactMinSpeed)
                 events.RaisePropImpact(Kind, contact.point, speed);
+            bool byBall = collision.rigidbody != null && collision.rigidbody.TryGetComponent(out YarnBall _);
+            if (BreakRule.TouchBreaks(splashesOnTouch, byBall, speed, tuning.propImpactMinSpeed))
+            {
+                Break(BreakMode, raiseEvent: true, GroundUnder());
+                return;
+            }
             bool touchedFloor = BreakMode != BreakMode.None && collision.collider.TryGetComponent(out FloorSurface _);
             if (touchedFloor) HasTouchedFloor = true;
             if (!BreakRule.ShouldBreak(BreakMode, IsBroken, touchedFloor && BreakRule.Lands(BreakMode, contact.normal.y))) return;
@@ -97,6 +107,14 @@ namespace Game.World
         }
 
         private void Break(BreakMode mode, bool raiseEvent) => Break(mode, raiseEvent, Body.position);
+
+        /// <summary>
+        /// The first surface straight below the prop, where a splat lies. The ray starts inside the prop's own collider,
+        /// which raycasts ignore; with nothing below, the prop's own position.
+        /// </summary>
+        private Vector3 GroundUnder() =>
+            Physics.Raycast(Body.position, Vector3.down, out var hit, GroundProbeDistance, Physics.DefaultRaycastLayers,
+                QueryTriggerInteraction.Ignore) ? hit.point : Body.position;
 
         private void Break(BreakMode mode, bool raiseEvent, Vector3 at)
         {

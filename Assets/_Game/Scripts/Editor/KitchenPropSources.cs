@@ -52,10 +52,11 @@ namespace Game.Editor
             yield return Food(PropKind.Apple, TinyTreats, $"Packs/{TinyTreats}/apple.fbx", 0.12f, food, AppleScale);
             // Round or flat foods that must settle get boxes, as the donut did: the tomato's hull rocks on its round
             // bottom, and a hull's rounded top never lets anything stack on it.
-            yield return Food(PropKind.Tomato, Restaurant, $"Packs/{Restaurant}/food_ingredient_tomato.fbx", 0.1f, food, TomatoScale, PropColliderShape.Box);
-            yield return Food(PropKind.Cheese, TinyTreats, $"Packs/{TinyTreats}/cheese_A.fbx", 0.15f, food, CheeseScale, PropColliderShape.Box);
+            // The owner's soft foods splash the moment they are touched, not only on the floor.
+            yield return Soft(Food(PropKind.Tomato, Restaurant, $"Packs/{Restaurant}/food_ingredient_tomato.fbx", 0.1f, food, TomatoScale, PropColliderShape.Box));
+            yield return Soft(Food(PropKind.Cheese, TinyTreats, $"Packs/{TinyTreats}/cheese_A.fbx", 0.15f, food, CheeseScale, PropColliderShape.Box));
             yield return Food(PropKind.Burger, Restaurant, "Generated/Burger.fbx", 0.15f, food, BurgerScale);
-            yield return Food(PropKind.Cupcake, BakedGoods, $"Packs/{BakedGoods}/cupcake.fbx", 0.06f, food, CupcakeScale);
+            yield return Soft(Food(PropKind.Cupcake, BakedGoods, $"Packs/{BakedGoods}/cupcake.fbx", 0.06f, food, CupcakeScale));
             yield return Food(PropKind.Croissant, BakedGoods, $"Packs/{BakedGoods}/croissant.fbx", 0.05f, food, CroissantScale);
             yield return Food(PropKind.Sandwich, TinyTreats, $"Packs/{TinyTreats}/sandwich.fbx", 0.1f, food, SandwichScale, PropColliderShape.Box);
         }
@@ -66,6 +67,12 @@ namespace Game.Editor
         private static PropPrefabBuilder.Source Food(PropKind kind, string atlas, string model, float mass, PhysicsMaterial physics,
             float scale, PropColliderShape collider = PropColliderShape.ConvexMesh) =>
             Breakable(kind, atlas, model, mass, physics, scale, BreakMode.Splash, collider);
+
+        private static PropPrefabBuilder.Source Soft(PropPrefabBuilder.Source food)
+        {
+            food.splashesOnTouch = true;
+            return food;
+        }
 
         private static PropPrefabBuilder.Source Breakable(PropKind kind, string atlas, string model, float mass,
             PhysicsMaterial physics, float scale, BreakMode mode, PropColliderShape collider) => new PropPrefabBuilder.Source

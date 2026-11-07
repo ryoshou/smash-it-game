@@ -51,6 +51,7 @@ namespace Game.Editor
             public float mass;
             public PhysicsMaterial physics;
             public BreakMode breakMode;
+            public bool splashesOnTouch;
             public Vector3? size;
             public Vector3 visualEuler;
             public float visualScale = 1f;
@@ -226,7 +227,7 @@ namespace Game.Editor
             var spec = new PropSpec
             {
                 kind = source.kind, mass = source.mass, material = source.physics, collider = source.collider,
-                breakMode = source.breakMode, variants = new PropVariant[source.variants.Length],
+                breakMode = source.breakMode, splashesOnTouch = source.splashesOnTouch, variants = new PropVariant[source.variants.Length],
             };
             for (int i = 0; i < source.variants.Length; i++)
             {

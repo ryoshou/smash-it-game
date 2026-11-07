@@ -16,6 +16,8 @@ namespace Game.Tests
         private const string CatalogPath = "Assets/_Game/Config/PropCatalog.asset";
         private const string JuicePath = "Assets/_Game/Config/JuiceConfig.asset";
         private const float NearSplat = 0.02f;
+        private const float SplatGoneBy = 4.5f;
+        private static readonly PropKind[] SoftFoods = { PropKind.Tomato, PropKind.Cupcake, PropKind.Cheese };
         private static readonly Vector3 BesideDesk = new Vector3(1.6f, 1f, -1.2f);
 
         private GameBootstrap bootstrap;
@@ -66,8 +68,79 @@ namespace Game.Tests
             Assert.IsFalse(float.IsNaN(splatY), "no splat appeared");
             Assert.AreEqual(0f, splatY, NearSplat, "the splat should lie on the floor");
 
-            yield return WaitSeconds(2.5f);
+            yield return WaitSeconds(SplatGoneBy);
             Assert.AreEqual(0, LiveSplats(out _), "the splat should have faded");
+        }
+
+        /// <summary>The owner wants stains to linger (2–5 s): still there after 3 s, gone a little after 4.</summary>
+        [UnityTest]
+        public IEnumerator Splat_LingersAboutFourSecondsThenFades()
+        {
+            var donut = LoadDonuts(1, Difficulty.Normal)[0];
+            Teleport(donut, BesideDesk);
+            for (int i = 0; i < Steps(1.2f) && LiveSplats(out _) == 0; i++) yield return new WaitForFixedUpdate();
+            Assert.Greater(LiveSplats(out _), 0, "precondition: the donut splatted");
+
+            yield return WaitSeconds(3f);
+            Assert.Greater(LiveSplats(out _), 0, "the stain faded too soon");
+
+            yield return WaitSeconds(SplatGoneBy - 3f);
+            Assert.AreEqual(0, LiveSplats(out _), "the stain should have faded");
+        }
+
+        /// <summary>Tomato, cupcake and cheese splash the moment the ball touches them, staining the desk under them.</summary>
+        [UnityTest]
+        public IEnumerator SoftFood_HitByTheBall_SplashesAtOnceOnTheDesk([ValueSource(nameof(SoftFoods))] PropKind kind)
+        {
+            var food = LoadKinds(kind)[0];
+            yield return WaitSeconds(0.5f);
+            Assert.IsTrue(food.gameObject.activeSelf, "precondition: it rests whole on the desk");
+            float height = catalog.Get(kind).size.y;
+            var centre = new Vector3(0f, LevelSpawner.DeskTopY + height * 0.6f, 0f);
+            Object.FindAnyObjectByType<BallPool>().Get().Launch(centre + new Vector3(0f, 0.02f, -0.6f),
+                new Vector3(0f, 0f, bootstrap.Tuning.minSpeed), bootstrap.Tuning, bootstrap.Events);
+            var splat = new Vector3(float.NaN, float.NaN, float.NaN);
+
+            for (int i = 0; i < Steps(0.5f) && float.IsNaN(splat.y); i++)
+            {
+                yield return new WaitForFixedUpdate();
+                if (LiveSplatsAt(out Vector3 at) > 0) splat = at;
+            }
+
+            Assert.IsFalse(food.gameObject.activeSelf, "it should splash when the ball touches it");
+            Assert.IsTrue(food.IsCleared, "a splashed target counts as cleared");
+            Assert.AreEqual(LevelSpawner.DeskTopY, splat.y, NearSplat, "the stain should lie on the desk under it");
+            Assert.Less(new Vector2(splat.x, splat.z).magnitude, 0.15f, "the stain should be where the food stood, not where it was knocked to");
+        }
+
+        [UnityTest]
+        public IEnumerator SoftFood_RestingSideBySide_StaysWhole()
+        {
+            var foods = LoadKinds(PropKind.Tomato, PropKind.Cupcake, PropKind.Cheese, PropKind.Tomato);
+            yield return WaitSeconds(2f);
+
+            foreach (var food in foods) Assert.IsTrue(food.gameObject.activeSelf && !food.IsBroken, $"{food.Kind} splashed at rest");
+            Assert.AreEqual(0, LiveSplats(out _));
+        }
+
+        /// <summary>Other food still splashes only where it lands: a ball hit on the desk leaves no stain up there.</summary>
+        [UnityTest]
+        public IEnumerator Donut_HitByTheBall_SplatsOnlyWhereItLands()
+        {
+            var donut = LoadKinds(PropKind.Donut)[0];
+            yield return WaitSeconds(0.5f);
+            float height = catalog.Get(PropKind.Donut).size.y;
+            Object.FindAnyObjectByType<BallPool>().Get().Launch(new Vector3(0f, LevelSpawner.DeskTopY + height * 0.6f + 0.02f, -0.6f),
+                new Vector3(0f, 0f, bootstrap.Tuning.minSpeed), bootstrap.Tuning, bootstrap.Events);
+            float highest = float.NegativeInfinity;
+
+            for (int i = 0; i < Steps(0.3f); i++)
+            {
+                yield return new WaitForFixedUpdate();
+                if (LiveSplats(out var y) > 0) highest = Mathf.Max(highest, y);
+            }
+
+            Assert.Less(highest, LevelSpawner.DeskTopY - 0.5f, "a donut should not splash on the desk where it was hit");
         }
 
         [UnityTest]
@@ -174,16 +247,42 @@ namespace Game.Tests
         /// <summary>Live splats under the effect pool; y is the last one's height.</summary>
         private int LiveSplats(out float y)
         {
+            int live = LiveSplatsAt(out Vector3 at);
+            y = at.y;
+            return live;
+        }
+
+        /// <summary>Live splats under the effect pool; at is the last one's position.</summary>
+        private int LiveSplatsAt(out Vector3 at)
+        {
             int live = 0;
-            y = float.NaN;
+            at = new Vector3(float.NaN, float.NaN, float.NaN);
             foreach (Transform effect in vfx.transform)
             {
                 var splat = effect.Find("Splat");
                 if (splat == null || !splat.GetComponent<ParticleSystem>().IsAlive()) continue;
                 live++;
-                y = splat.position.y;
+                at = splat.position;
             }
             return live;
+        }
+
+        /// <summary>One of each kind on the main desk, side by side and 0.3 apart.</summary>
+        private DeskObject[] LoadKinds(params PropKind[] kinds)
+        {
+            level = ScriptableObject.CreateInstance<LevelDef>();
+            level.id = "Splash_Kinds";
+            level.props = new PropPlacement[kinds.Length];
+            for (int i = 0; i < kinds.Length; i++)
+                level.props[i] = new PropPlacement
+                {
+                    kind = kinds[i], basePosition = new Vector3((i - (kinds.Length - 1) / 2f) * 0.3f, 0f, 0f), isTarget = true,
+                };
+            debris.Prewarm(catalog, level, bootstrap.Tuning);
+            spawner.Load(level, catalog, bootstrap.Tuning, debris, bootstrap.Events);
+            var props = new DeskObject[kinds.Length];
+            for (int i = 0; i < kinds.Length; i++) props[i] = spawner.Spawned[i];
+            return props;
         }
 
         private DeskObject[] LoadDonuts(int count, Difficulty difficulty)
