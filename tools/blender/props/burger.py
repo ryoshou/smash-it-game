@@ -2,15 +2,11 @@
 the 1,500 prop budget; the parts come to about 1,080).
 
 Burger.fbx: bun bottom, patty, cheese, tomato, lettuce and bun top, joined into one mesh.
-Burger_broken.fbx: the same six parts as separate pieces in the same places, so a set spawned at the burger's pose lines
-up with it and food splashes apart into its layers (Kitchen spec §6).
 """
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-import bpy  # noqa: E402
 
 from lib import export, fracture, palette, shapes  # noqa: E402
 
@@ -38,13 +34,6 @@ def stack():
 def build(out):
     export.reset()
     export.fbx([shapes.join("Burger", stack())], os.path.join(out, "Burger.fbx"), material=MATERIAL, authored=False)
-    export.reset()
-    root = bpy.data.objects.new("Burger_broken", None)
-    bpy.context.scene.collection.objects.link(root)
-    for i, part in enumerate(stack()):
-        part.name = f"Piece_{i:02d}"
-        part.parent = root
-    export.fbx([root], os.path.join(out, "Burger_broken.fbx"), material=MATERIAL, authored=False)
 
 
 if __name__ == "__main__":

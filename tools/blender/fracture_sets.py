@@ -4,9 +4,8 @@ Mug_<colour>_broken: the mug body cut into 7 shards plus the handle whole (8 pie
 CactusPot_broken: the pot cut into 7 shards plus the cactus whole, which spills out (8 pieces).
 Plate_broken / MilkBottle_broken / Hourglass_broken: the plate / bottle / glass cut into 7 shards plus its other parts
 whole (8 pieces).
-Donut_<look>_broken: food splashes into chunks (Kitchen spec §6): the whole donut cut into 4 pieces.
 Kitchen kinds (Kitchen spec §5-6): dishes and glass cut into 8 shards (the teapot 7 plus its lid, handle and spout joined whole:
-8), jars and bottles into 6 chunks, food into 4. The burger's pieces are its own layers (props/burger.py).
+8), jars and bottles into 6 chunks. Food has no pieces: it squashes whole.
 Pieces keep the intact model's coordinates, so a set spawned at the prop's pose lines up with it.
 """
 import os
@@ -50,7 +49,7 @@ def build_set(name, pack_file, material, out, shards=SHARDS):
 
 
 def build_chunks(name, pack_file, material, out, pieces):
-    """Food: the whole model, every part together, cut into a few chunks."""
+    """The whole model, every part together, cut into a few chunks."""
     export.reset()
     source = fracture.import_pack(os.path.join(PACKS, pack_file))
     chunks = fracture.shatter(source, pieces=pieces, seed=SEED)
@@ -69,9 +68,6 @@ def build(out):
     build_set("Plate_broken", os.path.join("TinyTreats", "plate.fbx"), "Atlas_TinyTreats", out)
     build_set("MilkBottle_broken", os.path.join("TinyTreats", "milk.fbx"), "Atlas_TinyTreats", out)
     build_set("Hourglass_broken", os.path.join("KayKitBoardGame", "hourglass.fbx"), "Atlas_KayKitBoardGame", out)
-    for look in ("donut", "donut_pink", "donut_chocolate"):
-        name = "Donut" + look[len("donut"):] + "_broken"
-        build_chunks(name, os.path.join("TinyTreatsBakedGoods", f"{look}.fbx"), "Atlas_TinyTreatsBakedGoods", out, pieces=4)
     build_kitchen(out)
 
 
@@ -82,12 +78,6 @@ KITCHEN_CHUNKS = {
     "WineGlass_broken": ("TinyTreats/wine_glass.fbx", "Atlas_TinyTreats", 8),
     "JamJar_broken": ("TinyTreats/jam.fbx", "Atlas_TinyTreats", 6),
     "KetchupBottle_broken": ("KayKitRestaurant/ketchup.fbx", "Atlas_KayKitRestaurant", 6),
-    "Apple_broken": ("TinyTreats/apple.fbx", "Atlas_TinyTreats", 4),
-    "Tomato_broken": ("KayKitRestaurant/food_ingredient_tomato.fbx", "Atlas_KayKitRestaurant", 4),
-    "Cheese_broken": ("TinyTreats/cheese_A.fbx", "Atlas_TinyTreats", 4),
-    "Cupcake_broken": ("TinyTreatsBakedGoods/cupcake.fbx", "Atlas_TinyTreatsBakedGoods", 4),
-    "Croissant_broken": ("TinyTreatsBakedGoods/croissant.fbx", "Atlas_TinyTreatsBakedGoods", 4),
-    "Sandwich_broken": ("TinyTreats/sandwich.fbx", "Atlas_TinyTreats", 4),
 }
 
 

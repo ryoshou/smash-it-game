@@ -180,22 +180,12 @@ namespace Game.Tests
         [TestCase("Packs/TinyTreats/plate.fbx", "Generated/Plate_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/milk.fbx", "Generated/MilkBottle_broken.fbx", 8)]
         [TestCase("Packs/KayKitBoardGame/hourglass.fbx", "Generated/Hourglass_broken.fbx", 8)]
-        [TestCase("Packs/TinyTreatsBakedGoods/donut.fbx", "Generated/Donut_broken.fbx", 4)]
-        [TestCase("Packs/TinyTreatsBakedGoods/donut_pink.fbx", "Generated/Donut_pink_broken.fbx", 4)]
-        [TestCase("Packs/TinyTreatsBakedGoods/donut_chocolate.fbx", "Generated/Donut_chocolate_broken.fbx", 4)]
         [TestCase("Packs/TinyTreats/plate_A.fbx", "Generated/DinnerPlate_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/bowl.fbx", "Generated/Bowl_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/teapot.fbx", "Generated/Teapot_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/wine_glass.fbx", "Generated/WineGlass_broken.fbx", 8)]
         [TestCase("Packs/TinyTreats/jam.fbx", "Generated/JamJar_broken.fbx", 6)]
         [TestCase("Packs/KayKitRestaurant/ketchup.fbx", "Generated/KetchupBottle_broken.fbx", 6)]
-        [TestCase("Packs/TinyTreats/apple.fbx", "Generated/Apple_broken.fbx", 4)]
-        [TestCase("Packs/KayKitRestaurant/food_ingredient_tomato.fbx", "Generated/Tomato_broken.fbx", 4)]
-        [TestCase("Packs/TinyTreats/cheese_A.fbx", "Generated/Cheese_broken.fbx", 4)]
-        [TestCase("Generated/Burger.fbx", "Generated/Burger_broken.fbx", 6)]
-        [TestCase("Packs/TinyTreatsBakedGoods/cupcake.fbx", "Generated/Cupcake_broken.fbx", 4)]
-        [TestCase("Packs/TinyTreatsBakedGoods/croissant.fbx", "Generated/Croissant_broken.fbx", 4)]
-        [TestCase("Packs/TinyTreats/sandwich.fbx", "Generated/Sandwich_broken.fbx", 4)]
         public void BrokenSet_LinesUpWithIntactModel(string intact, string broken, int pieces)
         {
             var whole = ArtMeshStats.ModelBounds(Load(intact));
