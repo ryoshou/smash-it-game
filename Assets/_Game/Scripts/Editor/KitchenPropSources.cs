@@ -6,7 +6,8 @@ using UnityEngine;
 namespace Game.Editor
 {
     /// <summary>
-    /// The Kitchen's kinds (Kitchen spec §5): dishes and glass shatter, food splashes, the drink can pops. Each is true
+    /// The Kitchen's kinds (Kitchen spec §5): dishes and glass shatter, the
+    /// owner's three soft foods squash, the rest of the food and the drink can pop whole. Each is true
     /// to size against the mug (0.35 tall, a real 10 cm mug, so 1 real cm is 0.035): the scales below take each pack
     /// model to its real-world size. Masses follow the material; tune on device.
     /// </summary>
@@ -40,25 +41,25 @@ namespace Game.Editor
             yield return Dish(PropKind.Bowl, $"Packs/{TinyTreats}/bowl.fbx", 0.25f, china, BowlScale);
             yield return Dish(PropKind.Teapot, $"Packs/{TinyTreats}/teapot.fbx", 0.6f, china, TeapotScale);
             yield return Dish(PropKind.WineGlass, $"Packs/{TinyTreats}/wine_glass.fbx", 0.15f, glass, WineGlassScale);
-            // Glass and plastic, but what shows is the jam and the ketchup, so they splash (Kitchen plan, Claude's call).
-            yield return Food(PropKind.JamJar, TinyTreats, $"Packs/{TinyTreats}/jam.fbx", 0.3f, glass, JamJarScale);
-            yield return Food(PropKind.KetchupBottle, Restaurant, $"Packs/{Restaurant}/ketchup.fbx", 0.35f, glass, KetchupScale);
+            // The owner: only the sandwich, tomato and cupcake squash; the jar, bottle and other food keep their shape.
+            yield return Treat(PropKind.JamJar, TinyTreats, $"Packs/{TinyTreats}/jam.fbx", 0.3f, glass, JamJarScale);
+            yield return Treat(PropKind.KetchupBottle, Restaurant, $"Packs/{Restaurant}/ketchup.fbx", 0.35f, glass, KetchupScale);
             yield return new PropPrefabBuilder.Source
             {
                 kind = PropKind.DrinkCan, atlas = TinyTreats, collider = PropColliderShape.ConvexMesh, mass = 0.15f,
                 physics = PropPrefabBuilder.WritePhysicsMaterial("DrinkCan", 0.4f, 0.5f, 0.15f), breakMode = BreakMode.Pop,
                 variants = new[] { Art + $"Packs/{TinyTreats}/drink_can.fbx" }, visualScale = DrinkCanScale,
             };
-            yield return Food(PropKind.Apple, TinyTreats, $"Packs/{TinyTreats}/apple.fbx", 0.12f, food, AppleScale);
+            yield return Treat(PropKind.Apple, TinyTreats, $"Packs/{TinyTreats}/apple.fbx", 0.12f, food, AppleScale);
             // Round or flat foods that must settle get boxes, as the donut did: the tomato's hull rocks on its round
             // bottom, and a hull's rounded top never lets anything stack on it.
-            // The owner's soft foods splash the moment they are touched, not only on the floor.
+            // The owner's soft foods squash the moment they are touched, not only on the floor.
             yield return Soft(Food(PropKind.Tomato, Restaurant, $"Packs/{Restaurant}/food_ingredient_tomato.fbx", 0.1f, food, TomatoScale, PropColliderShape.Box));
-            yield return Soft(Food(PropKind.Cheese, TinyTreats, $"Packs/{TinyTreats}/cheese_A.fbx", 0.15f, food, CheeseScale, PropColliderShape.Box));
-            yield return Food(PropKind.Burger, Restaurant, "Generated/Burger.fbx", 0.15f, food, BurgerScale);
+            yield return Treat(PropKind.Cheese, TinyTreats, $"Packs/{TinyTreats}/cheese_A.fbx", 0.15f, food, CheeseScale, PropColliderShape.Box);
+            yield return Treat(PropKind.Burger, Restaurant, "Generated/Burger.fbx", 0.15f, food, BurgerScale);
             yield return Soft(Food(PropKind.Cupcake, BakedGoods, $"Packs/{BakedGoods}/cupcake.fbx", 0.06f, food, CupcakeScale));
-            yield return Food(PropKind.Croissant, BakedGoods, $"Packs/{BakedGoods}/croissant.fbx", 0.05f, food, CroissantScale);
-            yield return Food(PropKind.Sandwich, TinyTreats, $"Packs/{TinyTreats}/sandwich.fbx", 0.1f, food, SandwichScale, PropColliderShape.Box);
+            yield return Treat(PropKind.Croissant, BakedGoods, $"Packs/{BakedGoods}/croissant.fbx", 0.05f, food, CroissantScale);
+            yield return Soft(Food(PropKind.Sandwich, TinyTreats, $"Packs/{TinyTreats}/sandwich.fbx", 0.1f, food, SandwichScale, PropColliderShape.Box));
         }
 
         private static PropPrefabBuilder.Source Dish(PropKind kind, string model, float mass, PhysicsMaterial physics, float scale) =>
@@ -67,6 +68,11 @@ namespace Game.Editor
         private static PropPrefabBuilder.Source Food(PropKind kind, string atlas, string model, float mass, PhysicsMaterial physics,
             float scale, PropColliderShape collider = PropColliderShape.ConvexMesh) =>
             Breakable(kind, atlas, model, mass, physics, scale, BreakMode.Splash, collider);
+
+        /// <summary>Keeps its shape: a puff of crumbs, then it shrinks away whole like a book.</summary>
+        private static PropPrefabBuilder.Source Treat(PropKind kind, string atlas, string model, float mass, PhysicsMaterial physics,
+            float scale, PropColliderShape collider = PropColliderShape.ConvexMesh) =>
+            Breakable(kind, atlas, model, mass, physics, scale, BreakMode.Pop, collider);
 
         private static PropPrefabBuilder.Source Soft(PropPrefabBuilder.Source food)
         {

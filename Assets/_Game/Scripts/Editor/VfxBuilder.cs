@@ -52,7 +52,7 @@ namespace Game.Editor
             {
                 // From M4 every new kind breaks with its own effect.
                 [PropKind.Plate] = Save(Burst("ChinaChips", material, 18, 0.45f, new Vector2(0.03f, 0.06f), new Vector2(1.2f, 2.4f), 0.9f, Color.white, Sky)),
-                [PropKind.Donut] = Save(Splash("DonutSplash", Rose)),
+                [PropKind.Donut] = Save(Crumbs("DonutCrumbs", material, Rose)),
                 [PropKind.MilkBottle] = Save(Burst("MilkSplash", material, 26, 0.5f, new Vector2(0.05f, 0.12f), new Vector2(0.6f, 1.6f), 0.5f, Milk, Cream)),
                 // Wax flecks with a grey wisp: slow, light particles that drift up a little.
                 [PropKind.Candle] = Save(Burst("WaxAndSmoke", material, 18, 0.7f, new Vector2(0.03f, 0.1f), new Vector2(0.3f, 0.9f), -0.05f, Wax, Smoke)),
@@ -69,7 +69,7 @@ namespace Game.Editor
             AssetDatabase.SaveAssets();
         }
 
-        /// <summary>Kitchen kinds (Kitchen spec §6): dishes throw chips, food splashes in its own colour.</summary>
+        /// <summary>Kitchen kinds (Kitchen spec §6): dishes throw chips; the soft foods splash and the rest puff crumbs, each in its own colour.</summary>
         private static void AddKitchen(Dictionary<PropKind, ParticleSystem> bursts, Material material)
         {
             bursts[PropKind.DinnerPlate] = Save(Burst("WhiteChips", material, 18, 0.45f, new Vector2(0.03f, 0.06f), new Vector2(1.2f, 2.4f), 0.9f, Color.white, Cream));
@@ -77,16 +77,20 @@ namespace Game.Editor
             bursts[PropKind.Teapot] = Save(Burst("CreamChips", material, 22, 0.5f, new Vector2(0.035f, 0.07f), new Vector2(1.2f, 2.4f), 0.9f, Cream, Butter));
             bursts[PropKind.WineGlass] = Save(Burst("GlassSparkle", material, 20, 0.4f, new Vector2(0.015f, 0.04f), new Vector2(1.4f, 2.8f), 0.7f, Color.white, Sky));
             bursts[PropKind.DrinkCan] = Save(Burst("SilverFizz", material, 24, 0.45f, new Vector2(0.02f, 0.05f), new Vector2(1.2f, 2.6f), 0.4f, Silver, Sky));
-            bursts[PropKind.JamJar] = Save(Splash("JamSplash", new Color(0.72f, 0.12f, 0.3f), 0.38f));
-            bursts[PropKind.KetchupBottle] = Save(Splash("KetchupSplash", new Color(0.85f, 0.1f, 0.06f), 0.42f));
-            bursts[PropKind.Apple] = Save(Splash("AppleSplash", new Color(0.86f, 0.25f, 0.2f), 0.3f));
+            bursts[PropKind.JamJar] = Save(Crumbs("JamCrumbs", material, new Color(0.72f, 0.12f, 0.3f)));
+            bursts[PropKind.KetchupBottle] = Save(Crumbs("KetchupCrumbs", material, new Color(0.85f, 0.1f, 0.06f)));
+            bursts[PropKind.Apple] = Save(Crumbs("AppleCrumbs", material, new Color(0.86f, 0.25f, 0.2f)));
             bursts[PropKind.Tomato] = Save(Splash("TomatoSplash", new Color(0.95f, 0.3f, 0.12f), 0.32f));
-            bursts[PropKind.Cheese] = Save(Splash("CheeseSplash", new Color(1f, 0.82f, 0.3f), 0.3f));
-            bursts[PropKind.Burger] = Save(Splash("BurgerSplash", new Color(0.6f, 0.34f, 0.18f), 0.36f));
+            bursts[PropKind.Cheese] = Save(Crumbs("CheeseCrumbs", material, new Color(1f, 0.82f, 0.3f)));
+            bursts[PropKind.Burger] = Save(Crumbs("BurgerCrumbs", material, new Color(0.6f, 0.34f, 0.18f)));
             bursts[PropKind.Cupcake] = Save(Splash("CupcakeSplash", new Color(0.97f, 0.6f, 0.75f), 0.28f));
-            bursts[PropKind.Croissant] = Save(Splash("CroissantSplash", new Color(0.92f, 0.7f, 0.35f), 0.3f));
+            bursts[PropKind.Croissant] = Save(Crumbs("CroissantCrumbs", material, new Color(0.92f, 0.7f, 0.35f)));
             bursts[PropKind.Sandwich] = Save(Splash("SandwichSplash", new Color(0.55f, 0.8f, 0.35f), 0.32f));
         }
+
+        /// <summary>Food that keeps its shape: a small puff of crumbs in its colour, no splat.</summary>
+        private static ParticleSystem Crumbs(string name, Material material, Color colour) =>
+            Burst(name, material, 16, 0.45f, new Vector2(0.025f, 0.055f), new Vector2(0.8f, 1.8f), 0.8f, colour, Cream);
 
         public static ParticleSystem LoadConfetti() =>
             AssetDatabase.LoadAssetAtPath<GameObject>($"{VfxFolder}/Confetti.prefab").GetComponent<ParticleSystem>();

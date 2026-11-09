@@ -20,7 +20,7 @@ namespace Game.Core
             mode != BreakMode.Splash || System.Math.Abs(contactNormalY) >= MinLandingNormalY;
 
         /// <summary>
-        /// Whether a contact breaks soft food that splashes on touch (the owner's tomato, cupcake and cheese): the cat's
+        /// Whether a contact breaks soft food that splashes on touch (the owner's sandwich, tomato and cupcake): the cat's
         /// ball does at any speed, anything else must hit it at least minSpeed, so neighbours resting against it don't.
         /// </summary>
         public static bool TouchBreaks(bool splashesOnTouch, bool byBall, float relativeSpeed, float minSpeed) =>

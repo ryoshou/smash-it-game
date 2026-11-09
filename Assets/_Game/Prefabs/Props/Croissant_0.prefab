@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7905161453369441380}
   - component: {fileID: 2302883985320501653}
   - component: {fileID: 4952298712121138335}
-  - component: {fileID: 3497078963830993849}
   m_Layer: 0
   m_Name: Croissant_0
   m_TagString: Untagged
@@ -88,19 +87,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
   targets: []
---- !u!114 &3497078963830993849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6142747126979732699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627f879dd9d9d457ba82bdd3e719d1bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Runtime::Game.World.Squash
-  height: 0.17515883
 --- !u!1001 &731468049270395276
 PrefabInstance:
   m_ObjectHideFlags: 0

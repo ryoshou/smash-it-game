@@ -96,24 +96,6 @@ namespace Game.Tests
         }
 
         [UnityTest]
-        public IEnumerator Apple_HitsFloor_SquashesWithoutPieces()
-        {
-            var apple = LoadOne(PropKind.Apple);
-            Teleport(apple, BesideDesk);
-            int peak = 0;
-
-            for (int i = 0; i < Steps(3f); i++)
-            {
-                yield return new WaitForFixedUpdate();
-                peak = Mathf.Max(peak, debris.ActiveSets);
-            }
-
-            Assert.AreEqual(BreakMode.Splash, catalog.Get(PropKind.Apple).breakMode);
-            Assert.AreEqual(0, peak, "food should not break into pieces");
-            Assert.IsFalse(apple.gameObject.activeSelf);
-        }
-
-        [UnityTest]
         public IEnumerator KeycapDroppedOnFloor_PopsAndDeactivates()
         {
             var keycap = LoadOne(PropKind.Keycap1u);

@@ -130,7 +130,7 @@ namespace Game.Tests
         [TestCase(PropKind.PaperCup, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.DeskLamp, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Plate, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Donut, BreakMode.Splash, PropColliderShape.Box)]
+        [TestCase(PropKind.Donut, BreakMode.Pop, PropColliderShape.Box)]
         [TestCase(PropKind.MilkBottle, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Candle, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Hourglass, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
@@ -142,15 +142,15 @@ namespace Game.Tests
         [TestCase(PropKind.Bowl, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Teapot, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.WineGlass, BreakMode.Shatter, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.JamJar, BreakMode.Splash, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.KetchupBottle, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.JamJar, BreakMode.Pop, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.KetchupBottle, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.DrinkCan, BreakMode.Pop, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Apple, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Apple, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Tomato, BreakMode.Splash, PropColliderShape.Box)]
-        [TestCase(PropKind.Cheese, BreakMode.Splash, PropColliderShape.Box)]
-        [TestCase(PropKind.Burger, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Cheese, BreakMode.Pop, PropColliderShape.Box)]
+        [TestCase(PropKind.Burger, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Cupcake, BreakMode.Splash, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Croissant, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Croissant, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Sandwich, BreakMode.Splash, PropColliderShape.Box)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
@@ -177,14 +177,14 @@ namespace Game.Tests
                     Assert.IsNotNull(variant.prefab.GetComponent<Game.World.Squash>(), $"{spec.kind} can't squash");
                 }
             }
-            Assert.Greater(food, 0, "no food kinds");
+            Assert.AreEqual(3, food, "only the sandwich, tomato and cupcake squash");
         }
 
-        /// <summary>The owner's soft foods splash the moment they are touched; everything else waits for the floor.</summary>
+        /// <summary>The owner's soft foods squash the moment they are touched; everything else waits for the floor.</summary>
         [Test]
-        public void OnlyTomatoCupcakeCheese_SplashOnTouch()
+        public void OnlySandwichTomatoCupcake_SquashOnTouch()
         {
-            var soft = new[] { PropKind.Tomato, PropKind.Cupcake, PropKind.Cheese };
+            var soft = new[] { PropKind.Sandwich, PropKind.Tomato, PropKind.Cupcake };
             foreach (var spec in catalog.specs)
                 Assert.AreEqual(Array.IndexOf(soft, spec.kind) >= 0, spec.splashesOnTouch, spec.kind.ToString());
         }

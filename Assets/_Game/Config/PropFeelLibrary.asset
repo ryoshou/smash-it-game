@@ -66,7 +66,7 @@ MonoBehaviour:
   - kind: 10
     hit: {fileID: 11400000, guid: bab9661cee1a64e488f480d4c6eb2bde, type: 2}
     breakSound: {fileID: 11400000, guid: 63fef1fdca5894a06af7e3c23602002c, type: 2}
-    breakVfx: {fileID: 3255838265561016078, guid: 5466567762a2242bd9825834d609c13a, type: 3}
+    breakVfx: {fileID: 7417506690177493387, guid: e8dc9e961adfd41aa805f3d7ca69a07f, type: 3}
     hitMinSpeed: 0.5
   - kind: 11
     hit: {fileID: 11400000, guid: ae84e50b604a04e8389e2ab18e826b9e, type: 2}
@@ -126,12 +126,12 @@ MonoBehaviour:
   - kind: 22
     hit: {fileID: 11400000, guid: bf7db786f95c54b70a8a7a75a3c6592d, type: 2}
     breakSound: {fileID: 11400000, guid: f45dd8ecdcb214effbcfb00947ec1d8e, type: 2}
-    breakVfx: {fileID: 3465589684441125643, guid: c33b399dfcb5744688b8fcb39dbb3bc9, type: 3}
+    breakVfx: {fileID: 3441507192466181702, guid: 8121407045ab2409ebec24e0d0f81296, type: 3}
     hitMinSpeed: 0.5
   - kind: 23
     hit: {fileID: 11400000, guid: ab519f75b4b554f38abed0accba079fe, type: 2}
     breakSound: {fileID: 11400000, guid: a9ada56179e4a423c8d9a8c3b746fce9, type: 2}
-    breakVfx: {fileID: 352805112301021947, guid: ab33c0d824eff4ed093d66dd1841c703, type: 3}
+    breakVfx: {fileID: 582574812441090348, guid: 6f0ed33c3ac734438a06b7d8efb8af64, type: 3}
     hitMinSpeed: 0.5
   - kind: 24
     hit: {fileID: 11400000, guid: cbc7a972b95db477582d6e7fd9ff0ffa, type: 2}
@@ -141,7 +141,7 @@ MonoBehaviour:
   - kind: 25
     hit: {fileID: 11400000, guid: 7ac158749cc8342c4827bce724fb1c70, type: 2}
     breakSound: {fileID: 11400000, guid: 1088d3a4a70414a74899198036e2e451, type: 2}
-    breakVfx: {fileID: 5275140311486936257, guid: 5552b7acf63c4473da8123b7149296e7, type: 3}
+    breakVfx: {fileID: 555588403142030334, guid: 5c820d5b1b9e44d93b844a0623dfad43, type: 3}
     hitMinSpeed: 0.5
   - kind: 26
     hit: {fileID: 11400000, guid: ba01ab3d6031d42da9b2dab6fb41e778, type: 2}
@@ -151,12 +151,12 @@ MonoBehaviour:
   - kind: 27
     hit: {fileID: 11400000, guid: f884acbe0b91a4a8ea5ae1575a56f03a, type: 2}
     breakSound: {fileID: 11400000, guid: 953460e22ef8e4db6b57f389e0d2a751, type: 2}
-    breakVfx: {fileID: 8822276705876876653, guid: 972d55d0ecfdf4ec29e69b1aff662303, type: 3}
+    breakVfx: {fileID: 247058120613674296, guid: a34b2fdaef965425cb6b9535ced7bf59, type: 3}
     hitMinSpeed: 0.5
   - kind: 28
     hit: {fileID: 11400000, guid: 111983d1b750a4ad5bf4e62268b0bf81, type: 2}
     breakSound: {fileID: 11400000, guid: d993acce6eb924c3ca4f20e7b06338e9, type: 2}
-    breakVfx: {fileID: 4907405376055875623, guid: b145d76a58a344ca580474e4f7abb9fc, type: 3}
+    breakVfx: {fileID: 4664397524101085938, guid: 09108717980e848258ea5d0ab08b5fae, type: 3}
     hitMinSpeed: 0.5
   - kind: 29
     hit: {fileID: 11400000, guid: e33eda8c3fc634da291fb095bff0f894, type: 2}
@@ -166,7 +166,7 @@ MonoBehaviour:
   - kind: 30
     hit: {fileID: 11400000, guid: 3eb24c85e419b4400bb2bb0fd6f08ce3, type: 2}
     breakSound: {fileID: 11400000, guid: e1db3142dfaea4bef94f910be7ad45fa, type: 2}
-    breakVfx: {fileID: 6557039856913370563, guid: 551c362c448b34bdebd4e37d6af0c231, type: 3}
+    breakVfx: {fileID: 6484480495410373738, guid: 2a26f8fe212364dad82fb2c23ef27e67, type: 3}
     hitMinSpeed: 0.5
   - kind: 31
     hit: {fileID: 11400000, guid: e0aefb954cf4d44c78652ac7573775b0, type: 2}

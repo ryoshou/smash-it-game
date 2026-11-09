@@ -145,7 +145,7 @@ MonoBehaviour:
     mass: 0.06
     material: {fileID: 13400000, guid: f6d42b943b4d6456892c7fdd35e1f200, type: 2}
     collider: 0
-    breakMode: 4
+    breakMode: 1
     splashesOnTouch: 0
   - kind: 11
     variants:
@@ -279,7 +279,7 @@ MonoBehaviour:
     mass: 0.3
     material: {fileID: 13400000, guid: 9a4081d8b13464f468760070a053ebf1, type: 2}
     collider: 1
-    breakMode: 4
+    breakMode: 1
     splashesOnTouch: 0
   - kind: 23
     variants:
@@ -289,7 +289,7 @@ MonoBehaviour:
     mass: 0.35
     material: {fileID: 13400000, guid: 9a4081d8b13464f468760070a053ebf1, type: 2}
     collider: 1
-    breakMode: 4
+    breakMode: 1
     splashesOnTouch: 0
   - kind: 24
     variants:
@@ -309,7 +309,7 @@ MonoBehaviour:
     mass: 0.12
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 1
-    breakMode: 4
+    breakMode: 1
     splashesOnTouch: 0
   - kind: 26
     variants:
@@ -329,8 +329,8 @@ MonoBehaviour:
     mass: 0.15
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 0
-    breakMode: 4
-    splashesOnTouch: 1
+    breakMode: 1
+    splashesOnTouch: 0
   - kind: 28
     variants:
     - prefab: {fileID: 3662612269356026287, guid: 873dd27253d0f423da5f68065f9d1ab7, type: 3}
@@ -339,7 +339,7 @@ MonoBehaviour:
     mass: 0.15
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 1
-    breakMode: 4
+    breakMode: 1
     splashesOnTouch: 0
   - kind: 29
     variants:
@@ -359,7 +359,7 @@ MonoBehaviour:
     mass: 0.05
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 1
-    breakMode: 4
+    breakMode: 1
     splashesOnTouch: 0
   - kind: 31
     variants:
@@ -370,4 +370,4 @@ MonoBehaviour:
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 0
     breakMode: 4
-    splashesOnTouch: 0
+    splashesOnTouch: 1

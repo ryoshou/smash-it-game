@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3501814520845136948}
   - component: {fileID: 2642532009121561736}
   - component: {fileID: 8695265953127004069}
-  - component: {fileID: 1558074218071364582}
   m_Layer: 0
   m_Name: KetchupBottle_0
   m_TagString: Untagged
@@ -88,19 +87,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Runtime::Game.World.FadeOut
   targets: []
---- !u!114 &1558074218071364582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3950799812342131795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627f879dd9d9d457ba82bdd3e719d1bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Runtime::Game.World.Squash
-  height: 0.70065725
 --- !u!1001 &3082374822570507057
 PrefabInstance:
   m_ObjectHideFlags: 0
