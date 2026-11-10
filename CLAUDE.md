@@ -6,8 +6,8 @@ Home Office 1–25, Kitchen 26–50, Café 51–75, Library 76–100, Gaming Den
 8 Feast levels, food that splashes). Next is M4b (MAX, IAP, consent/ATT, Firebase, release build) and the final cat
 (checkpoint 4). Approved feel is frozen: don't change existing
 ShotTuning defaults, keycap colliders/masses, camera, pouch, ball physics, Room 1 layouts or the back desk's position.
-On two-desk levels keep tall heavy props outside the back desk's span (x ±0.6), and anything 0.2+ wide off the middle
-of the main desk's back edge (it lodges in the gap between the desks: the owner's kept wedge). iOS builds only.
+A prop resting over the gap between the desks for `wedgeStuckSeconds` is let through the back desk's top to fall
+(`WedgeRule`, owner 2026-11-10: nothing may stay stuck there). iOS builds only.
 
 ## Layout
 - `Assets/_Game/Scripts/Runtime/` → `Game.Runtime.asmdef`

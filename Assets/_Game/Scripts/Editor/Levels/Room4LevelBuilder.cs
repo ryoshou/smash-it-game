@@ -32,7 +32,7 @@ namespace Game.Editor
                 Write("R4_L82", room, 7, N, Room4Layouts.ReadingNook()),
                 Write("R4_L83", room, 8, N, Room4Layouts.CandleRowsTwoDesks(), backDesk: true),
                 Write("R4_L84", room, 6, N, Room4Layouts.FramedBooks()),
-                Write("R4_L85", room, 10, H, Room4Layouts.TowersTwoDesks(), backDesk: true),
+                Write("R4_L85", room, 8, H, Room4Layouts.TowersTwoDesks(), backDesk: true),
                 Write("R4_L86", room, 5, N, Room4Layouts.HourglassesOnBooks()),
                 Write("R4_L87", room, 6, N, Room4Layouts.HourglassBridges()),
                 Write("R4_L88", room, 5, N, Room4Layouts.LampShield()),
@@ -47,7 +47,7 @@ namespace Game.Editor
                 Write("R4_L97", room, 5, N, Room4Layouts.PencilCupsOnBooks()),
                 Write("R4_L98", room, 5, N, Room4Layouts.CupsAndCandles()),
                 Write("R4_L99", room, 8, N, Room4Layouts.BackCupsFrontWall(), backDesk: true),
-                Write("R4_L100", room, 10, H, Room4Layouts.LibraryFinale(), backDesk: true),
+                Write("R4_L100", room, 9, H, Room4Layouts.LibraryFinale(), backDesk: true),
             };
             EditorUtility.SetDirty(list);
             AssetDatabase.SaveAssets();

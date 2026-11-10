@@ -32,7 +32,7 @@ namespace Game.Editor
                 Write("R5_L107", room, 5, N, Room5Layouts.SnackDesk()),
                 Write("R5_L108", room, 8, N, Room5Layouts.BackWallFrontCans(), backDesk: true),
                 Write("R5_L109", room, 7, N, Room5Layouts.CanBridges()),
-                Write("R5_L110", room, 9, H, Room5Layouts.TowersOnBooks(), backDesk: true),
+                Write("R5_L110", room, 7, H, Room5Layouts.TowersOnBooks(), backDesk: true),
                 Write("R5_L111", room, 5, N, Room5Layouts.ControllersOnPlinths()),
                 Write("R5_L112", room, 5, N, Room5Layouts.ControllerShield()),
                 Write("R5_L113", room, 8, N, Room5Layouts.ControllersTwoDesks(), backDesk: true),

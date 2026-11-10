@@ -41,6 +41,8 @@ namespace Game.Core
         public float settleHoldSeconds = 0.6f;
         public float settleMaxWaitSeconds = 5f;
         public float clearMargin = 0.15f;
+        [Tooltip("Seconds a prop rests with its centre over the gap between the desks before it is let through to fall (WedgeRule).")]
+        public float wedgeStuckSeconds = 0.6f;
 
         [Header("Ball despawn")]
         public float ballLifetimeSeconds = 4f;

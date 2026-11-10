@@ -12,6 +12,14 @@ namespace Game.Tests
     public sealed class TwoDeskPlayTests
     {
         private const float StayPutMetres = 0.01f;
+        private const float BackEdgeZ = 0.75f; // the main desk's back edge: the prop starts half over the gap
+        private const float PushSpeed = 0.5f;
+        private static readonly PropKind[] PushedBack =
+        {
+            PropKind.Book, PropKind.Mug, PropKind.CactusPot, PropKind.DeskLamp, PropKind.MilkBottle, PropKind.Candle,
+            PropKind.DinnerPlate, PropKind.Bowl, PropKind.Teapot, PropKind.WineGlass, PropKind.KetchupBottle,
+            PropKind.Burger, PropKind.Croissant, PropKind.Sandwich, PropKind.GameController,
+        };
 
         private GameBootstrap bootstrap;
         private LevelSpawner spawner;
@@ -104,6 +112,30 @@ namespace Game.Tests
 
             Assert.IsTrue(spawner.Spawned[1].IsCleared);
             Assert.AreEqual(2, spawner.TargetsRemaining);
+        }
+
+        /// <summary>
+        /// The owner's call: nothing may stay stuck between the desks. A prop pushed off the main desk's back edge used to
+        /// lean against the back desk's top and never clear.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator PropPushedOffTheBackEdge_NeverStaysStuckBetweenTheDesks([ValueSource(nameof(PushedBack))] PropKind kind,
+            [Values(-0.3f, 0f, 0.3f)] float x)
+        {
+            var level = ScriptableObject.CreateInstance<LevelDef>();
+            level.id = "pushed-back";
+            level.hasBackDesk = true;
+            level.props = new[] { new PropPlacement { kind = kind, basePosition = new Vector3(x, 0f, BackEdgeZ), isTarget = true } };
+            list.levels = new[] { list.levels[0], list.levels[1], level };
+            bootstrap.LoadLevel(2);
+            yield return new WaitForFixedUpdate();
+            var prop = spawner.Spawned[0];
+
+            prop.Body.linearVelocity = new Vector3(0f, 0f, PushSpeed);
+            yield return new WaitForSeconds(4f);
+
+            // Either it fell and cleared, or it never went over and still stands on the main desk.
+            Assert.IsTrue(prop.IsCleared || prop.Body.position.z <= BackEdgeZ, $"{kind} is stuck between the desks at {prop.Body.position}");
         }
 
         [UnityTest]

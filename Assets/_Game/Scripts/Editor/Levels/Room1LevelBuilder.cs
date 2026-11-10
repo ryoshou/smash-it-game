@@ -36,8 +36,8 @@ namespace Game.Editor
                 Write("R1_L10", room, 9, H, Room1Layouts.MixedTwoDesks(), backDesk: true),
                 Write("R1_L11", room, 5, N, Room1Layouts.WidePyramid()),
                 Write("R1_L12", room, 5, N, Room1Layouts.CupTower()),
-                Write("R1_L13", room, 7, N, Room1Layouts.CupBridges()),
-                Write("R1_L14", room, 7, N, Room1Layouts.BackDeskBooks(), backDesk: true),
+                Write("R1_L13", room, 6, N, Room1Layouts.CupBridges()),
+                Write("R1_L14", room, 5, N, Room1Layouts.BackDeskBooks(), backDesk: true),
                 Write("R1_L15", room, 5, H, Room1Layouts.TowerBehindCactus()),
                 Write("R1_L16", room, 5, N, Room1Layouts.Cafe()),
                 Write("R1_L17", room, 7, N, Room1Layouts.BookBridge()),
@@ -47,7 +47,7 @@ namespace Game.Editor
                 Write("R1_L21", room, 6, N, Room1Layouts.LampRing()),
                 Write("R1_L22", room, 7, N, Room1Layouts.LampsOnBooks()),
                 Write("R1_L23", room, 8, N, Room1Layouts.LampShield()),
-                Write("R1_L24", room, 8, N, Room1Layouts.LampAcrossDesks(), backDesk: true),
+                Write("R1_L24", room, 7, N, Room1Layouts.LampAcrossDesks(), backDesk: true),
                 Write("R1_L25", room, 10, H, Room1Layouts.Finale(), backDesk: true),
             };
             EditorUtility.SetDirty(list);

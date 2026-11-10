@@ -20,6 +20,13 @@ namespace Game.World
         public static Vector3 DeskTop(int desk) => desk == LevelDef.BackDesk ? BackDeskTop : new Vector3(0f, DeskTopY, 0f);
 
         private readonly List<DeskObject> spawned = new List<DeskObject>();
+        /// <summary>Per spawned prop: seconds it has rested with its centre over the gap between the desks (WedgeRule).</summary>
+        private readonly List<float> restedOverGap = new List<float>();
+        private readonly List<Collider> propColliders = new List<Collider>();
+        private Collider[] backDeskColliders = Array.Empty<Collider>();
+        private bool watchGap;
+        private float mainDeskBackZ;
+        private float backDeskFrontZ;
 
         /// <summary>Targets remaining.</summary>
         public event Action<int> TargetCleared;
@@ -38,6 +45,11 @@ namespace Game.World
         private DebrisPool debris;
         private ShotTuning tuning;
 
+        private void Awake()
+        {
+            if (backDesk != null) backDeskColliders = backDesk.GetComponentsInChildren<Collider>(true);
+        }
+
         /// <param name="debrisPool">May be null (tests): shattering props then just disappear.</param>
         /// <param name="events">May be null (tests): props then raise no impact or break events.</param>
         public void Load(LevelDef level, PropCatalog catalog, ShotTuning t, DebrisPool debrisPool, GameEvents events)
@@ -46,6 +58,9 @@ namespace Game.World
             debris = debrisPool;
             tuning = t;
             if (backDesk != null) backDesk.SetActive(level.hasBackDesk);
+            watchGap = backDesk != null && level.hasBackDesk;
+            mainDeskBackZ = level.deskSize.y / 2f;
+            backDeskFrontZ = BackDeskTop.z - level.backDeskSize.y / 2f;
             foreach (var placement in level.props)
             {
                 var spec = catalog.Get(placement.kind);
@@ -53,6 +68,7 @@ namespace Game.World
                 var rotation = Quaternion.Euler(0f, placement.yawDegrees, 0f);
                 var instance = Instantiate(spec.Variant(placement.variant).prefab, position, rotation, transform);
                 spawned.Add(Configure(instance, spec, placement, t, events));
+                restedOverGap.Add(0f);
                 if (placement.isTarget) TargetsRemaining++;
             }
         }
@@ -78,7 +94,37 @@ namespace Game.World
                 Destroy(prop.gameObject);
             }
             spawned.Clear();
+            restedOverGap.Clear();
             TargetsRemaining = 0;
+        }
+
+        private void FixedUpdate()
+        {
+            if (!watchGap) return;
+            for (int i = 0; i < spawned.Count; i++)
+            {
+                var prop = spawned[i];
+                bool resting = !prop.IsBroken && !prop.IsMoving() && prop.gameObject.activeSelf;
+                restedOverGap[i] = resting && WedgeRule.IsOverGap(prop.Body.position, mainDeskBackZ, backDeskFrontZ)
+                    ? restedOverGap[i] + Time.fixedDeltaTime
+                    : 0f;
+                if (!WedgeRule.IsStuck(restedOverGap[i], tuning.wedgeStuckSeconds)) continue;
+                LetThrough(prop);
+                restedOverGap[i] = 0f;
+            }
+        }
+
+        /// <summary>
+        /// Frees a prop wedged against the back desk's top: it passes through that top, tips into the gap and falls to the
+        /// floor, where it breaks as usual. Props are destroyed with their level, so the ignored pairs never outlive it.
+        /// </summary>
+        private void LetThrough(DeskObject prop)
+        {
+            prop.GetComponentsInChildren(propColliders);
+            foreach (var mine in propColliders)
+                foreach (var desk in backDeskColliders)
+                    Physics.IgnoreCollision(mine, desk);
+            prop.Body.WakeUp();
         }
 
         private DeskObject Configure(GameObject instance, PropSpec spec, PropPlacement placement, ShotTuning t, GameEvents events)
