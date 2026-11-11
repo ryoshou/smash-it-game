@@ -15,7 +15,7 @@ A prop resting over the gap between the desks for `wedgeStuckSeconds` is let thr
     ClearRule, BallLife, ShotBudget, RoundJudge, GameEvents, FizzRule
   - `Meta/` pure app rules: SaveData/SaveCodec/Profile (save), AppFlow (screens), AdPacing, AppConfig, UiStrings (all
     player-visible text) · `Monetization/` IAdService/IPurchaseService + simulated implementations (M4: MAX, IAP)
-  - `Levels/` LevelDef, LevelList, PropCatalog, PrototypeLevels, RoomTheme · `World/` DeskObject, FizzFuse, YarnBall, BallPool, LevelSpawner
+  - `Levels/` LevelDef, LevelList, PropCatalog, PrototypeLevels, RoomTheme, RoomProgress (room map) · `World/` DeskObject, FizzFuse, YarnBall, BallPool, LevelSpawner
   - `Controls/` SlingshotInput · `View/` SlingshotView · `UI/` Hud, ResultPanel, DebugTuningPanel
   - `Juice/` feedback (listens to GameEvents, never referenced by gameplay) · `Audio/` sfxr synth (ported from ant-game)
   - `GameBootstrap.cs` owns and ticks the round · `AppController.cs` owns the app around it (flow, save, panels, ads)
