@@ -12,14 +12,11 @@ namespace Game.Editor
     {
         private static readonly Color SplashColor = new Color(0.98f, 0.89f, 0.84f, 1f);
         private static readonly Color DimColor = new Color(0f, 0f, 0f, 0.55f);
-        private static readonly Color PanelColor = new Color(1f, 0.97f, 0.95f, 1f);
-        private static readonly Color BoxColor = new Color(1f, 0.72f, 0.62f);
-        private static readonly Color Ink = new Color(0.3f, 0.22f, 0.3f);
 
         public static AppController Build(UiSceneParts.Parts ui, MonetizationSceneParts.Parts money, GameBootstrap bootstrap,
             SfxPlayer sfx, MusicPlayer music, AppConfig config, UiStrings strings)
         {
-            var home = BuildHome(ui.Canvas);
+            var home = BuildHome(ui.Safe);
             var pause = BuildPause(ui.Canvas);
             var splash = BuildSplash(ui.Canvas);
 
@@ -58,22 +55,29 @@ namespace Game.Editor
         {
             var root = UiSceneParts.Rect("Splash", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             root.gameObject.AddComponent<Image>().color = SplashColor;
-            var title = UiSceneParts.Label("Title", root, "Smash It", 140, TextAnchor.MiddleCenter);
+            var title = UiSceneParts.Label("Title", root, "Smash It", 170, TextAnchor.MiddleCenter);
             UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.45f), new Vector2(1f, 0.6f), Vector2.zero, Vector2.zero);
+            UiStyle.Title(title);
             var component = root.gameObject.AddComponent<SplashScreen>();
             PrototypeSceneBuilder.SetReference(component, "titleText", title);
             return component;
         }
 
-        /// <summary>No backdrop: the desk and the cat show through. Play sits low, where the thumb is.</summary>
-        private static HomeScreen BuildHome(Transform canvas)
+        /// <summary>
+        /// No backdrop: the desk and the cat show through. Play sits in the lower half, where the thumb is, on the floor
+        /// between the desk and the slingshot so the cat stays in view; the small buttons sit in the top corners.
+        /// </summary>
+        private static HomeScreen BuildHome(Transform safe)
         {
-            var root = UiSceneParts.Rect("Home", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-            var title = UiSceneParts.Label("Title", root, "Smash It", 130, TextAnchor.MiddleCenter);
-            UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.8f), new Vector2(1f, 0.9f), Vector2.zero, Vector2.zero);
-            var (play, playLabel) = UiSceneParts.Button("Play", root, new Vector2(0.15f, 0.2f), new Vector2(0.85f, 0.29f), 72);
-            var (removeAds, removeAdsLabel) = UiSceneParts.Button("Remove Ads", root, new Vector2(0.25f, 0.11f), new Vector2(0.75f, 0.17f), 44);
-            var (settings, settingsLabel) = UiSceneParts.Button("Settings", root, new Vector2(0.62f, 0.93f), new Vector2(0.96f, 0.98f), 44);
+            var root = UiSceneParts.Rect("Home", safe, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            var title = UiSceneParts.Label("Title", root, "Smash It", 170, TextAnchor.MiddleCenter);
+            UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.76f), new Vector2(1f, 0.9f), Vector2.zero, Vector2.zero);
+            UiStyle.Title(title);
+            var (play, playLabel) = UiSceneParts.Button("Play", root, new Vector2(0.14f, 0.36f), new Vector2(0.86f, 0.45f), 80);
+            var (removeAds, removeAdsLabel) = UiSceneParts.Button("Remove Ads", root, new Vector2(0.03f, 0.925f), new Vector2(0.5f, 0.985f), 40,
+                UiStyle.ButtonLook.Secondary);
+            var (settings, settingsLabel) = UiSceneParts.Button("Settings", root, new Vector2(0.62f, 0.925f), new Vector2(0.97f, 0.985f), 40,
+                UiStyle.ButtonLook.Secondary);
 
             var component = root.gameObject.AddComponent<HomeScreen>();
             PrototypeSceneBuilder.SetReference(component, "titleText", title);
@@ -92,17 +96,23 @@ namespace Game.Editor
             var dim = UiSceneParts.Rect("Pause", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             dim.gameObject.AddComponent<Image>().color = DimColor; // blocks taps on the game below
             var panel = UiSceneParts.Rect("Panel", dim, new Vector2(0.08f, 0.17f), new Vector2(0.92f, 0.83f), Vector2.zero, Vector2.zero);
-            panel.gameObject.AddComponent<Image>().color = PanelColor;
-            var title = UiSceneParts.Label("Title", panel, "Paused", 84, TextAnchor.MiddleCenter);
+            UiStyle.Panel(panel, UiStyle.Paper);
+            var pop = dim.gameObject.AddComponent<PopIn>();
+            PrototypeSceneBuilder.SetReference(pop, "target", panel);
+            var title = UiSceneParts.Label("Title", panel, "Paused", 96, TextAnchor.MiddleCenter);
+            UiStyle.Title(title);
             UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.89f), new Vector2(1f, 0.98f), Vector2.zero, Vector2.zero);
 
             var (sound, soundLabel) = Toggle("Sound", panel, 0.86f);
             var (music, musicLabel) = Toggle("Music", panel, 0.77f);
             var (haptics, hapticsLabel) = Toggle("Vibration", panel, 0.68f);
             var (resume, resumeLabel) = UiSceneParts.Button("Resume", panel, new Vector2(0.1f, 0.47f), new Vector2(0.9f, 0.57f));
-            var (restart, restartLabel) = UiSceneParts.Button("Restart", panel, new Vector2(0.1f, 0.35f), new Vector2(0.9f, 0.44f), 56);
-            var (restore, restoreLabel) = UiSceneParts.Button("Restore", panel, new Vector2(0.1f, 0.23f), new Vector2(0.9f, 0.32f), 48);
-            var (privacy, privacyLabel) = UiSceneParts.Button("Privacy", panel, new Vector2(0.1f, 0.12f), new Vector2(0.9f, 0.2f), 44);
+            var (restart, restartLabel) = UiSceneParts.Button("Restart", panel, new Vector2(0.1f, 0.35f), new Vector2(0.9f, 0.44f), 56,
+                UiStyle.ButtonLook.Secondary);
+            var (restore, restoreLabel) = UiSceneParts.Button("Restore", panel, new Vector2(0.1f, 0.23f), new Vector2(0.9f, 0.32f), 48,
+                UiStyle.ButtonLook.Secondary);
+            var (privacy, privacyLabel) = UiSceneParts.Button("Privacy", panel, new Vector2(0.1f, 0.12f), new Vector2(0.9f, 0.2f), 44,
+                UiStyle.ButtonLook.Secondary);
             var message = UiSceneParts.Label("Message", panel, "", 40, TextAnchor.MiddleCenter);
             UiSceneParts.Place(message.rectTransform, new Vector2(0f, 0.02f), new Vector2(1f, 0.1f), Vector2.zero, Vector2.zero);
 
@@ -127,24 +137,14 @@ namespace Game.Editor
             return component;
         }
 
-        /// <summary>A label on the left and a big check box on the right; the whole row is the tap target.</summary>
+        /// <summary>A label on the left and an on/off switch on the right; the whole row is the tap target.</summary>
         private static (Toggle, Text) Toggle(string name, Transform panel, float top)
         {
             var row = UiSceneParts.Rect(name, panel, new Vector2(0.1f, top - 0.08f), new Vector2(0.9f, top), Vector2.zero, Vector2.zero);
             row.gameObject.AddComponent<Image>().color = new Color(1f, 1f, 1f, 0f); // invisible hit area
             var label = UiSceneParts.Label("Label", row, name, 60, TextAnchor.MiddleLeft);
-            UiSceneParts.Place(label.rectTransform, Vector2.zero, new Vector2(0.75f, 1f), Vector2.zero, Vector2.zero);
-            var box = UiSceneParts.Rect("Box", row, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-100f, -45f), new Vector2(-10f, 45f));
-            var boxImage = box.gameObject.AddComponent<Image>();
-            boxImage.color = BoxColor;
-            var check = UiSceneParts.Rect("Check", box, Vector2.zero, Vector2.one, new Vector2(18f, 18f), new Vector2(-18f, -18f));
-            var checkImage = check.gameObject.AddComponent<Image>();
-            checkImage.color = Ink;
-            var toggle = row.gameObject.AddComponent<Toggle>();
-            toggle.targetGraphic = boxImage;
-            toggle.graphic = checkImage;
-            toggle.isOn = true;
-            return (toggle, label);
+            UiSceneParts.Place(label.rectTransform, Vector2.zero, new Vector2(0.7f, 1f), Vector2.zero, Vector2.zero);
+            return (UiStyle.Switch(row), label);
         }
     }
 }

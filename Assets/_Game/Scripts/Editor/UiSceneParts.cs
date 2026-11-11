@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 namespace Game.Editor
 {
-    /// <summary>Portrait canvas with the HUD (top) and the result panel (centre), plus the EventSystem.</summary>
+    /// <summary>
+    /// Portrait canvas with the HUD (top, inside the safe area) and the result panel (centre), plus the EventSystem.
+    /// The look (font, rounded shapes, palette) is UiStyle's.
+    /// </summary>
     internal static class UiSceneParts
     {
         private static readonly Vector2 ReferenceResolution = new Vector2(1080f, 1920f);
-        private static readonly Color Ink = new Color(0.3f, 0.22f, 0.3f);
-        private static readonly Color PanelColor = new Color(1f, 0.97f, 0.95f, 0.95f);
-        private static readonly Color ButtonColor = new Color(1f, 0.72f, 0.62f);
         private static readonly Color BarBackColor = new Color(0.3f, 0.22f, 0.3f, 0.18f);
         private static readonly Color BarFillColor = new Color(0.98f, 0.55f, 0.42f);
         private const int DebugSliderCount = 7;
@@ -21,13 +21,16 @@ namespace Game.Editor
         public readonly struct Parts
         {
             public readonly Transform Canvas;
+            /// <summary>Full-screen rect fitted to the safe area: screens with corner buttons build inside it.</summary>
+            public readonly Transform Safe;
             public readonly Hud Hud;
             public readonly Text LevelLabel;
             public readonly ResultPanel Result;
 
-            public Parts(Transform canvas, Hud hud, Text levelLabel, ResultPanel result)
+            public Parts(Transform canvas, Transform safe, Hud hud, Text levelLabel, ResultPanel result)
             {
                 Canvas = canvas;
+                Safe = safe;
                 Hud = hud;
                 LevelLabel = levelLabel;
                 Result = result;
@@ -49,21 +52,23 @@ namespace Game.Editor
             events.AddComponent<EventSystem>();
             events.AddComponent<InputSystemUIInputModule>();
 
-            var hud = BuildHud(canvasGo.transform, out Text levelLabel);
-            return new Parts(canvasGo.transform, hud, levelLabel, BuildResult(canvasGo.transform));
+            var safe = Rect("Safe Area", canvasGo.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            safe.gameObject.AddComponent<SafeArea>();
+            var hud = BuildHud(safe, out Text levelLabel);
+            return new Parts(canvasGo.transform, safe, hud, levelLabel, BuildResult(canvasGo.transform));
         }
 
         private static Hud BuildHud(Transform canvas, out Text levelLabel)
         {
-            var hud = Rect("HUD", canvas, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, -160f), Vector2.zero);
-            var level = Label("Level", hud, "Level 1", 56, TextAnchor.MiddleLeft);
-            Place(level.rectTransform, new Vector2(0f, 0f), new Vector2(0.5f, 1f), new Vector2(60f, 0f), Vector2.zero);
-            var shots = Label("Shots", hud, "Shots: 6", 56, TextAnchor.MiddleRight);
-            Place(shots.rectTransform, new Vector2(0.5f, 0f), new Vector2(1f, 1f), Vector2.zero, new Vector2(-200f, 0f));
+            var hud = Rect("HUD", canvas, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, -150f), Vector2.zero);
+            var level = HudPill("Level", hud, "Level 1", TextAnchor.MiddleLeft, new Vector2(30f, -120f), new Vector2(470f, -20f));
+            var shots = HudPill("Shots", hud, "Shots: 6", TextAnchor.MiddleCenter, new Vector2(-400f, -120f), new Vector2(-165f, -20f), right: true);
             // Top-right, clear of the pouch at the bottom.
-            var (pause, pauseLabel) = Button("Pause", hud, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), 56);
-            Place((RectTransform)pause.transform, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-170f, -55f), new Vector2(-50f, 55f));
-            pauseLabel.text = "II";
+            var (pause, pauseLabel) = Button("Pause", hud, new Vector2(1f, 1f), new Vector2(1f, 1f), 56, UiStyle.ButtonLook.Secondary);
+            Place((RectTransform)pause.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-150f, -130f), new Vector2(-40f, -20f));
+            pauseLabel.text = "";
+            PauseBar(pauseLabel.transform.parent, -1f);
+            PauseBar(pauseLabel.transform.parent, 1f);
 
             var component = hud.gameObject.AddComponent<Hud>();
             PrototypeSceneBuilder.SetReference(component, "shotsText", shots);
@@ -73,23 +78,53 @@ namespace Game.Editor
             return component;
         }
 
+        /// <summary>White HUD text on a translucent pill, anchored to the HUD's top-left or top-right corner.</summary>
+        private static Text HudPill(string name, Transform hud, string text, TextAnchor anchor, Vector2 offsetMin, Vector2 offsetMax,
+            bool right = false)
+        {
+            var corner = new Vector2(right ? 1f : 0f, 1f);
+            var pill = Rect(name + " Pill", hud, corner, corner, offsetMin, offsetMax);
+            UiStyle.Pill(pill);
+            var label = Label(name, pill, text, 54, anchor);
+            Place(label.rectTransform, Vector2.zero, Vector2.one, new Vector2(34f, 0f), new Vector2(-34f, 0f));
+            label.color = Color.white;
+            label.resizeTextForBestFit = true;
+            label.resizeTextMinSize = 28;
+            label.resizeTextMaxSize = 54;
+            return label;
+        }
+
+        /// <summary>One bar of the pause icon, either side of the button's centre.</summary>
+        private static void PauseBar(Transform face, float side)
+        {
+            var bar = Rect(side < 0f ? "Bar L" : "Bar R", face, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                new Vector2(side * 16f - 9f, -24f), new Vector2(side * 16f + 9f, 24f));
+            var image = UiStyle.Fill(bar, UiStyle.Ink);
+            image.raycastTarget = false;
+            image.pixelsPerUnitMultiplier = 5f; // corners small enough for an 18-unit bar
+        }
+
         private static ResultPanel BuildResult(Transform canvas)
         {
             var panel = Rect("Result Panel", canvas, new Vector2(0.1f, 0.35f), new Vector2(0.9f, 0.65f), Vector2.zero, Vector2.zero);
-            panel.gameObject.AddComponent<Image>().color = PanelColor;
-            var title = Label("Title", panel, "Desk cleared!", 84, TextAnchor.MiddleCenter);
+            UiStyle.Panel(panel, UiStyle.Paper);
+            var pop = panel.gameObject.AddComponent<PopIn>();
+            PrototypeSceneBuilder.SetReference(pop, "target", panel);
+            var title = Label("Title", panel, "Desk cleared!", 96, TextAnchor.MiddleCenter);
+            UiStyle.Title(title);
             Place(title.rectTransform, new Vector2(0f, 0.6f), new Vector2(1f, 1f), Vector2.zero, Vector2.zero);
             var (primary, primaryLabel) = Button("Primary", panel, new Vector2(0.1f, 0.33f), new Vector2(0.9f, 0.55f));
-            var (secondary, secondaryLabel) = Button("Secondary", panel, new Vector2(0.1f, 0.06f), new Vector2(0.9f, 0.28f));
+            var (secondary, secondaryLabel) = Button("Secondary", panel, new Vector2(0.1f, 0.06f), new Vector2(0.9f, 0.28f), 64,
+                UiStyle.ButtonLook.Secondary);
 
             // The reveal bar sits where the second button would be; a win shows only Next.
             var reveal = Rect("Reveal", panel, new Vector2(0.06f, 0.04f), new Vector2(0.94f, 0.3f), Vector2.zero, Vector2.zero);
             var revealText = Label("Text", reveal, "", 44, TextAnchor.MiddleCenter);
             Place(revealText.rectTransform, new Vector2(0f, 0.45f), Vector2.one, Vector2.zero, Vector2.zero);
             var bar = Rect("Bar", reveal, new Vector2(0.04f, 0.1f), new Vector2(0.96f, 0.38f), Vector2.zero, Vector2.zero);
-            bar.gameObject.AddComponent<Image>().color = BarBackColor;
+            UiStyle.Fill(bar, BarBackColor);
             var fill = Rect("Fill", bar, Vector2.zero, new Vector2(0.5f, 1f), Vector2.zero, Vector2.zero);
-            fill.gameObject.AddComponent<Image>().color = BarFillColor;
+            UiStyle.Fill(fill, BarFillColor);
 
             var component = panel.gameObject.AddComponent<ResultPanel>();
             PrototypeSceneBuilder.SetReference(component, "revealRoot", reveal.gameObject);
@@ -114,7 +149,7 @@ namespace Game.Editor
 
             var host = Rect("Debug Tuning", parts.Canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             var panel = Rect("Panel", host, new Vector2(0.03f, 0.5f), new Vector2(0.97f, 0.9f), Vector2.zero, Vector2.zero);
-            panel.gameObject.AddComponent<Image>().color = PanelColor;
+            UiStyle.Panel(panel, UiStyle.Paper);
 
             var sliders = new Slider[DebugSliderCount];
             var labels = new Text[DebugSliderCount];
@@ -157,25 +192,19 @@ namespace Game.Editor
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        internal static (Button, Text) Button(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax, int fontSize = 64)
-        {
-            var rect = Rect(name, parent, anchorMin, anchorMax, Vector2.zero, Vector2.zero);
-            rect.gameObject.AddComponent<Image>().color = ButtonColor;
-            var button = rect.gameObject.AddComponent<Button>();
-            var label = Label("Label", rect, name, fontSize, TextAnchor.MiddleCenter);
-            Place(label.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-            return (button, label);
-        }
+        internal static (Button, Text) Button(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax, int fontSize = 64,
+            UiStyle.ButtonLook look = UiStyle.ButtonLook.Primary) =>
+            UiStyle.Button(Rect(name, parent, anchorMin, anchorMax, Vector2.zero, Vector2.zero), fontSize, look);
 
         internal static Text Label(string name, Transform parent, string text, int size, TextAnchor anchor)
         {
             var label = new GameObject(name, typeof(RectTransform)).AddComponent<Text>();
             label.transform.SetParent(parent, false);
-            label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            label.font = UiStyle.Font;
             label.text = text;
             label.fontSize = size;
             label.alignment = anchor;
-            label.color = Ink;
+            label.color = UiStyle.Ink;
             label.raycastTarget = false;
             return label;
         }

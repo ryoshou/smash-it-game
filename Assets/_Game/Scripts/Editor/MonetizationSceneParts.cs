@@ -13,7 +13,6 @@ namespace Game.Editor
         private static readonly Color AdBackdrop = new Color(0.12f, 0.1f, 0.14f, 1f);
         private static readonly Color AdInk = new Color(1f, 0.97f, 0.95f);
         private static readonly Color DimColor = new Color(0f, 0f, 0f, 0.6f);
-        private static readonly Color PanelColor = new Color(1f, 0.97f, 0.95f, 1f);
 
         public readonly struct Parts
         {
@@ -70,11 +69,12 @@ namespace Game.Editor
             var dim = UiSceneParts.Rect("Purchase Dialog", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             dim.gameObject.AddComponent<Image>().color = DimColor;
             var panel = UiSceneParts.Rect("Panel", dim, new Vector2(0.1f, 0.38f), new Vector2(0.9f, 0.62f), Vector2.zero, Vector2.zero);
-            panel.gameObject.AddComponent<Image>().color = PanelColor;
+            UiStyle.Panel(panel, UiStyle.Paper);
             var message = UiSceneParts.Label("Message", panel, "", 56, TextAnchor.MiddleCenter);
             UiSceneParts.Place(message.rectTransform, new Vector2(0.05f, 0.45f), new Vector2(0.95f, 0.95f), Vector2.zero, Vector2.zero);
             var (buy, buyLabel) = UiSceneParts.Button("Buy", panel, new Vector2(0.53f, 0.08f), new Vector2(0.93f, 0.38f));
-            var (cancel, cancelLabel) = UiSceneParts.Button("Cancel", panel, new Vector2(0.07f, 0.08f), new Vector2(0.47f, 0.38f));
+            var (cancel, cancelLabel) = UiSceneParts.Button("Cancel", panel, new Vector2(0.07f, 0.08f), new Vector2(0.47f, 0.38f), 64,
+                UiStyle.ButtonLook.Secondary);
 
             var service = canvas.gameObject.AddComponent<SimulatedPurchaseService>();
             PrototypeSceneBuilder.SetReference(service, "config", config);
