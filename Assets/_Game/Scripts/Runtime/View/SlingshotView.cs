@@ -15,6 +15,8 @@ namespace Game.View
         [SerializeField] private LineRenderer bandLeft;
         [SerializeField] private LineRenderer bandRight;
         [SerializeField] private Transform[] dots;
+        [Tooltip("The bands meet the loaded ball this far either side of its centre, so they hold it rather than pierce it.")]
+        [SerializeField] private float bandGrip;
 
         private SlingshotGesture gesture;
         private ShotTuning tuning;
@@ -38,9 +40,10 @@ namespace Game.View
             Vector2 pull = gesture != null && gesture.IsHolding ? gesture.Pull : Vector2.zero;
             pouchVisual.position = pouchRest.position + new Vector3(pull.x, pull.y * 0.5f, pull.y) * juice.pouchTravel;
             bandLeft.SetPosition(0, forkLeftTip.position);
-            bandLeft.SetPosition(1, pouchVisual.position);
+            var side = transform.right * bandGrip;
+            bandLeft.SetPosition(1, pouchVisual.position - side);
             bandRight.SetPosition(0, forkRightTip.position);
-            bandRight.SetPosition(1, pouchVisual.position);
+            bandRight.SetPosition(1, pouchVisual.position + side);
             UpdateDots(pull);
         }
 

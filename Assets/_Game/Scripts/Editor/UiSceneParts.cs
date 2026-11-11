@@ -14,6 +14,9 @@ namespace Game.Editor
     internal static class UiSceneParts
     {
         private static readonly Vector2 ReferenceResolution = new Vector2(1080f, 1920f);
+        private const float HudTop = 24f;
+        private const float HudSide = 36f;
+        private const float HudHeight = 100f;
         private static readonly Color BarBackColor = new Color(0.3f, 0.22f, 0.3f, 0.18f);
         private static readonly Color BarFillColor = new Color(0.98f, 0.55f, 0.42f);
         private const int DebugSliderCount = 7;
@@ -53,19 +56,26 @@ namespace Game.Editor
             events.AddComponent<InputSystemUIInputModule>();
 
             var safe = Rect("Safe Area", canvasGo.transform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-            safe.gameObject.AddComponent<SafeArea>();
+            // Its edges default to none, which insets nothing: every edge, so the notch, Dynamic Island and home bar stay clear.
+            var safeArea = safe.gameObject.AddComponent<SafeArea>();
+            safeArea.Edges = SafeArea.SafeAreaMode.Top | SafeArea.SafeAreaMode.Bottom | SafeArea.SafeAreaMode.Left |
+                             SafeArea.SafeAreaMode.Right;
             var hud = BuildHud(safe, out Text levelLabel);
             return new Parts(canvasGo.transform, safe, hud, levelLabel, BuildResult(canvasGo.transform));
         }
 
         private static Hud BuildHud(Transform canvas, out Text levelLabel)
         {
-            var hud = Rect("HUD", canvas, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(0f, -150f), Vector2.zero);
-            var level = HudPill("Level", hud, "Level 1", TextAnchor.MiddleLeft, new Vector2(30f, -120f), new Vector2(470f, -20f));
-            var shots = HudPill("Shots", hud, "Shots: 6", TextAnchor.MiddleCenter, new Vector2(-400f, -120f), new Vector2(-165f, -20f), right: true);
+            // Below the safe area's top by a margin, and in from the screen's rounded corners.
+            var hud = Rect("HUD", canvas, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(HudSide, -HudHeight - HudTop),
+                new Vector2(-HudSide, -HudTop));
+            var level = HudPill("Level", hud, "Level 1", TextAnchor.MiddleLeft, new Vector2(0f, -HudHeight), new Vector2(420f, 0f));
+            var shots = HudPill("Shots", hud, "Shots: 6", TextAnchor.MiddleCenter, new Vector2(-360f, -HudHeight), new Vector2(-130f, 0f),
+                right: true);
             // Top-right, clear of the pouch at the bottom.
             var (pause, pauseLabel) = Button("Pause", hud, new Vector2(1f, 1f), new Vector2(1f, 1f), 56, UiStyle.ButtonLook.Secondary);
-            Place((RectTransform)pause.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-150f, -130f), new Vector2(-40f, -20f));
+            Place((RectTransform)pause.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-110f, -HudHeight - 4f),
+                Vector2.zero);
             pauseLabel.text = "";
             PauseBar(pauseLabel.transform.parent, -1f);
             PauseBar(pauseLabel.transform.parent, 1f);

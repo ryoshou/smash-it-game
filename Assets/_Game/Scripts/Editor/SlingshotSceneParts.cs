@@ -6,19 +6,24 @@ using UnityEngine;
 
 namespace Game.Editor
 {
-    /// <summary>Placeholder slingshot: handle, two fork posts, rubber bands, pouch and preview dots.</summary>
+    /// <summary>The slingshot: the generated wooden fork, two rubber bands, the loaded yarn ball in the pouch, preview dots.</summary>
     internal static class SlingshotSceneParts
     {
         private const string JuiceConfigPath = PrototypeAssetBuilder.ConfigFolder + "/JuiceConfig.asset";
         private const int PreviewDots = 8;
         private const float ForkHeight = 0.16f;
-        private const float BandWidth = 0.012f;
+        private const float BandWidth = 0.02f;
         private const float PouchSize = 0.12f;
+        /// <summary>The yarn model's diameter (tools/blender/props/yarn_ball.py).</summary>
+        private const float YarnModelDiameter = 0.18f;
+        /// <summary>The bands hold the ball this far out from its centre (share of the pouch's size): at its sides.</summary>
+        private const float BandGripShare = 0.42f;
+        private static readonly Color Rubber = new Color(0.86f, 0.33f, 0.28f);
         private const float DotSize = 0.035f;
 
         public static SlingshotView BuildSlingshot(Transform pouch, string materialsFolder, Func<string, Color, Material> material)
         {
-            var rubber = material("SlingshotBand", new Color(0.55f, 0.3f, 0.45f));
+            var rubber = material("SlingshotBand", Rubber);
             var root = new GameObject("Slingshot").transform;
             root.position = pouch.position + new Vector3(0f, -ForkHeight, 0.06f);
 
@@ -27,9 +32,11 @@ namespace Game.Editor
             var left = frame.Find("BandAnchorL");
             var right = frame.Find("BandAnchorR");
 
-            var pouchVisual = PrototypeSceneBuilder.Visual(PrimitiveType.Sphere, root, "Pouch Visual", rubber);
-            pouchVisual.localScale = Vector3.one * PouchSize;
+            // The loaded ball: the same yarn model the shot flies as, at the pouch's size.
+            var pouchVisual = new GameObject("Pouch Visual").transform;
+            pouchVisual.SetParent(root, false);
             pouchVisual.position = pouch.position;
+            PrototypeSceneBuilder.ArtVisual(pouchVisual, "Generated/YarnBall.fbx", "TinyTreats", Vector3.zero, PouchSize / YarnModelDiameter);
 
             var view = root.gameObject.AddComponent<SlingshotView>();
             PrototypeSceneBuilder.SetReference(view, "juice", LoadOrCreateJuice());
@@ -39,6 +46,9 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(view, "forkRightTip", right);
             PrototypeSceneBuilder.SetReference(view, "bandLeft", Band(root, "Band Left", rubber));
             PrototypeSceneBuilder.SetReference(view, "bandRight", Band(root, "Band Right", rubber));
+            var settings = new SerializedObject(view);
+            settings.FindProperty("bandGrip").floatValue = PouchSize * BandGripShare;
+            settings.ApplyModifiedPropertiesWithoutUndo();
             SetDots(view, root, material("PreviewDot", Color.white));
             return view;
         }

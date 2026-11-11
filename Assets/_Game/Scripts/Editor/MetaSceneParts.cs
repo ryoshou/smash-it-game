@@ -75,7 +75,8 @@ namespace Game.Editor
         /// </summary>
         private static HomeScreen BuildHome(Transform safe)
         {
-            var root = UiSceneParts.Rect("Home", safe, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            // Inset from the safe area so the corner buttons clear the screen's rounded corners.
+            var root = UiSceneParts.Rect("Home", safe, Vector2.zero, Vector2.one, new Vector2(12f, 12f), new Vector2(-12f, -16f));
             var title = UiSceneParts.Label("Title", root, "Smash It", 170, TextAnchor.MiddleCenter);
             UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.76f), new Vector2(1f, 0.9f), Vector2.zero, Vector2.zero);
             UiStyle.Title(title);

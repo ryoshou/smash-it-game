@@ -63,6 +63,7 @@ namespace Game.Editor
             if (stageWin) Burst(VfxBuilder.LoadConfetti().gameObject, WinConfettiAt, WinConfettiSeconds);
             if (catPose != null) PoseCat(catPose);
             if (screen != null) ShowScreen(screen, levelIndex, levels);
+            DrawBands();
             Render(Camera.main, output);
             Debug.Log($"[Snapshot] wrote {output}");
         }
@@ -94,6 +95,15 @@ namespace Game.Editor
         /// A mug mid-shatter on the floor beside the desk, with the shard sparkle and a dust puff, and a donut splashing
         /// beside it (chunks, droplets and its splat on the floor).
         /// </summary>
+        /// <summary>The bands are line renderers SlingshotView places every frame; edit mode runs no frames, so place them once.</summary>
+        private static void DrawBands()
+        {
+            var view = UnityEngine.Object.FindAnyObjectByType<Game.View.SlingshotView>();
+            typeof(Game.View.SlingshotView)
+                .GetMethod("LateUpdate", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                .Invoke(view, null);
+        }
+
         /// <summary>Where the scene's Confetti Anchor sits, and the moment the win snapshot freezes the cannons.</summary>
         private static readonly Vector3 WinConfettiAt = new Vector3(0f, LevelSpawner.DeskTopY + 0.2f, 0f);
         private const float WinConfettiSeconds = 0.9f;
