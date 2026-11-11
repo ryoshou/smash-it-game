@@ -7,6 +7,8 @@ namespace Game.Meta
     public sealed class AppConfig : ScriptableObject
     {
         public float splashSeconds = 1.2f;
+        [Tooltip("After a win, the confetti and the cat's celebration play this long before the result panel opens.")]
+        public float winPanelDelaySeconds = 1.3f;
         [Tooltip("Hidden in settings while empty.")]
         public string privacyPolicyUrl = "";
 

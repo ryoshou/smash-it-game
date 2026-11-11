@@ -23,6 +23,7 @@ namespace Game
         [SerializeField] private SplashScreen splash;
         [SerializeField] private HomeScreen home;
         [SerializeField] private PausePanel pause;
+        [SerializeField] private RoomMapPanel roomMap;
         [SerializeField] private SfxPlayer sfx;
         [SerializeField] private MusicPlayer music;
         [Tooltip("An IAdService.")]
@@ -38,6 +39,8 @@ namespace Game
         private float splashEndsAt;
         private Func<float> clock = () => Time.unscaledTime;
         private bool hasStoppedTime;
+        private bool isWinPanelDue;
+        private float winPanelAt;
 
         public AppScreen Screen => flow.Screen;
 
@@ -82,7 +85,7 @@ namespace Game
             hud.Bind(strings, () => flow.Pause());
             resultPanel.Bind(strings);
             home.Bind(strings);
-            pause.Bind(strings, SetSound, SetMusic, SetHaptics, OnResumeTapped, Restart, Restore,
+            pause.Bind(strings, SetSound, SetMusic, SetHaptics, OnResumeTapped, Restart, GoHomeTapped, Restore,
                 string.IsNullOrEmpty(config.privacyPolicyUrl) ? null : OpenPrivacyPolicy);
             bootstrap.RoundFinished += OnRoundFinished;
             ApplySettings();
@@ -111,6 +114,8 @@ namespace Game
         private void Update()
         {
             if (flow.Screen == AppScreen.Splash && Time.unscaledTime >= splashEndsAt) flow.SplashDone();
+            // Held while paused; real time, so a test clock can't stall it.
+            if (isWinPanelDue && flow.Screen == AppScreen.Playing && Time.unscaledTime >= winPanelAt) ShowWin();
         }
 
         private void OnApplicationPause(bool paused)
@@ -131,6 +136,7 @@ namespace Game
                     splash.Hide();
                     pause.Hide();
                     resultPanel.Hide();
+                    roomMap.Hide();
                     hud.gameObject.SetActive(false);
                     SetPlaying(false);
                     ShowHome(); // the level was loaded at Start (or by ResetSave)
@@ -138,6 +144,7 @@ namespace Game
                 case AppScreen.Playing:
                     splash.Hide();
                     home.Hide();
+                    roomMap.Hide();
                     pause.Hide();
                     hud.gameObject.SetActive(true);
                     SetPlaying(true);
@@ -161,7 +168,28 @@ namespace Game
 
         private void ShowHome() =>
             home.Show(profile.Data.levelIndex + 1, !profile.Data.removeAds, store?.RemoveAdsPrice,
-                () => flow.Play(), BuyRemoveAds, () => pause.Show(false, profile.Data));
+                () => PlayLevel(profile.Data.levelIndex), BuyRemoveAds, () => pause.Show(false, profile.Data), ShowRoomMap);
+
+        private void ShowRoomMap() =>
+            roomMap.Show(RoomProgress.Rooms(bootstrap.Levels, profile.Data.levelIndex), strings,
+                room => PlayLevel(RoomProgress.PlayIndex(room, profile.Data.levelIndex)), roomMap.Hide);
+
+        /// <summary>From home: the level on the desk is usually the saved one; a room picked on the map loads its own.</summary>
+        private void PlayLevel(int levelIndex)
+        {
+            roomMap.Hide();
+            if (bootstrap.LevelIndex != levelIndex) bootstrap.LoadLevel(levelIndex);
+            flow.Play();
+        }
+
+        /// <summary>Pause → Home: a fresh desk at the saved level, so home shows where Play continues.</summary>
+        private void GoHomeTapped()
+        {
+            isWinPanelDue = false;
+            resultPanel.Hide();
+            bootstrap.LoadLevel(profile.Data.levelIndex);
+            flow.GoHome();
+        }
 
         private void OnResumeTapped()
         {
@@ -170,23 +198,34 @@ namespace Game
 
         private void Restart()
         {
+            isWinPanelDue = false;
             flow.Resume();
             resultPanel.Hide();
             bootstrap.Retry();
         }
 
-        /// <summary>A win is saved at once, before any tap (spec §10), so a kill on the win panel keeps it.</summary>
+        /// <summary>
+        /// A win is saved at once, before any tap (spec §10), so a kill on the win panel keeps it. The panel waits
+        /// winPanelDelaySeconds so the celebration plays over a clear desk.
+        /// </summary>
         private void OnRoundFinished(RoundState state)
         {
             if (state == RoundState.Won)
             {
                 profile.RecordWin(bootstrap.LevelIndex);
                 pacing.LevelWon();
-                var reveal = UnlockReveal.After(bootstrap.Levels, bootstrap.LevelIndex);
-                resultPanel.ShowWin(reveal, strings.PropName(reveal.Next), OnNextTapped);
+                isWinPanelDue = true;
+                winPanelAt = Time.unscaledTime + config.winPanelDelaySeconds;
                 return;
             }
             ShowLose();
+        }
+
+        private void ShowWin()
+        {
+            isWinPanelDue = false;
+            var reveal = UnlockReveal.After(bootstrap.Levels, bootstrap.LevelIndex);
+            resultPanel.ShowWin(reveal, strings.PropName(reveal.Next), OnNextTapped);
         }
 
         private void ShowLose() =>

@@ -7,16 +7,21 @@ using UnityEngine.UI;
 
 namespace Game.Editor
 {
-    /// <summary>Splash, home and pause/settings screens on the main canvas, the AppController, and the debug meta buttons.</summary>
+    /// <summary>
+    /// Splash, home, room map and pause/settings screens on the main canvas, the AppController, and the debug meta buttons.
+    /// </summary>
     internal static class MetaSceneParts
     {
         private static readonly Color SplashColor = new Color(0.98f, 0.89f, 0.84f, 1f);
         private static readonly Color DimColor = new Color(0f, 0f, 0f, 0.55f);
+        private static readonly Color BarBack = new Color(0.3f, 0.22f, 0.3f, 0.18f);
+        private const int RoomCards = 5;
 
         public static AppController Build(UiSceneParts.Parts ui, MonetizationSceneParts.Parts money, GameBootstrap bootstrap,
             SfxPlayer sfx, MusicPlayer music, AppConfig config, UiStrings strings)
         {
             var home = BuildHome(ui.Safe);
+            var roomMap = BuildRoomMap(ui.Canvas);
             var pause = BuildPause(ui.Canvas);
             var splash = BuildSplash(ui.Canvas);
 
@@ -29,6 +34,7 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(app, "splash", splash);
             PrototypeSceneBuilder.SetReference(app, "home", home);
             PrototypeSceneBuilder.SetReference(app, "pause", pause);
+            PrototypeSceneBuilder.SetReference(app, "roomMap", roomMap);
             PrototypeSceneBuilder.SetReference(app, "sfx", sfx);
             PrototypeSceneBuilder.SetReference(app, "music", music);
             PrototypeSceneBuilder.SetReference(app, "adService", money.Ads);
@@ -78,6 +84,9 @@ namespace Game.Editor
                 UiStyle.ButtonLook.Secondary);
             var (settings, settingsLabel) = UiSceneParts.Button("Settings", root, new Vector2(0.62f, 0.925f), new Vector2(0.97f, 0.985f), 40,
                 UiStyle.ButtonLook.Secondary);
+            // Bottom right: the empty floor beside the slingshot.
+            var (rooms, roomsLabel) = UiSceneParts.Button("Rooms", root, new Vector2(0.6f, 0.04f), new Vector2(0.95f, 0.11f), 56,
+                UiStyle.ButtonLook.Secondary);
 
             var component = root.gameObject.AddComponent<HomeScreen>();
             PrototypeSceneBuilder.SetReference(component, "titleText", title);
@@ -87,6 +96,8 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(component, "removeAdsLabel", removeAdsLabel);
             PrototypeSceneBuilder.SetReference(component, "settingsButton", settings);
             PrototypeSceneBuilder.SetReference(component, "settingsLabel", settingsLabel);
+            PrototypeSceneBuilder.SetReference(component, "roomsButton", rooms);
+            PrototypeSceneBuilder.SetReference(component, "roomsLabel", roomsLabel);
             root.gameObject.SetActive(false);
             return component;
         }
@@ -106,15 +117,17 @@ namespace Game.Editor
             var (sound, soundLabel) = Toggle("Sound", panel, 0.86f);
             var (music, musicLabel) = Toggle("Music", panel, 0.77f);
             var (haptics, hapticsLabel) = Toggle("Vibration", panel, 0.68f);
-            var (resume, resumeLabel) = UiSceneParts.Button("Resume", panel, new Vector2(0.1f, 0.47f), new Vector2(0.9f, 0.57f));
-            var (restart, restartLabel) = UiSceneParts.Button("Restart", panel, new Vector2(0.1f, 0.35f), new Vector2(0.9f, 0.44f), 56,
+            var (resume, resumeLabel) = UiSceneParts.Button("Resume", panel, new Vector2(0.1f, 0.5f), new Vector2(0.9f, 0.59f));
+            var (restart, restartLabel) = UiSceneParts.Button("Restart", panel, new Vector2(0.1f, 0.39f), new Vector2(0.9f, 0.47f), 56,
                 UiStyle.ButtonLook.Secondary);
-            var (restore, restoreLabel) = UiSceneParts.Button("Restore", panel, new Vector2(0.1f, 0.23f), new Vector2(0.9f, 0.32f), 48,
+            var (home, homeLabel) = UiSceneParts.Button("Home", panel, new Vector2(0.1f, 0.28f), new Vector2(0.9f, 0.36f), 56,
                 UiStyle.ButtonLook.Secondary);
-            var (privacy, privacyLabel) = UiSceneParts.Button("Privacy", panel, new Vector2(0.1f, 0.12f), new Vector2(0.9f, 0.2f), 44,
+            var (restore, restoreLabel) = UiSceneParts.Button("Restore", panel, new Vector2(0.1f, 0.18f), new Vector2(0.9f, 0.25f), 44,
+                UiStyle.ButtonLook.Secondary);
+            var (privacy, privacyLabel) = UiSceneParts.Button("Privacy", panel, new Vector2(0.1f, 0.09f), new Vector2(0.9f, 0.16f), 40,
                 UiStyle.ButtonLook.Secondary);
             var message = UiSceneParts.Label("Message", panel, "", 40, TextAnchor.MiddleCenter);
-            UiSceneParts.Place(message.rectTransform, new Vector2(0f, 0.02f), new Vector2(1f, 0.1f), Vector2.zero, Vector2.zero);
+            UiSceneParts.Place(message.rectTransform, new Vector2(0f, 0.01f), new Vector2(1f, 0.08f), Vector2.zero, Vector2.zero);
 
             var component = dim.gameObject.AddComponent<PausePanel>();
             PrototypeSceneBuilder.SetReference(component, "titleText", title);
@@ -128,11 +141,83 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(component, "resumeLabel", resumeLabel);
             PrototypeSceneBuilder.SetReference(component, "restartButton", restart);
             PrototypeSceneBuilder.SetReference(component, "restartLabel", restartLabel);
+            PrototypeSceneBuilder.SetReference(component, "homeButton", home);
+            PrototypeSceneBuilder.SetReference(component, "homeLabel", homeLabel);
             PrototypeSceneBuilder.SetReference(component, "restoreButton", restore);
             PrototypeSceneBuilder.SetReference(component, "restoreLabel", restoreLabel);
             PrototypeSceneBuilder.SetReference(component, "privacyButton", privacy);
             PrototypeSceneBuilder.SetReference(component, "privacyLabel", privacyLabel);
             PrototypeSceneBuilder.SetReference(component, "messageText", message);
+            dim.gameObject.SetActive(false);
+            return component;
+        }
+
+        /// <summary>A dimmed full-screen card list: one card per room (name, levels, progress bar, status) and Back.</summary>
+        private static RoomMapPanel BuildRoomMap(Transform canvas)
+        {
+            var dim = UiSceneParts.Rect("Room Map", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            dim.gameObject.AddComponent<Image>().color = DimColor; // blocks taps on the game below
+            var panel = UiSceneParts.Rect("Panel", dim, new Vector2(0.05f, 0.08f), new Vector2(0.95f, 0.9f), Vector2.zero, Vector2.zero);
+            UiStyle.Panel(panel, UiStyle.Paper);
+            var pop = dim.gameObject.AddComponent<PopIn>();
+            PrototypeSceneBuilder.SetReference(pop, "target", panel);
+            var title = UiSceneParts.Label("Title", panel, "Rooms", 96, TextAnchor.MiddleCenter);
+            UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.89f), new Vector2(1f, 0.98f), Vector2.zero, Vector2.zero);
+            UiStyle.Title(title);
+
+            var cards = new Button[RoomCards];
+            var images = new Image[RoomCards];
+            var names = new Text[RoomCards];
+            var details = new Text[RoomCards];
+            var statuses = new Text[RoomCards];
+            var fills = new RectTransform[RoomCards];
+            var groups = new CanvasGroup[RoomCards];
+            const float top = 0.87f, height = 0.135f, gap = 0.012f;
+            for (int i = 0; i < RoomCards; i++)
+            {
+                float cardTop = top - i * (height + gap);
+                var card = UiSceneParts.Rect($"Room {i + 1}", panel, new Vector2(0.05f, cardTop - height), new Vector2(0.95f, cardTop),
+                    Vector2.zero, Vector2.zero);
+                images[i] = UiStyle.Panel(card, UiStyle.Cream);
+                groups[i] = card.gameObject.AddComponent<CanvasGroup>();
+                cards[i] = card.gameObject.AddComponent<Button>();
+                cards[i].targetGraphic = images[i];
+
+                names[i] = UiSceneParts.Label("Name", card, "Room", 58, TextAnchor.MiddleLeft);
+                UiSceneParts.Place(names[i].rectTransform, new Vector2(0.05f, 0.52f), new Vector2(0.68f, 0.95f), Vector2.zero, Vector2.zero);
+                details[i] = UiSceneParts.Label("Detail", card, "", 34, TextAnchor.MiddleLeft);
+                UiSceneParts.Place(details[i].rectTransform, new Vector2(0.05f, 0.3f), new Vector2(0.68f, 0.54f), Vector2.zero, Vector2.zero);
+                details[i].resizeTextForBestFit = true;
+                details[i].resizeTextMinSize = 22;
+                details[i].resizeTextMaxSize = 34;
+                var bar = UiSceneParts.Rect("Bar", card, new Vector2(0.05f, 0.1f), new Vector2(0.66f, 0.24f), Vector2.zero, Vector2.zero);
+                UiStyle.Fill(bar, BarBack).pixelsPerUnitMultiplier = 3f;
+                fills[i] = UiSceneParts.Rect("Fill", bar, Vector2.zero, new Vector2(0.5f, 1f), Vector2.zero, Vector2.zero);
+                UiStyle.Fill(fills[i], UiStyle.Coral).pixelsPerUnitMultiplier = 3f;
+
+                var status = UiSceneParts.Rect("Status", card, new Vector2(0.71f, 0.24f), new Vector2(0.95f, 0.76f), Vector2.zero, Vector2.zero);
+                UiStyle.Fill(status, UiStyle.Coral).raycastTarget = false;
+                statuses[i] = UiSceneParts.Label("Label", status, "Play", 44, TextAnchor.MiddleCenter);
+                UiSceneParts.Place(statuses[i].rectTransform, Vector2.zero, Vector2.one, new Vector2(10f, 0f), new Vector2(-10f, 0f));
+                statuses[i].color = Color.white;
+                statuses[i].resizeTextForBestFit = true;
+                statuses[i].resizeTextMinSize = 24;
+                statuses[i].resizeTextMaxSize = 44;
+            }
+            var (back, backLabel) = UiSceneParts.Button("Back", panel, new Vector2(0.25f, 0.03f), new Vector2(0.75f, 0.11f), 56,
+                UiStyle.ButtonLook.Secondary);
+
+            var component = dim.gameObject.AddComponent<RoomMapPanel>();
+            PrototypeSceneBuilder.SetReference(component, "titleText", title);
+            PrototypeSceneBuilder.SetReference(component, "backButton", back);
+            PrototypeSceneBuilder.SetReference(component, "backLabel", backLabel);
+            UiSceneParts.SetArray(component, "cards", cards);
+            UiSceneParts.SetArray(component, "cardImages", images);
+            UiSceneParts.SetArray(component, "nameTexts", names);
+            UiSceneParts.SetArray(component, "detailTexts", details);
+            UiSceneParts.SetArray(component, "statusTexts", statuses);
+            UiSceneParts.SetArray(component, "fills", fills);
+            UiSceneParts.SetArray(component, "cardGroups", groups);
             dim.gameObject.SetActive(false);
             return component;
         }

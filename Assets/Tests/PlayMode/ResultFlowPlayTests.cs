@@ -42,6 +42,24 @@ namespace Game.Tests
         }
 
         [UnityTest]
+        public IEnumerator Win_PanelWaitsForTheCelebration_ProgressSavedAtOnce()
+        {
+            yield return LaunchAndPlay();
+            foreach (var prop in Object.FindAnyObjectByType<Game.World.LevelSpawner>().Spawned)
+            {
+                prop.Body.isKinematic = true;
+                prop.Body.position = new Vector3(prop.Body.position.x, -1f, prop.Body.position.z);
+            }
+
+            yield return WaitFor(() => Bootstrap.State == RoundState.Won);
+            yield return null;
+
+            Assert.IsFalse(IsShown<ResultPanel>(), "the confetti plays first");
+            Assert.AreEqual(1, Saved.levelIndex);
+            yield return WaitFor(IsShown<ResultPanel>);
+        }
+
+        [UnityTest]
         public IEnumerator Next_OnLevel6After90s_ShowsInterstitialThenLoadsNext()
         {
             yield return PlayLevel6At(100f);

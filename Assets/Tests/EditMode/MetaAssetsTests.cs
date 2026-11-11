@@ -51,8 +51,9 @@ namespace Game.Tests
         }
 
         [Test]
-        public void UiStrings_FormatsHaveOnePlaceholder()
+        public void UiStrings_FormatsHaveTheirPlaceholders()
         {
+            var twoValues = new[] { nameof(UiStrings.roomLevelsFormat), nameof(UiStrings.roomProgressFormat) };
             var strings = Strings();
             int formats = 0;
             foreach (var field in typeof(UiStrings).GetFields(BindingFlags.Public | BindingFlags.Instance))
@@ -61,9 +62,15 @@ namespace Game.Tests
                 formats++;
                 string format = (string)field.GetValue(strings);
                 StringAssert.Contains("{0}", format, field.Name);
-                Assert.DoesNotThrow(() => string.Format(format, "x"), field.Name);
+                if (System.Array.IndexOf(twoValues, field.Name) < 0)
+                {
+                    Assert.DoesNotThrow(() => string.Format(format, "x"), field.Name);
+                    continue;
+                }
+                StringAssert.Contains("{1}", format, field.Name);
+                Assert.DoesNotThrow(() => string.Format(format, "x", "y"), field.Name);
             }
-            Assert.AreEqual(8, formats);
+            Assert.AreEqual(10, formats);
         }
 
         [Test]

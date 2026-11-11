@@ -20,6 +20,8 @@ MonoBehaviour:
   removeAdsFormat: Remove Ads {0}
   revealFormat: 'New thing to knock over: {0}!'
   testPurchaseFormat: 'Test purchase: Remove Ads for {0}'
+  roomLevelsFormat: "Levels {0}\u2013{1}"
+  roomProgressFormat: '{0} / {1}'
   winTitle: Desk cleared!
   next: Next
   loseTitle: Out of shots
@@ -41,6 +43,18 @@ MonoBehaviour:
   buy: Buy
   cancel: Cancel
   title: Smash It
+  rooms: Rooms
+  home: Home
+  back: Back
+  roomPlay: Play
+  roomReplay: Replay
+  roomLocked: Locked
+  roomNames:
+  - Home Office
+  - Kitchen
+  - "Caf\xE9"
+  - Library
+  - Gaming Den
   propNames:
   - Keycap
   - Wide Keycap

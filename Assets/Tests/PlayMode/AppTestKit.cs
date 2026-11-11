@@ -54,7 +54,7 @@ namespace Game.Tests
         public static bool IsShown<T>() where T : Component =>
             Object.FindAnyObjectByType<T>(FindObjectsInactive.Include).gameObject.activeInHierarchy;
 
-        /// <summary>Drops every prop below the desk, then waits for the round to end Won.</summary>
+        /// <summary>Drops every prop below the desk, then waits for the round to end Won and the win panel to open.</summary>
         public static IEnumerator Win()
         {
             foreach (var prop in Object.FindAnyObjectByType<LevelSpawner>().Spawned)
@@ -63,6 +63,7 @@ namespace Game.Tests
                 prop.Body.position = new Vector3(prop.Body.position.x, -1f, prop.Body.position.z);
             }
             yield return WaitFor(() => Bootstrap.State == Game.Core.RoundState.Won);
+            yield return WaitFor(IsShown<Game.UI.ResultPanel>);
             yield return null;
         }
 

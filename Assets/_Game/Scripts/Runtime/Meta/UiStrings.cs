@@ -16,6 +16,8 @@ namespace Game.Meta
         public string removeAdsFormat = "Remove Ads {0}";
         public string revealFormat = "New thing to knock over: {0}!";
         public string testPurchaseFormat = "Test purchase: Remove Ads for {0}";
+        public string roomLevelsFormat = "Levels {0}–{1}";
+        public string roomProgressFormat = "{0} / {1}";
 
         [Header("Labels")]
         public string winTitle = "Desk cleared!";
@@ -39,9 +41,24 @@ namespace Game.Meta
         public string buy = "Buy";
         public string cancel = "Cancel";
         public string title = "Smash It";
+        public string rooms = "Rooms";
+        public string home = "Home";
+        public string back = "Back";
+        public string roomPlay = "Play";
+        public string roomReplay = "Replay";
+        public string roomLocked = "Locked";
+
+        [Tooltip("Room map names, in play order.")]
+        public string[] roomNames = { "Home Office", "Kitchen", "Café", "Library", "Gaming Den" };
 
         [Tooltip("Indexed by (int)PropKind.")]
         public string[] propNames = new string[0];
+
+        /// <param name="number">1-based room number.</param>
+        public string RoomName(int number) =>
+            roomNames != null && number >= 1 && number <= roomNames.Length && !string.IsNullOrEmpty(roomNames[number - 1])
+                ? roomNames[number - 1]
+                : $"Room {number}";
 
         public string PropName(PropKind kind)
         {

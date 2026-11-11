@@ -37,6 +37,7 @@ namespace Game.Editor
         private static readonly Color Wood = new Color(0.72f, 0.5f, 0.32f);
         private static readonly Color Silver = new Color(0.85f, 0.87f, 0.92f);
         private static readonly Color Violet = new Color(0.7f, 0.45f, 1f);
+        private static readonly Color Coral = new Color(0.97f, 0.5f, 0.37f);
 
         [MenuItem("Smash/Build Vfx")]
         public static void BuildAll()
@@ -172,6 +173,8 @@ namespace Game.Editor
             return droplets;
         }
 
+        private const int ConfettiPerCannon = 90;
+
         private static ParticleSystem Confetti(Material material)
         {
             var system = NewSystem("Confetti", material, 60);
@@ -183,7 +186,12 @@ namespace Game.Editor
             main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
             var colors = new Gradient();
             colors.SetKeys(
-                new[] { new GradientColorKey(Pink, 0f), new GradientColorKey(Butter, 0.33f), new GradientColorKey(Sky, 0.66f), new GradientColorKey(Mint, 1f) },
+                // Fixed mode: each key owns the stretch up to its time, so a key at 0 would never be picked.
+                new[]
+                {
+                    new GradientColorKey(Pink, 0.2f), new GradientColorKey(Coral, 0.4f), new GradientColorKey(Butter, 0.6f),
+                    new GradientColorKey(Sky, 0.8f), new GradientColorKey(Mint, 1f),
+                },
                 new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) });
             colors.mode = GradientMode.Fixed;
             main.startColor = new ParticleSystem.MinMaxGradient(colors) { mode = ParticleSystemGradientMode.RandomColor };
@@ -196,7 +204,57 @@ namespace Game.Editor
             rotation.enabled = true;
             rotation.z = new ParticleSystem.MinMaxCurve(-4f, 4f);
             FadeAndShrink(system);
+            Cannon(system.transform, material, colors, -1f);
+            Cannon(system.transform, material, colors, 1f);
             return system;
+        }
+
+        /// <summary>
+        /// A confetti cannon just off the bottom corner of the view, firing paper strips up and in over the desk; they
+        /// flutter down slowly, so the celebration fills the screen before the result panel opens.
+        /// </summary>
+        private static void Cannon(Transform confetti, Material material, Gradient colors, float side)
+        {
+            var system = NewSystem(side < 0f ? "Cannon L" : "Cannon R", material, ConfettiPerCannon);
+            system.transform.SetParent(confetti, false);
+            system.transform.localPosition = new Vector3(side * 1.1f, -0.7f, -0.8f);
+            system.transform.localRotation = Quaternion.Euler(-62f, -side * 28f, 0f); // up, and in towards the desk
+            var main = system.main;
+            main.duration = 0.35f;
+            main.startLifetime = new ParticleSystem.MinMaxCurve(2.2f, 3.2f);
+            main.startSpeed = new ParticleSystem.MinMaxCurve(4.5f, 6.5f);
+            main.gravityModifier = 0.35f;
+            main.startSize3D = true;
+            main.startSizeX = new ParticleSystem.MinMaxCurve(0.05f, 0.08f);
+            main.startSizeY = new ParticleSystem.MinMaxCurve(0.09f, 0.14f);
+            main.startSizeZ = 1f;
+            main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+            main.startColor = new ParticleSystem.MinMaxGradient(colors) { mode = ParticleSystemGradientMode.RandomColor };
+            var emission = system.emission;
+            emission.SetBursts(new[]
+            {
+                new ParticleSystem.Burst(0f, (short)(ConfettiPerCannon / 2)),
+                new ParticleSystem.Burst(0.15f, (short)(ConfettiPerCannon / 2)),
+            });
+            var shape = system.shape;
+            shape.shapeType = ParticleSystemShapeType.Cone;
+            shape.angle = 18f;
+            shape.radius = 0.05f;
+            // Air drag: strips shoot out fast, then hang and drift down.
+            var drag = system.limitVelocityOverLifetime;
+            drag.enabled = true;
+            drag.limit = 1.2f;
+            drag.dampen = 0.08f;
+            var flutter = system.noise;
+            flutter.enabled = true;
+            flutter.strength = 0.6f;
+            flutter.frequency = 0.8f;
+            var rotation = system.rotationOverLifetime;
+            rotation.enabled = true;
+            rotation.z = new ParticleSystem.MinMaxCurve(-6f, 6f);
+            var size = system.sizeOverLifetime;
+            size.enabled = true;
+            size.size = new ParticleSystem.MinMaxCurve(1f, new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(0.8f, 1f), new Keyframe(1f, 0f)));
         }
 
         private static ParticleSystem NewSystem(string name, Material material, int count)

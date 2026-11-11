@@ -22,16 +22,17 @@ namespace Game.Editor
         private const float ShardSpread = 0.18f;
 
         /// <summary>Command line: -snapshotOut path.png [-snapshotLevel n] [-snapshotBreak] [-snapshotCatPose Take:seconds]
-        /// [-snapshotScreen home|pause] [-snapshotRoom n] [-snapshotTheme path] (show the level in room n's backdrop, or that RoomTheme's, instead of its own).</summary>
+        /// [-snapshotScreen home|pause|rooms] [-snapshotRoom n] [-snapshotTheme path] (show the level in room n's backdrop, or that RoomTheme's, instead of its own).</summary>
         public static void FromCommandLine()
         {
             string[] args = Environment.GetCommandLineArgs();
             string output = Arg(args, "-snapshotOut") ?? throw new ArgumentException("-snapshotOut is required");
             int level = int.TryParse(Arg(args, "-snapshotLevel"), out int n) ? n : 0;
             bool stageBreak = Array.IndexOf(args, "-snapshotBreak") >= 0;
+            bool stageWin = Array.IndexOf(args, "-snapshotWin") >= 0;
             int room = int.TryParse(Arg(args, "-snapshotRoom"), out int r) ? r : 0;
             string theme = Arg(args, "-snapshotTheme") ?? (room > 0 ? GameLevelListBuilder.ThemePath(room) : null);
-            Capture(output, level, null, stageBreak, Arg(args, "-snapshotCatPose"), Arg(args, "-snapshotScreen"), theme);
+            Capture(output, level, null, stageBreak, Arg(args, "-snapshotCatPose"), Arg(args, "-snapshotScreen"), theme, stageWin);
         }
 
         public static void Capture(string output, int levelIndex, bool stageBreak, string catPose = null, string screen = null) =>
@@ -41,7 +42,7 @@ namespace Game.Editor
         public static void Capture(string output, LevelDef layout) => Capture(output, 0, layout, false, null, null);
 
         private static void Capture(string output, int levelIndex, LevelDef layout, bool stageBreak, string catPose, string screen,
-            string themeOverride = null)
+            string themeOverride = null, bool stageWin = false)
         {
             // Opening the scene destroys an unsaved level, so carry it across as JSON.
             string layoutJson = layout != null ? JsonUtility.ToJson(layout) : null;
@@ -59,8 +60,9 @@ namespace Game.Editor
             ApplyRoom(themeOverride != null ? AssetDatabase.LoadAssetAtPath<RoomTheme>(themeOverride) : level.room);
             PlaceProps(level, catalog);
             if (stageBreak) StageBreak(catalog);
+            if (stageWin) Burst(VfxBuilder.LoadConfetti().gameObject, WinConfettiAt, WinConfettiSeconds);
             if (catPose != null) PoseCat(catPose);
-            if (screen != null) ShowScreen(screen, levelIndex);
+            if (screen != null) ShowScreen(screen, levelIndex, levels);
             Render(Camera.main, output);
             Debug.Log($"[Snapshot] wrote {output}");
         }
@@ -92,6 +94,10 @@ namespace Game.Editor
         /// A mug mid-shatter on the floor beside the desk, with the shard sparkle and a dust puff, and a donut splashing
         /// beside it (chunks, droplets and its splat on the floor).
         /// </summary>
+        /// <summary>Where the scene's Confetti Anchor sits, and the moment the win snapshot freezes the cannons.</summary>
+        private static readonly Vector3 WinConfettiAt = new Vector3(0f, LevelSpawner.DeskTopY + 0.2f, 0f);
+        private const float WinConfettiSeconds = 0.9f;
+
         private static void StageBreak(PropCatalog catalog)
         {
             var at = new Vector3(0.5f, 0.2f, -1.5f);
@@ -127,7 +133,7 @@ namespace Game.Editor
         }
 
         /// <summary>Shows a UI screen as AppController would, and moves the canvases onto the camera so the render has them.</summary>
-        private static void ShowScreen(string screen, int levelIndex)
+        private static void ShowScreen(string screen, int levelIndex, LevelList levels)
         {
             var strings = MetaAssetBuilder.LoadStrings();
             UnityEngine.Object.FindAnyObjectByType<Game.UI.SplashScreen>(FindObjectsInactive.Include).Hide();
@@ -142,14 +148,19 @@ namespace Game.Editor
                     hud.gameObject.SetActive(false);
                     var home = UnityEngine.Object.FindAnyObjectByType<HomeScreen>(FindObjectsInactive.Include);
                     home.Bind(strings);
-                    home.Show(levelIndex + 1, true, MetaAssetBuilder.LoadAppConfig().simulatedPrice, () => { }, () => { }, () => { });
+                    home.Show(levelIndex + 1, true, MetaAssetBuilder.LoadAppConfig().simulatedPrice, () => { }, () => { }, () => { }, () => { });
                     break;
                 case "pause":
                     var pause = UnityEngine.Object.FindAnyObjectByType<PausePanel>(FindObjectsInactive.Include);
-                    pause.Bind(strings, _ => { }, _ => { }, _ => { }, () => { }, () => { }, () => { }, () => { });
+                    pause.Bind(strings, _ => { }, _ => { }, _ => { }, () => { }, () => { }, () => { }, () => { }, () => { });
                     pause.Show(true, new SaveData { music = false });
                     break;
-                default: throw new ArgumentException($"unknown screen '{screen}' (home|pause)");
+                case "rooms":
+                    hud.gameObject.SetActive(false);
+                    var map = UnityEngine.Object.FindAnyObjectByType<RoomMapPanel>(FindObjectsInactive.Include);
+                    map.Show(RoomProgress.Rooms(levels, levelIndex), strings, _ => { }, () => { });
+                    break;
+                default: throw new ArgumentException($"unknown screen '{screen}' (home|pause|rooms)");
             }
             foreach (var canvas in UnityEngine.Object.FindObjectsByType<Canvas>())
             {

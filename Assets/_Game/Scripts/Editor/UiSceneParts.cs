@@ -183,7 +183,7 @@ namespace Game.Editor
             return panel;
         }
 
-        private static void SetArray(Object target, string field, Object[] values)
+        internal static void SetArray(Object target, string field, Object[] values)
         {
             var so = new UnityEditor.SerializedObject(target);
             var array = so.FindProperty(field);
