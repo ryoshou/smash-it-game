@@ -170,7 +170,12 @@ namespace Game.Editor
                     var map = UnityEngine.Object.FindAnyObjectByType<RoomMapPanel>(FindObjectsInactive.Include);
                     map.Show(RoomProgress.Rooms(levels, levelIndex), strings, _ => { }, () => { });
                     break;
-                default: throw new ArgumentException($"unknown screen '{screen}' (home|pause|rooms)");
+                case "lose":
+                    var result = UnityEngine.Object.FindAnyObjectByType<ResultPanel>(FindObjectsInactive.Include);
+                    result.Bind(strings);
+                    result.ShowLose(true, () => { }, () => { });
+                    break;
+                default: throw new ArgumentException($"unknown screen '{screen}' (home|pause|rooms|lose)");
             }
             foreach (var canvas in UnityEngine.Object.FindObjectsByType<Canvas>())
             {

@@ -129,12 +129,9 @@ namespace Game.Editor
             var dim = UiSceneParts.Rect("Pause", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             dim.gameObject.AddComponent<Image>().color = DimColor; // blocks taps on the game below
             var panel = UiSceneParts.Rect("Panel", dim, new Vector2(0.08f, 0.17f), new Vector2(0.92f, 0.83f), Vector2.zero, Vector2.zero);
-            UiStyle.Panel(panel, UiStyle.Paper);
+            var title = UiStyle.RibbonPanel(panel, "Paused");
             var pop = dim.gameObject.AddComponent<PopIn>();
             PrototypeSceneBuilder.SetReference(pop, "target", panel);
-            var title = UiSceneParts.Label("Title", panel, "Paused", 96, TextAnchor.MiddleCenter);
-            UiStyle.Title(title);
-            UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.89f), new Vector2(1f, 0.98f), Vector2.zero, Vector2.zero);
 
             var (sound, soundLabel) = Toggle("Sound", panel, 0.86f);
             var (music, musicLabel) = Toggle("Music", panel, 0.77f);
@@ -180,12 +177,9 @@ namespace Game.Editor
             var dim = UiSceneParts.Rect("Room Map", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             dim.gameObject.AddComponent<Image>().color = DimColor; // blocks taps on the game below
             var panel = UiSceneParts.Rect("Panel", dim, new Vector2(0.05f, 0.08f), new Vector2(0.95f, 0.9f), Vector2.zero, Vector2.zero);
-            UiStyle.Panel(panel, UiStyle.Paper);
+            var title = UiStyle.RibbonPanel(panel, "Rooms");
             var pop = dim.gameObject.AddComponent<PopIn>();
             PrototypeSceneBuilder.SetReference(pop, "target", panel);
-            var title = UiSceneParts.Label("Title", panel, "Rooms", 96, TextAnchor.MiddleCenter);
-            UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.89f), new Vector2(1f, 0.98f), Vector2.zero, Vector2.zero);
-            UiStyle.Title(title);
 
             var cards = new Button[RoomCards];
             var images = new Image[RoomCards];
@@ -200,10 +194,15 @@ namespace Game.Editor
                 float cardTop = top - i * (height + gap);
                 var card = UiSceneParts.Rect($"Room {i + 1}", panel, new Vector2(0.05f, cardTop - height), new Vector2(0.95f, cardTop),
                     Vector2.zero, Vector2.zero);
-                images[i] = UiStyle.Panel(card, UiStyle.Cream);
+                var face = UiStyle.Card(card);
+                // A stripe down the card's left edge in the room's own colour (RoomMapPanel tints it).
+                var stripe = UiSceneParts.Rect("Stripe", card, Vector2.zero, new Vector2(0f, 1f), new Vector2(14f, 18f), new Vector2(34f, -14f));
+                images[i] = UiStyle.Fill(stripe, Color.white);
+                images[i].pixelsPerUnitMultiplier = 4f;
+                images[i].raycastTarget = false;
                 groups[i] = card.gameObject.AddComponent<CanvasGroup>();
                 cards[i] = card.gameObject.AddComponent<Button>();
-                cards[i].targetGraphic = images[i];
+                cards[i].targetGraphic = face;
 
                 names[i] = UiSceneParts.Label("Name", card, "Room", 58, TextAnchor.MiddleLeft);
                 UiSceneParts.Place(names[i].rectTransform, new Vector2(0.05f, 0.52f), new Vector2(0.68f, 0.95f), Vector2.zero, Vector2.zero);
@@ -215,16 +214,10 @@ namespace Game.Editor
                 var bar = UiSceneParts.Rect("Bar", card, new Vector2(0.05f, 0.1f), new Vector2(0.66f, 0.24f), Vector2.zero, Vector2.zero);
                 UiStyle.Fill(bar, BarBack).pixelsPerUnitMultiplier = 3f;
                 fills[i] = UiSceneParts.Rect("Fill", bar, Vector2.zero, new Vector2(0.5f, 1f), Vector2.zero, Vector2.zero);
-                UiStyle.Fill(fills[i], UiStyle.Coral).pixelsPerUnitMultiplier = 3f;
+                UiStyle.Fill(fills[i], CandyLook.Orange.Top).pixelsPerUnitMultiplier = 3f;
 
                 var status = UiSceneParts.Rect("Status", card, new Vector2(0.71f, 0.24f), new Vector2(0.95f, 0.76f), Vector2.zero, Vector2.zero);
-                UiStyle.Fill(status, UiStyle.Coral).raycastTarget = false;
-                statuses[i] = UiSceneParts.Label("Label", status, "Play", 44, TextAnchor.MiddleCenter);
-                UiSceneParts.Place(statuses[i].rectTransform, Vector2.zero, Vector2.one, new Vector2(10f, 0f), new Vector2(-10f, 0f));
-                statuses[i].color = Color.white;
-                statuses[i].resizeTextForBestFit = true;
-                statuses[i].resizeTextMinSize = 24;
-                statuses[i].resizeTextMaxSize = 44;
+                statuses[i] = UiStyle.Badge(status, CandyLook.Green, 44);
             }
             var (back, backLabel) = UiSceneParts.Button("Back", panel, new Vector2(0.25f, 0.03f), new Vector2(0.75f, 0.11f), 56,
                 CandyLook.Blue);

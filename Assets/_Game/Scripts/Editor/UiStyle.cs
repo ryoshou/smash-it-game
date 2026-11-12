@@ -104,6 +104,15 @@ namespace Game.Editor
             return title;
         }
 
+        /// <summary>A cream candy card (face, rim, lip) that a list row is built on; returns the face for the button.</summary>
+        public static Image Card(RectTransform card)
+        {
+            var image = SlicedImage(card.gameObject, UiSprites.CandyFace, CandyLook.Cream.Top, 1f);
+            Rim(card, CandyLook.Cream, 1f);
+            Lip(card.gameObject, CandyLook.Cream, BadgeLip);
+            return image;
+        }
+
         /// <summary>A white icon at the left of a candy button's label; the label moves right to make room.</summary>
         public static void LeadingIcon(Text label, Sprite icon)
         {

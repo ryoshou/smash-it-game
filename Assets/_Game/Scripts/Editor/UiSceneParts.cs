@@ -18,7 +18,7 @@ namespace Game.Editor
         private const float HudSide = 36f;
         private const float HudHeight = 100f;
         private static readonly Color BarBackColor = new Color(0.3f, 0.22f, 0.3f, 0.18f);
-        private static readonly Color BarFillColor = new Color(0.98f, 0.55f, 0.42f);
+        private static readonly Color ResultDim = new Color(0.12f, 0.04f, 0.16f, 0.3f);
         private const int DebugSliderCount = 7;
 
         public readonly struct Parts
@@ -88,15 +88,15 @@ namespace Game.Editor
 
         private static ResultPanel BuildResult(Transform canvas)
         {
-            var panel = Rect("Result Panel", canvas, new Vector2(0.1f, 0.35f), new Vector2(0.9f, 0.65f), Vector2.zero, Vector2.zero);
-            UiStyle.Panel(panel, UiStyle.Paper);
-            var pop = panel.gameObject.AddComponent<PopIn>();
+            // A light dim over the room (the confetti still shows through) with the candy card on it.
+            var root = Rect("Result Panel", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            root.gameObject.AddComponent<Image>().color = ResultDim;
+            var panel = Rect("Card", root, new Vector2(0.1f, 0.35f), new Vector2(0.9f, 0.62f), Vector2.zero, Vector2.zero);
+            var title = UiStyle.RibbonPanel(panel, "Desk cleared!");
+            var pop = root.gameObject.AddComponent<PopIn>();
             PrototypeSceneBuilder.SetReference(pop, "target", panel);
-            var title = Label("Title", panel, "Desk cleared!", 96, TextAnchor.MiddleCenter);
-            UiStyle.Title(title);
-            Place(title.rectTransform, new Vector2(0f, 0.6f), new Vector2(1f, 1f), Vector2.zero, Vector2.zero);
-            var (primary, primaryLabel) = Button("Primary", panel, new Vector2(0.1f, 0.33f), new Vector2(0.9f, 0.55f));
-            var (secondary, secondaryLabel) = Button("Secondary", panel, new Vector2(0.1f, 0.06f), new Vector2(0.9f, 0.28f), 64,
+            var (primary, primaryLabel) = Button("Primary", panel, new Vector2(0.1f, 0.4f), new Vector2(0.9f, 0.68f));
+            var (secondary, secondaryLabel) = Button("Secondary", panel, new Vector2(0.1f, 0.08f), new Vector2(0.9f, 0.32f), 64,
                 CandyLook.Blue);
 
             // The reveal bar sits where the second button would be; a win shows only Next.
@@ -106,9 +106,9 @@ namespace Game.Editor
             var bar = Rect("Bar", reveal, new Vector2(0.04f, 0.1f), new Vector2(0.96f, 0.38f), Vector2.zero, Vector2.zero);
             UiStyle.Fill(bar, BarBackColor);
             var fill = Rect("Fill", bar, Vector2.zero, new Vector2(0.5f, 1f), Vector2.zero, Vector2.zero);
-            UiStyle.Fill(fill, BarFillColor);
+            UiStyle.Fill(fill, CandyLook.Orange.Top);
 
-            var component = panel.gameObject.AddComponent<ResultPanel>();
+            var component = root.gameObject.AddComponent<ResultPanel>();
             PrototypeSceneBuilder.SetReference(component, "revealRoot", reveal.gameObject);
             PrototypeSceneBuilder.SetReference(component, "revealText", revealText);
             PrototypeSceneBuilder.SetReference(component, "revealFill", fill);
@@ -117,7 +117,7 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(component, "primaryLabel", primaryLabel);
             PrototypeSceneBuilder.SetReference(component, "secondary", secondary);
             PrototypeSceneBuilder.SetReference(component, "secondaryLabel", secondaryLabel);
-            panel.gameObject.SetActive(false);
+            root.gameObject.SetActive(false);
             return component;
         }
 

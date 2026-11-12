@@ -69,9 +69,9 @@ namespace Game.Editor
             var dim = UiSceneParts.Rect("Purchase Dialog", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             dim.gameObject.AddComponent<Image>().color = DimColor;
             var panel = UiSceneParts.Rect("Panel", dim, new Vector2(0.1f, 0.38f), new Vector2(0.9f, 0.62f), Vector2.zero, Vector2.zero);
-            UiStyle.Panel(panel, UiStyle.Paper);
+            UiStyle.RibbonPanel(panel, strings.noAds);
             var message = UiSceneParts.Label("Message", panel, "", 56, TextAnchor.MiddleCenter);
-            UiSceneParts.Place(message.rectTransform, new Vector2(0.05f, 0.45f), new Vector2(0.95f, 0.95f), Vector2.zero, Vector2.zero);
+            UiSceneParts.Place(message.rectTransform, new Vector2(0.05f, 0.42f), new Vector2(0.95f, 0.84f), Vector2.zero, Vector2.zero);
             var (buy, buyLabel) = UiSceneParts.Button("Buy", panel, new Vector2(0.53f, 0.08f), new Vector2(0.93f, 0.38f));
             var (cancel, cancelLabel) = UiSceneParts.Button("Cancel", panel, new Vector2(0.07f, 0.08f), new Vector2(0.47f, 0.38f), 64,
                 CandyLook.Blue);
