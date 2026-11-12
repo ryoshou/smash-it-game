@@ -146,12 +146,12 @@ namespace Game.Tests
         [TestCase(PropKind.KetchupBottle, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.DrinkCan, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Apple, BreakMode.Pop, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Tomato, BreakMode.Splash, PropColliderShape.Box)]
+        [TestCase(PropKind.Tomato, BreakMode.Pop, PropColliderShape.Box)]
         [TestCase(PropKind.Cheese, BreakMode.Pop, PropColliderShape.Box)]
         [TestCase(PropKind.Burger, BreakMode.Pop, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Cupcake, BreakMode.Splash, PropColliderShape.ConvexMesh)]
+        [TestCase(PropKind.Cupcake, BreakMode.Pop, PropColliderShape.ConvexMesh)]
         [TestCase(PropKind.Croissant, BreakMode.Pop, PropColliderShape.ConvexMesh)]
-        [TestCase(PropKind.Sandwich, BreakMode.Splash, PropColliderShape.Box)]
+        [TestCase(PropKind.Sandwich, BreakMode.Pop, PropColliderShape.Box)]
         public void NewKinds_HaveTheirPersonality(PropKind kind, BreakMode mode, PropColliderShape shape)
         {
             var spec = catalog.Get(kind);
@@ -162,31 +162,17 @@ namespace Game.Tests
             Assert.Greater(spec.size.y, 0f);
         }
 
-        /// <summary>Food is not glass or china: it squashes whole (no pieces) and leaves its stain.</summary>
+        /// <summary>The owner (2026-11-12): nothing squashes until a new mechanism is chosen; all food pops whole.</summary>
         [Test]
-        public void Food_SquashesWhole_NoPieces()
+        public void NoKind_Squashes()
         {
-            int food = 0;
             foreach (var spec in catalog.specs)
             {
-                if (spec.breakMode != BreakMode.Splash) continue;
-                food++;
+                Assert.AreNotEqual(BreakMode.Splash, spec.breakMode, spec.kind.ToString());
+                Assert.IsFalse(spec.splashesOnTouch, spec.kind.ToString());
                 foreach (var variant in spec.variants)
-                {
-                    Assert.IsNull(variant.brokenPrefab, $"{spec.kind} still breaks into pieces");
-                    Assert.IsNotNull(variant.prefab.GetComponent<Game.World.Squash>(), $"{spec.kind} can't squash");
-                }
+                    Assert.IsNull(variant.prefab.GetComponent<Game.World.Squash>(), $"{spec.kind} can still squash");
             }
-            Assert.AreEqual(3, food, "only the sandwich, tomato and cupcake squash");
-        }
-
-        /// <summary>The owner's soft foods squash the moment they are touched; everything else waits for the floor.</summary>
-        [Test]
-        public void OnlySandwichTomatoCupcake_SquashOnTouch()
-        {
-            var soft = new[] { PropKind.Sandwich, PropKind.Tomato, PropKind.Cupcake };
-            foreach (var spec in catalog.specs)
-                Assert.AreEqual(Array.IndexOf(soft, spec.kind) >= 0, spec.splashesOnTouch, spec.kind.ToString());
         }
 
         [Test]

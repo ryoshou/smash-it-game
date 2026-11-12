@@ -319,8 +319,8 @@ MonoBehaviour:
     mass: 0.1
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 0
-    breakMode: 4
-    splashesOnTouch: 1
+    breakMode: 1
+    splashesOnTouch: 0
   - kind: 27
     variants:
     - prefab: {fileID: 4582594880664263385, guid: 0a2846109dbc34fd894f8ac328d5356b, type: 3}
@@ -349,8 +349,8 @@ MonoBehaviour:
     mass: 0.06
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 1
-    breakMode: 4
-    splashesOnTouch: 1
+    breakMode: 1
+    splashesOnTouch: 0
   - kind: 30
     variants:
     - prefab: {fileID: 6142747126979732699, guid: d3334ee6a237048af979c2e37dd791c0, type: 3}
@@ -369,5 +369,5 @@ MonoBehaviour:
     mass: 0.1
     material: {fileID: 13400000, guid: 8aa06b14e6c484e7e9f16b023172b54d, type: 2}
     collider: 0
-    breakMode: 4
-    splashesOnTouch: 1
+    breakMode: 1
+    splashesOnTouch: 0

@@ -81,12 +81,12 @@ namespace Game.Editor
             bursts[PropKind.JamJar] = Save(Crumbs("JamCrumbs", material, new Color(0.72f, 0.12f, 0.3f)));
             bursts[PropKind.KetchupBottle] = Save(Crumbs("KetchupCrumbs", material, new Color(0.85f, 0.1f, 0.06f)));
             bursts[PropKind.Apple] = Save(Crumbs("AppleCrumbs", material, new Color(0.86f, 0.25f, 0.2f)));
-            bursts[PropKind.Tomato] = Save(Splash("TomatoSplash", new Color(0.95f, 0.3f, 0.12f), 0.32f));
+            bursts[PropKind.Tomato] = Save(Crumbs("TomatoCrumbs", material, new Color(0.95f, 0.3f, 0.12f)));
             bursts[PropKind.Cheese] = Save(Crumbs("CheeseCrumbs", material, new Color(1f, 0.82f, 0.3f)));
             bursts[PropKind.Burger] = Save(Crumbs("BurgerCrumbs", material, new Color(0.6f, 0.34f, 0.18f)));
-            bursts[PropKind.Cupcake] = Save(Splash("CupcakeSplash", new Color(0.97f, 0.6f, 0.75f), 0.28f));
+            bursts[PropKind.Cupcake] = Save(Crumbs("CupcakeCrumbs", material, new Color(0.97f, 0.6f, 0.75f)));
             bursts[PropKind.Croissant] = Save(Crumbs("CroissantCrumbs", material, new Color(0.92f, 0.7f, 0.35f)));
-            bursts[PropKind.Sandwich] = Save(Splash("SandwichSplash", new Color(0.55f, 0.8f, 0.35f), 0.32f));
+            bursts[PropKind.Sandwich] = Save(Crumbs("SandwichCrumbs", material, new Color(0.55f, 0.8f, 0.35f)));
         }
 
         /// <summary>Food that keeps its shape: a small puff of crumbs in its colour, no splat.</summary>
