@@ -27,7 +27,6 @@ namespace Game.Editor
         public static readonly Color Coral = new Color(0.97f, 0.5f, 0.37f);
         public static readonly Color Cream = new Color(1f, 0.92f, 0.85f);
         public static readonly Color SwitchOn = new Color(0.45f, 0.77f, 0.5f);
-        public static readonly Color PillBack = new Color(0.3f, 0.22f, 0.3f, 0.45f);
         private static readonly Color DropShadow = new Color(0.2f, 0.12f, 0.15f, 0.3f);
 
         public static Font Font => AssetDatabase.LoadAssetAtPath<Font>(FontPath) ?? Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -197,9 +196,6 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(view, "knob", knob);
             return toggle;
         }
-
-        /// <summary>A translucent rounded backing behind HUD text, so it reads over any room.</summary>
-        public static void Pill(RectTransform rect) => Fill(rect, PillBack);
 
         public static void Outline(Text text, Color color, float width)
         {

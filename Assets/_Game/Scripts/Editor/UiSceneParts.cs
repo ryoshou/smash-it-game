@@ -69,16 +69,14 @@ namespace Game.Editor
             // Below the safe area's top by a margin, and in from the screen's rounded corners.
             var hud = Rect("HUD", canvas, new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(HudSide, -HudHeight - HudTop),
                 new Vector2(-HudSide, -HudTop));
-            var level = HudPill("Level", hud, "Level 1", TextAnchor.MiddleLeft, new Vector2(0f, -HudHeight), new Vector2(420f, 0f));
-            var shots = HudPill("Shots", hud, "Shots: 6", TextAnchor.MiddleCenter, new Vector2(-360f, -HudHeight), new Vector2(-130f, 0f),
-                right: true);
-            // Top-right, clear of the pouch at the bottom.
-            var (pause, pauseLabel) = Button("Pause", hud, new Vector2(1f, 1f), new Vector2(1f, 1f), 56, CandyLook.Blue);
-            Place((RectTransform)pause.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-110f, -HudHeight - 4f),
-                Vector2.zero);
-            pauseLabel.text = "";
-            PauseBar(pauseLabel.transform.parent, -1f);
-            PauseBar(pauseLabel.transform.parent, 1f);
+            var topLeft = new Vector2(0f, 1f);
+            var level = UiStyle.Badge(Rect("Level", hud, topLeft, topLeft, new Vector2(0f, -HudHeight), new Vector2(420f, 0f)),
+                CandyLook.Purple, 54);
+            // Right of centre, clear of the pause button; the pouch sits at the bottom, far from all of it.
+            var shots = UiStyle.Badge(Rect("Shots", hud, Vector2.one, Vector2.one, new Vector2(-380f, -HudHeight),
+                new Vector2(-UiStyle.IconSize - 24f, 0f)), CandyLook.Orange, 54);
+            var pause = UiStyle.IconButton(Rect("Pause", hud, Vector2.one, Vector2.one, -Vector2.one * UiStyle.IconSize, Vector2.zero),
+                CandyLook.Yellow, UiSprites.IconPause);
 
             var component = hud.gameObject.AddComponent<Hud>();
             PrototypeSceneBuilder.SetReference(component, "shotsText", shots);
@@ -86,32 +84,6 @@ namespace Game.Editor
             PrototypeSceneBuilder.SetReference(component, "pauseButton", pause);
             levelLabel = level;
             return component;
-        }
-
-        /// <summary>White HUD text on a translucent pill, anchored to the HUD's top-left or top-right corner.</summary>
-        private static Text HudPill(string name, Transform hud, string text, TextAnchor anchor, Vector2 offsetMin, Vector2 offsetMax,
-            bool right = false)
-        {
-            var corner = new Vector2(right ? 1f : 0f, 1f);
-            var pill = Rect(name + " Pill", hud, corner, corner, offsetMin, offsetMax);
-            UiStyle.Pill(pill);
-            var label = Label(name, pill, text, 54, anchor);
-            Place(label.rectTransform, Vector2.zero, Vector2.one, new Vector2(34f, 0f), new Vector2(-34f, 0f));
-            label.color = Color.white;
-            label.resizeTextForBestFit = true;
-            label.resizeTextMinSize = 28;
-            label.resizeTextMaxSize = 54;
-            return label;
-        }
-
-        /// <summary>One bar of the pause icon, either side of the button's centre.</summary>
-        private static void PauseBar(Transform face, float side)
-        {
-            var bar = Rect(side < 0f ? "Bar L" : "Bar R", face, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                new Vector2(side * 16f - 9f, -24f), new Vector2(side * 16f + 9f, 24f));
-            var image = UiStyle.Fill(bar, UiStyle.Ink);
-            image.raycastTarget = false;
-            image.pixelsPerUnitMultiplier = 5f; // corners small enough for an 18-unit bar
         }
 
         private static ResultPanel BuildResult(Transform canvas)
