@@ -20,7 +20,7 @@ A prop resting over the gap between the desks for `wedgeStuckSeconds` is let thr
   - `Juice/` feedback (listens to GameEvents, never referenced by gameplay) · `Audio/` sfxr synth (ported from ant-game)
   - `GameBootstrap.cs` owns and ticks the round · `AppController.cs` owns the app around it (flow, save, panels, ads)
 - `Assets/_Game/Scripts/Editor/` → `Game.Editor.asmdef`: PrototypeSceneBuilder, BuildScripts; UI look in UiStyle (candy
-  buttons, badges, ribbon panels; CandyLook colours) over UiSprites (generated sprites and drawn icons); `Rooms/` (RoomKit + one
+  buttons, badges, ribbon panels; CandyLook colours) over UiSprites (generated shapes; icons from Kenney CC0 packs in `Art/Packs/KenneyIcons/`); `Rooms/` (RoomKit + one
   builder per room); `Levels/` (LayoutKit, Room<N>Layouts, Room<N>LevelBuilder, GameLevelListBuilder)
 - `Assets/_Game/Config/` ScriptableObject assets · `Assets/_Game/Levels/` level data · `Assets/_Game/Scenes/Game.unity`
 - `Assets/_Game/Art/` Packs/ (copied by `tools/assets/import-packs.sh` from `pack-manifest.txt`), Generated/ (Blender output), Materials/

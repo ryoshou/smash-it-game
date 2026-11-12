@@ -77,6 +77,20 @@ namespace Game.Tests
             Assert.AreEqual(face.width, face.height, 0.01f);
         }
 
+        /// <summary>A pack icon fills its box, so the box itself must clear the button's rounded corner.</summary>
+        [Test]
+        public void LeadingIcon_SitsInsideTheButton()
+        {
+            root.sizeDelta = new Vector2(432f, 112f);
+            var (_, label) = UiStyle.Candy(root, CandyLook.Blue, 56);
+
+            UiStyle.LeadingIcon(label, UiSprites.IconMap);
+
+            var face = (RectTransform)root.Find("Face");
+            var icon = (RectTransform)face.Find("Icon");
+            Assert.GreaterOrEqual(icon.localPosition.x + icon.rect.xMin, face.rect.xMin + UiSprites.CornerRadius / 2f);
+        }
+
         [Test]
         public void Badge_HasWhiteBestFitLabel()
         {

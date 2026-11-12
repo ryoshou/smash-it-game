@@ -1,5 +1,6 @@
 using Game.Editor;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Tests
@@ -62,6 +63,24 @@ namespace Game.Tests
                 Assert.That(System.Array.Exists(pixels, p => p.a > 0.5f), Is.True, $"{icon.name} is empty");
                 Assert.AreEqual(0f, texture.GetPixel(0, 0).a, 0.01f, $"{icon.name} corner is not clear");
             }
+        }
+
+        /// <summary>Icons a CC0 pack has come from that pack (owner, 2026-11-12); only No Ads is still drawn.</summary>
+        [Test]
+        public void PackIcons_ComeFromKenney()
+        {
+            foreach (var icon in new[] { UiSprites.IconGear, UiSprites.IconPause, UiSprites.IconMap, UiSprites.IconHome, UiSprites.IconReplay, UiSprites.IconNext })
+                StringAssert.StartsWith("Assets/_Game/Art/Packs/KenneyIcons/", AssetDatabase.GetAssetPath(icon), icon.name);
+        }
+
+        /// <summary>The icon folder sits under Packs/ but holds UI sprites, not a model atlas.</summary>
+        [Test]
+        public void AtlasMaterials_SkipTheIconPack()
+        {
+            AtlasMaterialBuilder.BuildAll();
+
+            Assert.IsNull(AtlasMaterialBuilder.Load("KenneyIcons"));
+            Assert.IsNotNull(AtlasMaterialBuilder.Load("TinyTreats"));
         }
 
         /// <summary>A CPU copy of the sprite's texture (imported sprites aren't readable).</summary>

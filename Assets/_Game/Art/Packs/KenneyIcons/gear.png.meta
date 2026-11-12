@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ddda61cc1ddd745238d731c8c67fb769
+guid: 05a93c9d94dbc4d2e850f521c2d43060
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7691450083930110639
-    second: IconMap_0
+      213: 9143868440440847147
+    second: gear_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IconMap_0
+      name: gear_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: faa7d4ca9158dba60800000000000000
-      internalID: 7691450083930110639
+      spriteID: b2bb16976eb85ee70800000000000000
+      internalID: 9143868440440847147
       vertices: []
       indices: 
       edges: []

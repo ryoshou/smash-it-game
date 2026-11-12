@@ -82,3 +82,10 @@ KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_lettuce_slice
 KayKit_Restaurant_Bits_1.0_FREE/Assets/fbx (unity)/food_ingredient_tomato_slice.fbx	KayKitRestaurant/food_ingredient_tomato_slice.fbx
 Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/cupcake.fbx	TinyTreatsBakedGoods/cupcake.fbx
 Tiny_Treats_Baked_Goods_1.0_FREE/Assets/fbx(unity)/croissant.fbx	TinyTreatsBakedGoods/croissant.fbx
+# UI icons (Kenney Game Icons + Board Game Icons, CC0), replacing the drawn ones
+kenney_game_icons/pack/PNG/White/2x/gear.png	KenneyIcons/gear.png
+kenney_game_icons/pack/PNG/White/2x/pause.png	KenneyIcons/pause.png
+kenney_game_icons/pack/PNG/White/2x/home.png	KenneyIcons/home.png
+kenney_game_icons/pack/PNG/White/2x/return.png	KenneyIcons/return.png
+kenney_game_icons/pack/PNG/White/2x/arrowRight.png	KenneyIcons/arrowRight.png
+kenney_board_game_icons/pack/PNG/Double (128px)/structure_house.png	KenneyIcons/structure_house.png

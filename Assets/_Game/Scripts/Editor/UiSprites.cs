@@ -6,13 +6,14 @@ using UnityEngine;
 namespace Game.Editor
 {
     /// <summary>
-    /// The UI's sprites, drawn here once (no art pack has UI shapes, and icons are our own, never emoji): white shapes
-    /// on transparent, 128 px, tinted per use. Rounded shapes are 9-sliced; icons are drawn from signed distances.
+    /// The UI's sprites: white on transparent, at most 128 px, tinted per use. Rounded shapes are drawn here once and
+    /// 9-sliced; icons come from Kenney's CC0 icon packs (copied by import-packs.sh), never emoji.
     /// </summary>
     public static class UiSprites
     {
         public const int RimPixels = 3;
         private const string Folder = "Assets/_Game/Art/Generated/Ui";
+        public const string PackFolder = "Assets/_Game/Art/Packs/KenneyIcons";
         private const int Size = 128;
         public const int CornerRadius = 40;
         private const int Radius = CornerRadius;
@@ -25,15 +26,33 @@ namespace Game.Editor
         public static Sprite CandyFace => Ensure("CandyFace", () => Face(Radius), Radius);
         public static Sprite CandyRim => Ensure("CandyRim", Rim, Radius);
         public static Sprite RibbonFace => Ensure("RibbonFace", () => Face(RibbonRadius), RibbonRadius);
-        public static Sprite IconGear => Ensure("IconGear", () => Shape(Gear), 0);
-        public static Sprite IconPause => Ensure("IconPause", () => Shape(Pause), 0);
-        public static Sprite IconMap => Ensure("IconMap", () => Shape(Map), 0);
-        public static Sprite IconHome => Ensure("IconHome", () => Shape(House), 0);
-        public static Sprite IconReplay => Ensure("IconReplay", () => Shape(Replay), 0);
-        public static Sprite IconNext => Ensure("IconNext", () => Shape(Next), 0);
+        public static Sprite IconGear => Pack("gear");
+        public static Sprite IconPause => Pack("pause");
+        public static Sprite IconMap => Pack("structure_house");  // the Rooms button; no CC0 pack has a map
+        public static Sprite IconHome => Pack("home");
+        public static Sprite IconReplay => Pack("return");
+        public static Sprite IconNext => Pack("arrowRight");
+        /// <summary>Still drawn: no Kenney pack has a no-ads sign.</summary>
         public static Sprite IconNoAds => Ensure("IconNoAds", () => Shape(NoAds), 0);
 
         private static readonly Vector2 Centre = new Vector2(Size / 2f, Size / 2f);
+
+        /// <summary>A pack icon, imported as an unmipped sprite the first time it is asked for.</summary>
+        private static Sprite Pack(string name)
+        {
+            string path = $"{PackFolder}/{name}.png";
+            var importer = (TextureImporter)AssetImporter.GetAtPath(path)
+                ?? throw new FileNotFoundException($"{path} is missing: run tools/assets/import-packs.sh");
+            if (importer.textureType != TextureImporterType.Sprite || importer.mipmapEnabled)
+            {
+                importer.textureType = TextureImporterType.Sprite;
+                importer.spriteImportMode = SpriteImportMode.Single;
+                importer.alphaIsTransparency = true;
+                importer.mipmapEnabled = false;
+                importer.SaveAndReimport();
+            }
+            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
+        }
 
         private static Sprite Ensure(string name, Func<Texture2D> draw, int border)
         {
@@ -91,53 +110,7 @@ namespace Game.Editor
 
         private static Func<Vector2, float> RoundedBox(int radius) => p => Box(p, Centre, Vector2.one * (Size / 2f), radius);
 
-        // Icons, drawn in a 128 box with a clear margin.
-
-        private static float Gear(Vector2 p)
-        {
-            float body = Disc(p, Centre, 34f);
-            for (int i = 0; i < 8; i++)
-            {
-                float angle = i * Mathf.PI / 4f;
-                var along = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-                var local = new Vector2(Vector2.Dot(p - Centre, along), Vector2.Dot(p - Centre, new Vector2(-along.y, along.x)));
-                body = Mathf.Min(body, Box(local, new Vector2(40f, 0f), new Vector2(10f, 9f), 3f));
-            }
-            return Mathf.Max(body, -Disc(p, Centre, 14f));
-        }
-
-        private static float Pause(Vector2 p) =>
-            Mathf.Min(Box(p, new Vector2(46f, 64f), new Vector2(11f, 34f), 5f), Box(p, new Vector2(82f, 64f), new Vector2(11f, 34f), 5f));
-
-        /// <summary>A folded map: three panels, zig-zagging at the top and bottom, with gaps at the folds.</summary>
-        private static float Map(Vector2 p) =>
-            Mathf.Min(Mathf.Min(
-                Convex(p, new Vector2(22f, 30f), new Vector2(49f, 22f), new Vector2(49f, 98f), new Vector2(22f, 106f)),
-                Convex(p, new Vector2(52f, 22f), new Vector2(76f, 30f), new Vector2(76f, 106f), new Vector2(52f, 98f))),
-                Convex(p, new Vector2(79f, 30f), new Vector2(106f, 22f), new Vector2(106f, 98f), new Vector2(79f, 106f)));
-
-        private static float House(Vector2 p)
-        {
-            float roof = Convex(p, new Vector2(20f, 66f), new Vector2(108f, 66f), new Vector2(64f, 104f));
-            float body = Box(p, new Vector2(64f, 46f), new Vector2(30f, 24f), 3f);
-            float door = Box(p, new Vector2(64f, 36f), new Vector2(9f, 14f), 2f);
-            return Mathf.Max(Mathf.Min(roof, body), -door);
-        }
-
-        /// <summary>A ring open at the top right with an arrowhead at the gap.</summary>
-        private static float Replay(Vector2 p)
-        {
-            float ring = Mathf.Max(Disc(p, Centre, 38f), -Disc(p, Centre, 25f));
-            var d = p - Centre;
-            bool inGap = d.x > 0f && d.y > 0f && d.y > d.x * 0.3f;
-            if (inGap) ring = Mathf.Max(ring, 1f);
-            float head = Convex(p, new Vector2(80f, 116f), new Vector2(80f, 76f), new Vector2(108f, 96f));
-            return Mathf.Min(ring, head);
-        }
-
-        private static float Next(Vector2 p) =>
-            Mathf.Min(Box(p, new Vector2(48f, 64f), new Vector2(24f, 11f), 4f),
-                Convex(p, new Vector2(66f, 98f), new Vector2(66f, 30f), new Vector2(104f, 64f)));
+        // The one drawn icon, in a 128 box with a clear margin.
 
         /// <summary>A prohibition sign: a ring with a diagonal bar.</summary>
         private static float NoAds(Vector2 p)
@@ -156,20 +129,6 @@ namespace Game.Editor
         {
             var q = new Vector2(Mathf.Abs(p.x - centre.x), Mathf.Abs(p.y - centre.y)) - half + Vector2.one * radius;
             return new Vector2(Mathf.Max(q.x, 0f), Mathf.Max(q.y, 0f)).magnitude + Mathf.Min(Mathf.Max(q.x, q.y), 0f) - radius;
-        }
-
-        /// <summary>A convex polygon, corners counter-clockwise; distance from its nearest edge line (good enough to anti-alias).</summary>
-        private static float Convex(Vector2 p, params Vector2[] corners)
-        {
-            float distance = float.NegativeInfinity;
-            for (int i = 0; i < corners.Length; i++)
-            {
-                var a = corners[i];
-                var edge = (corners[(i + 1) % corners.Length] - a).normalized;
-                float leftOfEdge = edge.x * (p.y - a.y) - edge.y * (p.x - a.x);
-                distance = Mathf.Max(distance, -leftOfEdge);
-            }
-            return distance;
         }
     }
 }

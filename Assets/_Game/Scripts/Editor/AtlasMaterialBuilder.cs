@@ -18,6 +18,7 @@ namespace Game.Editor
             foreach (string guid in AssetDatabase.FindAssets("t:Texture2D", new[] { PacksRoot }))
             {
                 string texturePath = AssetDatabase.GUIDToAssetPath(guid);
+                if (texturePath.StartsWith(UiSprites.PackFolder + "/")) continue;  // UI icons, not a model atlas
                 string pack = Path.GetFileName(Path.GetDirectoryName(texturePath));
                 Build(pack, AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
             }

@@ -21,6 +21,7 @@ namespace Game.Editor
         private const float TitleStroke = 3f;
         private const float RibbonHeight = 104f;
         private const float LeadingIconWidth = 72f;
+        private const float LeadingIconInset = 28f;  // clear of the rounded corner
         private const float RibbonOverhang = 0.04f;
         private static readonly Color TitleInk = CandyLook.Hex(0x5A2A00);
 
@@ -119,13 +120,14 @@ namespace Game.Editor
         public static void LeadingIcon(Text label, Sprite icon)
         {
             var face = (RectTransform)label.transform.parent;
-            var glyph = UiSceneParts.Rect("Icon", face, new Vector2(0.08f, 0.2f), new Vector2(0.08f, 0.8f), Vector2.zero, Vector2.zero);
+            var glyph = UiSceneParts.Rect("Icon", face, new Vector2(0f, 0.2f), new Vector2(0f, 0.8f), Vector2.zero, Vector2.zero);
             glyph.sizeDelta = new Vector2(LeadingIconWidth, glyph.sizeDelta.y);
+            glyph.anchoredPosition = new Vector2(LeadingIconInset + LeadingIconWidth / 2f, 0f);
             var image = glyph.gameObject.AddComponent<Image>();
             image.sprite = icon;
             image.preserveAspect = true;
             image.raycastTarget = false;
-            label.rectTransform.offsetMin += new Vector2(LeadingIconWidth, 0f);
+            label.rectTransform.offsetMin += new Vector2(LeadingIconInset + LeadingIconWidth, 0f);
         }
 
         private static (RectTransform face, Image image, Shadow lip) CandyFace(RectTransform root, CandyLook look, float lipHeight,
