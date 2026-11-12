@@ -16,8 +16,6 @@ MonoBehaviour:
   levelFormat: Level {0}
   levelHardFormat: "Level {0} \xB7 Hard"
   levelFeastFormat: "Level {0} \xB7 Feast!"
-  playFormat: "Play \xB7 Level {0}"
-  removeAdsFormat: Remove Ads {0}
   revealFormat: 'New thing to knock over: {0}!'
   testPurchaseFormat: 'Test purchase: Remove Ads for {0}'
   roomLevelsFormat: "Levels {0}\u2013{1}"
@@ -43,6 +41,9 @@ MonoBehaviour:
   buy: Buy
   cancel: Cancel
   title: Smash It
+  subtitle: cat chaos!
+  play: Play
+  noAds: No Ads
   rooms: Rooms
   home: Home
   back: Back

@@ -15,6 +15,12 @@ namespace Game.Editor
         private static readonly Color SplashColor = new Color(0.98f, 0.89f, 0.84f, 1f);
         private static readonly Color DimColor = new Color(0f, 0f, 0f, 0.55f);
         private static readonly Color BarBack = new Color(0.3f, 0.22f, 0.3f, 0.18f);
+        private const float HomeBadgeWidth = 440f;
+        private const float HomeBadgeHeight = 110f;
+        private const float HomeGap = 24f;
+        private const float NoAdsWidth = 300f;
+        private const float NoAdsHeight = 96f;
+        private const float TitleTilt = 4f;
         private const int RoomCards = 5;
 
         public static AppController Build(UiSceneParts.Parts ui, MonetizationSceneParts.Parts money, GameBootstrap bootstrap,
@@ -70,33 +76,48 @@ namespace Game.Editor
         }
 
         /// <summary>
-        /// No backdrop: the desk and the cat show through. Play sits in the lower half, where the thumb is, on the floor
-        /// between the desk and the slingshot so the cat stays in view; the small buttons sit in the top corners.
+        /// No backdrop: the desk and the cat show through. The owner's layout (2026-11-12): level badge top left, the
+        /// settings gear top right with No Ads under it, the title, Play and Rooms (centred under it) on the floor
+        /// between the desk and the slingshot, where the thumb is, so the cat and the slingshot stay in view.
         /// </summary>
         private static HomeScreen BuildHome(Transform safe)
         {
             // Inset from the safe area so the corner buttons clear the screen's rounded corners.
             var root = UiSceneParts.Rect("Home", safe, Vector2.zero, Vector2.one, new Vector2(12f, 12f), new Vector2(-12f, -16f));
+            var topLeft = new Vector2(0f, 1f);
+            var topRight = Vector2.one;
+            var level = UiStyle.Badge(UiSceneParts.Rect("Level", root, topLeft, topLeft, new Vector2(0f, -HomeBadgeHeight),
+                new Vector2(HomeBadgeWidth, 0f)), CandyLook.Purple, 54);
+            var settings = UiStyle.IconButton(UiSceneParts.Rect("Settings", root, topRight, topRight,
+                -Vector2.one * UiStyle.IconSize, Vector2.zero), CandyLook.Yellow, UiSprites.IconGear);
+            float noAdsTop = -UiStyle.IconSize - HomeGap;
+            var (removeAds, removeAdsLabel) = UiStyle.Candy(UiSceneParts.Rect("Remove Ads", root, topRight, topRight,
+                new Vector2(-NoAdsWidth, noAdsTop - NoAdsHeight), new Vector2(0f, noAdsTop)), CandyLook.Red, 40);
+
             var title = UiSceneParts.Label("Title", root, "Smash It", 170, TextAnchor.MiddleCenter);
-            UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.76f), new Vector2(1f, 0.9f), Vector2.zero, Vector2.zero);
+            UiSceneParts.Place(title.rectTransform, new Vector2(0f, 0.74f), new Vector2(1f, 0.86f), Vector2.zero, Vector2.zero);
+            title.rectTransform.localEulerAngles = new Vector3(0f, 0f, TitleTilt);
             UiStyle.Title(title);
-            var (play, playLabel) = UiSceneParts.Button("Play", root, new Vector2(0.14f, 0.36f), new Vector2(0.86f, 0.45f), 80);
-            var (removeAds, removeAdsLabel) = UiSceneParts.Button("Remove Ads", root, new Vector2(0.03f, 0.925f), new Vector2(0.5f, 0.985f), 40,
+            var subtitle = UiSceneParts.Label("Subtitle", root, "", 72, TextAnchor.MiddleCenter);
+            UiSceneParts.Place(subtitle.rectTransform, new Vector2(0f, 0.7f), new Vector2(1f, 0.75f), Vector2.zero, Vector2.zero);
+            subtitle.rectTransform.localEulerAngles = new Vector3(0f, 0f, TitleTilt);
+            UiStyle.Title(subtitle);
+            subtitle.color = Color.white;
+
+            var (play, playLabel) = UiSceneParts.Button("Play", root, new Vector2(0.14f, 0.43f), new Vector2(0.86f, 0.51f), 84);
+            var (rooms, roomsLabel) = UiSceneParts.Button("Rooms", root, new Vector2(0.3f, 0.355f), new Vector2(0.7f, 0.415f), 56,
                 CandyLook.Blue);
-            var (settings, settingsLabel) = UiSceneParts.Button("Settings", root, new Vector2(0.62f, 0.925f), new Vector2(0.97f, 0.985f), 40,
-                CandyLook.Blue);
-            // Bottom right: the empty floor beside the slingshot.
-            var (rooms, roomsLabel) = UiSceneParts.Button("Rooms", root, new Vector2(0.6f, 0.04f), new Vector2(0.95f, 0.11f), 56,
-                CandyLook.Blue);
+            UiStyle.LeadingIcon(roomsLabel, UiSprites.IconMap);
 
             var component = root.gameObject.AddComponent<HomeScreen>();
             PrototypeSceneBuilder.SetReference(component, "titleText", title);
+            PrototypeSceneBuilder.SetReference(component, "subtitleText", subtitle);
+            PrototypeSceneBuilder.SetReference(component, "levelText", level);
             PrototypeSceneBuilder.SetReference(component, "playButton", play);
             PrototypeSceneBuilder.SetReference(component, "playLabel", playLabel);
             PrototypeSceneBuilder.SetReference(component, "removeAdsButton", removeAds);
             PrototypeSceneBuilder.SetReference(component, "removeAdsLabel", removeAdsLabel);
             PrototypeSceneBuilder.SetReference(component, "settingsButton", settings);
-            PrototypeSceneBuilder.SetReference(component, "settingsLabel", settingsLabel);
             PrototypeSceneBuilder.SetReference(component, "roomsButton", rooms);
             PrototypeSceneBuilder.SetReference(component, "roomsLabel", roomsLabel);
             root.gameObject.SetActive(false);

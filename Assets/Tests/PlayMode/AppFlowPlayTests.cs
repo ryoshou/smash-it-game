@@ -39,7 +39,7 @@ namespace Game.Tests
         {
             yield return Launch(savedLevel: 3);
 
-            Assert.IsTrue(ShowsText<HomeScreen>("Play · Level 4"));
+            Assert.IsTrue(ShowsText<HomeScreen>("Level 4"));
             Assert.AreEqual("R1_L04", bootstrap.Level.id);
             Assert.IsFalse(bootstrap.InputEnabled);
         }
@@ -106,7 +106,7 @@ namespace Game.Tests
             yield return Launch();
             var removeAds = ButtonNamed<HomeScreen>("Remove Ads");
             Assert.IsTrue(removeAds.gameObject.activeSelf);
-            Assert.IsTrue(ShowsText<HomeScreen>("Remove Ads $3.99"));
+            Assert.IsTrue(ShowsText<HomeScreen>("No Ads"));
 
             removeAds.onClick.Invoke();
             yield return null;

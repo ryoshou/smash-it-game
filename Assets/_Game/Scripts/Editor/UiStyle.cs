@@ -18,6 +18,7 @@ namespace Game.Editor
         private const float TextStroke = 2f;
         private const float TitleStroke = 3f;
         private const float RibbonHeight = 104f;
+        private const float LeadingIconWidth = 72f;
         private const float RibbonOverhang = 0.04f;
         private static readonly Color TitleInk = CandyLook.Hex(0x5A2A00);
 
@@ -102,6 +103,19 @@ namespace Game.Editor
             var title = CandyLabel(band, ribbon, CandyLook.Yellow, 64, 32);
             title.text = ribbon;
             return title;
+        }
+
+        /// <summary>A white icon at the left of a candy button's label; the label moves right to make room.</summary>
+        public static void LeadingIcon(Text label, Sprite icon)
+        {
+            var face = (RectTransform)label.transform.parent;
+            var glyph = UiSceneParts.Rect("Icon", face, new Vector2(0.08f, 0.2f), new Vector2(0.08f, 0.8f), Vector2.zero, Vector2.zero);
+            glyph.sizeDelta = new Vector2(LeadingIconWidth, glyph.sizeDelta.y);
+            var image = glyph.gameObject.AddComponent<Image>();
+            image.sprite = icon;
+            image.preserveAspect = true;
+            image.raycastTarget = false;
+            label.rectTransform.offsetMin += new Vector2(LeadingIconWidth, 0f);
         }
 
         private static (RectTransform face, Image image, Shadow lip) CandyFace(RectTransform root, CandyLook look, float lipHeight,

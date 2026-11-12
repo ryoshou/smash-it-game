@@ -12,8 +12,6 @@ namespace Game.Meta
         public string levelFormat = "Level {0}";
         public string levelHardFormat = "Level {0} · Hard";
         public string levelFeastFormat = "Level {0} · Feast!";
-        public string playFormat = "Play · Level {0}";
-        public string removeAdsFormat = "Remove Ads {0}";
         public string revealFormat = "New thing to knock over: {0}!";
         public string testPurchaseFormat = "Test purchase: Remove Ads for {0}";
         public string roomLevelsFormat = "Levels {0}–{1}";
@@ -41,6 +39,9 @@ namespace Game.Meta
         public string buy = "Buy";
         public string cancel = "Cancel";
         public string title = "Smash It";
+        public string subtitle = "cat chaos!";
+        public string play = "Play";
+        public string noAds = "No Ads";
         public string rooms = "Rooms";
         public string home = "Home";
         public string back = "Back";

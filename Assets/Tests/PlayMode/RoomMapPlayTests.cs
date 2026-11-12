@@ -94,7 +94,7 @@ namespace Game.Tests
 
             Assert.AreEqual(AppScreen.Home, App.Screen);
             Assert.AreEqual(SavedInKitchen, Bootstrap.LevelIndex);
-            Assert.IsTrue(ShowsText<HomeScreen>("Play · Level 31"));
+            Assert.IsTrue(ShowsText<HomeScreen>("Level 31"));
             Assert.AreEqual(1f, UnityEngine.Time.timeScale);
         }
 

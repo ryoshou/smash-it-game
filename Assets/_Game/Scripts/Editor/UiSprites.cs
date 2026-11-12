@@ -109,13 +109,12 @@ namespace Game.Editor
         private static float Pause(Vector2 p) =>
             Mathf.Min(Box(p, new Vector2(46f, 64f), new Vector2(11f, 34f), 5f), Box(p, new Vector2(82f, 64f), new Vector2(11f, 34f), 5f));
 
-        /// <summary>A folded map: three panels with gaps at the folds.</summary>
-        private static float Map(Vector2 p)
-        {
-            float map = Box(p, Centre, new Vector2(42f, 32f), 5f);
-            map = Mathf.Max(map, -Box(p, new Vector2(50f, 64f), new Vector2(2f, 40f), 0f));
-            return Mathf.Max(map, -Box(p, new Vector2(78f, 64f), new Vector2(2f, 40f), 0f));
-        }
+        /// <summary>A folded map: three panels, zig-zagging at the top and bottom, with gaps at the folds.</summary>
+        private static float Map(Vector2 p) =>
+            Mathf.Min(Mathf.Min(
+                Convex(p, new Vector2(22f, 30f), new Vector2(49f, 22f), new Vector2(49f, 98f), new Vector2(22f, 106f)),
+                Convex(p, new Vector2(52f, 22f), new Vector2(76f, 30f), new Vector2(76f, 106f), new Vector2(52f, 98f))),
+                Convex(p, new Vector2(79f, 30f), new Vector2(106f, 22f), new Vector2(106f, 98f), new Vector2(79f, 106f)));
 
         private static float House(Vector2 p)
         {

@@ -167,7 +167,7 @@ namespace Game
         }
 
         private void ShowHome() =>
-            home.Show(profile.Data.levelIndex + 1, !profile.Data.removeAds, store?.RemoveAdsPrice,
+            home.Show(profile.Data.levelIndex + 1, !profile.Data.removeAds,
                 () => PlayLevel(profile.Data.levelIndex), BuyRemoveAds, () => pause.Show(false, profile.Data), ShowRoomMap);
 
         private void ShowRoomMap() =>

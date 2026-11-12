@@ -158,7 +158,7 @@ namespace Game.Editor
                     hud.gameObject.SetActive(false);
                     var home = UnityEngine.Object.FindAnyObjectByType<HomeScreen>(FindObjectsInactive.Include);
                     home.Bind(strings);
-                    home.Show(levelIndex + 1, true, MetaAssetBuilder.LoadAppConfig().simulatedPrice, () => { }, () => { }, () => { }, () => { });
+                    home.Show(levelIndex + 1, true, () => { }, () => { }, () => { }, () => { });
                     break;
                 case "pause":
                     var pause = UnityEngine.Object.FindAnyObjectByType<PausePanel>(FindObjectsInactive.Include);

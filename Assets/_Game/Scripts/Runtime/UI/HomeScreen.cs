@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 namespace Game.UI
 {
-    /// <summary>Home (spec §7): title, "Play · Level N", the room map, Remove Ads (until bought) and settings, over the live desk.</summary>
+    /// <summary>Home (spec §7): title, the level badge, Play, the room map, No Ads (until bought) and the settings gear, over the live desk.</summary>
     public sealed class HomeScreen : MonoBehaviour
     {
         [SerializeField] private Text titleText;
+        [SerializeField] private Text subtitleText;
+        [SerializeField] private Text levelText;
         [SerializeField] private Button playButton;
         [SerializeField] private Text playLabel;
         [SerializeField] private Button removeAdsButton;
         [SerializeField] private Text removeAdsLabel;
         [SerializeField] private Button settingsButton;
-        [SerializeField] private Text settingsLabel;
         [SerializeField] private Button roomsButton;
         [SerializeField] private Text roomsLabel;
 
@@ -22,13 +23,14 @@ namespace Game.UI
 
         public void Bind(UiStrings uiStrings) => strings = uiStrings;
 
-        public void Show(int levelNumber, bool showRemoveAds, string price, Action onPlay, Action onRemoveAds, Action onSettings,
+        public void Show(int levelNumber, bool showRemoveAds, Action onPlay, Action onRemoveAds, Action onSettings,
             Action onRooms)
         {
             titleText.text = strings.title;
-            playLabel.text = string.Format(strings.playFormat, levelNumber);
-            removeAdsLabel.text = string.Format(strings.removeAdsFormat, price);
-            settingsLabel.text = strings.settings;
+            subtitleText.text = strings.subtitle;
+            levelText.text = string.Format(strings.levelFormat, levelNumber);
+            playLabel.text = strings.play;
+            removeAdsLabel.text = strings.noAds;
             roomsLabel.text = strings.rooms;
             Listen(playButton, onPlay);
             Listen(removeAdsButton, onRemoveAds);
