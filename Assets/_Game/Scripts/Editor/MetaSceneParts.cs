@@ -89,8 +89,8 @@ namespace Game.Editor
             var level = UiStyle.Badge(UiSceneParts.Rect("Level", root, topLeft, topLeft, new Vector2(0f, -HomeBadgeHeight),
                 new Vector2(HomeBadgeWidth, 0f)), CandyLook.Purple, 54);
             var settings = UiStyle.IconButton(UiSceneParts.Rect("Settings", root, topRight, topRight,
-                -Vector2.one * UiStyle.IconSize, Vector2.zero), CandyLook.Yellow, UiSprites.IconGear);
-            float noAdsTop = -UiStyle.IconSize - HomeGap;
+                -UiStyle.IconButtonSize, Vector2.zero), CandyLook.Yellow, UiSprites.IconGear);
+            float noAdsTop = -UiStyle.IconButtonSize.y - HomeGap;
             var (removeAds, removeAdsLabel) = UiStyle.Candy(UiSceneParts.Rect("Remove Ads", root, topRight, topRight,
                 new Vector2(-NoAdsWidth, noAdsTop - NoAdsHeight), new Vector2(0f, noAdsTop)), CandyLook.Red, 40);
 

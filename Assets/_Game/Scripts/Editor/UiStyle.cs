@@ -14,6 +14,8 @@ namespace Game.Editor
         public const string FontPath = "Assets/_Game/Art/Fonts/LilitaOne-Regular.ttf";
         public const float CandyLip = 8f;
         public const float IconSize = 120f;
+        /// <summary>An icon button's root: a round IconSize face over a CandyLip lip.</summary>
+        public static readonly Vector2 IconButtonSize = new Vector2(IconSize, IconSize + CandyLip);
         private const float BadgeLip = 6f;
         private const float TextStroke = 2f;
         private const float TitleStroke = 3f;
@@ -63,7 +65,7 @@ namespace Game.Editor
             return (Pressable(root, face, faceImage, lip), label);
         }
 
-        /// <summary>A round candy button showing a drawn icon in the rim's colour. Size the root IconSize square.</summary>
+        /// <summary>A round candy button showing a drawn icon in the rim's colour. Size the root IconButtonSize.</summary>
         public static Button IconButton(RectTransform root, CandyLook look, Sprite icon)
         {
             // Shrink the sprite's units so its corners round the whole square into a circle.

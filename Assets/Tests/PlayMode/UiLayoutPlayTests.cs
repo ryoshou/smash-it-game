@@ -46,6 +46,25 @@ namespace Game.Tests
             Assert.AreEqual(label.text.Length, label.cachedTextGenerator.characterCountVisible, label.text);
         }
 
+        /// <summary>On the lose screen the HUD's Pause stays tappable, so a player with no ad to watch can still go Home.</summary>
+        [UnityTest]
+        public IEnumerator LoseScreen_PauseStillTappable()
+        {
+            yield return AppTestKit.LaunchAndPlay();
+            yield return AppTestKit.Lose();
+            var pause = (RectTransform)AppTestKit.ButtonNamed<Hud>("Pause").transform;
+            var corners = new Vector3[4];
+            pause.GetWorldCorners(corners);
+            var hits = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
+
+            UnityEngine.EventSystems.EventSystem.current.RaycastAll(
+                new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current) { position = (corners[0] + corners[2]) / 2f },
+                hits);
+
+            Assert.IsNotEmpty(hits);
+            Assert.IsTrue(hits[0].gameObject.transform.IsChildOf(pause), $"the tap lands on {hits[0].gameObject.name}");
+        }
+
         [UnityTest]
         public IEnumerator Hud_PauseIsAnIcon()
         {

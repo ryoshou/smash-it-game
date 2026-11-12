@@ -65,6 +65,18 @@ namespace Game.Tests
             Assert.IsNotNull(root.GetComponent<ButtonPress>());
         }
 
+        /// <summary>The face sits above the lip, so the root is a lip taller than wide and the face is a true circle.</summary>
+        [Test]
+        public void IconButton_FaceIsRound()
+        {
+            root.sizeDelta = UiStyle.IconButtonSize;
+
+            UiStyle.IconButton(root, CandyLook.Yellow, UiSprites.IconGear);
+
+            var face = ((RectTransform)root.Find("Face")).rect;
+            Assert.AreEqual(face.width, face.height, 0.01f);
+        }
+
         [Test]
         public void Badge_HasWhiteBestFitLabel()
         {

@@ -75,7 +75,7 @@ namespace Game.Editor
             // Right of centre, clear of the pause button; the pouch sits at the bottom, far from all of it.
             var shots = UiStyle.Badge(Rect("Shots", hud, Vector2.one, Vector2.one, new Vector2(-380f, -HudHeight),
                 new Vector2(-UiStyle.IconSize - 24f, 0f)), CandyLook.Orange, 54);
-            var pause = UiStyle.IconButton(Rect("Pause", hud, Vector2.one, Vector2.one, -Vector2.one * UiStyle.IconSize, Vector2.zero),
+            var pause = UiStyle.IconButton(Rect("Pause", hud, Vector2.one, Vector2.one, -UiStyle.IconButtonSize, Vector2.zero),
                 CandyLook.Yellow, UiSprites.IconPause);
 
             var component = hud.gameObject.AddComponent<Hud>();
@@ -88,9 +88,12 @@ namespace Game.Editor
 
         private static ResultPanel BuildResult(Transform canvas)
         {
-            // A light dim over the room (the confetti still shows through) with the candy card on it.
+            // A light dim over the room (the confetti still shows through) with the candy card on it. The dim lets taps
+            // through, so the HUD's Pause (and Home) still work when the lose screen offers only Retry.
             var root = Rect("Result Panel", canvas, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
-            root.gameObject.AddComponent<Image>().color = ResultDim;
+            var dim = root.gameObject.AddComponent<Image>();
+            dim.color = ResultDim;
+            dim.raycastTarget = false;
             var panel = Rect("Card", root, new Vector2(0.1f, 0.35f), new Vector2(0.9f, 0.62f), Vector2.zero, Vector2.zero);
             var title = UiStyle.RibbonPanel(panel, "Desk cleared!");
             var pop = root.gameObject.AddComponent<PopIn>();
