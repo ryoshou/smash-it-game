@@ -82,12 +82,12 @@ namespace Game.Editor
             UiStyle.Title(title);
             var (play, playLabel) = UiSceneParts.Button("Play", root, new Vector2(0.14f, 0.36f), new Vector2(0.86f, 0.45f), 80);
             var (removeAds, removeAdsLabel) = UiSceneParts.Button("Remove Ads", root, new Vector2(0.03f, 0.925f), new Vector2(0.5f, 0.985f), 40,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
             var (settings, settingsLabel) = UiSceneParts.Button("Settings", root, new Vector2(0.62f, 0.925f), new Vector2(0.97f, 0.985f), 40,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
             // Bottom right: the empty floor beside the slingshot.
             var (rooms, roomsLabel) = UiSceneParts.Button("Rooms", root, new Vector2(0.6f, 0.04f), new Vector2(0.95f, 0.11f), 56,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
 
             var component = root.gameObject.AddComponent<HomeScreen>();
             PrototypeSceneBuilder.SetReference(component, "titleText", title);
@@ -120,13 +120,13 @@ namespace Game.Editor
             var (haptics, hapticsLabel) = Toggle("Vibration", panel, 0.68f);
             var (resume, resumeLabel) = UiSceneParts.Button("Resume", panel, new Vector2(0.1f, 0.5f), new Vector2(0.9f, 0.59f));
             var (restart, restartLabel) = UiSceneParts.Button("Restart", panel, new Vector2(0.1f, 0.39f), new Vector2(0.9f, 0.47f), 56,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
             var (home, homeLabel) = UiSceneParts.Button("Home", panel, new Vector2(0.1f, 0.28f), new Vector2(0.9f, 0.36f), 56,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
             var (restore, restoreLabel) = UiSceneParts.Button("Restore", panel, new Vector2(0.1f, 0.18f), new Vector2(0.9f, 0.25f), 44,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
             var (privacy, privacyLabel) = UiSceneParts.Button("Privacy", panel, new Vector2(0.1f, 0.09f), new Vector2(0.9f, 0.16f), 40,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
             var message = UiSceneParts.Label("Message", panel, "", 40, TextAnchor.MiddleCenter);
             UiSceneParts.Place(message.rectTransform, new Vector2(0f, 0.01f), new Vector2(1f, 0.08f), Vector2.zero, Vector2.zero);
 
@@ -206,7 +206,7 @@ namespace Game.Editor
                 statuses[i].resizeTextMaxSize = 44;
             }
             var (back, backLabel) = UiSceneParts.Button("Back", panel, new Vector2(0.25f, 0.03f), new Vector2(0.75f, 0.11f), 56,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
 
             var component = dim.gameObject.AddComponent<RoomMapPanel>();
             PrototypeSceneBuilder.SetReference(component, "titleText", title);

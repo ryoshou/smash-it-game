@@ -74,7 +74,7 @@ namespace Game.Editor
             UiSceneParts.Place(message.rectTransform, new Vector2(0.05f, 0.45f), new Vector2(0.95f, 0.95f), Vector2.zero, Vector2.zero);
             var (buy, buyLabel) = UiSceneParts.Button("Buy", panel, new Vector2(0.53f, 0.08f), new Vector2(0.93f, 0.38f));
             var (cancel, cancelLabel) = UiSceneParts.Button("Cancel", panel, new Vector2(0.07f, 0.08f), new Vector2(0.47f, 0.38f), 64,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
 
             var service = canvas.gameObject.AddComponent<SimulatedPurchaseService>();
             PrototypeSceneBuilder.SetReference(service, "config", config);

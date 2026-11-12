@@ -73,7 +73,7 @@ namespace Game.Editor
             var shots = HudPill("Shots", hud, "Shots: 6", TextAnchor.MiddleCenter, new Vector2(-360f, -HudHeight), new Vector2(-130f, 0f),
                 right: true);
             // Top-right, clear of the pouch at the bottom.
-            var (pause, pauseLabel) = Button("Pause", hud, new Vector2(1f, 1f), new Vector2(1f, 1f), 56, UiStyle.ButtonLook.Secondary);
+            var (pause, pauseLabel) = Button("Pause", hud, new Vector2(1f, 1f), new Vector2(1f, 1f), 56, CandyLook.Blue);
             Place((RectTransform)pause.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-110f, -HudHeight - 4f),
                 Vector2.zero);
             pauseLabel.text = "";
@@ -125,7 +125,7 @@ namespace Game.Editor
             Place(title.rectTransform, new Vector2(0f, 0.6f), new Vector2(1f, 1f), Vector2.zero, Vector2.zero);
             var (primary, primaryLabel) = Button("Primary", panel, new Vector2(0.1f, 0.33f), new Vector2(0.9f, 0.55f));
             var (secondary, secondaryLabel) = Button("Secondary", panel, new Vector2(0.1f, 0.06f), new Vector2(0.9f, 0.28f), 64,
-                UiStyle.ButtonLook.Secondary);
+                CandyLook.Blue);
 
             // The reveal bar sits where the second button would be; a win shows only Next.
             var reveal = Rect("Reveal", panel, new Vector2(0.06f, 0.04f), new Vector2(0.94f, 0.3f), Vector2.zero, Vector2.zero);
@@ -203,8 +203,8 @@ namespace Game.Editor
         }
 
         internal static (Button, Text) Button(string name, Transform parent, Vector2 anchorMin, Vector2 anchorMax, int fontSize = 64,
-            UiStyle.ButtonLook look = UiStyle.ButtonLook.Primary) =>
-            UiStyle.Button(Rect(name, parent, anchorMin, anchorMax, Vector2.zero, Vector2.zero), fontSize, look);
+            CandyLook? look = null) =>
+            UiStyle.Candy(Rect(name, parent, anchorMin, anchorMax, Vector2.zero, Vector2.zero), look ?? CandyLook.Green, fontSize);
 
         internal static Text Label(string name, Transform parent, string text, int size, TextAnchor anchor)
         {

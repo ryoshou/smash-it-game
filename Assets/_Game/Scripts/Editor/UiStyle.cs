@@ -9,22 +9,25 @@ namespace Game.Editor
     /// The UI's look: the Lilita One font, sprites from UiSprites, the palette, and the
     /// pieces every screen shares (rounded panels, buttons with a lip, switches, pills).
     /// </summary>
-    internal static class UiStyle
+    public static class UiStyle
     {
         public const string FontPath = "Assets/_Game/Art/Fonts/LilitaOne-Regular.ttf";
-        public const float ButtonLip = 14f;
+        public const float CandyLip = 8f;
+        public const float IconSize = 120f;
+        private const float BadgeLip = 6f;
+        private const float TextStroke = 2f;
+        private const float TitleStroke = 3f;
+        private const float RibbonHeight = 104f;
+        private const float RibbonOverhang = 0.04f;
+        private static readonly Color TitleInk = CandyLook.Hex(0x5A2A00);
 
         public static readonly Color Ink = new Color(0.3f, 0.22f, 0.3f);
         public static readonly Color Paper = new Color(1f, 0.97f, 0.94f);
         public static readonly Color Coral = new Color(0.97f, 0.5f, 0.37f);
-        public static readonly Color CoralLip = new Color(0.76f, 0.33f, 0.26f);
         public static readonly Color Cream = new Color(1f, 0.92f, 0.85f);
-        public static readonly Color CreamLip = new Color(0.86f, 0.72f, 0.64f);
         public static readonly Color SwitchOn = new Color(0.45f, 0.77f, 0.5f);
         public static readonly Color PillBack = new Color(0.3f, 0.22f, 0.3f, 0.45f);
         private static readonly Color DropShadow = new Color(0.2f, 0.12f, 0.15f, 0.3f);
-
-        public enum ButtonLook { Primary, Secondary }
 
         public static Font Font => AssetDatabase.LoadAssetAtPath<Font>(FontPath) ?? Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         public static Sprite Rounded => UiSprites.Rounded;
@@ -50,35 +53,111 @@ namespace Game.Editor
         }
 
         /// <summary>
-        /// A rounded face over a darker lip; pressing sinks the face onto the lip. The root keeps the name and the Button,
-        /// so callers and tests find it as before.
+        /// A candy button: a face lit from the top inside a thin rim, over a short lip in the rim's colour; pressing sinks
+        /// the face onto the lip. The root keeps the name and the Button, so callers and tests find it as before.
         /// </summary>
-        public static (Button, Text) Button(RectTransform root, int fontSize, ButtonLook look)
+        public static (Button, Text) Candy(RectTransform root, CandyLook look, int fontSize)
         {
-            bool primary = look == ButtonLook.Primary;
-            var face = UiSceneParts.Rect("Face", root, Vector2.zero, Vector2.one, new Vector2(0f, ButtonLip), Vector2.zero);
-            var faceImage = Fill(face, primary ? Coral : Cream);
-            var lip = face.gameObject.AddComponent<Shadow>();
-            lip.effectColor = primary ? CoralLip : CreamLip;
-            lip.effectDistance = new Vector2(0f, -ButtonLip);
+            var (face, faceImage, lip) = CandyFace(root, look, CandyLip, 1f);
+            var label = CandyLabel(face, root.name, look, fontSize, Mathf.Min(24, fontSize));
+            return (Pressable(root, face, faceImage, lip), label);
+        }
 
-            var label = UiSceneParts.Label("Label", face, root.name, fontSize, TextAnchor.MiddleCenter);
+        /// <summary>A round candy button showing a drawn icon in the rim's colour. Size the root IconSize square.</summary>
+        public static Button IconButton(RectTransform root, CandyLook look, Sprite icon)
+        {
+            // Shrink the sprite's units so its corners round the whole square into a circle.
+            var (face, faceImage, lip) = CandyFace(root, look, CandyLip, UiSprites.CornerRadius / (IconSize / 2f));
+            var glyph = UiSceneParts.Rect("Icon", face, new Vector2(0.22f, 0.22f), new Vector2(0.78f, 0.78f), Vector2.zero, Vector2.zero);
+            var image = glyph.gameObject.AddComponent<Image>();
+            image.sprite = icon;
+            image.color = look.Rim;
+            image.preserveAspect = true;
+            image.raycastTarget = false;
+            return Pressable(root, face, faceImage, lip);
+        }
+
+        /// <summary>A candy pill that shows a value (level, shots left); not a button.</summary>
+        public static Text Badge(RectTransform root, CandyLook look, int fontSize)
+        {
+            var (face, faceImage, _) = CandyFace(root, look, BadgeLip, 1f);
+            faceImage.raycastTarget = false;
+            return CandyLabel(face, root.name, look, fontSize, 28);
+        }
+
+        /// <summary>A cream candy panel with a yellow ribbon across its top edge holding the title; returns the title.</summary>
+        public static Text RibbonPanel(RectTransform panel, string ribbon)
+        {
+            var image = SlicedImage(panel.gameObject, UiSprites.CandyFace, CandyLook.Cream.Top, 1f);
+            Rim(panel, CandyLook.Cream, 1f);
+            Lip(panel.gameObject, CandyLook.Cream, CandyLip);
+            image.raycastTarget = true;
+
+            var band = UiSceneParts.Rect("Ribbon", panel, new Vector2(-RibbonOverhang, 1f), new Vector2(1f + RibbonOverhang, 1f),
+                new Vector2(0f, -RibbonHeight / 2f), new Vector2(0f, RibbonHeight / 2f));
+            // RibbonFace has tighter corners; the shared rim is scaled to match them.
+            SlicedImage(band.gameObject, UiSprites.RibbonFace, CandyLook.Yellow.Top, 1f);
+            Rim(band, CandyLook.Yellow, UiSprites.CornerRadius / 24f);
+            Lip(band.gameObject, CandyLook.Yellow, BadgeLip);
+            var title = CandyLabel(band, ribbon, CandyLook.Yellow, 64, 32);
+            title.text = ribbon;
+            return title;
+        }
+
+        private static (RectTransform face, Image image, Shadow lip) CandyFace(RectTransform root, CandyLook look, float lipHeight,
+            float unitsScale)
+        {
+            var face = UiSceneParts.Rect("Face", root, Vector2.zero, Vector2.one, new Vector2(0f, lipHeight), Vector2.zero);
+            var image = SlicedImage(face.gameObject, UiSprites.CandyFace, look.Top, unitsScale);
+            Rim(face, look, unitsScale);
+            return (face, image, Lip(face.gameObject, look, lipHeight));
+        }
+
+        private static Image SlicedImage(GameObject target, Sprite sprite, Color color, float unitsScale)
+        {
+            var image = target.AddComponent<Image>();
+            image.sprite = sprite;
+            image.type = Image.Type.Sliced;
+            image.color = color;
+            image.pixelsPerUnitMultiplier = unitsScale;
+            return image;
+        }
+
+        private static void Rim(RectTransform face, CandyLook look, float unitsScale)
+        {
+            var rim = UiSceneParts.Rect("Rim", face, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            SlicedImage(rim.gameObject, UiSprites.CandyRim, look.Rim, unitsScale).raycastTarget = false;
+        }
+
+        private static Shadow Lip(GameObject face, CandyLook look, float height)
+        {
+            var lip = face.AddComponent<Shadow>();
+            lip.effectColor = look.Rim;
+            lip.effectDistance = new Vector2(0f, -height);
+            return lip;
+        }
+
+        private static Text CandyLabel(RectTransform face, string text, CandyLook look, int fontSize, int minSize)
+        {
+            var label = UiSceneParts.Label("Label", face, text, fontSize, TextAnchor.MiddleCenter);
             UiSceneParts.Place(label.rectTransform, Vector2.zero, Vector2.one, new Vector2(24f, 6f), new Vector2(-24f, -6f));
+            label.color = Color.white;
             label.resizeTextForBestFit = true;
-            label.resizeTextMinSize = Mathf.Min(24, fontSize);
+            label.resizeTextMinSize = minSize;
             label.resizeTextMaxSize = fontSize;
-            if (primary)
-            {
-                label.color = Color.white;
-                Outline(label, CoralLip, 3f);
-            }
+            label.raycastTarget = false;
+            Outline(label, look.Rim, TextStroke);
+            return label;
+        }
 
+        private static Button Pressable(RectTransform root, RectTransform face, Image faceImage, Shadow lip)
+        {
             var button = root.gameObject.AddComponent<Button>();
             button.targetGraphic = faceImage;
             var press = root.gameObject.AddComponent<ButtonPress>();
             PrototypeSceneBuilder.SetReference(press, "face", face);
             PrototypeSceneBuilder.SetReference(press, "lip", lip);
-            return (button, label);
+            return button;
         }
 
         /// <summary>A switch on the right of a settings row: the knob slides right and the track turns green when on.</summary>
@@ -115,14 +194,14 @@ namespace Game.Editor
             outline.effectDistance = new Vector2(width, -width);
         }
 
-        /// <summary>A white title with an ink outline and a drop, readable over the room.</summary>
+        /// <summary>A yellow title with a brown stroke and a short drop, readable over the room.</summary>
         public static void Title(Text text)
         {
-            text.color = Color.white;
-            Outline(text, Ink, 5f);
+            text.color = CandyLook.Yellow.Top;
+            Outline(text, TitleInk, TitleStroke);
             var drop = text.gameObject.AddComponent<Shadow>();
-            drop.effectColor = DropShadow;
-            drop.effectDistance = new Vector2(0f, -10f);
+            drop.effectColor = TitleInk;
+            drop.effectDistance = new Vector2(0f, -CandyLip);
         }
     }
 }

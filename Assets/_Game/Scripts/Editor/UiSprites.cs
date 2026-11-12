@@ -14,7 +14,8 @@ namespace Game.Editor
         public const int RimPixels = 3;
         private const string Folder = "Assets/_Game/Art/Generated/Ui";
         private const int Size = 128;
-        private const int Radius = 40;
+        public const int CornerRadius = 40;
+        private const int Radius = CornerRadius;
         private const int RibbonRadius = 24;
         private const float FaceBottom = 0.8f;  // the face's brightness at its bottom edge (top is 1)
         private const float Highlight = 0.08f;  // extra brightness in the top third
