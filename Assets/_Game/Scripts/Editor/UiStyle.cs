@@ -1,4 +1,3 @@
-using System.IO;
 using Game.UI;
 using UnityEditor;
 using UnityEngine;
@@ -7,17 +6,12 @@ using UnityEngine.UI;
 namespace Game.Editor
 {
     /// <summary>
-    /// The UI's look: the Lilita One font, rounded sprites drawn here (no art pack has UI shapes), the palette, and the
+    /// The UI's look: the Lilita One font, sprites from UiSprites, the palette, and the
     /// pieces every screen shares (rounded panels, buttons with a lip, switches, pills).
     /// </summary>
     internal static class UiStyle
     {
         public const string FontPath = "Assets/_Game/Art/Fonts/LilitaOne-Regular.ttf";
-        private const string SpriteFolder = "Assets/_Game/Art/Generated/Ui";
-        public const string RoundedPath = SpriteFolder + "/Rounded.png";
-        public const string CirclePath = SpriteFolder + "/Circle.png";
-        private const int SpriteSize = 128;
-        private const int RoundedRadius = 40;
         public const float ButtonLip = 14f;
 
         public static readonly Color Ink = new Color(0.3f, 0.22f, 0.3f);
@@ -33,8 +27,8 @@ namespace Game.Editor
         public enum ButtonLook { Primary, Secondary }
 
         public static Font Font => AssetDatabase.LoadAssetAtPath<Font>(FontPath) ?? Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        public static Sprite Rounded => EnsureSprite(RoundedPath, RoundedRadius);
-        public static Sprite Circle => EnsureSprite(CirclePath, SpriteSize / 2);
+        public static Sprite Rounded => UiSprites.Rounded;
+        public static Sprite Circle => UiSprites.Circle;
 
         /// <summary>A rounded card with a soft drop shadow.</summary>
         public static Image Panel(RectTransform rect, Color color)
@@ -129,43 +123,6 @@ namespace Game.Editor
             var drop = text.gameObject.AddComponent<Shadow>();
             drop.effectColor = DropShadow;
             drop.effectDistance = new Vector2(0f, -10f);
-        }
-
-        private static Sprite EnsureSprite(string path, int radius)
-        {
-            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-            if (sprite != null) return sprite;
-            Directory.CreateDirectory(SpriteFolder);
-            File.WriteAllBytes(path, RoundedRect(SpriteSize, radius).EncodeToPNG());
-            AssetDatabase.ImportAsset(path);
-            var importer = (TextureImporter)AssetImporter.GetAtPath(path);
-            importer.textureType = TextureImporterType.Sprite;
-            importer.spriteImportMode = SpriteImportMode.Single;
-            importer.alphaIsTransparency = true;
-            importer.mipmapEnabled = false;
-            importer.spriteBorder = radius < SpriteSize / 2 ? Vector4.one * radius : Vector4.zero;
-            importer.SaveAndReimport();
-            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
-        }
-
-        /// <summary>White rounded square with an anti-aliased edge; radius half the size makes a circle.</summary>
-        private static Texture2D RoundedRect(int size, int radius)
-        {
-            var texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
-            var pixels = new Color32[size * size];
-            float r = radius;
-            for (int y = 0; y < size; y++)
-            for (int x = 0; x < size; x++)
-            {
-                float px = x + 0.5f, py = y + 0.5f;
-                float cx = Mathf.Clamp(px, r, size - r), cy = Mathf.Clamp(py, r, size - r);
-                float distance = Vector2.Distance(new Vector2(px, py), new Vector2(cx, cy));
-                byte alpha = (byte)(Mathf.Clamp01(r - distance + 0.5f) * 255f);
-                pixels[y * size + x] = new Color32(255, 255, 255, alpha);
-            }
-            texture.SetPixels32(pixels);
-            texture.Apply();
-            return texture;
         }
     }
 }
